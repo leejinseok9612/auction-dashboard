@@ -1,0 +1,34 @@
+name: 🏠 Daily Auction Scraper
+
+on:
+  schedule:
+    - cron: "0 0 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: 📥 저장소 체크아웃
+        uses: actions/checkout@v4
+      - name: 🐍 Python 3.11 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+      - name: 📦 패키지 설치
+        run: pip install -r scraper/requirements.txt
+      - name: 🔍 경매 데이터 수집
+        run: python scraper/scrape.py
+      - name: 💾 데이터 커밋 & 푸시
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/auctions.json
+          git diff --staged --quiet || \
+            git commit -m "🏠 경매 데이터 업데이트: $(TZ='Asia/Seoul' date +'%Y-%m-%d %H:%M KST')"
+          git push

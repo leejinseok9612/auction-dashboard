@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>서울 아파트 경매 대시보드</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0f1117; --surface:#1a1d27; --border:#2a2d3e; --accent:#4f8ef7;
+      --accent2:#22c55e; --warn:#f59e0b; --danger:#ef4444;
+      --text:#e2e8f0; --muted:#8892a4; --radius:12px;
+    }
+    body { background:var(--bg); color:var(--text); font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif; font-size:14px; }
+    .header { background:linear-gradient(135deg,#1a1d27,#0f1117); border-bottom:1px solid var(--border); padding:24px 32px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    .header h1 { font-size:22px; font-weight:700; }
+    .badge { background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; margin-left:10px; }
+    .header-meta { color:var(--muted); font-size:13px; }
+    .header-meta span { color:var(--accent2); font-weight:600; }
+    .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; padding:24px 32px; }
+    .stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; }
+    .stat-card .label { color:var(--muted); font-size:12px; margin-bottom:8px; text-transform:uppercase; }
+    .stat-card .value { font-size:28px; font-weight:700; color:var(--accent); }
+    .stat-card .sub { color:var(--muted); font-size:12px; margin-top:4px; }
+    .filters { display:flex; gap:12px; padding:0 32px 20px; flex-wrap:wrap; align-items:flex-end; }
+    .filter-group { display:flex; flex-direction:column; gap:4px; }
+    .filter-group label { color:var(--muted); font-size:12px; }
+    .filters select, .filters input { background:var(--surface); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:13px; padding:8px 12px; outline:none; }
+    .filters select:hover, .filters input:focus { border-color:var(--accent); }
+    .btn-reset { background:transparent; border:1px solid var(--border); border-radius:8px; color:var(--muted); cursor:pointer; font-size:13px; padding:8px 16px; }
+    .btn-reset:hover { border-color:var(--accent); color:var(--accent); }
+    .search-bar { padding:0 32px 20px; }
+    .search-bar input { width:100%; background:var(--surface); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:14px; padding:10px 16px; outline:none; }
+    .search-bar input:focus { border-color:var(--accent); }
+    .table-wrap { padding:0 32px 32px; overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    thead th { background:var(--surface); border-bottom:2px solid var(--border); color:var(--muted); font-size:11px; font-weight:600; padding:12px 16px; text-align:left; white-space:nowrap; cursor:pointer; text-transform:uppercase; }
+    thead th:hover, thead th.sorted { color:var(--accent); }
+    thead th.sorted::after { content:" ↓"; }
+    thead th.sorted.asc::after { content:" ↑"; }
+    tbody tr { border-bottom:1px solid var(--border); transition:background 0.15s; }
+    tbody tr:hover { background:rgba(79,142,247,0.06); }
+    tbody td { padding:14px 16px; vertical-align:middle; }
+    .case-id { color:var(--accent); font-weight:600; font-size:12px; white-space:nowrap; }
+    .court-tag { background:rgba(79,142,247,0.12); border-radius:6px; color:var(--accent); font-size:11px; font-weight:600; padding:2px 8px; white-space:nowrap; }
+    .address .main { font-weight:500; }
+    .address .sub { color:var(--muted); font-size:12px; margin-top:2px; }
+    .amount.bid { color:var(--accent2); font-weight:700; white-space:nowrap; }
+    .amount.appraisal { color:var(--muted); font-size:12px; }
+    .ratio-pill { border-radius:20px; font-size:12px; font-weight:700; padding:3px 10px; white-space:nowrap; }
+    .ratio-low { background:rgba(34,197,94,0.15); color:var(--accent2); }
+    .ratio-mid { background:rgba(245,158,11,0.15); color:var(--warn); }
+    .ratio-high { background:rgba(239,68,68,0.15); color:var(--danger); }
+    .failed-cnt { background:rgba(239,68,68,0.12); border-radius:20px; color:var(--danger); font-size:12px; font-weight:700; padding:2px 10px; text-align:center; }
+    .failed-zero { color:var(--muted); font-size:12px; text-align:center; }
+    .days-tag { border-radius:6px; font-size:11px; font-weight:600; margin-top:2px; padding:2px 6px; display:inline-block; }
+    .days-urgent { background:rgba(239,68,68,0.15); color:var(--danger); }
+    .days-soon { background:rgba(245,158,11,0.15); color:var(--warn); }
+    .days-ok { background:rgba(34,197,94,0.12); color:var(--accent2); }
+    .scraped-tag { color:var(--muted); font-size:11px; }
+    .empty-state { text-align:center; padding:80px 32px; color:var(--muted); }
+    .empty-state .icon { font-size:48px; margin-bottom:16px; }
+    .empty-state h2 { font-size:18px; margin-bottom:8px; color:var(--text); }
+    .pagination { display:flex; align-items:center; gap:8px; justify-content:center; padding:16px 32px 32px; }
+    .page-btn { background:var(--surface); border:1px solid var(--border); border-radius:8px; color:var(--text); cursor:pointer; font-size:13px; padding:8px 14px; }
+    .page-btn:hover, .page-btn.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+    .page-btn:disabled { opacity:0.4; cursor:not-allowed; }
+    .footer { border-top:1px solid var(--border); color:var(--muted); font-size:12px; padding:16px 32px; text-align:center; }
+    .footer a { color:var(--accent); text-decoration:none; }
+  </style>
+</head>
+<body>
+<header class="header">
+  <div style="display:flex;align-items:center">
+    <h1>🏠 서울 아파트 경매 대시보드</h1>
+    <span class="badge">LIVE</span>
+  </div>
+  <div class="header-meta">최저입찰가 <span>4억 원 이상</span> · 서울 전체 · 아파트 &nbsp;|&nbsp; 마지막 업데이트: <span id="last-updated">-</span></div>
+</header>
+<section class="stats-row">
+  <div class="stat-card"><div class="label">총 누적 물건</div><div class="value" id="stat-total">-</div><div class="sub">전체 수집 건수</div></div>
+  <div class="stat-card"><div class="label">오늘 신규</div><div class="value" id="stat-today">-</div><div class="sub" id="stat-today-date">-</div></div>
+  <div class="stat-card"><div class="label">평균 최저입찰가</div><div class="value" id="stat-avg">-</div><div class="sub">억 원</div></div>
+  <div class="stat-card"><div class="label">평균 유찰 횟수</div><div class="value" id="stat-failed">-</div><div class="sub">회</div></div>
+  <div class="stat-card"><div class="label">이번 주 경매</div><div class="value" id="stat-week">-</div><div class="sub">건 예정</div></div>
+</section>
+<section class="search-bar"><input type="text" id="search-input" placeholder="🔍  주소, 사건번호, 법원명으로 검색..." /></section>
+<section class="filters">
+  <div class="filter-group"><label>법원</label>
+    <select id="filter-court">
+      <option value="">전체 법원</option>
+      <option>서울중앙지방법원</option><option>서울동부지방법원</option>
+      <option>서울남부지방법원</option><option>서울북부지방법원</option><option>서울서부지방법원</option>
+    </select>
+  </div>
+  <div class="filter-group"><label>유찰 횟수</label>
+    <select id="filter-failed">
+      <option value="">전체</option><option value="0">0회 (신건)</option>
+      <option value="1">1회 이상</option><option value="3">3회 이상</option><option value="5">5회 이상</option>
+    </select>
+  </div>
+  <div class="filter-group"><label>최저입찰가 상한 (억)</label><input type="number" id="filter-max-bid" placeholder="예: 20" min="4" step="1" style="width:120px" /></div>
+  <div class="filter-group"><label>수집 날짜</label><input type="date" id="filter-date" /></div>
+  <button class="btn-reset" onclick="resetFilters()">↺ 초기화</button>
+</section>
+<section class="table-wrap">
+  <table id="auction-table">
+    <thead><tr>
+      <th onclick="sortBy('id')">사건번호</th><th>법원</th><th>소재지</th>
+      <th onclick="sortBy('appraisal')" class="sorted">감정가</th>
+      <th onclick="sortBy('min_bid')">최저입찰가</th>
+      <th onclick="sortBy('bid_ratio')">낙찰가율</th>
+      <th onclick="sortBy('failed_bids')">유찰</th>
+      <th onclick="sortBy('auction_date')">경매기일</th>
+      <th>수집일</th>
+    </tr></thead>
+    <tbody id="table-body"><tr><td colspan="9" style="text-align:center;padding:60px;color:var(--muted)">데이터 로딩 중...</td></tr></tbody>
+  </table>
+</section>
+<div class="pagination" id="pagination"></div>
+<footer class="footer">데이터 출처: <a href="https://www.courtauction.go.kr" target="_blank">대법원 법원경매정보</a> &nbsp;|&nbsp; 매일 오전 9시 자동 업데이트 (평일) &nbsp;|&nbsp; 투자 판단은 본인 책임 하에 수행하세요.</footer>
+<script>
+let allAuctions=[],filtered=[],sortKey='appraisal',sortAsc=false,currentPage=1;
+const PAGE_SIZE=30;
+async function loadData(){
+  try{
+    const res=await fetch('../data/auctions.json?t='+Date.now());
+    const data=await res.json();
+    allAuctions=data.auctions||[];
+    document.getElementById('last-updated').textContent=data.last_updated||'-';
+    renderStats(data); applyFilters();
+  }catch(e){
+    document.getElementById('last-updated').textContent='샘플 데이터';
+    allAuctions=getSampleData();
+    renderStats({total_count:allAuctions.length}); applyFilters();
+  }
+}
+function renderStats(data){
+  const today=new Date().toISOString().slice(0,10);
+  const todayItems=allAuctions.filter(a=>a.scraped_date===today);
+  const avgBid=allAuctions.length?(allAuctions.reduce((s,a)=>s+(a.min_bid||0),0)/allAuctions.length/1e8).toFixed(1):0;
+  const avgFail=allAuctions.length?(allAuctions.reduce((s,a)=>s+(a.failed_bids||0),0)/allAuctions.length).toFixed(1):0;
+  const now=new Date(),weekEnd=new Date(now);
+  weekEnd.setDate(now.getDate()+7);
+  const weekItems=allAuctions.filter(a=>{const d=new Date(a.auction_date);return d>=now&&d<=weekEnd;});
+  document.getElementById('stat-total').textContent=(data.total_count||allAuctions.length).toLocaleString();
+  document.getElementById('stat-today').textContent=todayItems.length.toLocaleString();
+  document.getElementById('stat-today-date').textContent=today;
+  document.getElementById('stat-avg').textContent=avgBid;
+  document.getElementById('stat-failed').textContent=avgFail;
+  document.getElementById('stat-week').textContent=weekItems.length.toLocaleString();
+}
+function applyFilters(){
+  const query=document.getElementById('search-input').value.toLowerCase();
+  const court=document.getElementById('filter-court').value;
+  const failed=document.getElementById('filter-failed').value;
+  const maxBid=parseFloat(document.getElementById('filter-max-bid').value)*1e8||Infinity;
+  const dateVal=document.getElementById('filter-date').value;
+  filtered=allAuctions.filter(a=>{
+    if(court&&a.court!==court)return false;
+    if(failed!==''&&(a.failed_bids||0)<parseInt(failed))return false;
+    if((a.min_bid||0)>maxBid)return false;
+    if(dateVal&&a.scraped_date!==dateVal)return false;
+    if(query&&!(a.id+a.court+a.address).toLowerCase().includes(query))return false;
+    return true;
+  });
+  filtered.sort((a,b)=>{const va=a[sortKey]??'',vb=b[sortKey]??'';return sortAsc?(va>vb?1:-1):(va<vb?1:-1);});
+  currentPage=1; renderTable(); renderPagination();
+}
+function sortBy(key){
+  if(sortKey===key)sortAsc=!sortAsc;else{sortKey=key;sortAsc=false;}
+  document.querySelectorAll('thead th').forEach(th=>th.classList.remove('sorted','asc'));
+  document.querySelectorAll('thead th').forEach(th=>{
+    if(th.getAttribute('onclick')===`sortBy('${key}')`){th.classList.add('sorted');if(sortAsc)th.classList.add('asc');}
+  });
+  applyFilters();
+}
+function resetFilters(){
+  ['search-input','filter-court','filter-failed','filter-max-bid','filter-date'].forEach(id=>document.getElementById(id).value='');
+  applyFilters();
+}
+function fmtAmount(n){if(!n)return'-';if(n>=1e8)return(n/1e8).toFixed(1)+'억';return n.toLocaleString()+'원';}
+function daysUntil(d){if(!d)return null;const diff=Math.round((new Date(d)-new Date(new Date().toDateString()))/86400000);return diff;}
+function renderTable(){
+  const tbody=document.getElementById('table-body');
+  const page=filtered.slice((currentPage-1)*PAGE_SIZE,currentPage*PAGE_SIZE);
+  if(!page.length){tbody.innerHTML='<tr><td colspan="9"><div class="empty-state"><div class="icon">🔍</div><h2>검색 결과가 없습니다</h2></div></td></tr>';return;}
+  tbody.innerHTML=page.map(a=>{
+    const ratio=a.bid_ratio;
+    const ratioClass=ratio==null?'ratio-mid':ratio<70?'ratio-low':ratio<90?'ratio-mid':'ratio-high';
+    const ratioText=ratio!=null?ratio+'%':'-';
+    const days=daysUntil(a.auction_date);
+    const daysTag=days==null?'':days<0?'<div class="days-tag" style="color:var(--muted)">완료</div>':days===0?'<div class="days-tag days-urgent">🔴 오늘</div>':days<=3?`<div class="days-tag days-urgent">D-${days}</div>`:days<=7?`<div class="days-tag days-soon">D-${days}</div>`:`<div class="days-tag days-ok">D-${days}</div>`;
+    const ap=a.address||'';
+    const am=ap.split(' ').slice(0,4).join(' ');
+    const as2=ap.split(' ').slice(4).join(' ');
+    const failHtml=a.failed_bids>0?`<div class="failed-cnt">${a.failed_bids}회</div>`:'<div class="failed-zero">-</div>';
+    return `<tr>
+      <td><div class="case-id">${a.id||'-'}</div></td>
+      <td><span class="court-tag">${(a.court||'').replace('지방법원','').replace('서울','서울 ')}</span></td>
+      <td class="address"><div class="main">${am||'-'}</div>${as2?`<div class="sub">${as2}</div>`:''}</td>
+      <td><div class="amount appraisal">${fmtAmount(a.appraisal)}</div></td>
+      <td><div class="amount bid">${fmtAmount(a.min_bid)}</div></td>
+      <td><span class="ratio-pill ${ratioClass}">${ratioText}</span></td>
+      <td>${failHtml}</td>
+      <td><div>${a.auction_date||'-'}</div>${daysTag}</td>
+      <td><span class="scraped-tag">${a.scraped_date||'-'}</span></td>
+    </tr>`;
+  }).join('');
+}
+function renderPagination(){
+  const total=Math.ceil(filtered.length/PAGE_SIZE);
+  const pg=document.getElementById('pagination');
+  if(total<=1){pg.innerHTML='';return;}
+  let html=`<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  for(let i=Math.max(1,currentPage-2);i<=Math.min(total,currentPage+2);i++)
+    html+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  html+=`<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===total?'disabled':''}>›</button>`;
+  html+=`<span style="color:var(--muted);font-size:12px">총 ${filtered.length}건</span>`;
+  pg.innerHTML=html;
+}
+function goPage(n){
+  const total=Math.ceil(filtered.length/PAGE_SIZE);
+  if(n<1||n>total)return;
+  currentPage=n; renderTable(); renderPagination();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function getSampleData(){
+  const today=new Date().toISOString().slice(0,10);
+  return [
+    {id:"2025타경104204",court:"서울중앙지방법원",type:"아파트",address:"서울특별시 서초구 서초동 1597-6 디케이밸리뷰서초2차 17층 1705호",appraisal:1580000000,min_bid:518000000,auction_date:"2026-07-15",failed_bids:5,scraped_date:today,bid_ratio:32.8},
+    {id:"2024타경198231",court:"서울남부지방법원",type:"아파트",address:"서울특별시 강남구 대치동 은마아파트 8동 501호",appraisal:1200000000,min_bid:960000000,auction_date:"2026-07-18",failed_bids:1,scraped_date:today,bid_ratio:80.0},
+    {id:"2025타경032118",court:"서울동부지방법원",type:"아파트",address:"서울특별시 송파구 잠실동 주공아파트 5단지 1002호",appraisal:1500000000,min_bid:750000000,auction_date:"2026-07-22",failed_bids:3,scraped_date:today,bid_ratio:50.0},
+    {id:"2025타경087654",court:"서울북부지방법원",type:"아파트",address:"서울특별시 노원구 상계동 상계주공 13단지 304호",appraisal:650000000,min_bid:520000000,auction_date:"2026-07-25",failed_bids:2,scraped_date:today,bid_ratio:80.0},
+    {id:"2025타경011223",court:"서울서부지방법원",type:"아파트",address:"서울특별시 마포구 아현동 마포래미안푸르지오 2단지 1703호",appraisal:1100000000,min_bid:880000000,auction_date:"2026-08-05",failed_bids:1,scraped_date:today,bid_ratio:80.0}
+  ];
+}
+document.getElementById('search-input').addEventListener('input',applyFilters);
+document.getElementById('filter-court').addEventListener('change',applyFilters);
+document.getElementById('filter-failed').addEventListener('change',applyFilters);
+document.getElementById('filter-max-bid').addEventListener('input',applyFilters);
+document.getElementById('filter-date').addEventListener('change',applyFilters);
+loadData();
+</script>
+</body>
+</html>
