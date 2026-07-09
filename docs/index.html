@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>서울 아파트 경매 대시보드</title>
+  <title>수도권 경매·청약 대시보드</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -12,7 +12,8 @@
       --gray-200:#E5E5E3; --gray-400:#9CA3AF; --gray-600:#6B7280;
       --yellow:#F5C400; --green:#16A34A; --green-bg:#DCFCE7;
       --red:#DC2626; --red-bg:#FEE2E2; --orange:#EA580C; --orange-bg:#FED7AA;
-      --blue:#2563EB;
+      --blue:#2563EB; --blue-bg:#DBEAFE; --indigo:#4F46E5; --indigo-bg:#E0E7FF;
+      --teal:#0D9488; --teal-bg:#CCFBF1;
     }
     body { background:var(--white); color:var(--black); font-family:'Inter','Apple SD Gothic Neo','Noto Sans KR',sans-serif; font-size:15px; line-height:1.6; }
 
@@ -23,6 +24,39 @@
     .nav-right { display:flex; align-items:center; gap:10px; }
     .nav-pill { background:var(--yellow); color:var(--black); font-size:12px; font-weight:700; padding:5px 13px; border-radius:20px; letter-spacing:0.3px; }
     .nav-cta { background:var(--black); color:white; border:none; border-radius:9px; font-size:13px; font-weight:700; padding:9px 18px; cursor:pointer; text-decoration:none; font-family:inherit; }
+
+    /* ── MODE TABS ── */
+    .mode-tabs { display:flex; justify-content:center; gap:0; background:var(--gray-50); border-bottom:1px solid var(--gray-200); }
+    .mtab { flex:0 0 auto; padding:16px 40px; font-size:15px; font-weight:700; color:var(--gray-400); border:none; background:transparent; cursor:pointer; font-family:inherit; border-bottom:3px solid transparent; transition:all 0.2s; letter-spacing:-0.2px; }
+    .mtab:hover { color:var(--black); }
+    .mtab.on { color:var(--black); border-bottom-color:var(--black); }
+    .mtab.on.cy { color:var(--blue); border-bottom-color:var(--blue); }
+
+    /* ── 청약 CARD ── */
+    .cy-card { background:white; border:1.5px solid var(--gray-200); border-radius:18px; overflow:hidden; cursor:pointer; transition:all 0.25s; }
+    .cy-card:hover { border-color:var(--blue); box-shadow:0 10px 40px rgba(37,99,235,0.12); transform:translateY(-3px); }
+    .cy-hdr { height:150px; position:relative; display:flex; align-items:flex-end; padding:16px; }
+    .cy-hdr .bg-district { position:absolute; bottom:-12px; right:14px; font-size:52px; font-weight:900; color:rgba(255,255,255,0.18); line-height:1; user-select:none; }
+    .cy-status { position:absolute; top:14px; right:14px; font-size:11px; font-weight:800; padding:4px 11px; border-radius:20px; z-index:2; letter-spacing:0.3px; }
+    .cy-status.open  { background:rgba(22,163,74,0.88);  color:white; }
+    .cy-status.soon  { background:rgba(37,99,235,0.88);  color:white; }
+    .cy-status.done  { background:rgba(107,114,128,0.70); color:white; }
+    .cy-builder { position:absolute; top:14px; left:14px; font-size:11px; font-weight:800; padding:4px 11px; border-radius:20px; background:rgba(255,255,255,0.25); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.4); color:white; z-index:2; }
+    .cy-hdr-pills { display:flex; gap:8px; position:relative; z-index:1; }
+    .cy-pill { background:rgba(255,255,255,0.22); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.35); border-radius:7px; color:white; font-size:12px; font-weight:700; padding:4px 11px; }
+    .cy-body { padding:18px 20px; }
+    .cy-region { font-size:11px; font-weight:700; color:var(--gray-600); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+    .cy-name { font-size:15px; font-weight:700; letter-spacing:-0.3px; line-height:1.3; margin-bottom:14px; }
+    .cy-rows { border-top:1px solid var(--gray-100); padding-top:14px; display:flex; flex-direction:column; gap:7px; }
+    .cy-row { display:flex; justify-content:space-between; align-items:center; font-size:13px; }
+    .cy-lbl { color:var(--gray-600); font-weight:500; }
+    .cy-val { font-weight:700; }
+    .cy-link { display:block; margin-top:14px; padding:10px; background:var(--blue-bg); border:1.5px solid #BFDBFE; border-radius:10px; text-align:center; font-size:12px; font-weight:700; color:var(--blue); cursor:pointer; transition:all 0.2s; font-family:inherit; width:100%; }
+    .cy-link:hover { background:var(--blue); color:white; }
+
+    /* 청약 FILTER */
+    .cy-fbar { background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200); padding:14px 48px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    .cy-fbar .fbar-left { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
 
     /* ── HERO ── */
     .hero { position:relative; overflow:hidden; background:var(--white); padding:96px 48px 72px; text-align:center; }
@@ -87,6 +121,7 @@
     .c-yellow { color:#92400E; }
     .c-red { color:var(--red); }
     .c-black { color:var(--black); }
+    .c-blue { color:var(--blue); }
     .card-link { display:block; margin-top:14px; padding:10px; background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:10px; text-align:center; font-size:12px; font-weight:700; color:var(--black); text-decoration:none; transition:all 0.2s; }
     .card-link:hover { background:var(--black); color:white; border-color:var(--black); }
 
@@ -172,16 +207,22 @@
 <nav>
   <a class="nav-logo" href="#">
     <div class="nav-logo-icon">🏠</div>
-    경매대시보드
+    경매·청약 대시보드
   </a>
   <div class="nav-right">
     <span class="nav-pill" id="nav-today">오늘 0건 업데이트</span>
-    <a class="nav-cta" href="https://www.courtauction.go.kr" target="_blank">대법원 바로가기 →</a>
+    <a class="nav-cta" id="nav-ext-link" href="https://www.courtauction.go.kr" target="_blank">대법원 바로가기 →</a>
   </div>
 </nav>
 
+<!-- MODE TABS -->
+<div class="mode-tabs">
+  <button class="mtab on" id="tab-auction" onclick="switchMode('auction')">🏛️ 경매</button>
+  <button class="mtab cy"   id="tab-cy"      onclick="switchMode('cy')">🏠 청약</button>
+</div>
+
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="hero-section">
   <div class="hero-inner">
     <div class="hero-chip">✦ <span id="hero-date">-</span> 기준 최신 데이터</div>
     <h1 class="hero-h1">수도권 아파트<br><span class="light">경매 대시보드</span></h1>
@@ -200,7 +241,7 @@
 </section>
 
 <!-- FILTER BAR -->
-<div class="fbar">
+<div class="fbar" id="fbar-wrap">
   <div class="fbar-left">
     <select class="fsel" id="fc-court">
       <option value="">전체 법원</option>
@@ -248,8 +289,64 @@
   <div class="pages" id="pages"></div>
 </main>
 
+<!-- 청약 FILTER BAR -->
+<div class="cy-fbar" id="cy-fbar" style="display:none">
+  <div class="fbar-left">
+    <select class="fsel" id="cy-region">
+      <option value="">전국 전체</option>
+      <optgroup label="수도권">
+        <option>서울특별시</option><option>경기도</option><option>인천광역시</option>
+      </optgroup>
+      <optgroup label="광역시">
+        <option>부산광역시</option><option>대구광역시</option><option>광주광역시</option>
+        <option>대전광역시</option><option>울산광역시</option><option>세종특별자치시</option>
+      </optgroup>
+      <optgroup label="도">
+        <option>강원특별자치도</option><option>충청북도</option><option>충청남도</option>
+        <option>전라북도</option><option>전라남도</option><option>경상북도</option>
+        <option>경상남도</option><option>제주특별자치도</option>
+      </optgroup>
+    </select>
+    <select class="fsel" id="cy-type">
+      <option value="">전체 유형</option>
+      <option value="APT">아파트</option>
+      <option value="오피스텔">오피스텔</option>
+      <option value="도시형">도시형생활주택</option>
+      <option value="민간임대">민간임대</option>
+      <option value="공공임대">공공임대</option>
+    </select>
+    <select class="fsel" id="cy-builder">
+      <option value="">전체 시행사</option>
+      <option value="LH">LH (한국토지주택공사)</option>
+      <option value="SH">SH (서울주택도시공사)</option>
+      <option value="민간">민간</option>
+    </select>
+    <select class="fsel" id="cy-status">
+      <option value="">전체 상태</option>
+      <option value="청약예정">청약예정</option>
+      <option value="청약중">청약중</option>
+    </select>
+    <input class="fsearch" type="text" id="cy-q" placeholder="🔍  공고명, 지역 검색..." style="width:200px" />
+  </div>
+  <div class="fbar-right">
+    <span class="fcount" id="cy-cnt">0건</span>
+    <button class="btn-reset" onclick="resetCyF()">↺ 초기화</button>
+  </div>
+</div>
+
+<!-- 청약 SECTION -->
+<main class="cards-wrap" id="cy-wrap" style="display:none">
+  <div class="sec-head">
+    <span class="sec-title">청약 분양정보</span>
+    <span class="sec-sub" id="cy-sub">-</span>
+  </div>
+  <div class="card-grid" id="cy-grid"></div>
+  <div class="pages" id="cy-pages"></div>
+</main>
+
 <footer>
   데이터 출처: <a href="https://www.courtauction.go.kr" target="_blank">대법원 법원경매정보</a> &nbsp;·&nbsp;
+  <a href="https://www.applyhome.co.kr" target="_blank">청약홈</a> &nbsp;·&nbsp;
   매일 평일 오전 9시 자동 업데이트 &nbsp;·&nbsp; 투자 판단은 본인 책임
 </footer>
 
@@ -561,6 +658,222 @@ function demo(){
 ['fc-court','fc-failed','fc-date'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
 document.getElementById('fc-q').addEventListener('input',applyF);
 document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeM(); });
+
+/* ── MODE SWITCH ── */
+let MODE='auction';
+function switchMode(m){
+  MODE=m;
+  // tabs
+  document.getElementById('tab-auction').className='mtab'+(m==='auction'?' on':'');
+  document.getElementById('tab-cy').className='mtab cy'+(m==='cy'?' on':'');
+  // hero KPIs
+  document.getElementById('hero-section').style.display= m==='auction'?'':'none';
+  // filter bars
+  document.getElementById('fbar-wrap').style.display= m==='auction'?'':'none';
+  document.getElementById('cy-fbar').style.display= m==='cy'?'':'none';
+  // card sections
+  document.getElementById('cards-wrap').style.display= m==='auction'?'':'none';
+  document.getElementById('cy-wrap').style.display= m==='cy'?'':'none';
+  // nav ext link
+  const extLink=document.getElementById('nav-ext-link');
+  if(m==='cy'){ extLink.href='https://www.applyhome.co.kr'; extLink.textContent='청약홈 바로가기 →'; }
+  else{ extLink.href='https://www.courtauction.go.kr'; extLink.textContent='대법원 바로가기 →'; }
+  // nav pill
+  if(m==='cy') set('nav-today',`청약 ${CY_FILT.length}건`);
+  else set('nav-today',`오늘 ${ALL.filter(a=>a.scraped_date===tstr()).length}건 업데이트`);
+  if(m==='cy') renderCyCards();
+}
+
+/* ── 청약 DATA ── */
+let CY_ALL=[],CY_FILT=[];
+let cy_pg=1; const CY_PG=12;
+
+async function initCy(){
+  try{
+    const r=await fetch('../data/cheongyak.json?t='+Date.now());
+    const d=await r.json();
+    CY_ALL=d.subscriptions||[];
+  }catch(e){ CY_ALL=cyDemo(); }
+  applyCyF();
+}
+
+function applyCyF(){
+  const region=v('cy-region'), type=v('cy-type'),
+        builder=v('cy-builder'), status=v('cy-status'),
+        q=v('cy-q').toLowerCase();
+  CY_FILT=CY_ALL.filter(a=>{
+    if(region && !(a.region||'').includes(region)) return false;
+    if(type   && !(a.type||'').includes(type))     return false;
+    if(status && a.status!==status)                return false;
+    if(builder){
+      if(builder==='LH'&&!a.builder.includes('LH')) return false;
+      if(builder==='SH'&&!a.builder.includes('SH')) return false;
+      if(builder==='민간'&&(a.builder.includes('LH')||a.builder.includes('SH'))) return false;
+    }
+    if(q&&!(a.name+a.region+a.address+a.builder).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  CY_FILT.sort((a,b)=>(a.start_date||'').localeCompare(b.start_date||''));
+  cy_pg=1;
+  set('cy-cnt', CY_FILT.length+'건');
+  set('cy-sub', `총 ${CY_FILT.length}건`);
+  if(MODE==='cy') renderCyCards();
+}
+
+function resetCyF(){
+  ['cy-region','cy-type','cy-builder','cy-status','cy-q'].forEach(id=>set(id,''));
+  applyCyF();
+}
+
+function renderCyCards(){
+  const grid=document.getElementById('cy-grid');
+  const slice=CY_FILT.slice((cy_pg-1)*CY_PG, cy_pg*CY_PG);
+  if(!slice.length){
+    grid.innerHTML=`<div class="empty"><div class="eicon">🏠</div><h3>조건에 맞는 청약이 없어요</h3><p>필터를 초기화하거나 조건을 변경해 보세요.</p></div>`;
+    renderCyPages(); return;
+  }
+  grid.innerHTML=slice.map(a=>{
+    const statusCls = a.status==='청약중'?'open':a.status==='청약예정'?'soon':'done';
+    const grad = cyGrad(a);
+    const regionShort=(a.region||'').replace('특별시','').replace('광역시','').replace('특별자치시','').replace('도','').replace('특별자치도','');
+    const priceStr = a.price_max? fmtMan(a.price_max)+'~' : '-';
+    const period = (a.start_date&&a.end_date)?`${a.start_date.slice(5)} ~ ${a.end_date.slice(5)}`:'-';
+    return `<div class="cy-card" onclick="openCyM('${a.id}')">
+      <div class="cy-hdr" style="background:${grad}">
+        <span class="cy-builder">${a.builder||'-'}</span>
+        <span class="cy-status ${statusCls}">${a.status||'-'}</span>
+        <span class="bg-district">${regionShort}</span>
+        <div class="cy-hdr-pills">
+          <span class="cy-pill">${a.type||'APT'}</span>
+          <span class="cy-pill">${(a.supply_count||0).toLocaleString()}세대</span>
+        </div>
+      </div>
+      <div class="cy-body">
+        <div class="cy-region">${a.region||''} ${a.district||''}</div>
+        <div class="cy-name">${a.name||'-'}</div>
+        <div class="cy-rows">
+          <div class="cy-row"><span class="cy-lbl">청약접수</span><span class="cy-val">${period}</span></div>
+          <div class="cy-row"><span class="cy-lbl">최고분양가</span><span class="cy-val c-blue">${priceStr}</span></div>
+          <div class="cy-row"><span class="cy-lbl">입주예정</span><span class="cy-val">${a.move_in||'-'}</span></div>
+        </div>
+        <button class="cy-link" onclick="event.stopPropagation(); openCyApply('${a.id}')">🏠 청약홈에서 신청 바로가기 →</button>
+      </div>
+    </div>`;
+  }).join('');
+  renderCyPages();
+}
+
+function renderCyPages(){
+  const total=Math.ceil(CY_FILT.length/CY_PG);
+  const el=document.getElementById('cy-pages');
+  if(total<=1){el.innerHTML='';return;}
+  let h=`<button class="pgt" onclick="goCyPg(${cy_pg-1})" ${cy_pg===1?'disabled':''}>‹</button>`;
+  for(let i=Math.max(1,cy_pg-2);i<=Math.min(total,cy_pg+2);i++)
+    h+=`<button class="pgt ${i===cy_pg?'on':''}" onclick="goCyPg(${i})">${i}</button>`;
+  h+=`<button class="pgt" onclick="goCyPg(${cy_pg+1})" ${cy_pg===total?'disabled':''}>›</button>`;
+  el.innerHTML=h;
+}
+function goCyPg(n){
+  const t=Math.ceil(CY_FILT.length/CY_PG);
+  if(n<1||n>t)return;
+  cy_pg=n; renderCyCards();
+  document.getElementById('cy-wrap').scrollIntoView({behavior:'smooth'});
+}
+
+let CY_MAP={};
+function openCyM(id){
+  const a=CY_ALL.find(x=>x.id===id); if(!a)return;
+  const grad=cyGrad(a);
+  const statusCls=a.status==='청약중'?'open':a.status==='청약예정'?'soon':'done';
+  const period=(a.start_date&&a.end_date)?`${a.start_date} ~ ${a.end_date}`:'-';
+  document.getElementById('modal').innerHTML=`
+    <div class="mhdr" style="background:${grad}">
+      <button class="mclose" onclick="closeM()">✕</button>
+      <div class="mhdr-info">
+        <div class="mctag">${a.builder||''} · ${a.type||'APT'}</div>
+        <div class="mtitle">${a.name||'-'}</div>
+      </div>
+      <span class="mdistrict">${(a.region||'').replace('특별시','').replace('광역시','').replace('도','').replace('특별자치도','').replace('특별자치시','')}</span>
+    </div>
+    <div class="mbody">
+      <div class="mgrid">
+        <div class="iblock">
+          <div class="iblock-ttl">📋 청약 기본 정보</div>
+          <div class="irow"><span class="ik">공고명</span><span class="iv">${a.name||'-'}</span></div>
+          <div class="irow"><span class="ik">공급지역</span><span class="iv">${a.region||''} ${a.district||''}</span></div>
+          <div class="irow"><span class="ik">공급위치</span><span class="iv">${a.address||'-'}</span></div>
+          <div class="irow"><span class="ik">주택유형</span><span class="iv">${a.type||'-'}</span></div>
+          <div class="irow"><span class="ik">시행사</span><span class="iv">${a.builder||'-'}</span></div>
+          <div class="irow"><span class="ik">공급세대수</span><span class="iv">${(a.supply_count||0).toLocaleString()}세대</span></div>
+        </div>
+        <div class="iblock">
+          <div class="iblock-ttl">📅 청약 일정</div>
+          <div class="irow"><span class="ik">모집공고일</span><span class="iv">${a.announce_date||'-'}</span></div>
+          <div class="irow"><span class="ik">청약접수 시작</span><span class="iv c-green">${a.start_date||'-'}</span></div>
+          <div class="irow"><span class="ik">청약접수 마감</span><span class="iv c-red">${a.end_date||'-'}</span></div>
+          <div class="irow"><span class="ik">당첨자 발표</span><span class="iv">${a.win_date||'-'}</span></div>
+          <div class="irow"><span class="ik">입주 예정</span><span class="iv">${a.move_in||'-'}</span></div>
+          <div class="irow"><span class="ik">상태</span><span class="iv"><span class="cy-status ${statusCls}" style="position:static;font-size:12px;padding:3px 10px">${a.status||'-'}</span></span></div>
+        </div>
+        <div class="iblock full">
+          <div class="iblock-ttl">💰 분양가 정보</div>
+          <div class="irow"><span class="ik">최고분양가 (만원)</span><span class="iv c-blue">${a.price_max?fmtMan(a.price_max):'-'}</span></div>
+          <div class="irow"><span class="ik">최저분양가 (만원)</span><span class="iv">${a.price_min?fmtMan(a.price_min):'-'}</span></div>
+          <div class="irow" style="border:none;padding-top:12px"><span class="ik" style="font-size:12px;color:var(--gray-400)">※ 분양가는 세대 타입별 상이, 청약홈에서 정확한 금액 확인 필요</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="mfooter">
+      <button class="mbtn-dark" style="background:var(--blue)" onclick="openCyApply('${a.id}')">🏠 청약홈에서 신청하기 →</button>
+      <button class="mbtn-light" onclick="closeM()">닫기</button>
+    </div>`;
+  document.getElementById('overlay').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+
+function openCyApply(id){
+  const a=CY_ALL.find(x=>x.id===id);
+  const url=(a&&a.url)||'https://www.applyhome.co.kr';
+  window.open(url,'_blank');
+  if(a){
+    const el=document.getElementById('toast');
+    el.innerHTML=`🏠 청약홈으로 이동합니다 · <span class="t-case">${a.name}</span><span class="t-step">청약홈에서 로그인 후 신청 가능합니다</span>`;
+    el.classList.add('show');
+    clearTimeout(_toastTimer);
+    _toastTimer=setTimeout(()=>el.classList.remove('show'),4000);
+  }
+}
+
+function cyGrad(a){
+  const s=a.status||'';
+  if(s==='청약중')    return 'linear-gradient(135deg,#1e3a8a,#2563eb)';
+  if(s==='청약예정')  return 'linear-gradient(135deg,#0f766e,#0d9488)';
+  return                      'linear-gradient(135deg,#374151,#6b7280)';
+}
+
+function fmtMan(n){
+  if(!n)return'-';
+  if(n>=10000) return (n/10000).toFixed(1)+'억원';
+  return n.toLocaleString()+'만원';
+}
+
+function cyDemo(){
+  return[
+    {id:"D001",name:"e편한세상 강일 어반브릿지",type:"APT",builder:"대림산업",region:"서울특별시",district:"강동구",address:"서울특별시 강동구 강일동",supply_count:384,price_min:69000,price_max:125000,announce_date:"2026-07-05",start_date:"2026-07-14",end_date:"2026-07-16",win_date:"2026-07-24",move_in:"2028-12",status:"청약중",url:"https://www.applyhome.co.kr"},
+    {id:"D002",name:"위례 자이 더 시티",type:"APT",builder:"GS건설",region:"경기도",district:"성남시 수정구",address:"경기도 성남시 수정구 창곡동",supply_count:1247,price_min:72000,price_max:138000,announce_date:"2026-07-01",start_date:"2026-07-10",end_date:"2026-07-14",win_date:"2026-07-23",move_in:"2029-03",status:"청약중",url:"https://www.applyhome.co.kr"},
+    {id:"D003",name:"검단 아테라 2차 (SH)",type:"APT",builder:"SH",region:"인천광역시",district:"서구",address:"인천광역시 서구 검단신도시",supply_count:893,price_min:38000,price_max:65000,announce_date:"2026-07-03",start_date:"2026-07-22",end_date:"2026-07-24",win_date:"2026-08-07",move_in:"2028-09",status:"청약예정",url:"https://www.applyhome.co.kr"},
+    {id:"D004",name:"고덕강일 공공주택지구 A-11블록",type:"APT",builder:"LH",region:"서울특별시",district:"강동구",address:"서울특별시 강동구 강일동",supply_count:512,price_min:55000,price_max:95000,announce_date:"2026-07-08",start_date:"2026-07-18",end_date:"2026-07-22",win_date:"2026-08-02",move_in:"2029-06",status:"청약예정",url:"https://www.applyhome.co.kr"},
+    {id:"D005",name:"힐스테이트 동탄 레이크뷰",type:"APT",builder:"현대건설",region:"경기도",district:"화성시",address:"경기도 화성시 동탄2신도시",supply_count:658,price_min:45000,price_max:89000,announce_date:"2026-06-28",start_date:"2026-07-08",end_date:"2026-07-10",win_date:"2026-07-21",move_in:"2028-12",status:"청약중",url:"https://www.applyhome.co.kr"},
+    {id:"D006",name:"인덕원 퍼스비엘 LH 공공분양",type:"APT",builder:"LH",region:"경기도",district:"안양시 동안구",address:"경기도 안양시 동안구 호계동",supply_count:404,price_min:42000,price_max:78000,announce_date:"2026-07-06",start_date:"2026-07-28",end_date:"2026-07-30",win_date:"2026-08-12",move_in:"2029-01",status:"청약예정",url:"https://www.applyhome.co.kr"},
+    {id:"D007",name:"창원 롯데캐슬 센텀파크",type:"APT",builder:"롯데건설",region:"경상남도",district:"창원시",address:"경상남도 창원시 의창구 사림동",supply_count:1124,price_min:29000,price_max:55000,announce_date:"2026-07-07",start_date:"2026-07-17",end_date:"2026-07-19",win_date:"2026-07-28",move_in:"2028-11",status:"청약중",url:"https://www.applyhome.co.kr"},
+    {id:"D008",name:"부산 에코델타 스마트시티 A4",type:"APT",builder:"LH",region:"부산광역시",district:"강서구",address:"부산광역시 강서구 명지동",supply_count:736,price_min:35000,price_max:68000,announce_date:"2026-07-04",start_date:"2026-07-15",end_date:"2026-07-17",win_date:"2026-07-29",move_in:"2028-10",status:"청약중",url:"https://www.applyhome.co.kr"},
+  ];
+}
+
+['cy-region','cy-type','cy-builder','cy-status'].forEach(id=>document.getElementById(id).addEventListener('change',applyCyF));
+document.getElementById('cy-q').addEventListener('input',applyCyF);
+
+initCy();
 init();
 </script>
 </body>
