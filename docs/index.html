@@ -4,243 +4,511 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>서울 아파트 경매 대시보드</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg:#0f1117; --surface:#1a1d27; --border:#2a2d3e; --accent:#4f8ef7;
-      --accent2:#22c55e; --warn:#f59e0b; --danger:#ef4444;
-      --text:#e2e8f0; --muted:#8892a4; --radius:12px;
+      --white:#FFFFFF; --black:#1A1A1A; --gray-50:#F8F8F6; --gray-100:#F0F0EE;
+      --gray-200:#E5E5E3; --gray-400:#9CA3AF; --gray-600:#6B7280;
+      --yellow:#F5C400; --green:#16A34A; --green-bg:#DCFCE7;
+      --red:#DC2626; --red-bg:#FEE2E2; --orange:#EA580C; --orange-bg:#FED7AA;
+      --blue:#2563EB;
     }
-    body { background:var(--bg); color:var(--text); font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif; font-size:14px; }
-    .header { background:linear-gradient(135deg,#1a1d27,#0f1117); border-bottom:1px solid var(--border); padding:24px 32px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
-    .header h1 { font-size:22px; font-weight:700; }
-    .badge { background:var(--accent); color:#fff; font-size:11px; font-weight:700; padding:3px 8px; border-radius:20px; margin-left:10px; }
-    .header-meta { color:var(--muted); font-size:13px; }
-    .header-meta span { color:var(--accent2); font-weight:600; }
-    .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; padding:24px 32px; }
-    .stat-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; }
-    .stat-card .label { color:var(--muted); font-size:12px; margin-bottom:8px; text-transform:uppercase; }
-    .stat-card .value { font-size:28px; font-weight:700; color:var(--accent); }
-    .stat-card .sub { color:var(--muted); font-size:12px; margin-top:4px; }
-    .filters { display:flex; gap:12px; padding:0 32px 20px; flex-wrap:wrap; align-items:flex-end; }
-    .filter-group { display:flex; flex-direction:column; gap:4px; }
-    .filter-group label { color:var(--muted); font-size:12px; }
-    .filters select, .filters input { background:var(--surface); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:13px; padding:8px 12px; outline:none; }
-    .filters select:hover, .filters input:focus { border-color:var(--accent); }
-    .btn-reset { background:transparent; border:1px solid var(--border); border-radius:8px; color:var(--muted); cursor:pointer; font-size:13px; padding:8px 16px; }
-    .btn-reset:hover { border-color:var(--accent); color:var(--accent); }
-    .search-bar { padding:0 32px 20px; }
-    .search-bar input { width:100%; background:var(--surface); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:14px; padding:10px 16px; outline:none; }
-    .search-bar input:focus { border-color:var(--accent); }
-    .table-wrap { padding:0 32px 32px; overflow-x:auto; }
-    table { width:100%; border-collapse:collapse; font-size:13px; }
-    thead th { background:var(--surface); border-bottom:2px solid var(--border); color:var(--muted); font-size:11px; font-weight:600; padding:12px 16px; text-align:left; white-space:nowrap; cursor:pointer; text-transform:uppercase; }
-    thead th:hover, thead th.sorted { color:var(--accent); }
-    thead th.sorted::after { content:" ↓"; }
-    thead th.sorted.asc::after { content:" ↑"; }
-    tbody tr { border-bottom:1px solid var(--border); transition:background 0.15s; }
-    tbody tr:hover { background:rgba(79,142,247,0.06); }
-    tbody td { padding:14px 16px; vertical-align:middle; }
-    .case-id { color:var(--accent); font-weight:600; font-size:12px; white-space:nowrap; }
-    .court-tag { background:rgba(79,142,247,0.12); border-radius:6px; color:var(--accent); font-size:11px; font-weight:600; padding:2px 8px; white-space:nowrap; }
-    .address .main { font-weight:500; }
-    .address .sub { color:var(--muted); font-size:12px; margin-top:2px; }
-    .amount.bid { color:var(--accent2); font-weight:700; white-space:nowrap; }
-    .amount.appraisal { color:var(--muted); font-size:12px; }
-    .ratio-pill { border-radius:20px; font-size:12px; font-weight:700; padding:3px 10px; white-space:nowrap; }
-    .ratio-low { background:rgba(34,197,94,0.15); color:var(--accent2); }
-    .ratio-mid { background:rgba(245,158,11,0.15); color:var(--warn); }
-    .ratio-high { background:rgba(239,68,68,0.15); color:var(--danger); }
-    .failed-cnt { background:rgba(239,68,68,0.12); border-radius:20px; color:var(--danger); font-size:12px; font-weight:700; padding:2px 10px; text-align:center; }
-    .failed-zero { color:var(--muted); font-size:12px; text-align:center; }
-    .days-tag { border-radius:6px; font-size:11px; font-weight:600; margin-top:2px; padding:2px 6px; display:inline-block; }
-    .days-urgent { background:rgba(239,68,68,0.15); color:var(--danger); }
-    .days-soon { background:rgba(245,158,11,0.15); color:var(--warn); }
-    .days-ok { background:rgba(34,197,94,0.12); color:var(--accent2); }
-    .scraped-tag { color:var(--muted); font-size:11px; }
-    .empty-state { text-align:center; padding:80px 32px; color:var(--muted); }
-    .empty-state .icon { font-size:48px; margin-bottom:16px; }
-    .empty-state h2 { font-size:18px; margin-bottom:8px; color:var(--text); }
-    .pagination { display:flex; align-items:center; gap:8px; justify-content:center; padding:16px 32px 32px; }
-    .page-btn { background:var(--surface); border:1px solid var(--border); border-radius:8px; color:var(--text); cursor:pointer; font-size:13px; padding:8px 14px; }
-    .page-btn:hover, .page-btn.active { background:var(--accent); border-color:var(--accent); color:#fff; }
-    .page-btn:disabled { opacity:0.4; cursor:not-allowed; }
-    .footer { border-top:1px solid var(--border); color:var(--muted); font-size:12px; padding:16px 32px; text-align:center; }
-    .footer a { color:var(--accent); text-decoration:none; }
+    body { background:var(--white); color:var(--black); font-family:'Inter','Apple SD Gothic Neo','Noto Sans KR',sans-serif; font-size:15px; line-height:1.6; }
+
+    /* ── NAV ── */
+    nav { position:sticky; top:0; z-index:100; background:rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid var(--gray-200); padding:0 48px; height:64px; display:flex; align-items:center; justify-content:space-between; }
+    .nav-logo { display:flex; align-items:center; gap:10px; font-weight:800; font-size:17px; letter-spacing:-0.5px; text-decoration:none; color:var(--black); }
+    .nav-logo-icon { width:34px; height:34px; background:var(--black); border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:17px; }
+    .nav-right { display:flex; align-items:center; gap:10px; }
+    .nav-pill { background:var(--yellow); color:var(--black); font-size:12px; font-weight:700; padding:5px 13px; border-radius:20px; letter-spacing:0.3px; }
+    .nav-cta { background:var(--black); color:white; border:none; border-radius:9px; font-size:13px; font-weight:700; padding:9px 18px; cursor:pointer; text-decoration:none; font-family:inherit; }
+
+    /* ── HERO ── */
+    .hero { position:relative; overflow:hidden; background:var(--white); padding:96px 48px 72px; text-align:center; }
+    .hero::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,#CECECE 1px,transparent 1px); background-size:24px 24px; opacity:0.55; pointer-events:none; }
+    .hero::after  { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(255,255,255,0) 0%,rgba(255,255,255,0.88) 65%,white 100%); pointer-events:none; }
+    .hero-inner { position:relative; z-index:1; max-width:740px; margin:0 auto; }
+    .hero-chip { display:inline-flex; align-items:center; gap:6px; background:var(--yellow); color:var(--black); font-size:12px; font-weight:800; padding:6px 16px; border-radius:20px; margin-bottom:28px; letter-spacing:0.6px; text-transform:uppercase; }
+    .hero-h1 { font-size:60px; font-weight:900; line-height:1.05; letter-spacing:-2.5px; margin-bottom:6px; }
+    .hero-h1 .light { color:var(--gray-400); font-weight:300; }
+    .hero-sub { font-size:17px; color:var(--gray-600); margin-bottom:40px; }
+    .hero-sub strong { color:var(--black); font-weight:700; }
+    .hero-kpi { display:flex; justify-content:center; gap:40px; margin-bottom:40px; flex-wrap:wrap; }
+    .kpi { text-align:center; }
+    .kpi-num { font-size:38px; font-weight:900; letter-spacing:-1.5px; line-height:1; }
+    .kpi-lbl { font-size:12px; color:var(--gray-600); margin-top:4px; font-weight:500; }
+    .hero-btns { display:flex; justify-content:center; gap:12px; }
+    .btn-dark { background:var(--black); color:white; border:2.5px solid var(--black); border-radius:12px; font-size:15px; font-weight:700; padding:14px 30px; cursor:pointer; font-family:inherit; transition:background 0.2s; }
+    .btn-dark:hover { background:#333; }
+    .btn-outline { background:white; color:var(--black); border:2.5px solid var(--gray-200); border-radius:12px; font-size:15px; font-weight:600; padding:14px 30px; cursor:pointer; font-family:inherit; transition:border-color 0.2s; }
+    .btn-outline:hover { border-color:var(--black); }
+
+    /* ── FILTER BAR ── */
+    .fbar { background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200); padding:14px 48px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    .fbar-left { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .fsel { background:white; border:1.5px solid var(--gray-200); border-radius:9px; color:var(--black); font-size:13px; font-weight:500; padding:8px 12px; outline:none; cursor:pointer; font-family:inherit; transition:border-color 0.2s; }
+    .fsel:focus { border-color:var(--black); }
+    .fsearch { background:white; border:1.5px solid var(--gray-200); border-radius:9px; color:var(--black); font-size:13px; padding:8px 14px; outline:none; width:220px; font-family:inherit; }
+    .fsearch:focus { border-color:var(--black); }
+    .fbar-right { display:flex; align-items:center; gap:10px; }
+    .fcount { font-size:13px; color:var(--gray-600); font-weight:500; }
+    .btn-reset { background:transparent; border:1.5px solid var(--gray-200); border-radius:9px; color:var(--gray-600); font-size:12px; font-weight:700; padding:7px 13px; cursor:pointer; font-family:inherit; transition:all 0.2s; }
+    .btn-reset:hover { border-color:var(--black); color:var(--black); }
+
+    /* ── CARDS ── */
+    .cards-wrap { padding:48px 48px 96px; max-width:1440px; margin:0 auto; }
+    .sec-head { display:flex; align-items:baseline; gap:12px; margin-bottom:32px; }
+    .sec-title { font-size:24px; font-weight:800; letter-spacing:-0.5px; }
+    .sec-sub { font-size:13px; color:var(--gray-400); font-weight:500; }
+    .card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:24px; }
+
+    /* ── AUCTION CARD ── */
+    .acard { background:white; border:1.5px solid var(--gray-200); border-radius:18px; overflow:hidden; cursor:pointer; transition:all 0.25s; }
+    .acard:hover { border-color:var(--black); box-shadow:0 10px 40px rgba(0,0,0,0.12); transform:translateY(-3px); }
+    .acard-img { height:190px; position:relative; overflow:hidden; display:flex; align-items:flex-end; padding:16px; }
+    .acard-img .bg-district { position:absolute; bottom:-12px; right:14px; font-size:58px; font-weight:900; color:rgba(255,255,255,0.2); line-height:1; user-select:none; pointer-events:none; }
+    .acard-img-stats { display:flex; gap:8px; position:relative; z-index:1; }
+    .img-pill { background:rgba(255,255,255,0.22); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.35); border-radius:7px; color:white; font-size:12px; font-weight:700; padding:4px 11px; }
+    .badge-new { position:absolute; top:14px; left:14px; background:var(--yellow); color:var(--black); font-size:11px; font-weight:800; padding:3px 11px; border-radius:20px; letter-spacing:0.5px; text-transform:uppercase; z-index:2; }
+    .badge-dday { position:absolute; top:14px; right:14px; font-size:12px; font-weight:700; padding:4px 11px; border-radius:20px; z-index:2; }
+    .dd-urgent { background:rgba(220,38,38,0.88); color:white; }
+    .dd-soon   { background:rgba(234,88,12,0.88); color:white; }
+    .dd-ok     { background:rgba(22,163,74,0.80); color:white; }
+    .acard-body { padding:20px; }
+    .acard-court { font-size:11px; font-weight:700; color:var(--gray-600); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+    .acard-addr { font-size:16px; font-weight:700; letter-spacing:-0.3px; line-height:1.3; margin-bottom:3px; }
+    .acard-addr2 { font-size:13px; color:var(--gray-400); margin-bottom:18px; }
+    .acard-metrics { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; padding-top:16px; border-top:1px solid var(--gray-100); }
+    .metric { text-align:center; }
+    .metric-lbl { font-size:10px; font-weight:700; color:var(--gray-400); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px; }
+    .metric-val { font-size:16px; font-weight:800; letter-spacing:-0.5px; }
+    .c-green { color:var(--green); }
+    .c-yellow { color:#92400E; }
+    .c-red { color:var(--red); }
+    .c-black { color:var(--black); }
+
+    /* ── EMPTY ── */
+    .empty { grid-column:1/-1; text-align:center; padding:80px 20px; color:var(--gray-600); }
+    .empty .eicon { font-size:52px; margin-bottom:16px; }
+    .empty h3 { font-size:20px; font-weight:800; color:var(--black); margin-bottom:8px; }
+
+    /* ── PAGINATION ── */
+    .pages { display:flex; justify-content:center; gap:8px; padding:40px 0 0; }
+    .pgt { background:white; border:1.5px solid var(--gray-200); border-radius:9px; color:var(--black); font-size:13px; font-weight:700; padding:9px 17px; cursor:pointer; font-family:inherit; transition:all 0.2s; }
+    .pgt:hover,.pgt.on { background:var(--black); color:white; border-color:var(--black); }
+    .pgt:disabled { opacity:0.3; cursor:not-allowed; }
+
+    /* ── MODAL ── */
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:200; display:none; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(6px); }
+    .overlay.on { display:flex; }
+    .modal { background:white; border-radius:22px; width:100%; max-width:880px; max-height:92vh; overflow-y:auto; position:relative; animation:mIn 0.28s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes mIn { from{opacity:0;transform:scale(0.94) translateY(16px)} to{opacity:1;transform:scale(1) translateY(0)} }
+    .mhdr { height:210px; position:relative; display:flex; align-items:flex-end; padding:26px; border-radius:22px 22px 0 0; overflow:hidden; }
+    .mhdr .mdistrict { position:absolute; bottom:-16px; right:20px; font-size:110px; font-weight:900; color:rgba(255,255,255,0.14); line-height:1; user-select:none; }
+    .mhdr-info { position:relative; z-index:1; }
+    .mctag { background:rgba(255,255,255,0.22); border:1px solid rgba(255,255,255,0.45); color:white; font-size:11px; font-weight:700; padding:3px 11px; border-radius:20px; display:inline-block; margin-bottom:8px; letter-spacing:0.4px; }
+    .mtitle { color:white; font-size:22px; font-weight:800; letter-spacing:-0.5px; line-height:1.3; }
+    .mclose { position:absolute; top:16px; right:16px; background:rgba(255,255,255,0.22); border:none; border-radius:9px; color:white; width:38px; height:38px; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; z-index:2; backdrop-filter:blur(4px); }
+    .mclose:hover { background:rgba(255,255,255,0.4); }
+    .mbody { padding:28px; }
+    .mgrid { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+    .iblock { background:var(--gray-50); border-radius:13px; padding:20px; }
+    .iblock.full { grid-column:1/-1; }
+    .iblock-ttl { font-size:11px; font-weight:700; color:var(--gray-400); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:14px; }
+    .irow { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--gray-200); }
+    .irow:last-child { border-bottom:none; }
+    .irow .ik { font-size:13px; color:var(--gray-600); font-weight:500; }
+    .irow .iv { font-size:13px; font-weight:700; }
+    .score-item { margin-bottom:13px; }
+    .score-item:last-child { margin-bottom:0; }
+    .score-hd { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+    .score-lbl { font-size:13px; font-weight:600; }
+    .score-tag { font-size:12px; font-weight:700; padding:2px 10px; border-radius:20px; }
+    .sh { background:var(--green-bg); color:var(--green); }
+    .sm { background:var(--orange-bg); color:var(--orange); }
+    .sl { background:var(--red-bg); color:var(--red); }
+    .sbar-bg { background:var(--gray-200); border-radius:4px; height:6px; overflow:hidden; }
+    .sbar-fill { height:100%; border-radius:4px; }
+    .fh { background:var(--green); }
+    .fm { background:var(--orange); }
+    .fl { background:var(--red); }
+    .score-reason { font-size:11px; color:var(--gray-600); margin-top:4px; }
+    .risk-list { list-style:none; }
+    .risk-li { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--gray-200); font-size:13px; }
+    .risk-li:last-child { border-bottom:none; }
+    .risk-ico { font-size:15px; flex-shrink:0; margin-top:1px; }
+    .risk-main { font-weight:600; }
+    .risk-desc { color:var(--gray-600); font-size:12px; }
+    .opinion-box { background:var(--black); border-radius:13px; padding:22px; }
+    .op-lbl { font-size:11px; font-weight:700; color:var(--yellow); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; }
+    .op-txt { font-size:15px; font-weight:600; color:white; line-height:1.65; letter-spacing:-0.2px; }
+    .mfooter { display:flex; gap:12px; padding:0 28px 28px; }
+    .mbtn-dark { flex:1; background:var(--black); color:white; border:none; border-radius:12px; font-size:14px; font-weight:700; padding:15px; cursor:pointer; text-decoration:none; text-align:center; display:block; font-family:inherit; }
+    .mbtn-light { flex:1; background:var(--gray-50); color:var(--black); border:1.5px solid var(--gray-200); border-radius:12px; font-size:14px; font-weight:700; padding:15px; cursor:pointer; font-family:inherit; }
+
+    /* ── FOOTER ── */
+    footer { border-top:1px solid var(--gray-200); padding:24px 48px; text-align:center; font-size:12px; color:var(--gray-400); }
+    footer a { color:var(--black); font-weight:700; text-decoration:none; }
+
+    @media(max-width:768px){
+      .hero{padding:56px 20px 44px} .hero-h1{font-size:38px;letter-spacing:-1.5px}
+      nav,.fbar,.cards-wrap{padding-left:20px;padding-right:20px}
+      .mgrid{grid-template-columns:1fr} .hero-kpi{gap:24px}
+    }
   </style>
 </head>
 <body>
-<header class="header">
-  <div style="display:flex;align-items:center">
-    <h1>🏠 서울 아파트 경매 대시보드</h1>
-    <span class="badge">LIVE</span>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">🏠</div>
+    경매대시보드
+  </a>
+  <div class="nav-right">
+    <span class="nav-pill" id="nav-today">오늘 0건 업데이트</span>
+    <a class="nav-cta" href="https://www.courtauction.go.kr" target="_blank">대법원 바로가기 →</a>
   </div>
-  <div class="header-meta">최저입찰가 <span>4억 원 이상</span> · 서울 전체 · 아파트 &nbsp;|&nbsp; 마지막 업데이트: <span id="last-updated">-</span></div>
-</header>
-<section class="stats-row">
-  <div class="stat-card"><div class="label">총 누적 물건</div><div class="value" id="stat-total">-</div><div class="sub">전체 수집 건수</div></div>
-  <div class="stat-card"><div class="label">오늘 신규</div><div class="value" id="stat-today">-</div><div class="sub" id="stat-today-date">-</div></div>
-  <div class="stat-card"><div class="label">평균 최저입찰가</div><div class="value" id="stat-avg">-</div><div class="sub">억 원</div></div>
-  <div class="stat-card"><div class="label">평균 유찰 횟수</div><div class="value" id="stat-failed">-</div><div class="sub">회</div></div>
-  <div class="stat-card"><div class="label">이번 주 경매</div><div class="value" id="stat-week">-</div><div class="sub">건 예정</div></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-chip">✦ <span id="hero-date">-</span> 기준 최신 데이터</div>
+    <h1 class="hero-h1">서울 아파트<br><span class="light">경매 대시보드</span></h1>
+    <p class="hero-sub">매일 아침 서울 <strong>5개 법원</strong> 경매 매물을 자동 수집·분석<br>최저입찰가 <strong>4억 원 이상</strong> 아파트만 선별</p>
+    <div class="hero-kpi">
+      <div class="kpi"><div class="kpi-num" id="ks-total">-</div><div class="kpi-lbl">총 누적 물건</div></div>
+      <div class="kpi"><div class="kpi-num" id="ks-today">-</div><div class="kpi-lbl">오늘 신규</div></div>
+      <div class="kpi"><div class="kpi-num" id="ks-avg">-</div><div class="kpi-lbl">평균 최저가 (억)</div></div>
+      <div class="kpi"><div class="kpi-num" id="ks-week">-</div><div class="kpi-lbl">이번 주 경매</div></div>
+    </div>
+    <div class="hero-btns">
+      <button class="btn-dark" onclick="goToday()">오늘 신규 매물 ↓</button>
+      <button class="btn-outline" onclick="goAll()">전체 보기</button>
+    </div>
+  </div>
 </section>
-<section class="search-bar"><input type="text" id="search-input" placeholder="🔍  주소, 사건번호, 법원명으로 검색..." /></section>
-<section class="filters">
-  <div class="filter-group"><label>법원</label>
-    <select id="filter-court">
+
+<!-- FILTER BAR -->
+<div class="fbar">
+  <div class="fbar-left">
+    <select class="fsel" id="fc-court">
       <option value="">전체 법원</option>
       <option>서울중앙지방법원</option><option>서울동부지방법원</option>
       <option>서울남부지방법원</option><option>서울북부지방법원</option><option>서울서부지방법원</option>
     </select>
-  </div>
-  <div class="filter-group"><label>유찰 횟수</label>
-    <select id="filter-failed">
-      <option value="">전체</option><option value="0">0회 (신건)</option>
-      <option value="1">1회 이상</option><option value="3">3회 이상</option><option value="5">5회 이상</option>
+    <select class="fsel" id="fc-failed">
+      <option value="">유찰 전체</option>
+      <option value="0">신건 (0회)</option>
+      <option value="1">1회 이상</option>
+      <option value="3">3회 이상</option>
+      <option value="5">5회 이상</option>
     </select>
+    <select class="fsel" id="fc-date">
+      <option value="">날짜 전체</option>
+      <option value="today">오늘 신규만</option>
+    </select>
+    <input class="fsearch" type="text" id="fc-q" placeholder="🔍  주소, 사건번호 검색..." />
   </div>
-  <div class="filter-group"><label>최저입찰가 상한 (억)</label><input type="number" id="filter-max-bid" placeholder="예: 20" min="4" step="1" style="width:120px" /></div>
-  <div class="filter-group"><label>수집 날짜</label><input type="date" id="filter-date" /></div>
-  <button class="btn-reset" onclick="resetFilters()">↺ 초기화</button>
-</section>
-<section class="table-wrap">
-  <table id="auction-table">
-    <thead><tr>
-      <th onclick="sortBy('id')">사건번호</th><th>법원</th><th>소재지</th>
-      <th onclick="sortBy('appraisal')" class="sorted">감정가</th>
-      <th onclick="sortBy('min_bid')">최저입찰가</th>
-      <th onclick="sortBy('bid_ratio')">낙찰가율</th>
-      <th onclick="sortBy('failed_bids')">유찰</th>
-      <th onclick="sortBy('auction_date')">경매기일</th>
-      <th>수집일</th>
-    </tr></thead>
-    <tbody id="table-body"><tr><td colspan="9" style="text-align:center;padding:60px;color:var(--muted)">데이터 로딩 중...</td></tr></tbody>
-  </table>
-</section>
-<div class="pagination" id="pagination"></div>
-<footer class="footer">데이터 출처: <a href="https://www.courtauction.go.kr" target="_blank">대법원 법원경매정보</a> &nbsp;|&nbsp; 매일 오전 9시 자동 업데이트 (평일) &nbsp;|&nbsp; 투자 판단은 본인 책임 하에 수행하세요.</footer>
+  <div class="fbar-right">
+    <span class="fcount" id="fc-cnt">0건</span>
+    <button class="btn-reset" onclick="resetF()">↺ 초기화</button>
+  </div>
+</div>
+
+<!-- CARDS -->
+<main class="cards-wrap" id="cards-wrap">
+  <div class="sec-head">
+    <span class="sec-title" id="sec-title">오늘의 신규 매물</span>
+    <span class="sec-sub" id="sec-sub">-</span>
+  </div>
+  <div class="card-grid" id="card-grid"></div>
+  <div class="pages" id="pages"></div>
+</main>
+
+<footer>
+  데이터 출처: <a href="https://www.courtauction.go.kr" target="_blank">대법원 법원경매정보</a> &nbsp;·&nbsp;
+  매일 평일 오전 9시 자동 업데이트 &nbsp;·&nbsp; 투자 판단은 본인 책임
+</footer>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeByBg(event)">
+  <div class="modal" id="modal"></div>
+</div>
+
 <script>
-let allAuctions=[],filtered=[],sortKey='appraisal',sortAsc=false,currentPage=1;
-const PAGE_SIZE=30;
-async function loadData(){
+let ALL=[],FILT=[];
+let pg=1;const PG=12;
+
+async function init(){
   try{
-    const res=await fetch('../data/auctions.json?t='+Date.now());
-    const data=await res.json();
-    allAuctions=data.auctions||[];
-    document.getElementById('last-updated').textContent=data.last_updated||'-';
-    renderStats(data); applyFilters();
-  }catch(e){
-    document.getElementById('last-updated').textContent='샘플 데이터';
-    allAuctions=getSampleData();
-    renderStats({total_count:allAuctions.length}); applyFilters();
-  }
+    const r=await fetch('../data/auctions.json?t='+Date.now());
+    const d=await r.json();
+    ALL=d.auctions||[];
+  }catch(e){ ALL=demo(); }
+  const t=tstr();
+  document.getElementById('hero-date').textContent=t;
+  const todayN=ALL.filter(a=>a.scraped_date===t).length;
+  const avg=ALL.length?(ALL.reduce((s,a)=>s+(a.min_bid||0),0)/ALL.length/1e8).toFixed(1):'-';
+  const now=new Date(),we=new Date(now); we.setDate(now.getDate()+7);
+  const wk=ALL.filter(a=>{const d=new Date(a.auction_date);return d>=now&&d<=we;}).length;
+  set('ks-total',ALL.length.toLocaleString());
+  set('ks-today',todayN);
+  set('ks-avg',avg);
+  set('ks-week',wk);
+  set('nav-today',`오늘 ${todayN}건 업데이트`);
+  applyF();
 }
-function renderStats(data){
-  const today=new Date().toISOString().slice(0,10);
-  const todayItems=allAuctions.filter(a=>a.scraped_date===today);
-  const avgBid=allAuctions.length?(allAuctions.reduce((s,a)=>s+(a.min_bid||0),0)/allAuctions.length/1e8).toFixed(1):0;
-  const avgFail=allAuctions.length?(allAuctions.reduce((s,a)=>s+(a.failed_bids||0),0)/allAuctions.length).toFixed(1):0;
-  const now=new Date(),weekEnd=new Date(now);
-  weekEnd.setDate(now.getDate()+7);
-  const weekItems=allAuctions.filter(a=>{const d=new Date(a.auction_date);return d>=now&&d<=weekEnd;});
-  document.getElementById('stat-total').textContent=(data.total_count||allAuctions.length).toLocaleString();
-  document.getElementById('stat-today').textContent=todayItems.length.toLocaleString();
-  document.getElementById('stat-today-date').textContent=today;
-  document.getElementById('stat-avg').textContent=avgBid;
-  document.getElementById('stat-failed').textContent=avgFail;
-  document.getElementById('stat-week').textContent=weekItems.length.toLocaleString();
-}
-function applyFilters(){
-  const query=document.getElementById('search-input').value.toLowerCase();
-  const court=document.getElementById('filter-court').value;
-  const failed=document.getElementById('filter-failed').value;
-  const maxBid=parseFloat(document.getElementById('filter-max-bid').value)*1e8||Infinity;
-  const dateVal=document.getElementById('filter-date').value;
-  filtered=allAuctions.filter(a=>{
+
+function applyF(){
+  const court=v('fc-court'),failed=v('fc-failed'),dateF=v('fc-date'),q=v('fc-q').toLowerCase();
+  const today=tstr();
+  FILT=ALL.filter(a=>{
     if(court&&a.court!==court)return false;
-    if(failed!==''&&(a.failed_bids||0)<parseInt(failed))return false;
-    if((a.min_bid||0)>maxBid)return false;
-    if(dateVal&&a.scraped_date!==dateVal)return false;
-    if(query&&!(a.id+a.court+a.address).toLowerCase().includes(query))return false;
+    if(failed!==''&&(a.failed_bids||0)<+failed)return false;
+    if(dateF==='today'&&a.scraped_date!==today)return false;
+    if(q&&!(a.id+a.court+a.address).toLowerCase().includes(q))return false;
     return true;
   });
-  filtered.sort((a,b)=>{const va=a[sortKey]??'',vb=b[sortKey]??'';return sortAsc?(va>vb?1:-1):(va<vb?1:-1);});
-  currentPage=1; renderTable(); renderPagination();
-}
-function sortBy(key){
-  if(sortKey===key)sortAsc=!sortAsc;else{sortKey=key;sortAsc=false;}
-  document.querySelectorAll('thead th').forEach(th=>th.classList.remove('sorted','asc'));
-  document.querySelectorAll('thead th').forEach(th=>{
-    if(th.getAttribute('onclick')===`sortBy('${key}')`){th.classList.add('sorted');if(sortAsc)th.classList.add('asc');}
+  FILT.sort((a,b)=>{
+    if(b.scraped_date!==a.scraped_date)return b.scraped_date.localeCompare(a.scraped_date);
+    return(a.auction_date||'').localeCompare(b.auction_date||'');
   });
-  applyFilters();
+  pg=1;
+  set('fc-cnt',FILT.length+'건');
+  renderCards(); renderPages();
 }
-function resetFilters(){
-  ['search-input','filter-court','filter-failed','filter-max-bid','filter-date'].forEach(id=>document.getElementById(id).value='');
-  applyFilters();
-}
-function fmtAmount(n){if(!n)return'-';if(n>=1e8)return(n/1e8).toFixed(1)+'억';return n.toLocaleString()+'원';}
-function daysUntil(d){if(!d)return null;const diff=Math.round((new Date(d)-new Date(new Date().toDateString()))/86400000);return diff;}
-function renderTable(){
-  const tbody=document.getElementById('table-body');
-  const page=filtered.slice((currentPage-1)*PAGE_SIZE,currentPage*PAGE_SIZE);
-  if(!page.length){tbody.innerHTML='<tr><td colspan="9"><div class="empty-state"><div class="icon">🔍</div><h2>검색 결과가 없습니다</h2></div></td></tr>';return;}
-  tbody.innerHTML=page.map(a=>{
-    const ratio=a.bid_ratio;
-    const ratioClass=ratio==null?'ratio-mid':ratio<70?'ratio-low':ratio<90?'ratio-mid':'ratio-high';
-    const ratioText=ratio!=null?ratio+'%':'-';
-    const days=daysUntil(a.auction_date);
-    const daysTag=days==null?'':days<0?'<div class="days-tag" style="color:var(--muted)">완료</div>':days===0?'<div class="days-tag days-urgent">🔴 오늘</div>':days<=3?`<div class="days-tag days-urgent">D-${days}</div>`:days<=7?`<div class="days-tag days-soon">D-${days}</div>`:`<div class="days-tag days-ok">D-${days}</div>`;
-    const ap=a.address||'';
-    const am=ap.split(' ').slice(0,4).join(' ');
-    const as2=ap.split(' ').slice(4).join(' ');
-    const failHtml=a.failed_bids>0?`<div class="failed-cnt">${a.failed_bids}회</div>`:'<div class="failed-zero">-</div>';
-    return `<tr>
-      <td><div class="case-id">${a.id||'-'}</div></td>
-      <td><span class="court-tag">${(a.court||'').replace('지방법원','').replace('서울','서울 ')}</span></td>
-      <td class="address"><div class="main">${am||'-'}</div>${as2?`<div class="sub">${as2}</div>`:''}</td>
-      <td><div class="amount appraisal">${fmtAmount(a.appraisal)}</div></td>
-      <td><div class="amount bid">${fmtAmount(a.min_bid)}</div></td>
-      <td><span class="ratio-pill ${ratioClass}">${ratioText}</span></td>
-      <td>${failHtml}</td>
-      <td><div>${a.auction_date||'-'}</div>${daysTag}</td>
-      <td><span class="scraped-tag">${a.scraped_date||'-'}</span></td>
-    </tr>`;
+
+function goToday(){ set('fc-date','today'); applyF(); scroll2(); }
+function goAll()  { set('fc-date','');      applyF(); scroll2(); }
+function resetF() { ['fc-court','fc-failed','fc-date','fc-q'].forEach(id=>set(id,'')); applyF(); }
+function scroll2(){ document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'}); }
+
+function renderCards(){
+  const grid=document.getElementById('card-grid');
+  const today=tstr();
+  const dateF=v('fc-date');
+  set('sec-title', dateF==='today'?'오늘의 신규 매물':'전체 경매 매물');
+  set('sec-sub',`총 ${FILT.length}건`);
+  const slice=FILT.slice((pg-1)*PG, pg*PG);
+
+  if(!slice.length){
+    grid.innerHTML=`<div class="empty"><div class="eicon">🔍</div><h3>조건에 맞는 매물이 없어요</h3><p>필터를 초기화하거나 조건을 변경해 보세요.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML=slice.map(a=>{
+    const isNew=a.scraped_date===today;
+    const days=daysTo(a.auction_date);
+    const dist=getDist(a.address);
+    const parts=(a.address||'').split(' ');
+    const am=parts.slice(0,4).join(' ');
+    const as2=parts.slice(4).join(' ');
+    const court=(a.court||'').replace('서울','서울 ').replace('지방법원','');
+    let ddHtml='';
+    if(days!==null&&days>=0){
+      const dc=days===0||days<=3?'dd-urgent':days<=7?'dd-soon':'dd-ok';
+      ddHtml=`<div class="badge-dday ${dc}">${days===0?'오늘!':'D-'+days}</div>`;
+    }
+    return `<div class="acard" onclick="openM(${ALL.indexOf(a)})">
+      <div class="acard-img" style="background:${grad(a)}">
+        ${isNew?'<div class="badge-new">NEW</div>':''}
+        ${ddHtml}
+        <span class="bg-district">${dist}</span>
+        <div class="acard-img-stats">
+          <span class="img-pill">${fmt(a.min_bid)}</span>
+          <span class="img-pill">${a.failed_bids>0?`유찰 ${a.failed_bids}회`:'신건'}</span>
+        </div>
+      </div>
+      <div class="acard-body">
+        <div class="acard-court">${court}</div>
+        <div class="acard-addr">${am||a.address||'-'}</div>
+        ${as2?`<div class="acard-addr2">${as2}</div>`:''}
+        <div class="acard-metrics">
+          <div class="metric"><div class="metric-lbl">감정가</div><div class="metric-val c-black">${fmt(a.appraisal)}</div></div>
+          <div class="metric"><div class="metric-lbl">최저입찰가</div><div class="metric-val c-green">${fmt(a.min_bid)}</div></div>
+          <div class="metric"><div class="metric-lbl">낙찰가율</div><div class="metric-val ${rc(a.bid_ratio)}">${a.bid_ratio!=null?a.bid_ratio+'%':'-'}</div></div>
+        </div>
+      </div>
+    </div>`;
   }).join('');
 }
-function renderPagination(){
-  const total=Math.ceil(filtered.length/PAGE_SIZE);
-  const pg=document.getElementById('pagination');
-  if(total<=1){pg.innerHTML='';return;}
-  let html=`<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
-  for(let i=Math.max(1,currentPage-2);i<=Math.min(total,currentPage+2);i++)
-    html+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="goPage(${i})">${i}</button>`;
-  html+=`<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===total?'disabled':''}>›</button>`;
-  html+=`<span style="color:var(--muted);font-size:12px">총 ${filtered.length}건</span>`;
-  pg.innerHTML=html;
+
+function renderPages(){
+  const total=Math.ceil(FILT.length/PG);
+  const el=document.getElementById('pages');
+  if(total<=1){el.innerHTML='';return;}
+  let h=`<button class="pgt" onclick="goPg(${pg-1})" ${pg===1?'disabled':''}>‹</button>`;
+  for(let i=Math.max(1,pg-2);i<=Math.min(total,pg+2);i++)
+    h+=`<button class="pgt ${i===pg?'on':''}" onclick="goPg(${i})">${i}</button>`;
+  h+=`<button class="pgt" onclick="goPg(${pg+1})" ${pg===total?'disabled':''}>›</button>`;
+  el.innerHTML=h;
 }
-function goPage(n){
-  const total=Math.ceil(filtered.length/PAGE_SIZE);
-  if(n<1||n>total)return;
-  currentPage=n; renderTable(); renderPagination();
-  window.scrollTo({top:0,behavior:'smooth'});
+function goPg(n){
+  const t=Math.ceil(FILT.length/PG);
+  if(n<1||n>t)return;
+  pg=n; renderCards(); renderPages();
+  document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'});
 }
-function getSampleData(){
-  const today=new Date().toISOString().slice(0,10);
-  return [
-    {id:"2025타경104204",court:"서울중앙지방법원",type:"아파트",address:"서울특별시 서초구 서초동 1597-6 디케이밸리뷰서초2차 17층 1705호",appraisal:1580000000,min_bid:518000000,auction_date:"2026-07-15",failed_bids:5,scraped_date:today,bid_ratio:32.8},
-    {id:"2024타경198231",court:"서울남부지방법원",type:"아파트",address:"서울특별시 강남구 대치동 은마아파트 8동 501호",appraisal:1200000000,min_bid:960000000,auction_date:"2026-07-18",failed_bids:1,scraped_date:today,bid_ratio:80.0},
-    {id:"2025타경032118",court:"서울동부지방법원",type:"아파트",address:"서울특별시 송파구 잠실동 주공아파트 5단지 1002호",appraisal:1500000000,min_bid:750000000,auction_date:"2026-07-22",failed_bids:3,scraped_date:today,bid_ratio:50.0},
-    {id:"2025타경087654",court:"서울북부지방법원",type:"아파트",address:"서울특별시 노원구 상계동 상계주공 13단지 304호",appraisal:650000000,min_bid:520000000,auction_date:"2026-07-25",failed_bids:2,scraped_date:today,bid_ratio:80.0},
-    {id:"2025타경011223",court:"서울서부지방법원",type:"아파트",address:"서울특별시 마포구 아현동 마포래미안푸르지오 2단지 1703호",appraisal:1100000000,min_bid:880000000,auction_date:"2026-08-05",failed_bids:1,scraped_date:today,bid_ratio:80.0}
+
+/* ── MODAL ── */
+function openM(idx){
+  const a=ALL[idx]; if(!a)return;
+  const dist=getDist(a.address);
+  const infra=getInfra(a.address);
+  const roi=calcROI(a);
+  const risks=getRisks(a);
+  const opinion=getOpinion(a,roi);
+
+  document.getElementById('modal').innerHTML=`
+    <div class="mhdr" style="background:${grad(a)}">
+      <button class="mclose" onclick="closeM()">✕</button>
+      <div class="mhdr-info">
+        <div class="mctag">${a.court||''}</div>
+        <div class="mtitle">${(a.address||'-').split(' ').slice(0,5).join(' ')}</div>
+      </div>
+      <span class="mdistrict">${dist}</span>
+    </div>
+    <div class="mbody">
+      <div class="mgrid">
+
+        <div class="iblock">
+          <div class="iblock-ttl">📋 경매 기본 정보</div>
+          <div class="irow"><span class="ik">사건번호</span><span class="iv">${a.id||'-'}</span></div>
+          <div class="irow"><span class="ik">경매기일</span><span class="iv">${a.auction_date||'-'}${daysTo(a.auction_date)!==null?' · D-'+daysTo(a.auction_date):''}</span></div>
+          <div class="irow"><span class="ik">유찰 횟수</span><span class="iv ${a.failed_bids>=5?'c-red':a.failed_bids>=3?'c-yellow':'c-green'}">${a.failed_bids||0}회</span></div>
+          <div class="irow"><span class="ik">감정가</span><span class="iv">${fmt(a.appraisal)}</span></div>
+          <div class="irow"><span class="ik">최저입찰가</span><span class="iv c-green">${fmt(a.min_bid)}</span></div>
+          <div class="irow"><span class="ik">낙찰가율</span><span class="iv ${rc(a.bid_ratio)}">${a.bid_ratio!=null?a.bid_ratio+'%':'-'}</span></div>
+        </div>
+
+        <div class="iblock">
+          <div class="iblock-ttl">💰 손익비 분석</div>
+          <div class="irow"><span class="ik">취득 총비용</span><span class="iv">${fmt(roi.cost)}</span></div>
+          <div class="irow"><span class="ik">취득세 (추정)</span><span class="iv">${fmt(roi.tax)}</span></div>
+          <div class="irow"><span class="ik">기타비용 (명도·수리)</span><span class="iv">${fmt(roi.etc)}</span></div>
+          <div class="irow"><span class="ik">예상 시세</span><span class="iv">${fmt(roi.est)}</span></div>
+          <div class="irow"><span class="ik">안전마진</span><span class="iv ${roi.margin>0?'c-green':'c-red'}">${roi.margin>0?'+':''}${fmt(roi.margin)}</span></div>
+          <div class="irow"><span class="ik">실질 수익률</span><span class="iv ${roi.rate>15?'c-green':roi.rate>5?'c-yellow':'c-red'} ">${roi.rate}%</span></div>
+        </div>
+
+        <div class="iblock">
+          <div class="iblock-ttl">🗺️ 주변 인프라</div>
+          ${['교통','생활편의','교육환경'].map((lb,i)=>{
+            const s=infra[i];
+            const tc=s.s==='상'?'sh':s.s==='중'?'sm':'sl';
+            const fc=s.s==='상'?'fh':s.s==='중'?'fm':'fl';
+            const w=s.s==='상'?90:s.s==='중'?55:25;
+            return `<div class="score-item">
+              <div class="score-hd"><span class="score-lbl">${lb}</span><span class="score-tag ${tc}">${s.s}</span></div>
+              <div class="sbar-bg"><div class="sbar-fill ${fc}" style="width:${w}%"></div></div>
+              <div class="score-reason">${s.r}</div>
+            </div>`;
+          }).join('')}
+        </div>
+
+        <div class="iblock">
+          <div class="iblock-ttl">⚠️ 리스크 체크리스트</div>
+          <ul class="risk-list">
+            ${risks.map(r=>`<li class="risk-li">
+              <span class="risk-ico">${r.i}</span>
+              <div><div class="risk-main">${r.t}</div><div class="risk-desc">${r.d}</div></div>
+            </li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="iblock full">
+          <div class="opinion-box">
+            <div class="op-lbl">✦ 경매 전문가 한마디</div>
+            <div class="op-txt">${opinion}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mfooter">
+      <a class="mbtn-dark" href="https://www.courtauction.go.kr" target="_blank">대법원 경매 사이트에서 상세 확인 →</a>
+      <button class="mbtn-light" onclick="closeM()">닫기</button>
+    </div>`;
+
+  document.getElementById('overlay').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeByBg(e){ if(e.target===document.getElementById('overlay'))closeM(); }
+function closeM(){ document.getElementById('overlay').classList.remove('on'); document.body.style.overflow=''; }
+
+/* ── Helpers ── */
+function calcROI(a){
+  const bid=a.min_bid||0, app=a.appraisal||bid*3;
+  const tax=bid<=600000000?bid*0.011:bid<=900000000?bid*0.025:bid*0.035;
+  const etc=20000000;
+  const cost=Math.round(bid+tax+etc);
+  const ff=Math.max(0.55,0.85-(a.failed_bids||0)*0.05);
+  const est=Math.round(app*ff);
+  const margin=est-cost;
+  const rate=cost>0?Math.round(margin/cost*100):0;
+  return{tax:Math.round(tax),etc,cost,est,margin,rate};
+}
+function getInfra(addr){
+  const a=addr||'';
+  const hi=['강남구','서초구','송파구','용산구'];
+  const md=['마포구','성동구','동작구','광진구','영등포구','강동구','양천구','강서구','은평구','서대문구'];
+  let tier=hi.some(g=>a.includes(g))?'h':md.some(g=>a.includes(g))?'m':'l';
+  return {
+    h:[{s:'상',r:'지하철 다중 노선, 강남 접근 10분 이내'},{s:'상',r:'백화점·대형마트·상급 병원 인접'},{s:'상',r:'강남 최상위 학군, 대치동 학원가'}],
+    m:[{s:'상',r:'지하철 1~2개 노선, 교통 양호'},{s:'중',r:'편의시설 평균 이상 수준'},{s:'중',r:'학군 평균 수준'}],
+    l:[{s:'중',r:'지하철 인접, 환승 다소 불편'},{s:'중',r:'근린 편의시설 기본 충족'},{s:'중',r:'학군 보통 수준'}],
+  }[tier];
+}
+function getRisks(a){
+  return[
+    {i:a.failed_bids>=5?'🔴':a.failed_bids>=3?'🟠':'🟢',t:`유찰 ${a.failed_bids||0}회`,d:a.failed_bids>=5?'5회+ — 권리 하자·시세 괴리 강력 의심, 원인 미해소 시 입찰 금지':a.failed_bids>=3?'3회+ — 유찰 원인 반드시 확인 필요':'신건 — 경쟁 입찰 예상'},
+    {i:'🟡',t:'명도 리스크',d:'점유자·임차인 현황 현장 확인, 인도명령 가능 여부 체크'},
+    {i:'🟡',t:'미납 관리비',d:'관리사무소 직접 확인 — 장기 유찰 시 수백만 원 누적 가능'},
+    {i:'🟠',t:'선순위 권리',d:'등기부등본 전체 열람 — 가처분·가등기·유치권 신고 여부'},
+    {i:'🔵',t:'대출 LTV 규제',d:'규제지역 여부 확인 필수 — 투기과열지구 LTV 40~50% 제한'},
   ];
 }
-document.getElementById('search-input').addEventListener('input',applyFilters);
-document.getElementById('filter-court').addEventListener('change',applyFilters);
-document.getElementById('filter-failed').addEventListener('change',applyFilters);
-document.getElementById('filter-max-bid').addEventListener('input',applyFilters);
-document.getElementById('filter-date').addEventListener('change',applyFilters);
-loadData();
+function getOpinion(a,roi){
+  const f=a.failed_bids||0,r=roi.rate;
+  if(f>=5&&r<10)return `"${f}회 유찰에 실질 수익률 ${r}% — 원인 불명의 유찰은 독약이다. 권리분석 없이는 절대 입찰하지 마라."`;
+  if(f>=3&&r>=20)return `"${f}회 유찰로 감정가 대비 크게 하락. 권리 하자가 없다면 ${r}% 수익률은 충분히 매력적 — 매각물건명세서를 정독하고 접근하라."`;
+  if(f===0&&r>=15)return `"신건이라 경쟁이 치열할 것. 시세 대비 여유 있는 구간이나 입찰 상한가를 철저히 계산하고 들어가야 한다."`;
+  if(r>=25)return `"입지와 수익률 모두 양호한 물건. 현장 방문과 권리분석만 마치면 입찰 검토 가치가 충분하다."`;
+  if(r>=10)return `"수익률은 적정 수준. 추가 경쟁자 예상 — 감정적 상한가 설정 없이 냉정하게 접근하라."`;
+  return `"현 최저가 기준 수익률이 낮다. 인근 실거래가를 재확인하고 매력도를 재평가하라."`;
+}
+function grad(a){
+  const r=a.bid_ratio||80,f=a.failed_bids||0;
+  if(r<50||f>=5)return'linear-gradient(135deg,#1e3a5f,#2563EB)';
+  if(r<70)return'linear-gradient(135deg,#14532d,#16a34a)';
+  if(r<85)return'linear-gradient(135deg,#78350f,#d97706)';
+  return'linear-gradient(135deg,#1A1A1A,#374151)';
+}
+function getDist(a){ if(!a)return'서울'; const m=(a||'').match(/([가-힣]+구)/); return m?m[1].replace('구',''):'서울'; }
+function fmt(n){ if(!n)return'-'; if(n>=1e8)return(n/1e8).toFixed(1)+'억'; if(n>=1e4)return Math.round(n/1e4)+'만원'; return n.toLocaleString()+'원'; }
+function daysTo(ds){ if(!ds)return null; const now=new Date(); now.setHours(0,0,0,0); return Math.round((new Date(ds)-now)/86400000); }
+function rc(r){ return r==null?'c-black':r<70?'c-green':r<90?'c-yellow':'c-red'; }
+function tstr(){ return new Date().toISOString().slice(0,10); }
+function v(id){ return document.getElementById(id).value; }
+function set(id,val){ const el=document.getElementById(id); if(el){ if(el.tagName==='SELECT'||el.tagName==='INPUT')el.value=val; else el.textContent=val; } }
+function demo(){
+  const t=tstr();
+  return[
+    {id:"2025타경104204",court:"서울중앙지방법원",address:"서울특별시 서초구 서초동 1597-6 디케이밸리뷰서초2차 17층 1705호",appraisal:1580000000,min_bid:518000000,auction_date:"2026-07-15",failed_bids:5,scraped_date:t,bid_ratio:32.8},
+    {id:"2024타경198231",court:"서울남부지방법원",address:"서울특별시 강남구 대치동 은마아파트 8동 501호",appraisal:1200000000,min_bid:960000000,auction_date:"2026-07-18",failed_bids:1,scraped_date:t,bid_ratio:80.0},
+    {id:"2025타경032118",court:"서울동부지방법원",address:"서울특별시 송파구 잠실동 주공아파트 5단지 1002호",appraisal:1500000000,min_bid:750000000,auction_date:"2026-07-22",failed_bids:3,scraped_date:t,bid_ratio:50.0},
+    {id:"2025타경087654",court:"서울북부지방법원",address:"서울특별시 노원구 상계동 상계주공 13단지 304호",appraisal:650000000,min_bid:520000000,auction_date:"2026-07-25",failed_bids:2,scraped_date:t,bid_ratio:80.0},
+    {id:"2025타경011223",court:"서울서부지방법원",address:"서울특별시 마포구 아현동 마포래미안푸르지오 2단지 1703호",appraisal:1100000000,min_bid:880000000,auction_date:"2026-08-05",failed_bids:1,scraped_date:t,bid_ratio:80.0},
+    {id:"2024타경556789",court:"서울중앙지방법원",address:"서울특별시 용산구 이촌동 한가람아파트 201동 1501호",appraisal:900000000,min_bid:720000000,auction_date:"2026-08-12",failed_bids:2,scraped_date:t,bid_ratio:80.0},
+  ];
+}
+
+['fc-court','fc-failed','fc-date'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
+document.getElementById('fc-q').addEventListener('input',applyF);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeM(); });
+init();
 </script>
 </body>
 </html>
