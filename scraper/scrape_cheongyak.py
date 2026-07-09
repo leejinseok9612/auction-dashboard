@@ -39,7 +39,7 @@ def fetch_page(endpoint, page=1, per_page=100):
 
 def parse_item(raw, house_type):
     """공공데이터 JSON → 통일 dict"""
-    def g(k): return (raw.get(k) or "").strip()
+    def g(k): return str(raw.get(k) or "").strip()
 
     # 날짜 정규화 (YYYYMMDD → YYYY-MM-DD)
     def fd(s):
