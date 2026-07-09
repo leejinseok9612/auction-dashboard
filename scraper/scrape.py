@@ -12,12 +12,27 @@ DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "auctions.json
 MIN_BID_AMOUNT = 400_000_000
 KST = timezone(timedelta(hours=9))
 
-SEOUL_COURTS = {
+COURTS = {
+    # 서울
     "서울중앙지방법원": "B000201",
     "서울동부지방법원": "B000205",
     "서울남부지방법원": "B000206",
     "서울북부지방법원": "B000204",
     "서울서부지방법원": "B000207",
+    # 경기 (수원지방법원 계열)
+    "수원지방법원":           "B000301",
+    "수원지방법원 성남지원":  "B000302",
+    "수원지방법원 여주지원":  "B000303",
+    "수원지방법원 평택지원":  "B000304",
+    "수원지방법원 안산지원":  "B000306",
+    "수원지방법원 안양지원":  "B000307",
+    # 경기 (의정부지방법원 계열)
+    "의정부지방법원":         "B000401",
+    "의정부지방법원 고양지원":"B000402",
+    "의정부지방법원 남양주지원":"B000404",
+    # 인천
+    "인천지방법원":           "B000501",
+    "인천지방법원 부천지원":  "B000502",
 }
 
 HEADERS = {
@@ -125,7 +140,7 @@ def main():
     logger.info(f"스크래핑 시작: {to_kst_str()}")
     sess = get_session()
     all_new = []
-    for court_name, court_code in SEOUL_COURTS.items():
+    for court_name, court_code in COURTS.items():
         logger.info(f"[{court_name}] 검색 중...")
         items = search_court_auctions(sess, court_name, court_code)
         all_new.extend(items)

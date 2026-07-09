@@ -176,8 +176,8 @@
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-chip">✦ <span id="hero-date">-</span> 기준 최신 데이터</div>
-    <h1 class="hero-h1">서울 아파트<br><span class="light">경매 대시보드</span></h1>
-    <p class="hero-sub">매일 아침 서울 <strong>5개 법원</strong> 경매 매물을 자동 수집·분석<br>최저입찰가 <strong>4억 원 이상</strong> 아파트만 선별</p>
+    <h1 class="hero-h1">수도권 아파트<br><span class="light">경매 대시보드</span></h1>
+    <p class="hero-sub">매일 아침 서울·경기·인천 <strong>전체 법원</strong> 경매 매물을 자동 수집·분석<br>최저입찰가 <strong>4억 원 이상</strong> 아파트만 선별</p>
     <div class="hero-kpi">
       <div class="kpi"><div class="kpi-num" id="ks-total">-</div><div class="kpi-lbl">총 누적 물건</div></div>
       <div class="kpi"><div class="kpi-num" id="ks-today">-</div><div class="kpi-lbl">오늘 신규</div></div>
@@ -196,8 +196,20 @@
   <div class="fbar-left">
     <select class="fsel" id="fc-court">
       <option value="">전체 법원</option>
-      <option>서울중앙지방법원</option><option>서울동부지방법원</option>
-      <option>서울남부지방법원</option><option>서울북부지방법원</option><option>서울서부지방법원</option>
+      <optgroup label="서울">
+        <option>서울중앙지방법원</option><option>서울동부지방법원</option>
+        <option>서울남부지방법원</option><option>서울북부지방법원</option><option>서울서부지방법원</option>
+      </optgroup>
+      <optgroup label="경기">
+        <option>수원지방법원</option><option>수원지방법원 성남지원</option>
+        <option>수원지방법원 안양지원</option><option>수원지방법원 안산지원</option>
+        <option>수원지방법원 평택지원</option><option>수원지방법원 여주지원</option>
+        <option>의정부지방법원</option><option>의정부지방법원 고양지원</option>
+        <option>의정부지방법원 남양주지원</option>
+      </optgroup>
+      <optgroup label="인천">
+        <option>인천지방법원</option><option>인천지방법원 부천지원</option>
+      </optgroup>
     </select>
     <select class="fsel" id="fc-failed">
       <option value="">유찰 전체</option>
@@ -278,7 +290,7 @@ function applyF(){
   });
   pg=1;
   set('fc-cnt',FILT.length+'건');
-  renderCards(); renderPages(); loadCardImages();
+  renderCards(); renderPages();
 }
 
 function goToday(){ set('fc-date','today'); applyF(); scroll2(); }
@@ -313,7 +325,7 @@ function renderCards(){
       ddHtml=`<div class="badge-dday ${dc}">${days===0?'오늘!':'D-'+days}</div>`;
     }
     return `<div class="acard" onclick="openM(${ALL.indexOf(a)})">
-      <div class="acard-img" style="background:${grad(a)}" data-addr="${(a.address||'').replace(/"/g,'&quot;')}">
+      <div class="acard-img" style="background:${grad(a)}">
         ${isNew?'<div class="badge-new">NEW</div>':''}
         ${ddHtml}
         <span class="bg-district">${dist}</span>
@@ -349,7 +361,7 @@ function renderPages(){
 function goPg(n){
   const t=Math.ceil(FILT.length/PG);
   if(n<1||n>t)return;
-  pg=n; renderCards(); renderPages(); loadCardImages();
+  pg=n; renderCards(); renderPages();
   document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'});
 }
 
@@ -480,11 +492,11 @@ function getOpinion(a,roi){
   return `"현 최저가 기준 수익률이 낮다. 인근 실거래가를 재확인하고 매력도를 재평가하라."`;
 }
 function grad(a){
-  const r=a.bid_ratio||80,f=a.failed_bids||0;
-  if(r<50||f>=5)return'linear-gradient(135deg,#1e3a5f,#2563EB)';
-  if(r<70)return'linear-gradient(135deg,#14532d,#16a34a)';
-  if(r<85)return'linear-gradient(135deg,#78350f,#d97706)';
-  return'linear-gradient(135deg,#1A1A1A,#374151)';
+  // 양봉(수익권) = 초록, 음봉(손해권) = 빨강
+  const roi=calcROI(a);
+  return roi.rate>0
+    ?'linear-gradient(135deg,#064e3b,#059669)'   // 초록 양봉
+    :'linear-gradient(135deg,#7f1d1d,#dc2626)';  // 빨강 음봉
 }
 function getDist(a){ if(!a)return'서울'; const m=(a||'').match(/([가-힣]+구)/); return m?m[1].replace('구',''):'서울'; }
 function fmt(n){ if(!n)return'-'; if(n>=1e8)return(n/1e8).toFixed(1)+'억'; if(n>=1e4)return Math.round(n/1e4)+'만원'; return n.toLocaleString()+'원'; }
@@ -500,87 +512,17 @@ function demo(){
     {id:"2024타경198231",court:"서울남부지방법원",address:"서울특별시 강남구 대치동 은마아파트 8동 501호",appraisal:1200000000,min_bid:960000000,auction_date:"2026-07-18",failed_bids:1,scraped_date:t,bid_ratio:80.0},
     {id:"2025타경032118",court:"서울동부지방법원",address:"서울특별시 송파구 잠실동 주공아파트 5단지 1002호",appraisal:1500000000,min_bid:750000000,auction_date:"2026-07-22",failed_bids:3,scraped_date:t,bid_ratio:50.0},
     {id:"2025타경087654",court:"서울북부지방법원",address:"서울특별시 노원구 상계동 상계주공 13단지 304호",appraisal:650000000,min_bid:520000000,auction_date:"2026-07-25",failed_bids:2,scraped_date:t,bid_ratio:80.0},
+    {id:"2025타경334421",court:"수원지방법원 성남지원",address:"경기도 성남시 분당구 정자동 한솔마을 7단지 1201호",appraisal:1350000000,min_bid:810000000,auction_date:"2026-07-28",failed_bids:2,scraped_date:t,bid_ratio:60.0},
+    {id:"2025타경221089",court:"수원지방법원",address:"경기도 수원시 영통구 망포동 영통역힐스테이트 4단지 805호",appraisal:780000000,min_bid:624000000,auction_date:"2026-08-04",failed_bids:1,scraped_date:t,bid_ratio:80.0},
+    {id:"2024타경778812",court:"인천지방법원",address:"인천광역시 연수구 송도동 더샵퍼스트파크 2단지 2503호",appraisal:1100000000,min_bid:550000000,auction_date:"2026-08-07",failed_bids:4,scraped_date:t,bid_ratio:50.0},
     {id:"2025타경011223",court:"서울서부지방법원",address:"서울특별시 마포구 아현동 마포래미안푸르지오 2단지 1703호",appraisal:1100000000,min_bid:880000000,auction_date:"2026-08-05",failed_bids:1,scraped_date:t,bid_ratio:80.0},
-    {id:"2024타경556789",court:"서울중앙지방법원",address:"서울특별시 용산구 이촌동 한가람아파트 201동 1501호",appraisal:900000000,min_bid:720000000,auction_date:"2026-08-12",failed_bids:2,scraped_date:t,bid_ratio:80.0},
+    {id:"2025타경445632",court:"의정부지방법원 고양지원",address:"경기도 고양시 일산동구 장항동 킨텍스꿈에그린 1단지 1504호",appraisal:680000000,min_bid:544000000,auction_date:"2026-08-11",failed_bids:1,scraped_date:t,bid_ratio:80.0},
   ];
 }
 
 ['fc-court','fc-failed','fc-date'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
 document.getElementById('fc-q').addEventListener('input',applyF);
 document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeM(); });
-
-/* ── 위성사진 (Esri World Imagery) ── */
-const geoCache={};
-
-function cleanAddr(addr){
-  if(!addr)return '';
-  // 동+번지까지만 추출 (건물명·층·호 제거)
-  const m=addr.match(/(서울\S*\s+\S+구\s+\S+[동읍면리]\s+[\d-]+)/);
-  if(m)return m[1].trim();
-  return addr.split(' ').slice(0,4).join(' ');
-}
-
-async function geocodeAddress(addr){
-  const key=cleanAddr(addr);
-  if(!key)return null;
-  if(geoCache[key]!==undefined)return geoCache[key];
-  console.log('[geocode 시도]',key);
-  try{
-    const params=new URLSearchParams({q:key,format:'json',limit:'1',countrycodes:'kr'});
-    const res=await fetch('https://nominatim.openstreetmap.org/search?'+params,
-      {headers:{'Accept-Language':'ko'}});
-    const data=await res.json();
-    console.log('[geocode 결과]',key,'→',data.length>0?data[0].lat+','+data[0].lon:'없음');
-    if(data&&data.length>0){
-      const c={lat:parseFloat(data[0].lat),lng:parseFloat(data[0].lon)};
-      geoCache[key]=c; return c;
-    }
-  }catch(e){console.error('[geocode 오류]',e);}
-  geoCache[key]=null; return null;
-}
-
-function latLngToTile(lat,lng,z){
-  const n=1<<z;
-  const x=Math.floor((lng+180)/360*n);
-  const sinLat=Math.sin(lat*Math.PI/180);
-  const y=Math.floor((0.5-Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI))*n);
-  // fractional position within tile (for centering)
-  const fx=((lng+180)/360*n)-x;
-  const fy=((0.5-Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI))*n)-y;
-  return{x,y,fx,fy};
-}
-
-function esriUrl(lat,lng){
-  const z=17;
-  const{x,y}=latLngToTile(lat,lng,z);
-  return`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`;
-}
-
-async function loadCardImages(){
-  const cards=document.querySelectorAll('.acard-img[data-addr]');
-  console.log('[loadCardImages] 카드 수:',cards.length);
-  for(const el of cards){
-    const addr=el.getAttribute('data-addr');
-    if(!addr)continue;
-    const coords=await geocodeAddress(addr);
-    if(coords){
-      const{fx,fy}=latLngToTile(coords.lat,coords.lng,17);
-      const url=esriUrl(coords.lat,coords.lng);
-      console.log('[이미지 URL]',url);
-      // crossOrigin 제거 (CORS 불필요)
-      const img=new Image();
-      img.onload=()=>{
-        console.log('[이미지 성공]',url);
-        el.style.backgroundImage=`url("${url}")`;
-        el.style.backgroundSize='cover';
-        el.style.backgroundPosition=`${(fx*100).toFixed(1)}% ${(fy*100).toFixed(1)}%`;
-      };
-      img.onerror=()=>console.error('[이미지 실패]',url);
-      img.src=url;
-    }
-  }
-}
-
 init();
 </script>
 </body>
