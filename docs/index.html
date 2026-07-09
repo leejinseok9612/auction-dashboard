@@ -149,6 +149,12 @@
     .mbtn-dark { flex:1; background:var(--black); color:white; border:none; border-radius:12px; font-size:14px; font-weight:700; padding:15px; cursor:pointer; text-decoration:none; text-align:center; display:block; font-family:inherit; }
     .mbtn-light { flex:1; background:var(--gray-50); color:var(--black); border:1.5px solid var(--gray-200); border-radius:12px; font-size:14px; font-weight:700; padding:15px; cursor:pointer; font-family:inherit; }
 
+    /* ── TOAST ── */
+    .toast { position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--black); color:white; font-size:14px; font-weight:600; padding:14px 24px; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,0.25); opacity:0; pointer-events:none; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); z-index:999; white-space:nowrap; }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    .toast .t-case { color:var(--yellow); font-weight:800; margin:0 4px; }
+    .toast .t-step { display:block; font-size:12px; color:rgba(255,255,255,0.6); margin-top:3px; text-align:center; }
+
     /* ── FOOTER ── */
     footer { border-top:1px solid var(--gray-200); padding:24px 48px; text-align:center; font-size:12px; color:var(--gray-400); }
     footer a { color:var(--black); font-weight:700; text-decoration:none; }
@@ -251,6 +257,9 @@
 <div class="overlay" id="overlay" onclick="closeByBg(event)">
   <div class="modal" id="modal"></div>
 </div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <script>
 let ALL=[],FILT=[];
@@ -456,24 +465,29 @@ function closeByBg(e){ if(e.target===document.getElementById('overlay'))closeM()
 function closeM(){ document.getElementById('overlay').classList.remove('on'); document.body.style.overflow=''; }
 
 /* ── Helpers ── */
+let _toastTimer=null;
+function showToast(caseId, court){
+  const el=document.getElementById('toast');
+  el.innerHTML=`📋 사건번호 <span class="t-case">${caseId}</span> 복사됨!<span class="t-step">대법원 사이트 → 사건번호 검색란에 붙여넣기(Ctrl+V) 하세요</span>`;
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>el.classList.remove('show'),4000);
+}
 function openCourt(idx){
   const a=ALL[idx]; if(!a)return;
-  const m=(a.id||'').match(/^(\d{4})(타경|타기|타채)(\d+)/);
-  if(!m){window.open('https://www.courtauction.go.kr','_blank');return;}
-  const[,year,type,no]=m;
-  const form=document.createElement('form');
-  form.method='post';
-  form.action='https://www.courtauction.go.kr/RetrieveRealEstMulDetailInqSame.laf';
-  form.target='_blank';
-  form.style.display='none';
-  [['jiwonNm',a.court],['saCd',year+type],['saNo',no],['mulSer','1']].forEach(([n,val])=>{
-    const i=document.createElement('input');
-    i.type='hidden';i.name=n;i.value=val;
-    form.appendChild(i);
+  // 사건번호를 클립보드에 복사
+  const caseId=a.id||'';
+  navigator.clipboard.writeText(caseId).catch(()=>{
+    // clipboard API 실패 시 fallback
+    const tmp=document.createElement('textarea');
+    tmp.value=caseId; tmp.style.position='fixed'; tmp.style.opacity='0';
+    document.body.appendChild(tmp); tmp.select();
+    document.execCommand('copy'); document.body.removeChild(tmp);
   });
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
+  // 대법원 사이트 새 탭으로 열기
+  window.open('https://www.courtauction.go.kr','_blank');
+  // 토스트 알림
+  showToast(caseId, a.court);
 }
 function calcROI(a){
   const bid=a.min_bid||0, app=a.appraisal||bid*3;
