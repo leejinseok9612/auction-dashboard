@@ -87,6 +87,8 @@
     .c-yellow { color:#92400E; }
     .c-red { color:var(--red); }
     .c-black { color:var(--black); }
+    .card-link { display:block; margin-top:14px; padding:10px; background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:10px; text-align:center; font-size:12px; font-weight:700; color:var(--black); text-decoration:none; transition:all 0.2s; }
+    .card-link:hover { background:var(--black); color:white; border-color:var(--black); }
 
     /* ── EMPTY ── */
     .empty { grid-column:1/-1; text-align:center; padding:80px 20px; color:var(--gray-600); }
@@ -343,6 +345,7 @@ function renderCards(){
           <div class="metric"><div class="metric-lbl">최저입찰가</div><div class="metric-val c-green">${fmt(a.min_bid)}</div></div>
           <div class="metric"><div class="metric-lbl">낙찰가율</div><div class="metric-val ${rc(a.bid_ratio)}">${a.bid_ratio!=null?a.bid_ratio+'%':'-'}</div></div>
         </div>
+        <a class="card-link" href="${courtUrl(a)}" target="_blank" onclick="event.stopPropagation()">🏛️ 대법원 경매 상세 바로가기 →</a>
       </div>
     </div>`;
   }).join('');
@@ -440,7 +443,7 @@ function openM(idx){
       </div>
     </div>
     <div class="mfooter">
-      <a class="mbtn-dark" href="https://www.courtauction.go.kr" target="_blank">대법원 경매 사이트에서 상세 확인 →</a>
+      <a class="mbtn-dark" href="${courtUrl(a)}" target="_blank">대법원 경매 사이트에서 상세 확인 →</a>
       <button class="mbtn-light" onclick="closeM()">닫기</button>
     </div>`;
 
@@ -451,6 +454,14 @@ function closeByBg(e){ if(e.target===document.getElementById('overlay'))closeM()
 function closeM(){ document.getElementById('overlay').classList.remove('on'); document.body.style.overflow=''; }
 
 /* ── Helpers ── */
+function courtUrl(a){
+  if(!a||!a.id||!a.court)return'https://www.courtauction.go.kr';
+  const m=a.id.match(/^(\d{4})(타경|타기|타채)(\d+)/);
+  if(!m)return'https://www.courtauction.go.kr';
+  const[,year,type,no]=m;
+  const p=new URLSearchParams({jiwonNm:a.court,saCd:year+type,saNo:no,mulSer:'1'});
+  return`https://www.courtauction.go.kr/RetrieveRealEstMulDetailInqSame.laf?${p}`;
+}
 function calcROI(a){
   const bid=a.min_bid||0, app=a.appraisal||bid*3;
   const tax=bid<=600000000?bid*0.011:bid<=900000000?bid*0.025:bid*0.035;
