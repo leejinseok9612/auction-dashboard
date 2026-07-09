@@ -1,213 +1,161 @@
 """
 청약홈 분양정보 스크래퍼
 공공데이터포털 API: 한국부동산원_청약홈 분양정보 조회 서비스
-API Key 발급: https://www.data.go.kr/data/15098547/openapi.do
+Base URL: https://api.odcloud.kr/api
+API 키 발급: https://www.data.go.kr/data/15098547/openapi.do
 GitHub Secret 이름: CHEONGYAK_API_KEY
 """
 
 import os, json, requests, time
 from datetime import datetime, date
-from xml.etree import ElementTree as ET
 
 API_KEY   = os.environ.get("CHEONGYAK_API_KEY", "")
-BASE_URL  = "http://openapi.reb.or.kr/OpenAPI_ToolInstallPackage/service/rest/ApplyhomeInfoDetailSvc"
+BASE      = "https://api.odcloud.kr/api/ApplyhomeInfoDetailSvc/v1"
 TODAY_STR = date.today().isoformat()
 
-# 주택 구분 코드 → 모든 타입
-HOUSE_TYPES = {
-    "01": "APT",
-    "03": "오피스텔",
-    "04": "도시형",
-    "05": "민간임대",
-    "06": "공공임대",
-}
+# 수집할 엔드포인트 목록
+ENDPOINTS = [
+    ("getAPTLttotPblancDetail",          "APT"),
+    ("getUrbtyOfctlLttotPblancDetail",   "오피스텔/도시형"),
+    ("getRemndrLttotPblancDetail",       "무순위/잔여"),
+    ("getPblPvtRentLttotPblancDetail",   "공공지원민간임대"),
+]
 
-ENDPOINTS = {
-    "APT":    "getAPTLttotPblancDetail",
-    "오피스텔":  "getULttotPblancDetail",
-    "도시형":   "getULttotPblancDetail",
-    "무순위":   "getNHULttotPblancDetail",
-}
-
-def fetch_apt(page=1, rows=100):
-    """아파트 분양정보 조회"""
-    url = f"{BASE_URL}/getAPTLttotPblancDetail"
+def fetch_page(endpoint, page=1, per_page=100):
+    url = f"{BASE}/{endpoint}"
     params = {
         "serviceKey": API_KEY,
-        "pageNo":     page,
-        "numOfRows":  rows,
+        "page":       page,
+        "perPage":    per_page,
     }
     try:
-        r = requests.get(url, params=params, timeout=15)
+        r = requests.get(url, params=params, timeout=20)
         r.raise_for_status()
-        return parse_xml(r.text, "APT")
+        data = r.json()
+        return data.get("data", []), data.get("totalCount", 0)
     except Exception as e:
-        print(f"[APT] 조회 실패: {e}")
-        return []
+        print(f"  [{endpoint}] 페이지 {page} 실패: {e}")
+        return [], 0
 
-def fetch_etc(page=1, rows=100):
-    """오피스텔·도시형 분양정보 조회"""
-    url = f"{BASE_URL}/getULttotPblancDetail"
-    params = {
-        "serviceKey": API_KEY,
-        "pageNo":     page,
-        "numOfRows":  rows,
+def parse_item(raw, house_type):
+    """공공데이터 JSON → 통일 dict"""
+    def g(k): return (raw.get(k) or "").strip()
+
+    # 날짜 정규화 (YYYYMMDD → YYYY-MM-DD)
+    def fd(s):
+        s = s.replace("-","").replace(".","").replace("/","")
+        if len(s)==8:
+            try: return datetime.strptime(s,"%Y%m%d").strftime("%Y-%m-%d")
+            except: pass
+        return s
+
+    start = fd(g("청약접수시작일") or g("SUBSCRPT_RCEPT_BGNDE"))
+    end   = fd(g("청약접수종료일") or g("SUBSCRPT_RCEPT_ENDDE"))
+
+    # 상태 계산
+    try:
+        ed = date.fromisoformat(end)
+        sd = date.fromisoformat(start)
+        today = date.today()
+        if ed < today:   status = "마감"
+        elif sd <= today: status = "청약중"
+        else:             status = "청약예정"
+    except:
+        status = "미정"
+
+    # 분양가 (만원 단위)
+    def price_int(k):
+        try: return int(str(raw.get(k,"0")).replace(",","").replace("만원","") or 0)
+        except: return 0
+
+    region  = g("공급지역명") or g("SUBSCRPT_AREA_CODE_NM")
+    address = g("공급위치")   or g("HSSPLY_ADRES")
+    name    = g("주택명")     or g("HOUSE_NM")
+    builder = g("사업주체명") or g("BSNS_MBY_NM")
+    htype   = g("주택구분")   or g("HOUSE_SECD_NM") or house_type
+
+    # district: address 두 번째 단어
+    parts    = address.split()
+    district = parts[1] if len(parts) > 1 else ""
+
+    return {
+        "id":            g("공고번호") or g("PBLANC_NO") or name+start,
+        "name":          name,
+        "type":          htype,
+        "builder":       builder,
+        "region":        region,
+        "district":      district,
+        "address":       address,
+        "supply_count":  int(g("공급세대수") or g("TOT_SUPLY_HSHLDCO") or 0),
+        "price_min":     price_int("최저분양가"),
+        "price_max":     price_int("최고분양가") or price_int("분양가상한액"),
+        "announce_date": fd(g("모집공고일") or g("RCRIT_PBLANC_DE")),
+        "start_date":    start,
+        "end_date":      end,
+        "win_date":      fd(g("당첨자발표일") or g("PRZWNER_PRESNATN_DE")),
+        "move_in":       g("입주예정월") or g("MVIN_PREARNGE_YM"),
+        "status":        status,
+        "url":           g("홈페이지주소") or g("HMPG_ADRES") or "https://www.applyhome.co.kr",
+        "scraped_date":  TODAY_STR,
     }
-    try:
-        r = requests.get(url, params=params, timeout=15)
-        r.raise_for_status()
-        return parse_xml(r.text, "오피스텔/도시형")
-    except Exception as e:
-        print(f"[ETC] 조회 실패: {e}")
-        return []
-
-def parse_xml(xml_text, house_type):
-    """XML 파싱 → 공통 dict 변환"""
-    items = []
-    try:
-        root = ET.fromstring(xml_text)
-        for item in root.iter("item"):
-            def g(tag):
-                el = item.find(tag)
-                return el.text.strip() if el is not None and el.text else ""
-
-            # 분양가 (만원 단위로 저장)
-            price_max_raw = g("LTTOT_TOP_AMOUNT") or g("HOUSE_SUPLY_AMOUNT")
-            try:
-                price_max = int(price_max_raw.replace(",", ""))
-            except:
-                price_max = 0
-
-            # 접수일자
-            start_raw = g("SUBSCRPT_RCEPT_BGNDE")
-            end_raw   = g("SUBSCRPT_RCEPT_ENDDE")
-
-            # 마감 여부 판단
-            try:
-                end_date = datetime.strptime(end_raw, "%Y%m%d").date()
-                status = "마감" if end_date < date.today() else (
-                    "청약중" if datetime.strptime(start_raw, "%Y%m%d").date() <= date.today() else "청약예정"
-                )
-            except:
-                status = "미정"
-
-            def fmt_date(raw):
-                try:
-                    return datetime.strptime(raw, "%Y%m%d").strftime("%Y-%m-%d")
-                except:
-                    return raw
-
-            # 지역 파싱
-            region    = g("SUBSCRPT_AREA_CODE_NM") or g("SIDO")
-            address   = g("HSSPLY_ADRES")
-            district  = ""
-            if address:
-                parts = address.split()
-                district = parts[1] if len(parts) > 1 else ""
-
-            items.append({
-                "id":            g("PBLANC_NO") or g("HOUSE_MANAGE_NO"),
-                "name":          g("HOUSE_NM"),
-                "type":          g("HOUSE_SECD_NM") or house_type,
-                "builder":       g("BSNS_MBY_NM"),
-                "region":        region,
-                "district":      district,
-                "address":       address,
-                "supply_count":  int(g("TOT_SUPLY_HSHLDCO") or 0),
-                "price_min":     0,
-                "price_max":     price_max,
-                "announce_date": fmt_date(g("RCRIT_PBLANC_DE")),
-                "start_date":    fmt_date(start_raw),
-                "end_date":      fmt_date(end_raw),
-                "win_date":      fmt_date(g("PRZWNER_PRESNATN_DE")),
-                "move_in":       g("MVIN_PREARNGE_YM"),
-                "status":        status,
-                "url":           g("HMPG_ADRES") or "https://www.applyhome.co.kr",
-                "scraped_date":  TODAY_STR,
-            })
-    except Exception as e:
-        print(f"XML 파싱 오류: {e}")
-    return items
 
 def run():
     if not API_KEY:
-        print("❌ CHEONGYAK_API_KEY 환경변수가 없습니다.")
-        print("   → data.go.kr에서 API 키를 발급받고 GitHub Secret에 추가하세요.")
-        print("   → https://www.data.go.kr/data/15098547/openapi.do")
+        print("❌ CHEONGYAK_API_KEY 환경변수 없음")
+        print("   → GitHub Settings > Secrets 에 CHEONGYAK_API_KEY 추가 필요")
         return
 
-    print("▶ 청약 데이터 수집 시작...")
+    print(f"▶ 청약 데이터 수집 시작 ({TODAY_STR})")
     all_items = []
 
-    # APT
-    print("  아파트 분양정보 수집 중...")
-    pg = 1
-    while True:
-        batch = fetch_apt(page=pg, rows=100)
-        if not batch:
-            break
-        all_items.extend(batch)
-        print(f"    page {pg}: {len(batch)}건")
-        if len(batch) < 100:
-            break
-        pg += 1
-        time.sleep(0.5)
+    for endpoint, htype in ENDPOINTS:
+        print(f"\n  [{htype}] {endpoint}")
+        pg = 1
+        while True:
+            items_raw, total = fetch_page(endpoint, page=pg)
+            if not items_raw:
+                break
+            parsed = [parse_item(r, htype) for r in items_raw]
+            # 마감 제외 (현재 + 예정만 수집)
+            active = [p for p in parsed if p["status"] != "마감"]
+            all_items.extend(active)
+            print(f"    page {pg}: {len(items_raw)}건 수신, {len(active)}건 유효 (전체 {total}건)")
+            if len(items_raw) < 100 or pg * 100 >= total:
+                break
+            pg += 1
+            time.sleep(0.3)
 
-    # 오피스텔·도시형
-    print("  오피스텔/도시형 분양정보 수집 중...")
-    pg = 1
-    while True:
-        batch = fetch_etc(page=pg, rows=100)
-        if not batch:
-            break
-        all_items.extend(batch)
-        print(f"    page {pg}: {len(batch)}건")
-        if len(batch) < 100:
-            break
-        pg += 1
-        time.sleep(0.5)
-
-    # 중복 제거
-    seen = set()
-    unique = []
+    # 중복 제거 (id 기준)
+    seen = {}
     for item in all_items:
         key = item["id"] or item["name"]
-        if key and key not in seen:
-            seen.add(key)
-            unique.append(item)
+        if key not in seen:
+            seen[key] = item
+    unique = list(seen.values())
 
-    # 마감 제외 (최근 30일 마감 포함)
-    active = [i for i in unique if i["status"] != "마감"]
-
-    print(f"\n✅ 총 {len(all_items)}건 수집 → 중복 제거 후 {len(unique)}건 → 유효 {len(active)}건")
-
-    # 기존 데이터 병합 (누적)
+    # 기존 데이터와 병합
     out_path = "data/cheongyak.json"
-    existing = []
+    existing_map = {}
     try:
         with open(out_path, "r", encoding="utf-8") as f:
-            existing = json.load(f).get("subscriptions", [])
+            for e in json.load(f).get("subscriptions", []):
+                if e.get("id"):
+                    existing_map[e["id"]] = e
     except:
         pass
 
-    # 기존 중 최근 7일 내 scraped_date만 유지 + 오늘 데이터로 업데이트
-    existing_map = {e["id"]: e for e in existing if e.get("id")}
-    for item in active:
+    for item in unique:
         existing_map[item["id"]] = item
 
     merged = sorted(existing_map.values(),
                     key=lambda x: x.get("start_date",""), reverse=True)
 
-    result = {
-        "updated": TODAY_STR,
-        "subscriptions": merged
-    }
-
     os.makedirs("data", exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
+        json.dump({"updated": TODAY_STR, "subscriptions": merged},
+                  f, ensure_ascii=False, indent=2)
 
-    print(f"💾 {out_path} 저장 완료 ({len(merged)}건)")
+    print(f"\n✅ 저장 완료: {out_path} ({len(merged)}건)")
 
 if __name__ == "__main__":
     run()
