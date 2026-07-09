@@ -509,13 +509,12 @@ function demo(){
 document.getElementById('fc-q').addEventListener('input',applyF);
 document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeM(); });
 
-/* ── 카카오맵 위성사진 (REST API) ── */
-const KAKAO_REST='11ec4544582ca5c298ff59e6f0feb080';
+/* ── 카카오맵 위성사진 ── */
+const KAKAO_JS='fb4b539cf2855399d173b666f110f1e8';
 const geoCache={};
 
 function cleanAddr(addr){
   if(!addr)return '';
-  // 층/호 이후 제거, 건물명까지만
   return addr.replace(/\s+\d+층.*$/,'').replace(/\s+\d+동\s+\d+호.*/,'').trim();
 }
 
@@ -524,20 +523,21 @@ async function geocodeAddress(addr){
   if(!key)return null;
   if(geoCache[key]!==undefined)return geoCache[key];
   try{
-    const url='https://dapi.kakao.com/v2/local/search/address.json?query='+encodeURIComponent(key);
-    const res=await fetch(url,{headers:{'Authorization':'KakaoAK '+KAKAO_REST}});
+    const params=new URLSearchParams({q:key,format:'json',limit:'1',countrycodes:'kr'});
+    const res=await fetch('https://nominatim.openstreetmap.org/search?'+params,
+      {headers:{'Accept-Language':'ko','User-Agent':'AuctionDashboard/1.0'}});
     const data=await res.json();
-    if(data.documents&&data.documents.length>0){
-      const c={lat:parseFloat(data.documents[0].y),lng:parseFloat(data.documents[0].x)};
+    if(data&&data.length>0){
+      const c={lat:parseFloat(data[0].lat),lng:parseFloat(data[0].lon)};
       geoCache[key]=c; return c;
     }
-  }catch(e){ console.error('geocode error',e); }
+  }catch(e){console.error('geocode error',e);}
   geoCache[key]=null; return null;
 }
 
 function skyUrl(lat,lng){
   const m=encodeURIComponent(`type:circle|pos:${lng} ${lat}|size:medium|color:red`);
-  return `https://dapi.kakao.com/v2/maps/staticmap?appkey=${KAKAO_REST}&center=${lng},${lat}&level=3&size=600x380&map_type=skyview&markers=${m}`;
+  return `https://dapi.kakao.com/v2/maps/staticmap?appkey=${KAKAO_JS}&center=${lng},${lat}&level=3&size=600x380&map_type=skyview&markers=${m}`;
 }
 
 async function loadCardImages(){
@@ -547,10 +547,14 @@ async function loadCardImages(){
     if(!addr)continue;
     const coords=await geocodeAddress(addr);
     if(coords){
-      el.style.transition='background 0.4s ease';
-      el.style.backgroundImage=`url("${skyUrl(coords.lat,coords.lng)}")`;
-      el.style.backgroundSize='cover';
-      el.style.backgroundPosition='center';
+      const url=skyUrl(coords.lat,coords.lng);
+      const img=new Image();
+      img.onload=()=>{
+        el.style.backgroundImage=`url("${url}")`;
+        el.style.backgroundSize='cover';
+        el.style.backgroundPosition='center';
+      };
+      img.src=url;
     }
   }
 }
