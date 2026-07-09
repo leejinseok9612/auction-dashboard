@@ -509,8 +509,7 @@ function demo(){
 document.getElementById('fc-q').addEventListener('input',applyF);
 document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeM(); });
 
-/* ── 카카오맵 위성사진 ── */
-const KAKAO_JS='fb4b539cf2855399d173b666f110f1e8';
+/* ── 위성사진 (Esri World Imagery - 무료, 인증 불필요) ── */
 const geoCache={};
 
 function cleanAddr(addr){
@@ -525,19 +524,31 @@ async function geocodeAddress(addr){
   try{
     const params=new URLSearchParams({q:key,format:'json',limit:'1',countrycodes:'kr'});
     const res=await fetch('https://nominatim.openstreetmap.org/search?'+params,
-      {headers:{'Accept-Language':'ko','User-Agent':'AuctionDashboard/1.0'}});
+      {headers:{'Accept-Language':'ko'}});
     const data=await res.json();
     if(data&&data.length>0){
       const c={lat:parseFloat(data[0].lat),lng:parseFloat(data[0].lon)};
       geoCache[key]=c; return c;
     }
-  }catch(e){console.error('geocode error',e);}
+  }catch(e){console.error('geocode:',e);}
   geoCache[key]=null; return null;
 }
 
-function skyUrl(lat,lng){
-  const m=encodeURIComponent(`type:circle|pos:${lng} ${lat}|size:medium|color:red`);
-  return `https://dapi.kakao.com/v2/maps/staticmap?appkey=${KAKAO_JS}&center=${lng},${lat}&level=3&size=600x380&map_type=skyview&markers=${m}`;
+function latLngToTile(lat,lng,z){
+  const n=1<<z;
+  const x=Math.floor((lng+180)/360*n);
+  const sinLat=Math.sin(lat*Math.PI/180);
+  const y=Math.floor((0.5-Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI))*n);
+  // fractional position within tile (for centering)
+  const fx=((lng+180)/360*n)-x;
+  const fy=((0.5-Math.log((1+sinLat)/(1-sinLat))/(4*Math.PI))*n)-y;
+  return{x,y,fx,fy};
+}
+
+function esriUrl(lat,lng){
+  const z=17;
+  const{x,y}=latLngToTile(lat,lng,z);
+  return`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`;
 }
 
 async function loadCardImages(){
@@ -547,13 +558,16 @@ async function loadCardImages(){
     if(!addr)continue;
     const coords=await geocodeAddress(addr);
     if(coords){
-      const url=skyUrl(coords.lat,coords.lng);
+      const{fx,fy}=latLngToTile(coords.lat,coords.lng,17);
+      const url=esriUrl(coords.lat,coords.lng);
       const img=new Image();
+      img.crossOrigin='anonymous';
       img.onload=()=>{
         el.style.backgroundImage=`url("${url}")`;
         el.style.backgroundSize='cover';
-        el.style.backgroundPosition='center';
+        el.style.backgroundPosition=`${(fx*100).toFixed(1)}% ${(fy*100).toFixed(1)}%`;
       };
+      img.onerror=()=>console.warn('이미지 로드 실패:',url);
       img.src=url;
     }
   }
