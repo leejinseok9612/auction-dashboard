@@ -2,7 +2,10 @@ name: 청약 데이터 자동 수집
 
 on:
   schedule:
-    - cron: '30 0 * * 1-5'   # 평일 오전 9시 30분 (KST = UTC+9)
+    - cron: '30 0 * * 1-5'   # 평일 오전 9시 30분 (KST)
+    - cron: '30 3 * * 1-5'   # 평일 오후 12시 30분 (KST)
+    - cron: '30 6 * * 1-5'   # 평일 오후 3시 30분 (KST)
+    - cron: '30 9 * * 1-5'   # 평일 오후 6시 30분 (KST)
   workflow_dispatch:           # 수동 실행 가능
 
 jobs:

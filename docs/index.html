@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>수도권 경매·청약 대시보드</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -35,15 +37,21 @@
     /* ── 청약 CARD ── */
     .cy-card { background:white; border:1.5px solid var(--gray-200); border-radius:18px; overflow:hidden; cursor:pointer; transition:all 0.25s; }
     .cy-card:hover { border-color:var(--blue); box-shadow:0 10px 40px rgba(37,99,235,0.12); transform:translateY(-3px); }
-    .cy-hdr { height:150px; position:relative; display:flex; align-items:flex-end; padding:16px; }
-    .cy-hdr .bg-district { position:absolute; bottom:-12px; right:14px; font-size:52px; font-weight:900; color:rgba(255,255,255,0.18); line-height:1; user-select:none; }
-    .cy-status { position:absolute; top:14px; right:14px; font-size:11px; font-weight:800; padding:4px 11px; border-radius:20px; z-index:2; letter-spacing:0.3px; }
-    .cy-status.open  { background:rgba(22,163,74,0.88);  color:white; }
-    .cy-status.soon  { background:rgba(37,99,235,0.88);  color:white; }
-    .cy-status.done  { background:rgba(107,114,128,0.70); color:white; }
-    .cy-builder { position:absolute; top:14px; left:14px; font-size:11px; font-weight:800; padding:4px 11px; border-radius:20px; background:rgba(255,255,255,0.25); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.4); color:white; z-index:2; }
-    .cy-hdr-pills { display:flex; gap:8px; position:relative; z-index:1; }
-    .cy-pill { background:rgba(255,255,255,0.22); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.35); border-radius:7px; color:white; font-size:12px; font-weight:700; padding:4px 11px; }
+    .cy-hdr { height:160px; position:relative; overflow:hidden; }
+    .cy-hdr-map { width:100%; height:100%; z-index:0; }
+    .cy-hdr-fallback { width:100%; height:100%; display:flex; align-items:flex-end; padding:16px; }
+    .cy-hdr-overlay { position:absolute; inset:0; pointer-events:none; z-index:10; }
+    .cy-status { position:absolute; top:12px; right:12px; font-size:11px; font-weight:800; padding:4px 11px; border-radius:20px; z-index:11; letter-spacing:0.3px; }
+    .cy-status.open { background:rgba(22,163,74,0.92); color:white; }
+    .cy-status.soon { background:rgba(37,99,235,0.92); color:white; }
+    .cy-status.done { background:rgba(107,114,128,0.80); color:white; }
+    .cy-builder { position:absolute; top:12px; left:12px; font-size:11px; font-weight:800; padding:4px 11px; border-radius:20px; background:rgba(0,0,0,0.55); backdrop-filter:blur(4px); color:white; z-index:11; }
+    .cy-comp { position:absolute; bottom:10px; left:12px; display:flex; gap:6px; z-index:11; }
+    .cy-comp-pill { background:rgba(0,0,0,0.62); backdrop-filter:blur(4px); border-radius:7px; color:white; font-size:11px; font-weight:700; padding:3px 9px; line-height:1.4; }
+    .cy-comp-pill .comp-label { color:rgba(255,255,255,0.65); font-size:10px; }
+    .cy-comp-pill .comp-rate { color:#FCD34D; }
+    .cy-hdr-pills { position:absolute; bottom:10px; right:12px; display:flex; gap:6px; z-index:11; }
+    .cy-pill { background:rgba(0,0,0,0.55); backdrop-filter:blur(4px); border-radius:7px; color:white; font-size:11px; font-weight:700; padding:3px 9px; }
     .cy-body { padding:18px 20px; }
     .cy-region { font-size:11px; font-weight:700; color:var(--gray-600); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
     .cy-name { font-size:15px; font-weight:700; letter-spacing:-0.3px; line-height:1.3; margin-bottom:14px; }
@@ -53,6 +61,9 @@
     .cy-val { font-weight:700; }
     .cy-link { display:block; margin-top:14px; padding:10px; background:var(--blue-bg); border:1.5px solid #BFDBFE; border-radius:10px; text-align:center; font-size:12px; font-weight:700; color:var(--blue); cursor:pointer; transition:all 0.2s; font-family:inherit; width:100%; }
     .cy-link:hover { background:var(--blue); color:white; }
+    /* Leaflet 내 pointer-events 제한 (카드 클릭 방해 방지) */
+    .cy-hdr-map .leaflet-control { display:none; }
+    .cy-hdr-map .leaflet-pane { pointer-events:none; }
 
     /* 청약 FILTER */
     .cy-fbar { background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200); padding:14px 48px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
@@ -726,6 +737,7 @@ function resetCyF(){
 }
 
 function renderCyCards(){
+  destroyCyMaps();
   const grid=document.getElementById('cy-grid');
   const slice=CY_FILT.slice((cy_pg-1)*CY_PG, cy_pg*CY_PG);
   if(!slice.length){
@@ -734,18 +746,29 @@ function renderCyCards(){
   }
   grid.innerHTML=slice.map(a=>{
     const statusCls = a.status==='청약중'?'open':a.status==='청약예정'?'soon':'done';
-    const grad = cyGrad(a);
-    const regionShort=(a.region||'').replace('특별시','').replace('광역시','').replace('특별자치시','').replace('도','').replace('특별자치도','');
-    const priceStr = a.price_max? fmtMan(a.price_max)+'~' : '-';
-    const period = (a.start_date&&a.end_date)?`${a.start_date.slice(5)} ~ ${a.end_date.slice(5)}`:'-';
+    const priceStr  = a.price_max ? fmtMan(a.price_max) : '-';
+    const period    = (a.start_date&&a.end_date)?`${a.start_date.slice(5)} ~ ${a.end_date.slice(5)}`:'-';
+    const comp      = a.competition||{};
+    const compKeys  = Object.keys(comp);
+    const compHtml  = compKeys.length
+      ? compKeys.slice(0,2).map(k=>`<span class="cy-comp-pill"><span class="comp-label">${k} </span><span class="comp-rate">${Number(comp[k]).toFixed(1)}:1</span></span>`).join('')
+      : '';
+    // 지도 vs 폴백 그라디언트
+    const hasMap = a.lat && a.lng;
+    const hdrInner = hasMap
+      ? `<div class="cy-hdr-map" id="cymap-${a.id.replace(/[^a-zA-Z0-9]/g,'_')}"></div>`
+      : `<div class="cy-hdr-fallback" style="background:${cyGrad(a)}"></div>`;
     return `<div class="cy-card" onclick="openCyM('${a.id}')">
-      <div class="cy-hdr" style="background:${grad}">
-        <span class="cy-builder">${a.builder||'-'}</span>
-        <span class="cy-status ${statusCls}">${a.status||'-'}</span>
-        <span class="bg-district">${regionShort}</span>
-        <div class="cy-hdr-pills">
-          <span class="cy-pill">${a.type||'APT'}</span>
-          <span class="cy-pill">${(a.supply_count||0).toLocaleString()}세대</span>
+      <div class="cy-hdr">
+        ${hdrInner}
+        <div class="cy-hdr-overlay">
+          <span class="cy-builder">${a.builder||'-'}</span>
+          <span class="cy-status ${statusCls}">${a.status||'-'}</span>
+          ${compHtml?`<div class="cy-comp">${compHtml}</div>`:''}
+          <div class="cy-hdr-pills">
+            <span class="cy-pill">${a.type||'APT'}</span>
+            <span class="cy-pill">${(a.supply_count||0).toLocaleString()}세대</span>
+          </div>
         </div>
       </div>
       <div class="cy-body">
@@ -761,6 +784,8 @@ function renderCyCards(){
     </div>`;
   }).join('');
   renderCyPages();
+  // 지도 초기화 (DOM 삽입 후 실행)
+  setTimeout(()=>initCyMaps(slice), 50);
 }
 
 function renderCyPages(){
@@ -780,7 +805,35 @@ function goCyPg(n){
   document.getElementById('cy-wrap').scrollIntoView({behavior:'smooth'});
 }
 
-let CY_MAP={};
+/* ── Leaflet 미니맵 ── */
+let cy_maps={};
+function destroyCyMaps(){
+  Object.values(cy_maps).forEach(m=>{try{m.remove();}catch(e){}});
+  cy_maps={};
+}
+function initCyMaps(items){
+  items.forEach(a=>{
+    if(!a.lat||!a.lng)return;
+    const elId='cymap-'+a.id.replace(/[^a-zA-Z0-9]/g,'_');
+    const el=document.getElementById(elId);
+    if(!el||cy_maps[a.id])return;
+    try{
+      const m=L.map(el,{
+        center:[a.lat,a.lng],zoom:15,
+        zoomControl:false,attributionControl:false,
+        dragging:false,scrollWheelZoom:false,
+        keyboard:false,boxZoom:false,doubleClickZoom:false,
+        tap:false
+      });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(m);
+      L.circleMarker([a.lat,a.lng],{
+        radius:8,fillColor:'#2563EB',color:'white',weight:2,fillOpacity:1
+      }).addTo(m);
+      cy_maps[a.id]=m;
+    }catch(e){}
+  });
+}
+
 function openCyM(id){
   const a=CY_ALL.find(x=>x.id===id); if(!a)return;
   const grad=cyGrad(a);
@@ -815,11 +868,25 @@ function openCyM(id){
           <div class="irow"><span class="ik">입주 예정</span><span class="iv">${a.move_in||'-'}</span></div>
           <div class="irow"><span class="ik">상태</span><span class="iv"><span class="cy-status ${statusCls}" style="position:static;font-size:12px;padding:3px 10px">${a.status||'-'}</span></span></div>
         </div>
-        <div class="iblock full">
+        <div class="iblock">
           <div class="iblock-ttl">💰 분양가 정보</div>
-          <div class="irow"><span class="ik">최고분양가 (만원)</span><span class="iv c-blue">${a.price_max?fmtMan(a.price_max):'-'}</span></div>
-          <div class="irow"><span class="ik">최저분양가 (만원)</span><span class="iv">${a.price_min?fmtMan(a.price_min):'-'}</span></div>
-          <div class="irow" style="border:none;padding-top:12px"><span class="ik" style="font-size:12px;color:var(--gray-400)">※ 분양가는 세대 타입별 상이, 청약홈에서 정확한 금액 확인 필요</span></div>
+          <div class="irow"><span class="ik">최고분양가</span><span class="iv c-blue">${a.price_max?fmtMan(a.price_max):'-'}</span></div>
+          <div class="irow"><span class="ik">최저분양가</span><span class="iv">${a.price_min?fmtMan(a.price_min):'-'}</span></div>
+          <div class="irow" style="border:none"><span class="ik" style="font-size:11px;color:var(--gray-400)">※ 세대 타입별 상이, 청약홈에서 확인</span></div>
+        </div>
+        <div class="iblock">
+          <div class="iblock-ttl">📊 청약 경쟁률</div>
+          ${(()=>{
+            const comp=a.competition||{};
+            const keys=Object.keys(comp);
+            if(!keys.length) return `<div class="irow" style="border:none"><span class="ik">경쟁률 데이터 없음</span><span class="iv" style="color:var(--gray-400)">청약 전 또는 미집계</span></div>`;
+            return keys.map(k=>{
+              const rate=Number(comp[k]);
+              const cls=rate>=10?'c-red':rate>=5?'c-yellow':'c-green';
+              return `<div class="irow"><span class="ik">${k}</span><span class="iv ${cls}">${rate.toFixed(1)} : 1</span></div>`;
+            }).join('');
+          })()}
+          <div class="irow" style="border:none;padding-top:4px"><span class="ik" style="font-size:11px;color:var(--gray-400)">※ 하루 4회 자동 갱신</span></div>
         </div>
       </div>
     </div>
