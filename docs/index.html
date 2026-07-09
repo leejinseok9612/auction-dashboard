@@ -509,28 +509,33 @@ function demo(){
 document.getElementById('fc-q').addEventListener('input',applyF);
 document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeM(); });
 
-/* ── 위성사진 (Esri World Imagery - 무료, 인증 불필요) ── */
+/* ── 위성사진 (Esri World Imagery) ── */
 const geoCache={};
 
 function cleanAddr(addr){
   if(!addr)return '';
-  return addr.replace(/\s+\d+층.*$/,'').replace(/\s+\d+동\s+\d+호.*/,'').trim();
+  // 동+번지까지만 추출 (건물명·층·호 제거)
+  const m=addr.match(/(서울\S*\s+\S+구\s+\S+[동읍면리]\s+[\d-]+)/);
+  if(m)return m[1].trim();
+  return addr.split(' ').slice(0,4).join(' ');
 }
 
 async function geocodeAddress(addr){
   const key=cleanAddr(addr);
   if(!key)return null;
   if(geoCache[key]!==undefined)return geoCache[key];
+  console.log('[geocode 시도]',key);
   try{
     const params=new URLSearchParams({q:key,format:'json',limit:'1',countrycodes:'kr'});
     const res=await fetch('https://nominatim.openstreetmap.org/search?'+params,
       {headers:{'Accept-Language':'ko'}});
     const data=await res.json();
+    console.log('[geocode 결과]',key,'→',data.length>0?data[0].lat+','+data[0].lon:'없음');
     if(data&&data.length>0){
       const c={lat:parseFloat(data[0].lat),lng:parseFloat(data[0].lon)};
       geoCache[key]=c; return c;
     }
-  }catch(e){console.error('geocode:',e);}
+  }catch(e){console.error('[geocode 오류]',e);}
   geoCache[key]=null; return null;
 }
 
@@ -553,6 +558,7 @@ function esriUrl(lat,lng){
 
 async function loadCardImages(){
   const cards=document.querySelectorAll('.acard-img[data-addr]');
+  console.log('[loadCardImages] 카드 수:',cards.length);
   for(const el of cards){
     const addr=el.getAttribute('data-addr');
     if(!addr)continue;
@@ -560,14 +566,16 @@ async function loadCardImages(){
     if(coords){
       const{fx,fy}=latLngToTile(coords.lat,coords.lng,17);
       const url=esriUrl(coords.lat,coords.lng);
+      console.log('[이미지 URL]',url);
+      // crossOrigin 제거 (CORS 불필요)
       const img=new Image();
-      img.crossOrigin='anonymous';
       img.onload=()=>{
+        console.log('[이미지 성공]',url);
         el.style.backgroundImage=`url("${url}")`;
         el.style.backgroundSize='cover';
         el.style.backgroundPosition=`${(fx*100).toFixed(1)}% ${(fy*100).toFixed(1)}%`;
       };
-      img.onerror=()=>console.warn('이미지 로드 실패:',url);
+      img.onerror=()=>console.error('[이미지 실패]',url);
       img.src=url;
     }
   }
