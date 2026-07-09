@@ -199,15 +199,16 @@ def run():
     print("\n  [경쟁률 조회]")
     comp_map = fetch_competition()
 
-    # ── 지오코딩 (새 항목만) ────────────────────────────────
+    # ── 지오코딩 (새 항목만, 1회 최대 20개) ─────────────────
     new_items = [i for i in all_items if i["id"] not in existing_map or
                  not existing_map[i["id"]].get("lat")]
-    print(f"\n  [지오코딩] 새 항목 {len(new_items)}건 (약 {len(new_items)*1.2:.0f}초 소요)")
-    for i, item in enumerate(new_items):
+    geo_batch = new_items[:20]   # 1회 실행당 최대 20개 (약 24초)
+    print(f"\n  [지오코딩] 새 항목 {len(new_items)}건 중 {len(geo_batch)}건 처리")
+    for i, item in enumerate(geo_batch):
         lat, lng = geocode(item["address"])
         item["lat"] = lat
         item["lng"] = lng
-        if lat: print(f"    {i+1}/{len(new_items)} {item['name'][:20]} → ({lat}, {lng})")
+        if lat: print(f"    {i+1}/{len(geo_batch)} {item['name'][:20]} → ({lat}, {lng})")
 
     # ── 병합 ───────────────────────────────────────────────
     for item in all_items:
