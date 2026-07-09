@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>서울 아파트 경매 대시보드</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=fb4b539cf2855399d173b666f110f1e8&libraries=services&autoload=false"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -278,7 +279,7 @@ function applyF(){
   });
   pg=1;
   set('fc-cnt',FILT.length+'건');
-  renderCards(); renderPages();
+  renderCards(); renderPages(); loadCardImages();
 }
 
 function goToday(){ set('fc-date','today'); applyF(); scroll2(); }
@@ -313,7 +314,7 @@ function renderCards(){
       ddHtml=`<div class="badge-dday ${dc}">${days===0?'오늘!':'D-'+days}</div>`;
     }
     return `<div class="acard" onclick="openM(${ALL.indexOf(a)})">
-      <div class="acard-img" style="background:${grad(a)}">
+      <div class="acard-img" style="background:${grad(a)}" data-addr="${(a.address||'').replace(/"/g,'&quot;')}">
         ${isNew?'<div class="badge-new">NEW</div>':''}
         ${ddHtml}
         <span class="bg-district">${dist}</span>
@@ -349,7 +350,7 @@ function renderPages(){
 function goPg(n){
   const t=Math.ceil(FILT.length/PG);
   if(n<1||n>t)return;
-  pg=n; renderCards(); renderPages();
+  pg=n; renderCards(); renderPages(); loadCardImages();
   document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'});
 }
 
@@ -508,6 +509,61 @@ function demo(){
 ['fc-court','fc-failed','fc-date'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
 document.getElementById('fc-q').addEventListener('input',applyF);
 document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeM(); });
+
+/* ── 카카오맵 위성사진 ── */
+const KAKAO_KEY='fb4b539cf2855399d173b666f110f1e8';
+const geoCache={};
+let kakaoReady=false;
+
+function initKakao(){
+  return new Promise(resolve=>{
+    if(kakaoReady)return resolve();
+    kakao.maps.load(()=>{ kakaoReady=true; resolve(); });
+  });
+}
+
+function cleanAddr(addr){
+  // 층/호 제거, 주요 주소만 남기기 (동번지까지)
+  if(!addr)return '';
+  return addr.replace(/\s+\d+층.*$/,'').replace(/\s+\d+동\s+\d+호.*/,'').trim();
+}
+
+async function geocodeAddress(addr){
+  const key=cleanAddr(addr);
+  if(!key)return null;
+  if(geoCache[key]!==undefined)return geoCache[key];
+  await initKakao();
+  return new Promise(resolve=>{
+    const gc=new kakao.maps.services.Geocoder();
+    gc.addressSearch(key,(result,status)=>{
+      if(status===kakao.maps.services.Status.OK&&result.length>0){
+        const c={lat:parseFloat(result[0].y),lng:parseFloat(result[0].x)};
+        geoCache[key]=c; resolve(c);
+      } else { geoCache[key]=null; resolve(null); }
+    });
+  });
+}
+
+function skyUrl(lat,lng){
+  const m=encodeURIComponent(`type:circle|pos:${lng} ${lat}|size:medium|color:red`);
+  return `https://dapi.kakao.com/v2/maps/staticmap?appkey=${KAKAO_KEY}&center=${lng},${lat}&level=3&size=600x380&map_type=skyview&markers=${m}`;
+}
+
+async function loadCardImages(){
+  const cards=document.querySelectorAll('.acard-img[data-addr]');
+  for(const el of cards){
+    const addr=el.getAttribute('data-addr');
+    if(!addr)continue;
+    const coords=await geocodeAddress(addr);
+    if(coords){
+      el.style.transition='background-image 0.4s ease';
+      el.style.backgroundImage=`url("${skyUrl(coords.lat,coords.lng)}")`;
+      el.style.backgroundSize='cover';
+      el.style.backgroundPosition='center';
+    }
+  }
+}
+
 init();
 </script>
 </body>
