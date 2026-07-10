@@ -48,7 +48,7 @@ COURTS = [
 ]
 
 # ── 유틸 ────────────────────────────────────────────────
-def parse_amount(txt: str) -> int | None:
+def parse_amount(txt):  # type: (str) -> int or None
     """'15억 5,000만원' → 1,550,000,000"""
     if not txt:
         return None
@@ -66,7 +66,7 @@ def parse_amount(txt: str) -> int | None:
             val = int(m.group(1))
     return val if val else None
 
-def parse_date(txt: str) -> str | None:
+def parse_date(txt):  # type: (str) -> str or None
     """'2026.07.22' or '2026-07-22' → '2026-07-22'"""
     if not txt:
         return None
