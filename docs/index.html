@@ -26,6 +26,8 @@
     .nav-right { display:flex; align-items:center; gap:10px; }
     .nav-pill { background:var(--yellow); color:var(--black); font-size:12px; font-weight:700; padding:5px 13px; border-radius:20px; letter-spacing:0.3px; }
     .nav-cta { background:var(--black); color:white; border:none; border-radius:9px; font-size:13px; font-weight:700; padding:9px 18px; cursor:pointer; text-decoration:none; font-family:inherit; }
+    .btn-score-nav { background:var(--yellow); color:var(--black); border:none; border-radius:9px; font-size:13px; font-weight:700; padding:9px 16px; cursor:pointer; font-family:inherit; white-space:nowrap; transition:background 0.2s; }
+    .btn-score-nav:hover { background:#e8b800; }
 
     /* ── MODE TABS ── */
     .mode-tabs { display:flex; justify-content:center; gap:0; background:var(--gray-50); border-bottom:1px solid var(--gray-200); }
@@ -35,7 +37,7 @@
     .mtab.on.cy { color:var(--blue); border-bottom-color:var(--blue); }
 
     /* ── 청약 CARD ── */
-    .cy-card { background:white; border:1.5px solid var(--gray-200); border-radius:18px; overflow:hidden; cursor:pointer; transition:all 0.25s; }
+    .cy-card { background:white; border:1.5px solid var(--gray-200); border-radius:18px; overflow:hidden; cursor:pointer; transition:all 0.25s; position:relative; }
     .cy-card:hover { border-color:var(--blue); box-shadow:0 10px 40px rgba(37,99,235,0.12); transform:translateY(-3px); }
     .cy-hdr { height:160px; position:relative; overflow:hidden; }
     .cy-hdr-map { width:100%; height:100%; z-index:0; }
@@ -54,14 +56,14 @@
     .cy-pill { background:rgba(0,0,0,0.55); backdrop-filter:blur(4px); border-radius:7px; color:white; font-size:11px; font-weight:700; padding:3px 9px; }
     .cy-body { padding:18px 20px; }
     .cy-region { font-size:11px; font-weight:700; color:var(--gray-600); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
-    .cy-name { font-size:15px; font-weight:700; letter-spacing:-0.3px; line-height:1.3; margin-bottom:14px; }
+    .cy-name-row { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:14px; }
+    .cy-name { font-size:15px; font-weight:700; letter-spacing:-0.3px; line-height:1.3; }
     .cy-rows { border-top:1px solid var(--gray-100); padding-top:14px; display:flex; flex-direction:column; gap:7px; }
     .cy-row { display:flex; justify-content:space-between; align-items:center; font-size:13px; }
     .cy-lbl { color:var(--gray-600); font-weight:500; }
     .cy-val { font-weight:700; }
     .cy-link { display:block; margin-top:14px; padding:10px; background:var(--blue-bg); border:1.5px solid #BFDBFE; border-radius:10px; text-align:center; font-size:12px; font-weight:700; color:var(--blue); cursor:pointer; transition:all 0.2s; font-family:inherit; width:100%; }
     .cy-link:hover { background:var(--blue); color:white; }
-    /* Leaflet 내 pointer-events 제한 (카드 클릭 방해 방지) */
     .cy-hdr-map .leaflet-control { display:none; }
     .cy-hdr-map .leaflet-pane { pointer-events:none; }
 
@@ -100,6 +102,12 @@
     .fcount { font-size:13px; color:var(--gray-600); font-weight:500; }
     .btn-reset { background:transparent; border:1.5px solid var(--gray-200); border-radius:9px; color:var(--gray-600); font-size:12px; font-weight:700; padding:7px 13px; cursor:pointer; font-family:inherit; transition:all 0.2s; }
     .btn-reset:hover { border-color:var(--black); color:var(--black); }
+    .btn-bm-toggle { background:transparent; border:1.5px solid var(--gray-200); border-radius:9px; color:var(--gray-600); font-size:12px; font-weight:700; padding:7px 13px; cursor:pointer; font-family:inherit; transition:all 0.2s; display:flex; align-items:center; gap:5px; }
+    .btn-bm-toggle:hover { border-color:#DC2626; color:#DC2626; }
+    .btn-bm-toggle.on { background:#FEE2E2; border-color:#DC2626; color:#DC2626; }
+    .btn-cal-toggle { background:transparent; border:1.5px solid var(--gray-200); border-radius:9px; color:var(--gray-600); font-size:12px; font-weight:700; padding:7px 13px; cursor:pointer; font-family:inherit; transition:all 0.2s; }
+    .btn-cal-toggle:hover { border-color:var(--blue); color:var(--blue); }
+    .btn-cal-toggle.on { background:var(--blue-bg); border-color:var(--blue); color:var(--blue); }
 
     /* ── CARDS ── */
     .cards-wrap { padding:48px 48px 96px; max-width:1440px; margin:0 auto; }
@@ -109,7 +117,7 @@
     .card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:24px; }
 
     /* ── AUCTION CARD ── */
-    .acard { background:white; border:1.5px solid var(--gray-200); border-radius:18px; overflow:hidden; cursor:pointer; transition:all 0.25s; }
+    .acard { background:white; border:1.5px solid var(--gray-200); border-radius:18px; overflow:hidden; cursor:pointer; transition:all 0.25s; position:relative; }
     .acard:hover { border-color:var(--black); box-shadow:0 10px 40px rgba(0,0,0,0.12); transform:translateY(-3px); }
     .acard-img { height:190px; position:relative; overflow:hidden; display:flex; align-items:flex-end; padding:16px; }
     .acard-img .bg-district { position:absolute; bottom:-12px; right:14px; font-size:58px; font-weight:900; color:rgba(255,255,255,0.2); line-height:1; user-select:none; pointer-events:none; }
@@ -121,7 +129,8 @@
     .dd-soon   { background:rgba(234,88,12,0.88); color:white; }
     .dd-ok     { background:rgba(22,163,74,0.80); color:white; }
     .acard-body { padding:20px; }
-    .acard-court { font-size:11px; font-weight:700; color:var(--gray-600); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+    .acard-court-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+    .acard-court { font-size:11px; font-weight:700; color:var(--gray-600); text-transform:uppercase; letter-spacing:0.5px; }
     .acard-addr { font-size:16px; font-weight:700; letter-spacing:-0.3px; line-height:1.3; margin-bottom:3px; }
     .acard-addr2 { font-size:13px; color:var(--gray-400); margin-bottom:18px; }
     .acard-metrics { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; padding-top:16px; border-top:1px solid var(--gray-100); }
@@ -135,6 +144,12 @@
     .c-blue { color:var(--blue); }
     .card-link { display:block; margin-top:14px; padding:10px; background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:10px; text-align:center; font-size:12px; font-weight:700; color:var(--black); text-decoration:none; transition:all 0.2s; }
     .card-link:hover { background:var(--black); color:white; border-color:var(--black); }
+
+    /* ── BOOKMARK HEART ── */
+    .btn-heart-sm { background:none; border:none; cursor:pointer; font-size:15px; padding:2px; line-height:1; transition:transform 0.2s; flex-shrink:0; }
+    .btn-heart-sm:hover { transform:scale(1.3); }
+    .btn-heart-sm.saved { color:#DC2626; }
+    .btn-heart-sm:not(.saved) { color:var(--gray-400); }
 
     /* ── EMPTY ── */
     .empty { grid-column:1/-1; text-align:center; padding:80px 20px; color:var(--gray-600); }
@@ -191,9 +206,24 @@
     .opinion-box { background:var(--black); border-radius:13px; padding:22px; }
     .op-lbl { font-size:11px; font-weight:700; color:var(--yellow); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; }
     .op-txt { font-size:15px; font-weight:600; color:white; line-height:1.65; letter-spacing:-0.2px; }
-    .mfooter { display:flex; gap:12px; padding:0 28px 28px; }
-    .mbtn-dark { flex:1; background:var(--black); color:white; border:none; border-radius:12px; font-size:14px; font-weight:700; padding:15px; cursor:pointer; text-decoration:none; text-align:center; display:block; font-family:inherit; }
-    .mbtn-light { flex:1; background:var(--gray-50); color:var(--black); border:1.5px solid var(--gray-200); border-radius:12px; font-size:14px; font-weight:700; padding:15px; cursor:pointer; font-family:inherit; }
+    .mfooter { display:flex; gap:12px; padding:0 28px 28px; flex-wrap:wrap; }
+    .mbtn-dark { flex:1; background:var(--black); color:white; border:none; border-radius:12px; font-size:14px; font-weight:700; padding:15px; cursor:pointer; text-decoration:none; text-align:center; display:block; font-family:inherit; min-width:160px; }
+    .mbtn-light { flex:1; background:var(--gray-50); color:var(--black); border:1.5px solid var(--gray-200); border-radius:12px; font-size:14px; font-weight:700; padding:15px; cursor:pointer; font-family:inherit; min-width:120px; }
+    .mbtn-naver { flex:1; background:#03C75A; color:white; border:none; border-radius:12px; font-size:14px; font-weight:700; padding:15px; cursor:pointer; font-family:inherit; text-align:center; min-width:140px; transition:background 0.2s; }
+    .mbtn-naver:hover { background:#02a34c; }
+
+    /* ── BID HISTORY ── */
+    .bid-hist-timeline { display:flex; flex-direction:column; gap:6px; }
+    .bid-hist-row { display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:9px; font-size:13px; }
+    .bid-hist-row.current { background:var(--green-bg); }
+    .bid-hist-row.failed { background:var(--red-bg); }
+    .bid-hist-dot { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; }
+    .dot-fail { background:var(--red); color:white; }
+    .dot-curr { background:var(--green); color:white; }
+    .bid-hist-info { flex:1; }
+    .bid-hist-label { font-size:11px; color:var(--gray-600); }
+    .bid-hist-amount { font-weight:700; }
+    .bid-hist-drop { font-size:11px; font-weight:700; color:var(--red); }
 
     /* ── TOAST ── */
     .toast { position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--black); color:white; font-size:14px; font-weight:600; padding:14px 24px; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,0.25); opacity:0; pointer-events:none; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); z-index:999; white-space:nowrap; }
@@ -205,10 +235,74 @@
     footer { border-top:1px solid var(--gray-200); padding:24px 48px; text-align:center; font-size:12px; color:var(--gray-400); }
     footer a { color:var(--black); font-weight:700; text-decoration:none; }
 
+    /* ── CALENDAR ── */
+    .cy-cal-section { background:var(--gray-50); border-bottom:1px solid var(--gray-200); padding:24px 48px; display:none; overflow-x:auto; }
+    .cy-cal-section.on { display:block; }
+    .cal-months-wrap { display:flex; gap:32px; min-width:560px; }
+    .cal-month-block { flex:1; min-width:260px; }
+    .cal-month-title { font-size:15px; font-weight:800; letter-spacing:-0.3px; margin-bottom:12px; }
+    .cal-week-hdr { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:4px; }
+    .cal-wday { text-align:center; font-size:11px; font-weight:700; color:var(--gray-400); padding:4px 0; }
+    .cal-days-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+    .cal-day { min-height:60px; padding:4px 3px; border-radius:7px; cursor:default; position:relative; }
+    .cal-day:not(.empty):hover { background:var(--gray-100); }
+    .cal-day.empty { background:transparent; pointer-events:none; }
+    .cal-day.today .cal-day-num { background:var(--yellow); border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center; }
+    .cal-day-num { font-weight:700; font-size:12px; margin-bottom:2px; line-height:22px; }
+    .cal-ev { font-size:9px; font-weight:700; padding:1px 4px; border-radius:3px; margin-top:1px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; cursor:pointer; }
+    .cal-ev:hover { opacity:0.8; }
+    .ev-open { background:var(--green-bg); color:var(--green); }
+    .ev-soon { background:var(--blue-bg); color:var(--blue); }
+    .ev-more { background:var(--gray-200); color:var(--gray-600); }
+    .cal-legend { display:flex; gap:16px; margin-top:12px; font-size:12px; font-weight:600; color:var(--gray-600); flex-wrap:wrap; }
+    .cal-legend-item { display:flex; align-items:center; gap:5px; }
+    .cal-legend-dot { width:10px; height:10px; border-radius:2px; }
+
+    /* ── SCORE CALCULATOR OVERLAY ── */
+    .sc-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:300; display:none; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(8px); }
+    .sc-overlay.on { display:flex; }
+    .sc-modal { background:white; border-radius:24px; width:100%; max-width:540px; max-height:92vh; overflow-y:auto; animation:mIn 0.28s cubic-bezier(0.34,1.56,0.64,1); }
+    .sc-hdr { background:var(--black); border-radius:24px 24px 0 0; padding:28px; position:relative; }
+    .sc-hdr-title { color:white; font-size:20px; font-weight:800; letter-spacing:-0.5px; margin-bottom:4px; }
+    .sc-hdr-sub { color:rgba(255,255,255,0.55); font-size:13px; }
+    .sc-close { position:absolute; top:16px; right:16px; background:rgba(255,255,255,0.15); border:none; border-radius:9px; color:white; width:36px; height:36px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
+    .sc-close:hover { background:rgba(255,255,255,0.3); }
+    .sc-body { padding:28px; }
+    .sc-field { margin-bottom:22px; }
+    .sc-label { font-size:13px; font-weight:700; margin-bottom:4px; display:flex; justify-content:space-between; }
+    .sc-label span { color:var(--blue); font-weight:800; }
+    .sc-sub { font-size:11px; color:var(--gray-600); margin-bottom:10px; }
+    .sc-slider { width:100%; height:6px; border-radius:3px; outline:none; -webkit-appearance:none; appearance:none; background:var(--gray-200); cursor:pointer; }
+    .sc-slider::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:var(--black); cursor:pointer; border:3px solid white; box-shadow:0 2px 8px rgba(0,0,0,0.2); }
+    .sc-slider::-moz-range-thumb { width:20px; height:20px; border-radius:50%; background:var(--black); cursor:pointer; border:3px solid white; }
+    .sc-result { background:var(--gray-50); border-radius:16px; padding:24px; margin-top:8px; }
+    .sc-result-top { display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:20px; }
+    .sc-score-big { font-size:72px; font-weight:900; letter-spacing:-4px; line-height:1; }
+    .sc-score-denom { font-size:20px; color:var(--gray-400); font-weight:400; align-self:flex-end; padding-bottom:10px; }
+    .sc-grade { display:inline-block; font-size:13px; font-weight:800; padding:6px 18px; border-radius:20px; margin-bottom:16px; }
+    .sc-breakdown { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:20px; }
+    .sc-br-item { background:white; border-radius:10px; padding:12px; text-align:center; border:1.5px solid var(--gray-200); }
+    .sc-br-lbl { font-size:11px; color:var(--gray-600); font-weight:600; margin-bottom:4px; }
+    .sc-br-val { font-size:20px; font-weight:900; letter-spacing:-0.5px; }
+    .sc-br-max { font-size:11px; color:var(--gray-400); }
+    .sc-ref { border-top:1px solid var(--gray-200); padding-top:16px; }
+    .sc-ref-title { font-size:12px; font-weight:700; color:var(--gray-600); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.4px; }
+    .sc-ref-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--gray-100); font-size:13px; }
+    .sc-ref-row:last-child { border-bottom:none; }
+    .sc-ref-region { color:var(--gray-600); }
+    .sc-ref-score { font-weight:700; }
+    .sc-ref-result { font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; }
+    .ref-ok { background:var(--green-bg); color:var(--green); }
+    .ref-ng { background:var(--red-bg); color:var(--red); }
+    .ref-warn { background:var(--orange-bg); color:var(--orange); }
+
     @media(max-width:768px){
       .hero{padding:56px 20px 44px} .hero-h1{font-size:38px;letter-spacing:-1.5px}
       nav,.fbar,.cards-wrap{padding-left:20px;padding-right:20px}
       .mgrid{grid-template-columns:1fr} .hero-kpi{gap:24px}
+      .cy-cal-section{padding:16px 20px}
+      .sc-breakdown{grid-template-columns:1fr 1fr}
+      .mfooter{flex-direction:column}
     }
   </style>
 </head>
@@ -222,6 +316,7 @@
   </a>
   <div class="nav-right">
     <span class="nav-pill" id="nav-today">오늘 0건 업데이트</span>
+    <button class="btn-score-nav" onclick="openScoreCalc()">💯 가점 계산기</button>
     <a class="nav-cta" id="nav-ext-link" href="https://www.courtauction.go.kr" target="_blank">대법원 바로가기 →</a>
   </div>
 </nav>
@@ -251,7 +346,7 @@
   </div>
 </section>
 
-<!-- FILTER BAR -->
+<!-- FILTER BAR (경매) -->
 <div class="fbar" id="fbar-wrap">
   <div class="fbar-left">
     <select class="fsel" id="fc-court">
@@ -286,11 +381,12 @@
   </div>
   <div class="fbar-right">
     <span class="fcount" id="fc-cnt">0건</span>
+    <button class="btn-bm-toggle" id="btn-bm-a" onclick="toggleBmFilter()">🤍 즐겨찾기</button>
     <button class="btn-reset" onclick="resetF()">↺ 초기화</button>
   </div>
 </div>
 
-<!-- CARDS -->
+<!-- CARDS (경매) -->
 <main class="cards-wrap" id="cards-wrap">
   <div class="sec-head">
     <span class="sec-title" id="sec-title">오늘의 신규 매물</span>
@@ -341,7 +437,18 @@
   </div>
   <div class="fbar-right">
     <span class="fcount" id="cy-cnt">0건</span>
+    <button class="btn-bm-toggle" id="btn-bm-cy" onclick="toggleCyBmFilter()">🤍 즐겨찾기</button>
+    <button class="btn-cal-toggle" id="btn-cy-cal" onclick="toggleCalendar()">📅 캘린더</button>
     <button class="btn-reset" onclick="resetCyF()">↺ 초기화</button>
+  </div>
+</div>
+
+<!-- 청약 CALENDAR SECTION -->
+<div class="cy-cal-section" id="cy-cal-section">
+  <div class="cal-months-wrap" id="cy-cal-grid"></div>
+  <div class="cal-legend">
+    <div class="cal-legend-item"><div class="cal-legend-dot ev-open"></div> 청약중</div>
+    <div class="cal-legend-item"><div class="cal-legend-dot ev-soon"></div> 청약예정</div>
   </div>
 </div>
 
@@ -361,15 +468,127 @@
   매일 평일 오전 9시 자동 업데이트 &nbsp;·&nbsp; 투자 판단은 본인 책임
 </footer>
 
-<!-- MODAL -->
+<!-- MAIN MODAL -->
 <div class="overlay" id="overlay" onclick="closeByBg(event)">
   <div class="modal" id="modal"></div>
+</div>
+
+<!-- SCORE CALCULATOR OVERLAY -->
+<div class="sc-overlay" id="sc-overlay" onclick="closeScoreByBg(event)">
+  <div class="sc-modal" id="sc-modal">
+    <div class="sc-hdr">
+      <button class="sc-close" onclick="closeScoreCalc()">✕</button>
+      <div class="sc-hdr-title">💯 청약 가점 계산기</div>
+      <div class="sc-hdr-sub">부양가족·무주택기간·청약통장으로 내 가점 점수를 계산해요</div>
+    </div>
+    <div class="sc-body">
+      <div class="sc-field">
+        <div class="sc-label">부양가족 수 <span id="sc-fam-val">0명</span></div>
+        <div class="sc-sub">본인 제외, 주민등록상 같이 사는 직계존비속 · 배우자 (최대 35점)</div>
+        <input type="range" class="sc-slider" id="sc-fam" min="0" max="6" value="0" oninput="updateScore()">
+      </div>
+      <div class="sc-field">
+        <div class="sc-label">무주택기간 <span id="sc-house-val">0년</span></div>
+        <div class="sc-sub">세대주 및 세대원 전원이 무주택인 기간 (최대 32점, 15년 이상)</div>
+        <input type="range" class="sc-slider" id="sc-house" min="0" max="15" value="0" oninput="updateScore()">
+      </div>
+      <div class="sc-field">
+        <div class="sc-label">청약통장 가입기간 <span id="sc-bank-val">0개월</span></div>
+        <div class="sc-sub">주택청약종합저축 / 청약저축 납입 기간 (최대 17점, 15년 이상)</div>
+        <input type="range" class="sc-slider" id="sc-bank" min="0" max="180" value="0" step="6" oninput="updateScore()">
+      </div>
+      <div class="sc-result" id="sc-result">
+        <div class="sc-result-top">
+          <div class="sc-score-big" id="sc-total">0</div>
+          <div class="sc-score-denom">/ 84</div>
+        </div>
+        <div style="text-align:center;margin-bottom:16px">
+          <span class="sc-grade" id="sc-grade">미산출</span>
+        </div>
+        <div class="sc-breakdown">
+          <div class="sc-br-item">
+            <div class="sc-br-lbl">부양가족</div>
+            <div class="sc-br-val" id="sc-pt-fam">5</div>
+            <div class="sc-br-max">/ 35점</div>
+          </div>
+          <div class="sc-br-item">
+            <div class="sc-br-lbl">무주택기간</div>
+            <div class="sc-br-val" id="sc-pt-house">2</div>
+            <div class="sc-br-max">/ 32점</div>
+          </div>
+          <div class="sc-br-item">
+            <div class="sc-br-lbl">청약통장</div>
+            <div class="sc-br-val" id="sc-pt-bank">1</div>
+            <div class="sc-br-max">/ 17점</div>
+          </div>
+        </div>
+        <div class="sc-ref">
+          <div class="sc-ref-title">지역별 커트라인 비교 (참고치)</div>
+          <div class="sc-ref-row">
+            <span class="sc-ref-region">서울 인기 단지 (강남·서초·송파)</span>
+            <span class="sc-ref-score">69점 이상</span>
+            <span class="sc-ref-result" id="sc-ref-0">-</span>
+          </div>
+          <div class="sc-ref-row">
+            <span class="sc-ref-region">서울 일반 단지</span>
+            <span class="sc-ref-score">60점 이상</span>
+            <span class="sc-ref-result" id="sc-ref-1">-</span>
+          </div>
+          <div class="sc-ref-row">
+            <span class="sc-ref-region">수도권 (경기·인천)</span>
+            <span class="sc-ref-score">50점 이상</span>
+            <span class="sc-ref-result" id="sc-ref-2">-</span>
+          </div>
+          <div class="sc-ref-row">
+            <span class="sc-ref-region">지방 주요 도시</span>
+            <span class="sc-ref-score">40점 이상</span>
+            <span class="sc-ref-result" id="sc-ref-3">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
+/* ─────────────────────────────────────────────
+   BOOKMARKS  (localStorage)
+───────────────────────────────────────────── */
+let BM   = new Set(JSON.parse(localStorage.getItem('bm_auctions')||'[]'));
+let CY_BM= new Set(JSON.parse(localStorage.getItem('bm_cy')||'[]'));
+let bmOnly=false, cyBmOnly=false;
+
+function toggleBM(id, e){
+  e.stopPropagation();
+  BM.has(id)?BM.delete(id):BM.add(id);
+  localStorage.setItem('bm_auctions',JSON.stringify([...BM]));
+  applyF();
+}
+function toggleCyBM(id, e){
+  e.stopPropagation();
+  CY_BM.has(id)?CY_BM.delete(id):CY_BM.add(id);
+  localStorage.setItem('bm_cy',JSON.stringify([...CY_BM]));
+  applyCyF();
+}
+function toggleBmFilter(){
+  bmOnly=!bmOnly;
+  document.getElementById('btn-bm-a').classList.toggle('on',bmOnly);
+  document.getElementById('btn-bm-a').textContent=bmOnly?'❤ 즐겨찾기':'🤍 즐겨찾기';
+  applyF();
+}
+function toggleCyBmFilter(){
+  cyBmOnly=!cyBmOnly;
+  document.getElementById('btn-bm-cy').classList.toggle('on',cyBmOnly);
+  document.getElementById('btn-bm-cy').textContent=cyBmOnly?'❤ 즐겨찾기':'🤍 즐겨찾기';
+  applyCyF();
+}
+
+/* ─────────────────────────────────────────────
+   AUCTION DATA
+───────────────────────────────────────────── */
 let ALL=[],FILT=[];
 let pg=1;const PG=12;
 let currentIdx=-1;
@@ -402,6 +621,7 @@ function applyF(){
     if(failed!==''&&(a.failed_bids||0)<+failed)return false;
     if(dateF==='today'&&a.scraped_date!==today)return false;
     if(q&&!(a.id+a.court+a.address).toLowerCase().includes(q))return false;
+    if(bmOnly&&!BM.has(a.id))return false;
     return true;
   });
   FILT.sort((a,b)=>{
@@ -415,7 +635,7 @@ function applyF(){
 
 function goToday(){ set('fc-date','today'); applyF(); scroll2(); }
 function goAll()  { set('fc-date','');      applyF(); scroll2(); }
-function resetF() { ['fc-court','fc-failed','fc-date','fc-q'].forEach(id=>set(id,'')); applyF(); }
+function resetF() { ['fc-court','fc-failed','fc-date','fc-q'].forEach(id=>set(id,'')); bmOnly=false; document.getElementById('btn-bm-a').classList.remove('on'); document.getElementById('btn-bm-a').textContent='🤍 즐겨찾기'; applyF(); }
 function scroll2(){ document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'}); }
 
 function renderCards(){
@@ -439,12 +659,14 @@ function renderCards(){
     const am=parts.slice(0,4).join(' ');
     const as2=parts.slice(4).join(' ');
     const court=(a.court||'').replace('서울','서울 ').replace('지방법원','');
+    const isSaved=BM.has(a.id);
     let ddHtml='';
     if(days!==null&&days>=0){
       const dc=days===0||days<=3?'dd-urgent':days<=7?'dd-soon':'dd-ok';
       ddHtml=`<div class="badge-dday ${dc}">${days===0?'오늘!':'D-'+days}</div>`;
     }
-    return `<div class="acard" onclick="openM(${ALL.indexOf(a)})">
+    const failIdx=ALL.indexOf(a);
+    return `<div class="acard" onclick="openM(${failIdx})">
       <div class="acard-img" style="background:${grad(a)}">
         ${isNew?'<div class="badge-new">NEW</div>':''}
         ${ddHtml}
@@ -455,7 +677,10 @@ function renderCards(){
         </div>
       </div>
       <div class="acard-body">
-        <div class="acard-court">${court}</div>
+        <div class="acard-court-row">
+          <div class="acard-court">${court}</div>
+          <button class="btn-heart-sm ${isSaved?'saved':''}" onclick="toggleBM('${a.id}',event)" title="${isSaved?'즐겨찾기 해제':'즐겨찾기 추가'}">${isSaved?'❤':'♡'}</button>
+        </div>
         <div class="acard-addr">${am||a.address||'-'}</div>
         ${as2?`<div class="acard-addr2">${as2}</div>`:''}
         <div class="acard-metrics">
@@ -463,7 +688,7 @@ function renderCards(){
           <div class="metric"><div class="metric-lbl">최저입찰가</div><div class="metric-val c-green">${fmt(a.min_bid)}</div></div>
           <div class="metric"><div class="metric-lbl">낙찰가율</div><div class="metric-val ${rc(a.bid_ratio)}">${a.bid_ratio!=null?a.bid_ratio+'%':'-'}</div></div>
         </div>
-        <button class="card-link" onclick="event.stopPropagation(); openCourt(${ALL.indexOf(a)})">🏛️ 대법원 경매 상세 바로가기 →</button>
+        <button class="card-link" onclick="event.stopPropagation(); openCourt(${failIdx})">🏛️ 대법원 경매 상세 바로가기 →</button>
       </div>
     </div>`;
   }).join('');
@@ -486,7 +711,36 @@ function goPg(n){
   document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'});
 }
 
-/* ── MODAL ── */
+/* ─────────────────────────────────────────────
+   BID HISTORY  (유찰 이력 재구성)
+───────────────────────────────────────────── */
+function getBidHistory(a){
+  const n=a.failed_bids||0;
+  const curr=a.min_bid||0;
+  const rows=[];
+  for(let i=n;i>=0;i--){
+    const bid=Math.round(curr/Math.pow(0.8,i));
+    rows.push({round:n-i+1, bid, isFailed:i>0,
+      dropPct: i===n?null:Math.round((1-Math.pow(0.8,n-i))*100)});
+  }
+  return rows;
+}
+
+/* ─────────────────────────────────────────────
+   NAVER REAL ESTATE
+───────────────────────────────────────────── */
+function openNaver(a){
+  const q=(a.address||'').split(' ').slice(0,5).join(' ');
+  window.open('https://land.naver.com/search/?query='+encodeURIComponent(q),'_blank');
+}
+function openNaverCy(a){
+  const q=a.name||(a.address||'');
+  window.open('https://land.naver.com/search/?query='+encodeURIComponent(q),'_blank');
+}
+
+/* ─────────────────────────────────────────────
+   AUCTION MODAL
+───────────────────────────────────────────── */
 function openM(idx){
   currentIdx=idx;
   const a=ALL[idx]; if(!a)return;
@@ -495,6 +749,8 @@ function openM(idx){
   const roi=calcROI(a);
   const risks=getRisks(a);
   const opinion=getOpinion(a,roi);
+  const history=getBidHistory(a);
+  const isSaved=BM.has(a.id);
 
   document.getElementById('modal').innerHTML=`
     <div class="mhdr" style="background:${grad(a)}">
@@ -525,8 +781,25 @@ function openM(idx){
           <div class="irow"><span class="ik">기타비용 (명도·수리)</span><span class="iv">${fmt(roi.etc)}</span></div>
           <div class="irow"><span class="ik">예상 시세</span><span class="iv">${fmt(roi.est)}</span></div>
           <div class="irow"><span class="ik">안전마진</span><span class="iv ${roi.margin>0?'c-green':'c-red'}">${roi.margin>0?'+':''}${fmt(roi.margin)}</span></div>
-          <div class="irow"><span class="ik">실질 수익률</span><span class="iv ${roi.rate>15?'c-green':roi.rate>5?'c-yellow':'c-red'} ">${roi.rate}%</span></div>
+          <div class="irow"><span class="ik">실질 수익률</span><span class="iv ${roi.rate>15?'c-green':roi.rate>5?'c-yellow':'c-red'}">${roi.rate}%</span></div>
         </div>
+
+        ${a.failed_bids>0?`
+        <div class="iblock">
+          <div class="iblock-ttl">📉 유찰 이력 (추정)</div>
+          <div class="bid-hist-timeline">
+            ${history.map(r=>`
+            <div class="bid-hist-row ${r.isFailed?'failed':'current'}">
+              <div class="bid-hist-dot ${r.isFailed?'dot-fail':'dot-curr'}">${r.round}</div>
+              <div class="bid-hist-info">
+                <div class="bid-hist-label">${r.isFailed?`${r.round}차 최저가 (유찰)`:'현재 최저가'}</div>
+                <div class="bid-hist-amount">${fmt(r.bid)}</div>
+              </div>
+              ${!r.isFailed&&a.appraisal?`<div class="bid-hist-drop">감정가의<br>${Math.round(r.bid/a.appraisal*100)}%</div>`:''}
+            </div>`).join('')}
+          </div>
+          <div style="font-size:11px;color:var(--gray-400);margin-top:10px">※ 20% 감액 가정 기준 추정치</div>
+        </div>`:''}
 
         <div class="iblock">
           <div class="iblock-ttl">🗺️ 주변 인프라</div>
@@ -562,7 +835,8 @@ function openM(idx){
       </div>
     </div>
     <div class="mfooter">
-      <button class="mbtn-dark" onclick="openCourt(currentIdx)">대법원 경매 사이트에서 상세 확인 →</button>
+      <button class="mbtn-dark" onclick="openCourt(currentIdx)">🏛️ 대법원 경매 사이트 →</button>
+      <button class="mbtn-naver" onclick="openNaver(ALL[currentIdx])">🟢 네이버 부동산 시세 →</button>
       <button class="mbtn-light" onclick="closeM()">닫기</button>
     </div>`;
 
@@ -572,9 +846,11 @@ function openM(idx){
 function closeByBg(e){ if(e.target===document.getElementById('overlay'))closeM(); }
 function closeM(){ document.getElementById('overlay').classList.remove('on'); document.body.style.overflow=''; }
 
-/* ── Helpers ── */
+/* ─────────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────────── */
 let _toastTimer=null;
-function showToast(caseId, court){
+function showToast(caseId){
   const el=document.getElementById('toast');
   el.innerHTML=`📋 사건번호 <span class="t-case">${caseId}</span> 복사됨!<span class="t-step">대법원 사이트 → 사건번호 검색란에 붙여넣기(Ctrl+V) 하세요</span>`;
   el.classList.add('show');
@@ -583,19 +859,15 @@ function showToast(caseId, court){
 }
 function openCourt(idx){
   const a=ALL[idx]; if(!a)return;
-  // 사건번호를 클립보드에 복사
   const caseId=a.id||'';
   navigator.clipboard.writeText(caseId).catch(()=>{
-    // clipboard API 실패 시 fallback
     const tmp=document.createElement('textarea');
     tmp.value=caseId; tmp.style.position='fixed'; tmp.style.opacity='0';
     document.body.appendChild(tmp); tmp.select();
     document.execCommand('copy'); document.body.removeChild(tmp);
   });
-  // 대법원 사이트 새 탭으로 열기
   window.open('https://www.courtauction.go.kr','_blank');
-  // 토스트 알림
-  showToast(caseId, a.court);
+  showToast(caseId);
 }
 function calcROI(a){
   const bid=a.min_bid||0, app=a.appraisal||bid*3;
@@ -638,11 +910,10 @@ function getOpinion(a,roi){
   return `"현 최저가 기준 수익률이 낮다. 인근 실거래가를 재확인하고 매력도를 재평가하라."`;
 }
 function grad(a){
-  // 양봉(수익권) = 초록, 음봉(손해권) = 빨강
   const roi=calcROI(a);
   return roi.rate>0
-    ?'linear-gradient(135deg,#064e3b,#059669)'   // 초록 양봉
-    :'linear-gradient(135deg,#7f1d1d,#dc2626)';  // 빨강 음봉
+    ?'linear-gradient(135deg,#064e3b,#059669)'
+    :'linear-gradient(135deg,#7f1d1d,#dc2626)';
 }
 function getDist(a){ if(!a)return'서울'; const m=(a||'').match(/([가-힣]+구)/); return m?m[1].replace('구',''):'서울'; }
 function fmt(n){ if(!n)return'-'; if(n>=1e8)return(n/1e8).toFixed(1)+'억'; if(n>=1e4)return Math.round(n/1e4)+'만원'; return n.toLocaleString()+'원'; }
@@ -668,34 +939,33 @@ function demo(){
 
 ['fc-court','fc-failed','fc-date'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
 document.getElementById('fc-q').addEventListener('input',applyF);
-document.addEventListener('keydown',e=>{ if(e.key==='Escape')closeM(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeM(); closeScoreCalc(); } });
 
-/* ── MODE SWITCH ── */
+/* ─────────────────────────────────────────────
+   MODE SWITCH
+───────────────────────────────────────────── */
 let MODE='auction';
 function switchMode(m){
   MODE=m;
-  // tabs
   document.getElementById('tab-auction').className='mtab'+(m==='auction'?' on':'');
   document.getElementById('tab-cy').className='mtab cy'+(m==='cy'?' on':'');
-  // hero KPIs
   document.getElementById('hero-section').style.display= m==='auction'?'':'none';
-  // filter bars
   document.getElementById('fbar-wrap').style.display= m==='auction'?'':'none';
   document.getElementById('cy-fbar').style.display= m==='cy'?'':'none';
-  // card sections
+  document.getElementById('cy-cal-section').style.display= m==='cy'&&calOpen?'block':'none';
   document.getElementById('cards-wrap').style.display= m==='auction'?'':'none';
   document.getElementById('cy-wrap').style.display= m==='cy'?'':'none';
-  // nav ext link
   const extLink=document.getElementById('nav-ext-link');
   if(m==='cy'){ extLink.href='https://www.applyhome.co.kr'; extLink.textContent='청약홈 바로가기 →'; }
   else{ extLink.href='https://www.courtauction.go.kr'; extLink.textContent='대법원 바로가기 →'; }
-  // nav pill
   if(m==='cy') set('nav-today',`청약 ${CY_FILT.length}건`);
   else set('nav-today',`오늘 ${ALL.filter(a=>a.scraped_date===tstr()).length}건 업데이트`);
   if(m==='cy') renderCyCards();
 }
 
-/* ── 청약 DATA ── */
+/* ─────────────────────────────────────────────
+   청약 DATA
+───────────────────────────────────────────── */
 let CY_ALL=[],CY_FILT=[];
 let cy_pg=1; const CY_PG=12;
 
@@ -722,6 +992,7 @@ function applyCyF(){
       if(builder==='민간'&&(a.builder.includes('LH')||a.builder.includes('SH'))) return false;
     }
     if(q&&!(a.name+a.region+a.address+a.builder).toLowerCase().includes(q)) return false;
+    if(cyBmOnly&&!CY_BM.has(a.id)) return false;
     return true;
   });
   CY_FILT.sort((a,b)=>(a.start_date||'').localeCompare(b.start_date||''));
@@ -729,10 +1000,14 @@ function applyCyF(){
   set('cy-cnt', CY_FILT.length+'건');
   set('cy-sub', `총 ${CY_FILT.length}건`);
   if(MODE==='cy') renderCyCards();
+  if(calOpen) renderCalendar();
 }
 
 function resetCyF(){
   ['cy-region','cy-type','cy-builder','cy-status','cy-q'].forEach(id=>set(id,''));
+  cyBmOnly=false;
+  document.getElementById('btn-bm-cy').classList.remove('on');
+  document.getElementById('btn-bm-cy').textContent='🤍 즐겨찾기';
   applyCyF();
 }
 
@@ -753,11 +1028,11 @@ function renderCyCards(){
     const compHtml  = compKeys.length
       ? compKeys.slice(0,2).map(k=>`<span class="cy-comp-pill"><span class="comp-label">${k} </span><span class="comp-rate">${Number(comp[k]).toFixed(1)}:1</span></span>`).join('')
       : '';
-    // 지도 vs 폴백 그라디언트
     const hasMap = a.lat && a.lng;
     const hdrInner = hasMap
       ? `<div class="cy-hdr-map" id="cymap-${a.id.replace(/[^a-zA-Z0-9]/g,'_')}"></div>`
       : `<div class="cy-hdr-fallback" style="background:${cyGrad(a)}"></div>`;
+    const isCySaved = CY_BM.has(a.id);
     return `<div class="cy-card" onclick="openCyM('${a.id}')">
       <div class="cy-hdr">
         ${hdrInner}
@@ -773,7 +1048,10 @@ function renderCyCards(){
       </div>
       <div class="cy-body">
         <div class="cy-region">${a.region||''} ${a.district||''}</div>
-        <div class="cy-name">${a.name||'-'}</div>
+        <div class="cy-name-row">
+          <div class="cy-name">${a.name||'-'}</div>
+          <button class="btn-heart-sm ${isCySaved?'saved':''}" onclick="toggleCyBM('${a.id}',event)" title="${isCySaved?'즐겨찾기 해제':'즐겨찾기 추가'}">${isCySaved?'❤':'♡'}</button>
+        </div>
         <div class="cy-rows">
           <div class="cy-row"><span class="cy-lbl">청약접수</span><span class="cy-val">${period}</span></div>
           <div class="cy-row"><span class="cy-lbl">최고분양가</span><span class="cy-val c-blue">${priceStr}</span></div>
@@ -784,7 +1062,6 @@ function renderCyCards(){
     </div>`;
   }).join('');
   renderCyPages();
-  // 지도 초기화 (DOM 삽입 후 실행)
   setTimeout(()=>initCyMaps(slice), 50);
 }
 
@@ -805,7 +1082,9 @@ function goCyPg(n){
   document.getElementById('cy-wrap').scrollIntoView({behavior:'smooth'});
 }
 
-/* ── Leaflet 미니맵 ── */
+/* ─────────────────────────────────────────────
+   LEAFLET MAPS
+───────────────────────────────────────────── */
 let cy_maps={};
 function destroyCyMaps(){
   Object.values(cy_maps).forEach(m=>{try{m.remove();}catch(e){}});
@@ -822,25 +1101,25 @@ function initCyMaps(items){
         center:[a.lat,a.lng],zoom:15,
         zoomControl:false,attributionControl:false,
         dragging:false,scrollWheelZoom:false,
-        keyboard:false,boxZoom:false,doubleClickZoom:false,
-        tap:false
+        keyboard:false,boxZoom:false,doubleClickZoom:false,tap:false
       });
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(m);
-      L.circleMarker([a.lat,a.lng],{
-        radius:8,fillColor:'#2563EB',color:'white',weight:2,fillOpacity:1
-      }).addTo(m);
+      L.circleMarker([a.lat,a.lng],{radius:8,fillColor:'#2563EB',color:'white',weight:2,fillOpacity:1}).addTo(m);
       cy_maps[a.id]=m;
     }catch(e){}
   });
 }
 
+/* ─────────────────────────────────────────────
+   청약 MODAL
+───────────────────────────────────────────── */
 function openCyM(id){
   const a=CY_ALL.find(x=>x.id===id); if(!a)return;
-  const grad=cyGrad(a);
+  const g=cyGrad(a);
   const statusCls=a.status==='청약중'?'open':a.status==='청약예정'?'soon':'done';
   const period=(a.start_date&&a.end_date)?`${a.start_date} ~ ${a.end_date}`:'-';
   document.getElementById('modal').innerHTML=`
-    <div class="mhdr" style="background:${grad}">
+    <div class="mhdr" style="background:${g}">
       <button class="mclose" onclick="closeM()">✕</button>
       <div class="mhdr-info">
         <div class="mctag">${a.builder||''} · ${a.type||'APT'}</div>
@@ -892,6 +1171,7 @@ function openCyM(id){
     </div>
     <div class="mfooter">
       <button class="mbtn-dark" style="background:var(--blue)" onclick="openCyApply('${a.id}')">🏠 청약홈에서 신청하기 →</button>
+      <button class="mbtn-naver" onclick="openNaverCy(CY_ALL.find(x=>x.id==='${a.id}'))">🟢 네이버 부동산 →</button>
       <button class="mbtn-light" onclick="closeM()">닫기</button>
     </div>`;
   document.getElementById('overlay').classList.add('on');
@@ -917,11 +1197,115 @@ function cyGrad(a){
   if(s==='청약예정')  return 'linear-gradient(135deg,#0f766e,#0d9488)';
   return                      'linear-gradient(135deg,#374151,#6b7280)';
 }
-
 function fmtMan(n){
   if(!n)return'-';
   if(n>=10000) return (n/10000).toFixed(1)+'억원';
   return n.toLocaleString()+'만원';
+}
+
+/* ─────────────────────────────────────────────
+   청약 CALENDAR
+───────────────────────────────────────────── */
+let calOpen=false;
+function toggleCalendar(){
+  calOpen=!calOpen;
+  const sec=document.getElementById('cy-cal-section');
+  const btn=document.getElementById('btn-cy-cal');
+  sec.classList.toggle('on',calOpen);
+  btn.classList.toggle('on',calOpen);
+  if(calOpen) renderCalendar();
+}
+function renderCalendar(){
+  const wrap=document.getElementById('cy-cal-grid');
+  const now=new Date();
+  const DAYS=['일','월','화','수','목','금','토'];
+  let html='';
+  for(let mi=0;mi<2;mi++){
+    const yr=now.getFullYear()+Math.floor((now.getMonth()+mi)/12);
+    const mo=(now.getMonth()+mi)%12;
+    const firstDow=new Date(yr,mo,1).getDay();
+    const daysInMo=new Date(yr,mo+1,0).getDate();
+    const moStr=`${yr}-${String(mo+1).padStart(2,'0')}`;
+
+    html+=`<div class="cal-month-block">
+      <div class="cal-month-title">${yr}년 ${mo+1}월</div>
+      <div class="cal-week-hdr">${DAYS.map(d=>`<div class="cal-wday">${d}</div>`).join('')}</div>
+      <div class="cal-days-grid">`;
+
+    for(let i=0;i<firstDow;i++) html+=`<div class="cal-day empty"></div>`;
+
+    for(let day=1;day<=daysInMo;day++){
+      const ds=`${moStr}-${String(day).padStart(2,'0')}`;
+      const isToday=ds===tstr();
+      // CY_ALL (not filtered) so calendar shows all
+      const active=CY_ALL.filter(a=>a.start_date&&a.end_date&&a.start_date<=ds&&a.end_date>=ds);
+      html+=`<div class="cal-day ${isToday?'today':''}">
+        <div class="cal-day-num">${day}</div>
+        ${active.slice(0,2).map(a=>`<div class="cal-ev ${a.status==='청약중'?'ev-open':'ev-soon'}" onclick="event.stopPropagation();openCyM('${a.id}')" title="${a.name}">${a.name.slice(0,5)}</div>`).join('')}
+        ${active.length>2?`<div class="cal-ev ev-more">+${active.length-2}건</div>`:''}
+      </div>`;
+    }
+    html+=`</div></div>`;
+  }
+  wrap.innerHTML=html;
+}
+
+/* ─────────────────────────────────────────────
+   SCORE CALCULATOR
+───────────────────────────────────────────── */
+function openScoreCalc(){
+  document.getElementById('sc-overlay').classList.add('on');
+  document.body.style.overflow='hidden';
+  updateScore();
+}
+function closeScoreCalc(){
+  document.getElementById('sc-overlay').classList.remove('on');
+  document.body.style.overflow='';
+}
+function closeScoreByBg(e){
+  if(e.target===document.getElementById('sc-overlay')) closeScoreCalc();
+}
+
+function famPts(n){ return [5,10,15,20,25,30,35][Math.min(n,6)]; }
+function housePts(yrs){ if(yrs<=0)return 2; return Math.min(yrs*2+2,32); }
+function bankPts(mo){ if(mo<6)return 1; if(mo<12)return 2; return Math.min(Math.floor(mo/12)+2,17); }
+
+function updateScore(){
+  const fam=+document.getElementById('sc-fam').value;
+  const house=+document.getElementById('sc-house').value;
+  const bank=+document.getElementById('sc-bank').value;
+
+  const fp=famPts(fam);
+  const hp=housePts(house);
+  const bp=bankPts(bank);
+  const total=fp+hp+bp;
+
+  document.getElementById('sc-fam-val').textContent=fam+'명'+(fam>=6?' (최대)':'');
+  document.getElementById('sc-house-val').textContent=house+'년'+(house>=15?' (최대)':'');
+  document.getElementById('sc-bank-val').textContent=bank+'개월'+(bank>=180?' (최대)':'');
+
+  document.getElementById('sc-total').textContent=total;
+  document.getElementById('sc-pt-fam').textContent=fp;
+  document.getElementById('sc-pt-house').textContent=hp;
+  document.getElementById('sc-pt-bank').textContent=bp;
+
+  // Grade
+  const gradeEl=document.getElementById('sc-grade');
+  if(total>=70){ gradeEl.textContent='최우수 · 서울 인기단지 당첨 가능권'; gradeEl.style.cssText='background:var(--green-bg);color:var(--green)'; }
+  else if(total>=60){ gradeEl.textContent='우수 · 서울 일반단지 도전 가능'; gradeEl.style.cssText='background:var(--blue-bg);color:var(--blue)'; }
+  else if(total>=50){ gradeEl.textContent='양호 · 수도권 청약 경쟁 가능'; gradeEl.style.cssText='background:var(--teal-bg);color:var(--teal)'; }
+  else if(total>=40){ gradeEl.textContent='보통 · 지방 및 일부 수도권 도전'; gradeEl.style.cssText='background:var(--orange-bg);color:var(--orange)'; }
+  else { gradeEl.textContent='추가 납입·기간 필요'; gradeEl.style.cssText='background:var(--red-bg);color:var(--red)'; }
+
+  // Comparison
+  const cutoffs=[69,60,50,40];
+  cutoffs.forEach((cut,i)=>{
+    const el=document.getElementById('sc-ref-'+i);
+    if(!el)return;
+    if(total>=cut){ el.textContent='통과'; el.className='sc-ref-result ref-ok'; }
+    else if(total>=cut-5){ el.textContent=`${cut-total}점 부족`; el.className='sc-ref-result ref-warn'; }
+    else{ el.textContent=`${cut-total}점 부족`; el.className='sc-ref-result ref-ng'; }
+  });
 }
 
 function cyDemo(){
