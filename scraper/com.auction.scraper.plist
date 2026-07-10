@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- 식별자 (고유명칭) -->
+  <key>Label</key>
+  <string>com.auction.scraper</string>
+
+  <!-- 실행할 명령 — REPO_PATH 를 실제 경로로 변경하세요 -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>REPO_PATH/run_local.sh</string>
+  </array>
+
+  <!-- 매일 오전 9시 실행 -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>9</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+
+  <!-- 로그 저장 위치 -->
+  <key>StandardOutPath</key>
+  <string>/tmp/auction_scraper_out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/auction_scraper_err.log</string>
+
+  <!-- Mac 로그인 시 자동 시작 -->
+  <key>RunAtLoad</key>
+  <false/>
+</dict>
+</plist>
