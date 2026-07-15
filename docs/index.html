@@ -121,6 +121,11 @@
     .acard:hover { border-color:var(--black); box-shadow:0 10px 40px rgba(0,0,0,0.12); transform:translateY(-3px); }
     .acard-img { height:190px; position:relative; overflow:hidden; display:flex; align-items:flex-end; padding:16px; }
     .acard-img .bg-district { position:absolute; bottom:-12px; right:14px; font-size:58px; font-weight:900; color:rgba(255,255,255,0.2); line-height:1; user-select:none; pointer-events:none; }
+    .acard-map { height:190px; position:relative; overflow:hidden; }
+    .acard-map-overlay { position:absolute; inset:0; pointer-events:none; z-index:10; background:linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 55%); }
+    .acard-map-pills { position:absolute; bottom:14px; left:14px; display:flex; gap:7px; z-index:11; }
+    .acard-map .badge-new { z-index:12; }
+    .acard-map .badge-dday { z-index:12; }
     .acard-img-stats { display:flex; gap:8px; position:relative; z-index:1; }
     .img-pill { background:rgba(255,255,255,0.22); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.35); border-radius:7px; color:white; font-size:12px; font-weight:700; padding:4px 11px; }
     .badge-new { position:absolute; top:14px; left:14px; background:var(--yellow); color:var(--black); font-size:11px; font-weight:800; padding:3px 11px; border-radius:20px; letter-spacing:0.5px; text-transform:uppercase; z-index:2; }
@@ -644,6 +649,7 @@ function renderCards(){
   const grid=document.getElementById('card-grid');
   const today=tstr();
   const dateF=v('fc-date');
+  destroyAuctionMaps();
   set('sec-title', dateF==='today'?'오늘의 신규 매물':'전체 경매 매물');
   set('sec-sub',`총 ${FILT.length}건`);
   const slice=FILT.slice((pg-1)*PG, pg*PG);
@@ -668,16 +674,29 @@ function renderCards(){
       ddHtml=`<div class="badge-dday ${dc}">${days===0?'오늘!':'D-'+days}</div>`;
     }
     const failIdx=ALL.indexOf(a);
+    const aCoords=auGetCoords(a.address);
+    const aCardId='amap-'+a.id.replace(/[^a-zA-Z0-9]/g,'_');
+    const hdrHtml = aCoords
+      ? `<div class="acard-map" id="${aCardId}">
+          <div class="acard-map-overlay"></div>
+          ${isNew?'<div class="badge-new">NEW</div>':''}
+          ${ddHtml}
+          <div class="acard-map-pills">
+            <span class="img-pill">${fmt(a.min_bid)}</span>
+            <span class="img-pill">${a.failed_bids>0?`유찰 ${a.failed_bids}회`:'신건'}</span>
+          </div>
+        </div>`
+      : `<div class="acard-img" style="background:${grad(a)}">
+          ${isNew?'<div class="badge-new">NEW</div>':''}
+          ${ddHtml}
+          <span class="bg-district">${dist}</span>
+          <div class="acard-img-stats">
+            <span class="img-pill">${fmt(a.min_bid)}</span>
+            <span class="img-pill">${a.failed_bids>0?`유찰 ${a.failed_bids}회`:'신건'}</span>
+          </div>
+        </div>`;
     return `<div class="acard" onclick="openM(${failIdx})">
-      <div class="acard-img" style="background:${grad(a)}">
-        ${isNew?'<div class="badge-new">NEW</div>':''}
-        ${ddHtml}
-        <span class="bg-district">${dist}</span>
-        <div class="acard-img-stats">
-          <span class="img-pill">${fmt(a.min_bid)}</span>
-          <span class="img-pill">${a.failed_bids>0?`유찰 ${a.failed_bids}회`:'신건'}</span>
-        </div>
-      </div>
+      ${hdrHtml}
       <div class="acard-body">
         <div class="acard-court-row">
           <div class="acard-court">${court}</div>
@@ -694,6 +713,47 @@ function renderCards(){
       </div>
     </div>`;
   }).join('');
+  setTimeout(()=>initAuctionMaps(slice), 50);
+}
+
+// 경매 카드 지도
+let au_maps={};
+function destroyAuctionMaps(){
+  Object.values(au_maps).forEach(m=>{try{m.remove();}catch(e){}});
+  au_maps={};
+}
+function auGetCoords(address){
+  if(!address) return null;
+  const parts=address.split(' ');
+  // 구/군 단위 (3번째 토큰)
+  for(let i=2;i>=0;i--){
+    const tk=(parts[i]||'').replace('특별시','').replace('광역시','').replace('특별자치도','').replace('도','').replace('시','').replace('군','').replace('구','').trim();
+    if(tk && KR_COORDS[tk]) return KR_COORDS[tk];
+    // 원본 그대로도 시도
+    const raw=(parts[i]||'').trim();
+    if(raw && KR_COORDS[raw]) return KR_COORDS[raw];
+  }
+  return null;
+}
+function initAuctionMaps(items){
+  items.forEach(a=>{
+    const coords=auGetCoords(a.address);
+    if(!coords) return;
+    const elId='amap-'+a.id.replace(/[^a-zA-Z0-9]/g,'_');
+    const el=document.getElementById(elId);
+    if(!el||au_maps[a.id]) return;
+    try{
+      const m=L.map(el,{
+        center:coords, zoom:14,
+        zoomControl:false, attributionControl:false,
+        dragging:false, scrollWheelZoom:false,
+        keyboard:false, boxZoom:false, doubleClickZoom:false, tap:false
+      });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(m);
+      L.circleMarker(coords,{radius:9,fillColor:'#DC2626',color:'white',weight:2,fillOpacity:1}).addTo(m);
+      au_maps[a.id]=m;
+    }catch(e){}
+  });
 }
 
 function renderPages(){
