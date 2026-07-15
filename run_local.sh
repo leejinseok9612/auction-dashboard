@@ -32,9 +32,10 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "▶ 시작: $(date '+%Y-%m-%d %H:%M:%S')" >> "$LOG"
 
 # 패키지 확인 & 설치
-$PYTHON -c "import requests, bs4" 2>/dev/null || {
-  echo "📦 패키지 설치 중..." | tee -a "$LOG"
-  $PYTHON -m pip install requests beautifulsoup4 lxml --quiet
+$PYTHON -c "import playwright" 2>/dev/null || {
+  echo "📦 playwright 설치 중..." | tee -a "$LOG"
+  $PYTHON -m pip install playwright --quiet
+  $PYTHON -m playwright install chromium --quiet
 }
 
 # 스크래퍼 실행
@@ -43,7 +44,7 @@ $PYTHON "$REPO_DIR/scraper/scrape_auctions.py" 2>&1 | tee -a "$LOG"
 
 # Git push
 cd "$REPO_DIR"
-git add data/auctions.json
+git add docs/data/auctions.json docs/data/cheongyak.json docs/index.html
 
 if git diff --cached --quiet; then
   echo "ℹ️  변경 데이터 없음 — 커밋 스킵" | tee -a "$LOG"

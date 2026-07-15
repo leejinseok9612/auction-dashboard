@@ -7,11 +7,11 @@
   <key>Label</key>
   <string>com.auction.scraper</string>
 
-  <!-- 실행할 명령 — REPO_PATH 를 실제 경로로 변경하세요 -->
+  <!-- 실행할 명령 — /Users/jinseok/Desktop/auction-dashboard 를 실제 경로로 변경하세요 -->
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string>
-    <string>REPO_PATH/run_local.sh</string>
+    <string>/Users/jinseok/Desktop/auction-dashboard/run_local.sh</string>
   </array>
 
   <!-- 매일 오전 9시 실행 -->
