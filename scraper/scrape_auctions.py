@@ -86,13 +86,20 @@ def parse_row(row):
         "scraped_date":  TODAY,
     }
 
-APT_KEYWORDS = ["아파트", "apt", "apartment"]
+EXCL_LAND = ["대지", "임야", "공장", "창고", "주차장"]
+RESID_KW  = ["아파트", "다가구", "다세대", "연립", "빌라", "오피스텔", "단독주택"]
 
 def is_target(row):
-    # 아파트 타입만 허용 (근린시설·상가·오피스·다가구 등 제외)
+    # 순수 상업용·토지만 제외, 다가구·빌라·오피스텔은 포함
     ptype = (row.get("dspslUsgNm") or "").strip()
-    if ptype and not any(k in ptype.lower() for k in APT_KEYWORDS):
-        return False
+    if ptype:
+        has_res = any(k in ptype for k in RESID_KW)
+        if not has_res:
+            if any(k in ptype for k in EXCL_LAND):
+                return False
+            segs = [s.strip() for s in ptype.split(',')]
+            if all(any(k in s for k in ["근린시설", "상가"]) for s in segs):
+                return False
     sido = row.get("daepyoSidoCd") or row.get("srchHjguSidoCd") or ""
     if sido not in METRO_SIDO:
         addr = row.get("printSt","") or row.get("hjguSido","")

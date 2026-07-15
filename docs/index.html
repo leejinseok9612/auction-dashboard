@@ -623,11 +623,18 @@ async function init(){
 function applyF(){
   const court=v('fc-court'),failed=v('fc-failed'),dateF=v('fc-date'),q=v('fc-q').toLowerCase();
   const today=tstr();
-  const APT_TYPES=['아파트','apt','apartment'];
+  const EXCL_LAND=['대지','임야','공장','창고','주차장'];
+  const RESID=['아파트','다가구','다세대','연립','빌라','오피스텔','단독주택'];
   FILT=ALL.filter(a=>{
-    // 아파트 타입만 표시 (근린시설·상가·오피스텔 등 제외)
-    const ptype=(a.property_type||'아파트').toLowerCase();
-    if(!APT_TYPES.some(t=>ptype.includes(t))) return false;
+    // 순수 상업용·토지만 제외 (주거 키워드 있으면 무조건 유지)
+    const ptype=(a.property_type||'').trim();
+    if(ptype){
+      const hasRes=RESID.some(k=>ptype.includes(k));
+      if(!hasRes){
+        if(EXCL_LAND.some(k=>ptype.includes(k))) return false;
+        if(ptype.split(',').every(s=>['근린시설','상가'].some(k=>s.trim().includes(k)))) return false;
+      }
+    }
     // 경매기일이 오늘 이전이면 자동 숨김 (완료된 경매)
     if(a.auction_date && a.auction_date < today) return false;
     if(court&&a.court!==court)return false;
