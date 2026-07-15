@@ -244,77 +244,66 @@ def main():
                 print("\n[브라우저 종료]")
                 return
 
-        # ── 5. 세션 확보 후 XHR로 전체 페이지 수집 ───────────
-        print("\n[5단계] 전체 데이터 수집 (XHR 페이지네이션)...")
+        # ── 5. 다음 페이지 클릭으로 전체 수집 ────────────────────
+        print("\n[5단계] 전체 데이터 수집 (페이지 클릭)...")
 
-        # 첫 응답에서 총 건수 파악
         first = captured[0]
         total_cnt = int(first.get("data",{}).get("dma_pageInfo",{}).get("totalCnt") or 0)
-        print(f"  총 {total_cnt}건 확인 — XHR로 전체 수집 시작")
-
-        # 세션이 살아있는 브라우저 컨텍스트에서 동기 XHR 직접 호출
-        JS_XHR = """
-        (payload) => {
-            try {
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/pgj/pgjsearch/searchControllerMain.on', false);
-                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                xhr.send(JSON.stringify(payload));
-                return JSON.parse(xhr.responseText);
-            } catch(e) {
-                return {_err: String(e)};
-            }
-        }
-        """
+        page_size = int(first.get("data",{}).get("dma_pageInfo",{}).get("pageSize") or 10)
+        total_pages = (total_cnt + page_size - 1) // page_size
+        print(f"  총 {total_cnt}건 / {total_pages}페이지")
 
         all_xhr_rows = []
-        # 첫 페이지는 이미 캡처됨
         first_rows = first.get("data",{}).get("dlt_srchResult") or []
         all_xhr_rows.extend(first_rows)
-        print(f"  p=1 → {len(first_rows)}건 (XHR 후크 캡처분)")
+        print(f"  p=1 → {len(first_rows)}건")
 
-        page_size = 100
-        total_pages = (total_cnt + page_size - 1) // page_size
+        # 2페이지부터 다음 버튼 클릭으로 수집
+        for pg in range(2, min(total_pages + 1, 100)):
+            # 이전 캡처 클리어
+            page.evaluate("() => { window.__auction_captured = []; }")
 
-        for pg in range(1, min(total_pages + 1, 50)):  # 최대 50페이지
-            payload = {
-                "dma_pageInfo": {
-                    "pageNo": pg, "pageSize": page_size,
-                    "bfPageNo": str(pg-1), "startRowNo": "",
-                    "totalCnt": str(total_cnt), "totalYn": "N"
-                },
-                "dma_srchGdsDtlSrchInfo": {
-                    "rletDspslSpcCondCd": "", "bidDvsCd": "",
-                    "mvprRletDvsCd": "", "cortAuctnSrchCondCd": "",
-                    "daepyoSidoCd": "",
-                    "lclsUtilCd": "", "mclsUtilCd": "", "sclsUtilCd": "", "boCd": "",
-                }
-            }
-            result = page.evaluate(JS_XHR, payload)
+            # 다음 페이지 버튼 클릭
+            clicked = page.evaluate(f"""() => {{
+                // 숫자 페이지 버튼 먼저 시도
+                var btns = document.querySelectorAll('a, button, span');
+                for (var b of btns) {{
+                    var txt = (b.innerText || b.textContent || '').trim();
+                    if (txt === '{pg}') {{
+                        b.click();
+                        return 'page_num:{pg}';
+                    }}
+                }}
+                // 다음(>) 버튼
+                for (var b of btns) {{
+                    var txt = (b.innerText || b.textContent || '').trim();
+                    if (txt === '다음' || txt === '>' || txt === '▶' || txt === '→') {{
+                        b.click();
+                        return 'next_btn';
+                    }}
+                }}
+                return 'not_found';
+            }}""")
 
-            if result.get("_err"):
-                print(f"  p={pg} XHR오류: {result['_err']}")
+            if clicked == 'not_found':
+                print(f"  p={pg} → 다음 버튼 없음, 종료")
                 break
 
-            rows = result.get("data",{}).get("dlt_srchResult") or []
-            api_status = result.get("status")
-            if api_status != 200 or not rows:
-                print(f"  p={pg} → status={api_status}, {len(rows)}건 (종료)")
+            page.wait_for_timeout(3000)
+            new_cap = get_captured(page)
+            if not new_cap:
+                print(f"  p={pg} → 응답 없음")
                 break
 
+            rows = new_cap[-1].get("data",{}).get("dlt_srchResult") or []
             all_xhr_rows.extend(rows)
-            print(f"  p={pg} → {len(rows)}건 (누적 {len(all_xhr_rows)}건)")
-            page.wait_for_timeout(500)
+            print(f"  p={pg} → {len(rows)}건 [{clicked}] (누적 {len(all_xhr_rows)}건)")
 
             if len(all_xhr_rows) >= total_cnt:
                 break
 
-        print(f"\n  수집 완료: {len(all_xhr_rows)}건")
-        # 전체 수집 결과 사용
-        for cap in captured:
-            pass  # 이미 first_rows 처리
-        captured = all_xhr_rows  # 재정의
+        print(f"\n  수집 완료: {len(all_xhr_rows)}건 / 총 {total_cnt}건")
+        captured = all_xhr_rows
 
         context.close()
         browser.close()
