@@ -989,7 +989,7 @@ function applyCyF(){
     // 기본 필터: 미정 제외, 마감된 것 제외
     if(!status && a.status==='미정') return false;
     if(a.end_date && a.end_date < cyToday) return false;
-    if(region && !(a.region||'').includes(region)) return false;
+    if(region && !region.startsWith(a.region||'') && !(a.region||'').startsWith(region)) return false;
     if(type   && !(a.type||'').includes(type))     return false;
     if(status && a.status!==status)                return false;
     if(builder){
