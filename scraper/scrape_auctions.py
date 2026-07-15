@@ -223,99 +223,101 @@ def main():
         print("\n[3단계] 검색 폼 로드 대기 (20초)...")
         page.wait_for_timeout(20000)
 
-        # 자동검색 확인
-        captured = get_captured(page)
-        if captured:
-            print(f"  ★ 자동검색 결과 {len(captured)}개 캡처!")
-        else:
-            print("  → 자동검색 없음, 검색 트리거...")
-
-            # ── 4. 검색 트리거 ─────────────────────────────
-            print("\n[4단계] 검색 실행...")
-            try_trigger_search(page)
-
-            page.wait_for_timeout(10000)
-            captured = get_captured(page)
-
-            if not captured:
-                print("\n[디버그] 현재 화면 버튼:")
-                btns = page.evaluate("""() =>
-                    Array.from(document.querySelectorAll('button,input[type=button],input[type=submit],a'))
-                    .filter(e => {
-                        var txt = e.innerText||e.value||'';
-                        var r = e.getBoundingClientRect();
-                        return txt.trim() && r.width > 0 && r.height > 0;
-                    })
-                    .slice(0,20)
-                    .map(e => ({tag:e.tagName, text:(e.innerText||e.value||'').trim().slice(0,20), id:e.id}))
-                """)
-                for b in btns:
-                    print(f"  [{b['tag']}] '{b['text']}' id={b['id']}")
-                page.screenshot(path="/tmp/auction_form.png")
-                print("\n  스크린샷: /tmp/auction_form.png")
-                context.close(); browser.close()
-                print("\n[브라우저 종료]")
-                return
-
-        # ── 5. 다음 페이지 클릭으로 전체 수집 ────────────────────
-        print("\n[5단계] 전체 데이터 수집 (페이지 클릭)...")
-
-        first = captured[0]
-        total_cnt = int(first.get("data",{}).get("dma_pageInfo",{}).get("totalCnt") or 0)
-        page_size = int(first.get("data",{}).get("dma_pageInfo",{}).get("pageSize") or 10)
-        total_pages = (total_cnt + page_size - 1) // page_size
-        print(f"  총 {total_cnt}건 / {total_pages}페이지")
-
+        # ── 4. 시도별 반복 검색 (서울·경기·인천) ──────────────
+        # sido 코드: 서울=11, 경기=41, 인천=28
+        SIDO_LIST = [("11","서울"), ("41","경기"), ("28","인천")]
         all_xhr_rows = []
-        first_rows = first.get("data",{}).get("dlt_srchResult") or []
-        all_xhr_rows.extend(first_rows)
-        print(f"  p=1 → {len(first_rows)}건")
 
-        # 2페이지부터 다음 버튼 클릭으로 수집
-        for pg in range(2, min(total_pages + 1, 100)):
-            # 이전 캡처 클리어
+        for sido_code, sido_name in SIDO_LIST:
+            print(f"\n[4단계] {sido_name} 검색 시작 (sido={sido_code})...")
+
+            # XHR 버퍼 클리어
             page.evaluate("() => { window.__auction_captured = []; }")
 
-            # 다음 페이지 버튼 클릭
-            clicked = page.evaluate(f"""() => {{
-                // 숫자 페이지 버튼 먼저 시도
-                var btns = document.querySelectorAll('a, button, span');
-                for (var b of btns) {{
-                    var txt = (b.innerText || b.textContent || '').trim();
-                    if (txt === '{pg}') {{
-                        b.click();
-                        return 'page_num:{pg}';
+            # 시도 드롭다운 설정 시도
+            set_result = page.evaluate(f"""() => {{
+                // 가능한 sido 셀렉트 선택자 목록
+                var candidates = [
+                    'select[id*="Sido"]', 'select[id*="sido"]',
+                    'select[name*="sido"]', 'select[name*="Sido"]',
+                    '[id*="slcSido"]', '[id*="cmbSido"]',
+                ];
+                for (var sel of candidates) {{
+                    var el = document.querySelector(sel);
+                    if (el) {{
+                        el.value = '{sido_code}';
+                        el.dispatchEvent(new Event('change', {{bubbles:true}}));
+                        el.dispatchEvent(new Event('input',  {{bubbles:true}}));
+                        return 'select:' + (el.id||sel);
                     }}
                 }}
-                // 다음(>) 버튼
-                for (var b of btns) {{
-                    var txt = (b.innerText || b.textContent || '').trim();
-                    if (txt === '다음' || txt === '>' || txt === '▶' || txt === '→') {{
-                        b.click();
-                        return 'next_btn';
+                // WebSquare scwin 함수에서 sido 관련 함수 찾기
+                if (typeof scwin !== 'undefined') {{
+                    var fns = Object.getOwnPropertyNames(scwin);
+                    for (var fn of fns) {{
+                        if (/sido/i.test(fn) || /시도/i.test(fn)) {{
+                            try {{ scwin[fn]('{sido_code}'); return 'scwin:'+fn; }} catch(e) {{}}
+                        }}
                     }}
                 }}
                 return 'not_found';
             }}""")
+            print(f"  시도 설정: {set_result}")
+            page.wait_for_timeout(1500)
 
-            if clicked == 'not_found':
-                print(f"  p={pg} → 다음 버튼 없음, 종료")
-                break
+            # 검색 트리거
+            try_trigger_search(page)
+            page.wait_for_timeout(8000)
 
-            page.wait_for_timeout(3000)
-            new_cap = get_captured(page)
-            if not new_cap:
-                print(f"  p={pg} → 응답 없음")
-                break
+            captured = get_captured(page)
+            if not captured:
+                print(f"  [{sido_name}] 캡처 없음, 스킵")
+                continue
 
-            rows = new_cap[-1].get("data",{}).get("dlt_srchResult") or []
-            all_xhr_rows.extend(rows)
-            print(f"  p={pg} → {len(rows)}건 [{clicked}] (누적 {len(all_xhr_rows)}건)")
+            # 첫 페이지 수집
+            first = captured[0]
+            total_cnt = int(first.get("data",{}).get("dma_pageInfo",{}).get("totalCnt") or 0)
+            page_size = int(first.get("data",{}).get("dma_pageInfo",{}).get("pageSize") or 10)
+            total_pages = max(1, (total_cnt + page_size - 1) // page_size)
+            print(f"  [{sido_name}] 총 {total_cnt}건 / {total_pages}페이지")
 
-            if len(all_xhr_rows) >= total_cnt:
-                break
+            sido_rows = []
+            first_rows = first.get("data",{}).get("dlt_srchResult") or []
+            sido_rows.extend(first_rows)
+            print(f"  p=1 → {len(first_rows)}건")
 
-        print(f"\n  수집 완료: {len(all_xhr_rows)}건 / 총 {total_cnt}건")
+            # 2페이지~
+            for pg in range(2, min(total_pages + 1, 50)):
+                page.evaluate("() => { window.__auction_captured = []; }")
+                clicked = page.evaluate(f"""() => {{
+                    var btns = document.querySelectorAll('a, button, span');
+                    for (var b of btns) {{
+                        var txt = (b.innerText||b.textContent||'').trim();
+                        if (txt === '{pg}') {{ b.click(); return 'num:{pg}'; }}
+                    }}
+                    for (var b of btns) {{
+                        var txt = (b.innerText||b.textContent||'').trim();
+                        if (txt==='다음'||txt==='>'||txt==='▶'||txt==='→') {{ b.click(); return 'next'; }}
+                    }}
+                    return 'not_found';
+                }}""")
+                if clicked == 'not_found':
+                    print(f"  p={pg} 버튼 없음, 종료")
+                    break
+                page.wait_for_timeout(3000)
+                new_cap = get_captured(page)
+                if not new_cap:
+                    break
+                rows = new_cap[-1].get("data",{}).get("dlt_srchResult") or []
+                sido_rows.extend(rows)
+                print(f"  p={pg} → {len(rows)}건 (누적 {len(sido_rows)}건)")
+                if len(sido_rows) >= total_cnt:
+                    break
+
+            print(f"  [{sido_name}] 수집 완료: {len(sido_rows)}건")
+            all_xhr_rows.extend(sido_rows)
+
+        print(f"\n  전체 수집 완료: {len(all_xhr_rows)}건 (서울+경기+인천)")
         captured = all_xhr_rows
 
         context.close()
