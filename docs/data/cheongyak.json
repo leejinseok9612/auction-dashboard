@@ -151,8 +151,8 @@
       "status": "청약예정",
       "url": "https://www.xi.co.kr/osxi",
       "competition": {},
-      "lat": null,
-      "lng": null,
+      "lat": 36.638392,
+      "lng": 127.696119,
       "scraped_date": "2026-07-15"
     },
     {
@@ -283,8 +283,8 @@
       "status": "청약예정",
       "url": "http://thecentral45.com",
       "competition": {},
-      "lat": null,
-      "lng": null,
+      "lat": 36.638392,
+      "lng": 127.696119,
       "scraped_date": "2026-07-15"
     },
     {
