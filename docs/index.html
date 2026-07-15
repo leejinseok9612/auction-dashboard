@@ -595,7 +595,7 @@ let currentIdx=-1;
 
 async function init(){
   try{
-    const r=await fetch('../data/auctions.json?t='+Date.now());
+    const r=await fetch('./data/auctions.json?t='+Date.now());
     const d=await r.json();
     ALL=d.auctions||[];
   }catch(e){ ALL=demo(); }
@@ -617,6 +617,8 @@ function applyF(){
   const court=v('fc-court'),failed=v('fc-failed'),dateF=v('fc-date'),q=v('fc-q').toLowerCase();
   const today=tstr();
   FILT=ALL.filter(a=>{
+    // 경매기일이 오늘 이전이면 자동 숨김 (완료된 경매)
+    if(a.auction_date && a.auction_date < today) return false;
     if(court&&a.court!==court)return false;
     if(failed!==''&&(a.failed_bids||0)<+failed)return false;
     if(dateF==='today'&&a.scraped_date!==today)return false;
@@ -971,7 +973,7 @@ let cy_pg=1; const CY_PG=12;
 
 async function initCy(){
   try{
-    const r=await fetch('../data/cheongyak.json?t='+Date.now());
+    const r=await fetch('./data/cheongyak.json?t='+Date.now());
     const d=await r.json();
     CY_ALL=d.subscriptions||[];
   }catch(e){ CY_ALL=cyDemo(); }
