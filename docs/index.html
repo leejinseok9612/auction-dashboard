@@ -1034,8 +1034,8 @@ function renderCyCards(){
     const compHtml  = compKeys.length
       ? compKeys.slice(0,2).map(k=>`<span class="cy-comp-pill"><span class="comp-label">${k} </span><span class="comp-rate">${Number(comp[k]).toFixed(1)}:1</span></span>`).join('')
       : '';
-    const hasMap = a.lat && a.lng;
-    const hdrInner = hasMap
+    const coords = cyGetCoords(a);
+    const hdrInner = coords
       ? `<div class="cy-hdr-map" id="cymap-${a.id.replace(/[^a-zA-Z0-9]/g,'_')}"></div>`
       : `<div class="cy-hdr-fallback" style="background:${cyGrad(a)}"></div>`;
     const isCySaved = CY_BM.has(a.id);
