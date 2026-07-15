@@ -38,9 +38,13 @@ $PYTHON -c "import playwright" 2>/dev/null || {
   $PYTHON -m playwright install chromium --quiet
 }
 
-# 스크래퍼 실행
+# 경매 스크래퍼 실행
 echo "🔍 경매 데이터 수집 중..." | tee -a "$LOG"
 $PYTHON "$REPO_DIR/scraper/scrape_auctions.py" 2>&1 | tee -a "$LOG"
+
+# 청약 스크래퍼 실행
+echo "🏠 청약 데이터 수집 중..." | tee -a "$LOG"
+$PYTHON "$REPO_DIR/scraper/scrape_cheongyak.py" 2>&1 | tee -a "$LOG"
 
 # Git push
 cd "$REPO_DIR"
