@@ -39,7 +39,7 @@
     /* ── 청약 CARD ── */
     .cy-card { background:white; border:1.5px solid var(--gray-200); border-radius:18px; overflow:hidden; cursor:pointer; transition:all 0.25s; position:relative; }
     .cy-card:hover { border-color:var(--blue); box-shadow:0 10px 40px rgba(37,99,235,0.12); transform:translateY(-3px); }
-    .cy-hdr { height:160px; position:relative; overflow:hidden; }
+    .cy-hdr { height:160px; position:relative; overflow:hidden; isolation:isolate; }
     .cy-hdr-map { width:100%; height:100%; z-index:0; }
     .cy-hdr-fallback { width:100%; height:100%; display:flex; align-items:flex-end; padding:16px; }
     .cy-hdr-overlay { position:absolute; inset:0; pointer-events:none; z-index:10; }
@@ -121,7 +121,7 @@
     .acard:hover { border-color:var(--black); box-shadow:0 10px 40px rgba(0,0,0,0.12); transform:translateY(-3px); }
     .acard-img { height:190px; position:relative; overflow:hidden; display:flex; align-items:flex-end; padding:16px; }
     .acard-img .bg-district { position:absolute; bottom:-12px; right:14px; font-size:58px; font-weight:900; color:rgba(255,255,255,0.2); line-height:1; user-select:none; pointer-events:none; }
-    .acard-map { height:190px; position:relative; overflow:hidden; }
+    .acard-map { height:190px; position:relative; overflow:hidden; isolation:isolate; }
     .acard-map-overlay { position:absolute; inset:0; pointer-events:none; z-index:10; background:linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 55%); }
     .acard-map-pills { position:absolute; bottom:14px; left:14px; display:flex; gap:7px; z-index:11; }
     .acard-map .badge-new { z-index:12; }
@@ -137,7 +137,8 @@
     .acard-court-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
     .acard-court { font-size:11px; font-weight:700; color:var(--gray-600); text-transform:uppercase; letter-spacing:0.5px; }
     .acard-addr { font-size:16px; font-weight:700; letter-spacing:-0.3px; line-height:1.3; margin-bottom:3px; }
-    .acard-addr2 { font-size:13px; color:var(--gray-400); margin-bottom:18px; }
+    .acard-addr2 { font-size:12px; color:var(--gray-600); margin-bottom:6px; }
+    .acard-unit { display:inline-block; font-size:12px; font-weight:700; color:var(--black); background:var(--gray-100); border:1px solid var(--gray-200); border-radius:6px; padding:2px 8px; margin-bottom:12px; }
     .acard-metrics { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; padding-top:16px; border-top:1px solid var(--gray-100); }
     .metric { text-align:center; }
     .metric-lbl { font-size:10px; font-weight:700; color:var(--gray-400); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:4px; }
@@ -168,7 +169,8 @@
     .pgt:disabled { opacity:0.3; cursor:not-allowed; }
 
     /* ── MODAL ── */
-    .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:200; display:none; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(6px); }
+    /* Leaflet panes default z-indexes go up to 600+; overlay must be higher */
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:9000; display:none; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(6px); }
     .overlay.on { display:flex; }
     .modal { background:white; border-radius:22px; width:100%; max-width:880px; max-height:92vh; overflow-y:auto; position:relative; animation:mIn 0.28s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes mIn { from{opacity:0;transform:scale(0.94) translateY(16px)} to{opacity:1;transform:scale(1) translateY(0)} }
@@ -231,7 +233,7 @@
     .bid-hist-drop { font-size:11px; font-weight:700; color:var(--red); }
 
     /* ── TOAST ── */
-    .toast { position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--black); color:white; font-size:14px; font-weight:600; padding:14px 24px; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,0.25); opacity:0; pointer-events:none; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); z-index:999; white-space:nowrap; }
+    .toast { position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--black); color:white; font-size:14px; font-weight:600; padding:14px 24px; border-radius:14px; box-shadow:0 8px 32px rgba(0,0,0,0.25); opacity:0; pointer-events:none; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); z-index:11000; white-space:nowrap; }
     .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
     .toast .t-case { color:var(--yellow); font-weight:800; margin:0 4px; }
     .toast .t-step { display:block; font-size:12px; color:rgba(255,255,255,0.6); margin-top:3px; text-align:center; }
@@ -264,7 +266,7 @@
     .cal-legend-dot { width:10px; height:10px; border-radius:2px; }
 
     /* ── SCORE CALCULATOR OVERLAY ── */
-    .sc-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:300; display:none; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(8px); }
+    .sc-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:10000; display:none; align-items:center; justify-content:center; padding:24px; backdrop-filter:blur(8px); }
     .sc-overlay.on { display:flex; }
     .sc-modal { background:white; border-radius:24px; width:100%; max-width:540px; max-height:92vh; overflow-y:auto; animation:mIn 0.28s cubic-bezier(0.34,1.56,0.64,1); }
     .sc-hdr { background:var(--black); border-radius:24px 24px 0 0; padding:28px; position:relative; }
@@ -665,7 +667,11 @@ function renderCards(){
     const dist=getDist(a.address);
     const parts=(a.address||'').split(' ');
     const am=parts.slice(0,4).join(' ');
-    const as2=parts.slice(4).join(' ');
+    const as2rest=parts.slice(4).join(' ');
+    // 층호 단위 추출: "1동 15층1505호" 또는 "4층401호" 같은 패턴
+    const unitMatch=as2rest.match(/(\d+동\s*)?(지?\d+층[a-zA-Z가-힣]*\d+호|[a-zA-Z가-힣]*\d+호)/);
+    const unitStr=unitMatch?unitMatch[0].trim():'';
+    const as2=as2rest.replace(unitStr,'').trim();
     const court=(a.court||'').replace('서울','서울 ').replace('지방법원','');
     const isSaved=BM.has(a.id);
     let ddHtml='';
@@ -704,6 +710,7 @@ function renderCards(){
         </div>
         <div class="acard-addr">${am||a.address||'-'}</div>
         ${as2?`<div class="acard-addr2">${as2}</div>`:''}
+        ${unitStr?`<span class="acard-unit">🏢 ${unitStr}</span>`:''}
         <div class="acard-metrics">
           <div class="metric"><div class="metric-lbl">감정가</div><div class="metric-val c-black">${fmt(a.appraisal)}</div></div>
           <div class="metric"><div class="metric-lbl">최저입찰가</div><div class="metric-val c-green">${fmt(a.min_bid)}</div></div>
@@ -727,16 +734,19 @@ function auGetCoords(address){
   // 괄호 앞부분만 사용
   const addr = address.split('(')[0].trim();
   const parts = addr.split(' ');
-  // 앞에서 3번째 토큰(구/군)부터 역순으로 시도 → 더 구체적인 게 우선
-  for(let i=Math.min(parts.length-1, 3); i>=0; i--){
+  // 정밀도 우선: 동 단위(index 2~3) → 구 단위 → 시 단위 순으로 시도
+  for(let i=Math.min(parts.length-1, 4); i>=0; i--){
     const raw = (parts[i]||'').trim();
     if(!raw) continue;
-    // 접미사 제거 순서: 구/군/시 제거 후 시도, 그 다음 원본 시도
+    // 숫자만 있는 토큰(지번 등) 건너뜀
+    if(/^\d/.test(raw)) continue;
+    // 원본 그대로 먼저 시도 (신림동, 봉천동 등 동 단위)
+    if(KR_COORDS[raw]) return KR_COORDS[raw];
+    // 접미사 제거 후 시도
     const stripped = raw.replace('특별시','').replace('광역시','').replace('특별자치도','')
                         .replace('특별자치시','').replace('도','').replace('시','')
                         .replace('군','').replace('구','').trim();
     if(stripped && KR_COORDS[stripped]) return KR_COORDS[stripped];
-    if(raw && KR_COORDS[raw]) return KR_COORDS[raw];
   }
   return null;
 }
@@ -747,10 +757,11 @@ function initAuctionMaps(items){
     const elId='amap-'+a.id.replace(/[^a-zA-Z0-9]/g,'_');
     const el=document.getElementById(elId);
     if(!el||au_maps[a.id]) return;
-    // 정확한 좌표(지오코딩)=16, 구단위 룩업=14, 시단위=13
+    // 정확한 좌표(지오코딩)=16, 동단위 룩업=15, 구단위=14, 시단위=13
     const addr2=(a.address||'').split('(')[0].trim().split(' ');
+    const hasDong = addr2.some(p=>p.endsWith('동')||p.endsWith('가')||(p.endsWith('로')&&p.length>2));
     const hasGu = addr2.some(p=>p.endsWith('구')||p.endsWith('군'));
-    const auZoom = a.lat ? 16 : hasGu ? 14 : 13;
+    const auZoom = a.lat ? 16 : hasDong ? 15 : hasGu ? 14 : 13;
     try{
       const m=L.map(el,{
         center:coords, zoom:auZoom,
@@ -1209,6 +1220,55 @@ const KR_COORDS={
   "광양":[34.9408,127.6956],"여수":[34.7604,127.6622],"순천":[34.9506,127.4872],
   "목포":[34.8118,126.3922],"대전":[36.3504,127.3845],"세종":[36.4801,127.2890],
   "울주":[35.5229,129.2403],
+  // ── 서울 주요 동(洞) 단위 좌표 ──
+  // 관악구
+  "신림동":[37.4843,126.9291],"봉천동":[37.4831,126.9454],"신림":[37.4843,126.9291],"봉천":[37.4831,126.9454],
+  // 강남구
+  "논현동":[37.5105,127.0272],"청담동":[37.5261,127.0491],"대치동":[37.4962,127.0594],
+  "도곡동":[37.4898,127.0392],"개포동":[37.4757,127.0614],"역삼동":[37.5006,127.0360],
+  "삼성동":[37.5140,127.0611],"압구정동":[37.5241,127.0314],"세곡동":[37.4622,127.1001],
+  "논현":[37.5105,127.0272],"청담":[37.5261,127.0491],"대치":[37.4962,127.0594],"도곡":[37.4898,127.0392],
+  // 서초구
+  "서초동":[37.4836,127.0096],"반포동":[37.5043,127.0003],"방배동":[37.4812,126.9916],
+  "잠원동":[37.5167,127.0017],"양재동":[37.4770,127.0347],"우면동":[37.4676,127.0271],
+  "서초":[37.4836,127.0096],"반포":[37.5043,127.0003],
+  // 송파구
+  "잠실동":[37.5100,127.1012],"방이동":[37.5140,127.1200],"가락동":[37.4967,127.1163],
+  "문정동":[37.4897,127.1209],"오금동":[37.5012,127.1302],"거여동":[37.4836,127.1398],
+  "잠실":[37.5100,127.1012],
+  // 종로구
+  "명륜4가":[37.5825,126.9990],"명륜동":[37.5825,126.9990],"평창동":[37.6032,126.9696],
+  "사직동":[37.5760,126.9703],"창신동":[37.5773,127.0141],"숭인동":[37.5792,127.0195],
+  "가회동":[37.5823,126.9842],"삼청동":[37.5825,126.9809],"부암동":[37.5962,126.9659],
+  "혜화동":[37.5820,126.9999],"명륜":[37.5825,126.9990],"평창":[37.6032,126.9696],
+  // 중구
+  "황학동":[37.5703,127.0143],"남창동":[37.5595,126.9920],"충무로2가":[37.5600,126.9942],
+  "충무로":[37.5600,126.9942],"을지로":[37.5664,126.9820],"신당동":[37.5599,127.0224],
+  "회현동":[37.5579,126.9848],"황학":[37.5703,127.0143],
+  // 동작구
+  "상도동":[37.4979,126.9354],"노량진동":[37.5140,126.9407],"흑석동":[37.5048,126.9599],
+  "사당동":[37.4763,126.9804],"대방동":[37.5071,126.9245],"신대방동":[37.4939,126.9149],
+  "상도":[37.4979,126.9354],
+  // 마포구
+  "아현동":[37.5561,126.9518],"합정동":[37.5497,126.9143],"망원동":[37.5557,126.9053],
+  "상암동":[37.5807,126.8993],"성산동":[37.5657,126.8979],"공덕동":[37.5428,126.9519],
+  // 용산구
+  "이태원동":[37.5345,126.9945],"한남동":[37.5377,127.0051],"청파동":[37.5420,126.9731],
+  "효창동":[37.5424,126.9617],"서빙고동":[37.5142,126.9970],
+  // 성동구
+  "금호동":[37.5534,127.0254],"옥수동":[37.5433,127.0184],"행당동":[37.5587,127.0336],
+  "왕십리동":[37.5616,127.0289],"마장동":[37.5645,127.0365],"성수동":[37.5443,127.0549],
+  // 영등포구
+  "여의도동":[37.5216,126.9244],"당산동":[37.5318,126.8966],"신길동":[37.5065,126.9104],
+  "도림동":[37.5031,126.9135],"문래동":[37.5183,126.8984],
+  // 노원구
+  "상계동":[37.6542,127.0568],"중계동":[37.6450,127.0731],"하계동":[37.6358,127.0653],
+  "공릉동":[37.6244,127.0774],"월계동":[37.6342,127.0508],
+  // 성북구
+  "길음동":[37.6085,127.0228],"돈암동":[37.5931,127.0147],"장위동":[37.6133,127.0553],
+  // 강동구
+  "강일동":[37.5651,127.1742],"천호동":[37.5386,127.1278],"성내동":[37.5306,127.1264],
+  "둔촌동":[37.5192,127.1377],"암사동":[37.5514,127.1360],"고덕동":[37.5568,127.1700],
 };
 function cyGetCoords(a){
   if(a.lat&&a.lng) return [a.lat,a.lng];
