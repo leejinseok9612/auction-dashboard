@@ -113,59 +113,115 @@ def is_target(row):
 def get_captured(page):
     return page.evaluate("() => window.__auction_captured || []")
 
-def try_trigger_search(page):
-    """검색 트리거: scwin 함수 → DOM 버튼 순으로 시도"""
-    # scwin 함수 목록
-    fns = page.evaluate("""() => {
+def get_search_frame(page):
+    """검색 폼이 있는 frame 반환 (메인 또는 iframe)"""
+    # 메인 페이지에서 scwin 확인
+    has_scwin = page.evaluate("() => typeof scwin !== 'undefined' && Object.keys(scwin).length > 0")
+    if has_scwin:
+        return page
+
+    # iframe 순회 — scwin 또는 검색 폼이 있는 frame 찾기
+    for frame in page.frames:
+        if frame == page.main_frame:
+            continue
+        try:
+            ok = frame.evaluate("""() => {
+                if (typeof scwin !== 'undefined' && Object.keys(scwin).length > 0) return true;
+                if (document.querySelector('select[id*="Sido"],select[id*="sido"],[id*="slcSido"]')) return true;
+                if (document.querySelector('[id*="btn"][id*="srch"],[id*="btn"][id*="Srch"]')) return true;
+                return false;
+            }""")
+            if ok:
+                print(f"  → 검색 frame 발견: {frame.url[:60]}")
+                return frame
+        except:
+            pass
+    return page  # 못찾으면 메인 페이지
+
+def set_sido_in_frame(frame, sido_code, sido_name):
+    """frame 안에서 시도 드롭다운 설정"""
+    result = frame.evaluate(f"""() => {{
+        // 1. select 직접 탐색
+        var sels = ['select[id*="Sido"]','select[id*="sido"]','[id*="slcSido"]',
+                    '[id*="cmbSido"]','select[name*="sido"]'];
+        for (var s of sels) {{
+            var el = document.querySelector(s);
+            if (el) {{
+                el.value = '{sido_code}';
+                el.dispatchEvent(new Event('change', {{bubbles:true}}));
+                return 'select:' + (el.id || s);
+            }}
+        }}
+        // 2. WebSquare scwin 함수 탐색
+        if (typeof scwin !== 'undefined') {{
+            var fns = Object.getOwnPropertyNames(scwin);
+            for (var fn of fns) {{
+                if (/sido/i.test(fn)) {{
+                    try {{ scwin[fn]('{sido_code}'); return 'scwin:'+fn; }} catch(e) {{}}
+                }}
+            }}
+        }}
+        // 3. 모든 select에서 "{sido_code}" 옵션 찾기
+        var allSel = document.querySelectorAll('select');
+        for (var sel of allSel) {{
+            for (var opt of sel.options) {{
+                if (opt.value === '{sido_code}') {{
+                    sel.value = '{sido_code}';
+                    sel.dispatchEvent(new Event('change', {{bubbles:true}}));
+                    return 'auto:' + (sel.id||'?');
+                }}
+            }}
+        }}
+        return 'not_found';
+    }}""")
+    print(f"  [{sido_name}] 시도 설정: {result}")
+    return result != 'not_found'
+
+def try_trigger_search(page, frame=None):
+    """검색 트리거: frame 우선, 없으면 page"""
+    f = frame or page
+
+    # scwin 함수 시도
+    fns = f.evaluate("""() => {
         if (typeof scwin === 'undefined') return [];
         return Object.getOwnPropertyNames(scwin)
             .filter(k => typeof scwin[k] === 'function');
     }""")
     print(f"  scwin 함수: {fns[:10]}")
 
-    # 검색 관련 함수 호출
-    search_keywords = ['search','srch','조회','srchGds','mulSrch','SelMul','selMul','list','List']
+    search_kw = ['search','srch','조회','srchGds','mulSrch','selMul','list','List']
     for fn in fns:
-        if any(kw.lower() in fn.lower() for kw in search_keywords):
+        if any(kw.lower() in fn.lower() for kw in search_kw):
             try:
-                r = page.evaluate(f"() => {{ try {{ scwin['{fn}'](); return 'ok'; }} catch(e) {{ return String(e); }} }}")
+                r = f.evaluate(f"() => {{ try {{ scwin['{fn}'](); return 'ok'; }} catch(e) {{ return String(e); }} }}")
                 print(f"  → scwin.{fn}() = {r}")
                 page.wait_for_timeout(3000)
-                if get_captured(page):
-                    return True
-            except:
-                pass
+                if get_captured(page): return True
+            except: pass
 
-    # 함수 못찾으면 첫 5개 다 시도
     for fn in fns[:5]:
         try:
-            page.evaluate(f"() => {{ try {{ scwin['{fn}'](); }} catch(e) {{}} }}")
+            f.evaluate(f"() => {{ try {{ scwin['{fn}'](); }} catch(e) {{}} }}")
             page.wait_for_timeout(2000)
-            if get_captured(page):
-                return True
-        except:
-            pass
+            if get_captured(page): return True
+        except: pass
 
-    # DOM 버튼 클릭
-    for selector in [
-        "button:has-text('조회')",
-        "button:has-text('검색')",
-        "input[value='조회']",
-        "input[value='검색']",
-        "a:has-text('조회')",
-        "[id*='btn'][id*='srch']",
-        "[id*='btn'][id*='search']",
-    ]:
-        try:
-            elem = page.locator(selector).first
-            if elem.is_visible():
-                elem.click()
-                print(f"  → 클릭: {selector}")
-                page.wait_for_timeout(5000)
-                if get_captured(page):
-                    return True
-        except:
-            pass
+    # DOM 버튼 클릭 (frame + page 모두 시도)
+    for target in ([f, page] if f != page else [page]):
+        for selector in [
+            "button:has-text('조회')", "button:has-text('검색')",
+            "input[value='조회']", "input[value='검색']",
+            "a:has-text('조회')", "[id*='btn'][id*='srch']",
+            "[id*='btn'][id*='Srch']", "[id*='btn'][id*='search']",
+        ]:
+            try:
+                elem = target.locator(selector).first
+                if elem.is_visible():
+                    elem.click()
+                    print(f"  → 클릭: {selector}")
+                    page.wait_for_timeout(5000)
+                    if get_captured(page): return True
+            except: pass
 
     return False
 
@@ -223,50 +279,31 @@ def main():
         print("\n[3단계] 검색 폼 로드 대기 (20초)...")
         page.wait_for_timeout(20000)
 
-        # ── 4. 시도별 반복 검색 (서울·경기·인천) ──────────────
-        # sido 코드: 서울=11, 경기=41, 인천=28
+        # ── 4. 검색 frame 탐지 ───────────────────────────────
+        print("\n[4단계] 검색 frame 탐지...")
+        # iframe 목록 출력 (디버그)
+        frame_urls = [f.url[:80] for f in page.frames if f != page.main_frame]
+        print(f"  iframe 수: {len(frame_urls)}")
+        for u in frame_urls:
+            print(f"    {u}")
+        search_frame = get_search_frame(page)
+
+        # ── 5. 시도별 반복 검색 (서울·경기·인천) ──────────────
         SIDO_LIST = [("11","서울"), ("41","경기"), ("28","인천")]
         all_xhr_rows = []
 
         for sido_code, sido_name in SIDO_LIST:
-            print(f"\n[4단계] {sido_name} 검색 시작 (sido={sido_code})...")
+            print(f"\n[5단계] {sido_name} 검색 시작 (sido={sido_code})...")
 
             # XHR 버퍼 클리어
             page.evaluate("() => { window.__auction_captured = []; }")
 
-            # 시도 드롭다운 설정 시도
-            set_result = page.evaluate(f"""() => {{
-                // 가능한 sido 셀렉트 선택자 목록
-                var candidates = [
-                    'select[id*="Sido"]', 'select[id*="sido"]',
-                    'select[name*="sido"]', 'select[name*="Sido"]',
-                    '[id*="slcSido"]', '[id*="cmbSido"]',
-                ];
-                for (var sel of candidates) {{
-                    var el = document.querySelector(sel);
-                    if (el) {{
-                        el.value = '{sido_code}';
-                        el.dispatchEvent(new Event('change', {{bubbles:true}}));
-                        el.dispatchEvent(new Event('input',  {{bubbles:true}}));
-                        return 'select:' + (el.id||sel);
-                    }}
-                }}
-                // WebSquare scwin 함수에서 sido 관련 함수 찾기
-                if (typeof scwin !== 'undefined') {{
-                    var fns = Object.getOwnPropertyNames(scwin);
-                    for (var fn of fns) {{
-                        if (/sido/i.test(fn) || /시도/i.test(fn)) {{
-                            try {{ scwin[fn]('{sido_code}'); return 'scwin:'+fn; }} catch(e) {{}}
-                        }}
-                    }}
-                }}
-                return 'not_found';
-            }}""")
-            print(f"  시도 설정: {set_result}")
+            # 시도 드롭다운 설정 (frame 우선)
+            set_sido_in_frame(search_frame, sido_code, sido_name)
             page.wait_for_timeout(1500)
 
             # 검색 트리거
-            try_trigger_search(page)
+            try_trigger_search(page, search_frame)
             page.wait_for_timeout(8000)
 
             captured = get_captured(page)
@@ -289,18 +326,26 @@ def main():
             # 2페이지~
             for pg in range(2, min(total_pages + 1, 50)):
                 page.evaluate("() => { window.__auction_captured = []; }")
-                clicked = page.evaluate(f"""() => {{
-                    var btns = document.querySelectorAll('a, button, span');
-                    for (var b of btns) {{
-                        var txt = (b.innerText||b.textContent||'').trim();
-                        if (txt === '{pg}') {{ b.click(); return 'num:{pg}'; }}
-                    }}
-                    for (var b of btns) {{
-                        var txt = (b.innerText||b.textContent||'').trim();
-                        if (txt==='다음'||txt==='>'||txt==='▶'||txt==='→') {{ b.click(); return 'next'; }}
-                    }}
-                    return 'not_found';
-                }}""")
+                # frame과 page 모두에서 페이지 버튼 탐색
+                clicked = 'not_found'
+                for target in ([search_frame, page] if search_frame != page else [page]):
+                    try:
+                        clicked = target.evaluate(f"""() => {{
+                            var btns = document.querySelectorAll('a, button, span');
+                            for (var b of btns) {{
+                                var txt = (b.innerText||b.textContent||'').trim();
+                                if (txt === '{pg}') {{ b.click(); return 'num:{pg}'; }}
+                            }}
+                            for (var b of btns) {{
+                                var txt = (b.innerText||b.textContent||'').trim();
+                                if (txt==='다음'||txt==='>'||txt==='▶'||txt==='→') {{ b.click(); return 'next'; }}
+                            }}
+                            return 'not_found';
+                        }}""")
+                        if clicked != 'not_found':
+                            break
+                    except:
+                        pass
                 if clicked == 'not_found':
                     print(f"  p={pg} 버튼 없음, 종료")
                     break
@@ -317,7 +362,7 @@ def main():
             print(f"  [{sido_name}] 수집 완료: {len(sido_rows)}건")
             all_xhr_rows.extend(sido_rows)
 
-        print(f"\n  전체 수집 완료: {len(all_xhr_rows)}건 (서울+경기+인천)")
+        print(f"\n  [전체] 수집 완료: {len(all_xhr_rows)}건 (서울+경기+인천)")
         captured = all_xhr_rows
 
         context.close()
