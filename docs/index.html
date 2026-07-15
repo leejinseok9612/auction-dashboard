@@ -742,9 +742,10 @@ function initAuctionMaps(items){
     const elId='amap-'+a.id.replace(/[^a-zA-Z0-9]/g,'_');
     const el=document.getElementById(elId);
     if(!el||au_maps[a.id]) return;
+    const auZoom = a.lat ? 16 : 13; // 정확한 좌표=동 단위(16), 추정=시 단위(13)
     try{
       const m=L.map(el,{
-        center:coords, zoom:14,
+        center:coords, zoom:auZoom,
         zoomControl:false, attributionControl:false,
         dragging:false, scrollWheelZoom:false,
         keyboard:false, boxZoom:false, doubleClickZoom:false, tap:false
@@ -1196,7 +1197,7 @@ function initCyMaps(items){
     const elId='cymap-'+a.id.replace(/[^a-zA-Z0-9]/g,'_');
     const el=document.getElementById(elId);
     if(!el||cy_maps[a.id])return;
-    const zoom=a.lat?15:13; // 정확한 좌표면 zoom 15, 추정이면 13
+    const zoom=a.lat?16:13; // 정확한 좌표면 zoom 16 (동 단위), 추정이면 13 (시 단위)
     try{
       const m=L.map(el,{
         center:coords,zoom:zoom,
