@@ -10,7 +10,24 @@ from datetime import datetime, date
 
 TODAY_STR = date.today().isoformat()
 OUT_PATH  = os.path.join(os.path.dirname(__file__), "..", "docs", "data", "cheongyak.json")
-API_KEY   = os.environ.get("CHEONGYAK_API_KEY", "")
+
+# API 키: 환경변수 → .local_config 파일 순서로 읽기
+def _load_api_key():
+    key = os.environ.get("CHEONGYAK_API_KEY", "")
+    if key:
+        return key
+    config_path = os.path.join(os.path.dirname(__file__), "..", ".local_config")
+    try:
+        with open(config_path, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line.startswith("CHEONGYAK_API_KEY="):
+                    return line.split("=", 1)[1].strip()
+    except:
+        pass
+    return ""
+
+API_KEY = _load_api_key()
 
 BASE_URL  = "https://www.applyhome.co.kr"
 
