@@ -1096,21 +1096,56 @@ function destroyCyMaps(){
   Object.values(cy_maps).forEach(m=>{try{m.remove();}catch(e){}});
   cy_maps={};
 }
+// 한국 주요 도시/지역 좌표 룩업테이블 (lat/lng 없을 때 폴백)
+const KR_COORDS={
+  "서울":[37.5665,126.9780],"부산":[35.1796,129.0756],"인천":[37.4563,126.7052],
+  "대구":[35.8714,128.6014],"광주":[35.1595,126.8526],"대전":[36.3504,127.3845],
+  "울산":[35.5384,129.3114],"세종":[36.4801,127.2890],"제주":[33.4996,126.5312],
+  "경기":[37.4138,127.5183],"강원":[37.8813,127.7298],"충북":[36.6358,127.4914],
+  "충남":[36.5184,126.8000],"전북":[35.7175,127.1530],"전남":[34.8679,126.9910],
+  "경북":[36.4919,128.8889],"경남":[35.4606,128.2132],
+  // 주요 시군구
+  "성남":[37.4196,127.1267],"수원":[37.2636,127.0286],"용인":[37.2411,127.1776],
+  "고양":[37.6584,126.8320],"화성":[37.1994,126.8312],"부천":[37.5034,126.7660],
+  "남양주":[37.6360,127.2163],"안산":[37.3219,126.8309],"군포":[37.3614,126.9352],
+  "의왕":[37.3442,126.9682],"평택":[36.9921,127.1127],"오산":[37.1500,127.0776],
+  "김포":[37.6152,126.7158],"파주":[37.7600,126.7800],"시흥":[37.3800,126.8031],
+  "천안":[36.8151,127.1139],"아산":[36.7898,127.0048],"거제":[34.8804,128.6219],
+  "창원":[35.2279,128.6811],"춘천":[37.8813,127.7298],"원주":[37.3422,127.9202],
+  "전주":[35.8242,127.1480],"청주":[36.6424,127.4890],"광양":[34.9408,127.6956],
+  "포항":[36.0190,129.3435],"구미":[36.1195,128.3445],"진주":[35.1798,128.1076],
+  "동작":[37.5124,126.9393],"강동":[37.5493,127.1460],"강남":[37.5172,127.0473],
+  "서초":[37.4837,127.0324],"마포":[37.5663,126.9014],"송파":[37.5145,127.1059],
+  "은평":[37.6027,126.9291],"노원":[37.6542,127.0568],"도봉":[37.6688,127.0471],
+};
+function cyGetCoords(a){
+  if(a.lat&&a.lng) return [a.lat,a.lng];
+  const rgn=(a.region||'').replace('특별시','').replace('광역시','').replace('특별자치도','').replace('도','').replace('특별자치시','').trim();
+  const dst=(a.district||'').replace('시','').replace('군','').replace('구','').trim();
+  // district 먼저 시도, 없으면 region
+  for(const k of [dst,rgn]){
+    if(k && KR_COORDS[k]) return KR_COORDS[k];
+  }
+  return null;
+}
+
 function initCyMaps(items){
   items.forEach(a=>{
-    if(!a.lat||!a.lng)return;
+    const coords=cyGetCoords(a);
+    if(!coords)return;
     const elId='cymap-'+a.id.replace(/[^a-zA-Z0-9]/g,'_');
     const el=document.getElementById(elId);
     if(!el||cy_maps[a.id])return;
+    const zoom=a.lat?15:13; // 정확한 좌표면 zoom 15, 추정이면 13
     try{
       const m=L.map(el,{
-        center:[a.lat,a.lng],zoom:15,
+        center:coords,zoom:zoom,
         zoomControl:false,attributionControl:false,
         dragging:false,scrollWheelZoom:false,
         keyboard:false,boxZoom:false,doubleClickZoom:false,tap:false
       });
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(m);
-      L.circleMarker([a.lat,a.lng],{radius:8,fillColor:'#2563EB',color:'white',weight:2,fillOpacity:1}).addTo(m);
+      L.circleMarker(coords,{radius:8,fillColor:'#2563EB',color:'white',weight:2,fillOpacity:1}).addTo(m);
       cy_maps[a.id]=m;
     }catch(e){}
   });
