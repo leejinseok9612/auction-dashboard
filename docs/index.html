@@ -305,11 +305,22 @@
 
     @media(max-width:768px){
       .hero{padding:56px 20px 44px} .hero-h1{font-size:38px;letter-spacing:-1.5px}
-      nav,.fbar,.cards-wrap{padding-left:20px;padding-right:20px}
+      nav{padding:0 16px;height:56px}
+      nav,.fbar,.cards-wrap{padding-left:16px;padding-right:16px}
+      .nav-logo{font-size:14px;gap:7px}
+      .nav-logo-icon{width:28px;height:28px;font-size:14px}
+      .nav-pill{font-size:11px;padding:4px 9px}
+      .btn-score-nav{font-size:12px;padding:7px 10px}
+      .nav-cta{display:none} /* 모바일에선 대법원 링크 숨김 */
       .mgrid{grid-template-columns:1fr} .hero-kpi{gap:24px}
-      .cy-cal-section{padding:16px 20px}
+      .cy-cal-section{padding:16px 16px}
       .sc-breakdown{grid-template-columns:1fr 1fr}
       .mfooter{flex-direction:column}
+      .fbar{flex-direction:column;align-items:flex-start;gap:8px}
+      .fbar-left{flex-wrap:wrap;gap:6px}
+      .fsel{font-size:12px;padding:7px 10px}
+      .fsearch{width:100%!important}
+      .cy-fbar{flex-direction:column;align-items:flex-start;gap:8px;padding:12px 16px}
     }
   </style>
 </head>
@@ -823,8 +834,26 @@ function getBidHistory(a){
    NAVER REAL ESTATE
 ───────────────────────────────────────────── */
 function openNaver(a){
-  const q=(a.address||'').split(' ').slice(0,5).join(' ');
-  window.open('https://land.naver.com/search/?query='+encodeURIComponent(q),'_blank');
+  const addr=a.address||'';
+  const parts=addr.split('(')[0].trim().split(' ');
+  // 괄호 안에 단지명이 있으면 (반포동,래미안퍼스티지) 형태로 추출
+  const parenMatch=addr.match(/\(([^)]+)\)/);
+  let query='';
+  if(parenMatch){
+    // 괄호 안 쉼표 뒤 단지명 사용 (예: "래미안퍼스티지")
+    const inside=parenMatch[1];
+    const parts2=inside.split(',');
+    query=parts2.length>1?parts2[parts2.length-1].trim():inside.trim();
+  } else {
+    // 숫자(지번) 이전까지 + 혹시 있는 건물명 단어 조합
+    // 동 단위까지 (앞 3토큰: 시·구·동) + 지번
+    const dongIdx=parts.findIndex(p=>p.endsWith('동')||p.endsWith('가')||(p.endsWith('로')&&p.length>2));
+    const base=dongIdx>=0?parts.slice(0,dongIdx+2).join(' '):parts.slice(0,4).join(' ');
+    // 단지명/건물명으로 보이는 한글 토큰 (숫자 아닌 것 중 4글자+)
+    const bldg=parts.slice(4).find(p=>/^[가-힣]{3,}/.test(p)&&!/^\d/.test(p));
+    query=bldg?`${bldg} ${base}`:base;
+  }
+  window.open('https://land.naver.com/search/?query='+encodeURIComponent(query.trim()),'_blank');
 }
 function openNaverCy(a){
   const q=a.name||(a.address||'');
@@ -994,13 +1023,52 @@ function getRisks(a){
   ];
 }
 function getOpinion(a,roi){
-  const f=a.failed_bids||0,r=roi.rate;
-  if(f>=5&&r<10)return `"${f}회 유찰에 실질 수익률 ${r}% — 원인 불명의 유찰은 독약이다. 권리분석 없이는 절대 입찰하지 마라."`;
-  if(f>=3&&r>=20)return `"${f}회 유찰로 감정가 대비 크게 하락. 권리 하자가 없다면 ${r}% 수익률은 충분히 매력적 — 매각물건명세서를 정독하고 접근하라."`;
-  if(f===0&&r>=15)return `"신건이라 경쟁이 치열할 것. 시세 대비 여유 있는 구간이나 입찰 상한가를 철저히 계산하고 들어가야 한다."`;
-  if(r>=25)return `"입지와 수익률 모두 양호한 물건. 현장 방문과 권리분석만 마치면 입찰 검토 가치가 충분하다."`;
-  if(r>=10)return `"수익률은 적정 수준. 추가 경쟁자 예상 — 감정적 상한가 설정 없이 냉정하게 접근하라."`;
-  return `"현 최저가 기준 수익률이 낮다. 인근 실거래가를 재확인하고 매력도를 재평가하라."`;
+  const f=a.failed_bids||0, r=roi.rate;
+  const addr=a.address||'';
+  const ptype=(a.property_type||'').replace(/,/g,'·');
+  const bid=Math.round((a.min_bid||0)/1e8*10)/10; // 억 단위 소수1자리
+  const dist=getDist(addr);
+
+  // 지역 성격 파악
+  const isPremium=['강남구','서초구','송파구','용산구'].some(g=>addr.includes(g));
+  const isMidTier=['마포구','성동구','동작구','영등포구','광진구'].some(g=>addr.includes(g));
+  const isMulti=(ptype.includes('다가구')||ptype.includes('단독주택'));
+  const isVilla=(ptype.includes('연립')||ptype.includes('빌라')||ptype.includes('다세대'));
+  const isOffice=ptype.includes('오피스텔');
+
+  // 물건 유형 레이블
+  const typeLabel=isMulti?'다가구·단독주택':isVilla?'빌라·다세대':isOffice?'오피스텔':'아파트';
+
+  // 핵심 팩터로 의견 생성
+  if(f>=5){
+    const reason=isPremium?`${dist} 입지임에도 ${f}회 유찰은 심각한 권리 하자 신호`:`${f}회 유찰은 시세 대비 과대평가 또는 권리 문제 강력 의심`;
+    return `"${reason}다. 매각물건명세서·현황조사서를 빠짐없이 확인하고, 해소 안 된 하자가 있다면 포기가 답이다."`;
+  }
+  if(f>=3&&r>=20){
+    return `"${dist} ${typeLabel} ${bid}억, ${f}회 유찰로 감정가 대비 큰 폭 하락. 하자만 없다면 ${r}% 수익률은 탐나는 구간이다 — 현장 방문 후 명도 난이도까지 확인하라."`;
+  }
+  if(f>=3){
+    return `"${f}회 유찰 물건은 항상 '왜 안 팔렸나'가 먼저다. ${dist} ${typeLabel} ${bid}억 — 권리분석 선행 없이는 접근하지 마라."`;
+  }
+  if(f===0&&isPremium&&r>=10){
+    return `"${dist} 신건 ${typeLabel}, 최저가 ${bid}억. 프리미엄 입지라 경쟁 입찰자 다수 예상 — 감정가 대비 내 마지노선 가격을 미리 정하고 들어가라."`;
+  }
+  if(f===0&&r>=15){
+    return `"${dist} ${typeLabel} 신건 ${bid}억, 수익률 ${r}%로 나쁘지 않다. 단 신건은 경쟁이 붙기 쉬우니 상한가 계산 후 냉정하게 입찰하라."`;
+  }
+  if(isMulti){
+    return `"${dist} 다가구 물건은 임차인 현황 파악이 핵심이다. 보증금 인수 여부·명도 난이도를 현장에서 직접 확인해야 ${bid}억 투자가 빛난다."`;
+  }
+  if(isVilla){
+    return `"${dist} ${typeLabel} ${bid}억 — 빌라는 환금성이 낮아 출구전략이 중요하다. 인근 실거래가와 전세가율을 반드시 체크하라."`;
+  }
+  if(r>=25){
+    return `"${dist} ${typeLabel} ${bid}억, 수익률 ${r}%로 매력적인 구간. 권리분석·현장방문만 마치면 입찰 검토 가치가 충분하다."`;
+  }
+  if(r>=10){
+    return `"${dist} ${typeLabel} ${bid}억, 수익률 ${r}%로 적정 수준. 입지 대비 시세를 재점검하고 경쟁자 동향을 파악한 뒤 입찰가를 결정하라."`;
+  }
+  return `"${dist} ${typeLabel} ${bid}억 — 현 최저가 기준 수익률이 낮다(${r}%). 인근 실거래가를 재확인하고, 추가 유찰 후 재도전도 전략이 될 수 있다."`;
 }
 function grad(a){
   const roi=calcROI(a);
