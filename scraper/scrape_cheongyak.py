@@ -1,11 +1,10 @@
 """
-청약홈 분양정보 스크래퍼 v2
-- 1순위: 공공데이터포털 API (CHEONGYAK_API_KEY 환경변수 설정 시)
-- 2순위: Playwright로 청약HOME 직접 스크래핑 (API 키 없이도 작동)
-출처: https://www.applyhome.co.kr
+청약홈 분양정보 스크래퍼 v3
+- Playwright로 청약HOME XHR 응답 캡처
+- API 키 있으면 공공데이터포털 API 사용 (더 안정적)
 """
 
-import os, json, time, sys
+import os, json, time, re
 from datetime import datetime, date
 
 TODAY_STR = date.today().isoformat()
@@ -105,187 +104,212 @@ def scrape_via_api():
     return all_items
 
 # ══════════════════════════════════════════════════════════════
-#  방법 2: Playwright 직접 스크래핑
+#  방법 2: Playwright — XHR 응답 캡처
 # ══════════════════════════════════════════════════════════════
 def scrape_via_playwright():
     from playwright.sync_api import sync_playwright
-    import re
 
-    results = []
+    captured_items = []
+
+    def parse_xhr_body(body_text, url=""):
+        """청약HOME XHR 응답 파싱"""
+        items = []
+        try:
+            data = json.loads(body_text)
+        except:
+            return items
+
+        # 가능한 리스트 키들
+        rows = []
+        for key in ["list", "data", "dataBody", "result", "aptList", "lttotPblancList"]:
+            val = data.get(key)
+            if isinstance(val, list) and val:
+                rows = val
+                break
+            if isinstance(val, dict):
+                for k2 in ["list", "data", "aptList"]:
+                    if isinstance(val.get(k2), list) and val[k2]:
+                        rows = val[k2]
+                        break
+
+        for raw in rows:
+            if not isinstance(raw, dict):
+                continue
+            def g(*keys):
+                for k in keys:
+                    v = raw.get(k)
+                    if v is not None and str(v).strip():
+                        return str(v).strip()
+                return ""
+
+            name  = g("HOUSE_NM","houseName","주택명","houseNm")
+            start = fd(g("SUBSCRPT_RCEPT_BGNDE","sbscrptRceptBgnde","청약접수시작일","startDate"))
+            end   = fd(g("SUBSCRPT_RCEPT_ENDDE","sbscrptRceptEndde","청약접수종료일","endDate"))
+            pbno  = g("PBLANC_NO","pblancNo","공고번호")
+            addr  = g("HSSPLY_ADRES","hssplyAdres","공급위치","address")
+            rgn   = g("SUBSCRPT_AREA_CODE_NM","subscrptAreaCodeNm","공급지역명","region")
+
+            if not name:
+                continue
+
+            st = calc_status(start, end)
+            if st not in ("청약중","청약예정"):
+                continue
+
+            parts = addr.split()
+            items.append({
+                "id":            pbno or (name + start),
+                "pblanc_no":     pbno,
+                "name":          name,
+                "type":          g("HOUSE_SECD_NM","houseSecdNm","주택구분") or "APT",
+                "builder":       g("BSNS_MBY_NM","bsnsMbyNm","사업주체명"),
+                "region":        rgn or (parts[0] if parts else ""),
+                "district":      parts[1] if len(parts) > 1 else "",
+                "address":       addr,
+                "supply_count":  int(g("TOT_SUPLY_HSHLDCO","totSuplyHshldco","공급세대수") or 0),
+                "announce_date": fd(g("RCRIT_PBLANC_DE","rcritPblancDe","모집공고일")),
+                "start_date":    start,
+                "end_date":      end,
+                "win_date":      fd(g("PRZWNER_PRESNATN_DE","przwnerPresnatnDe","당첨자발표일")),
+                "move_in":       g("MVIN_PREARNGE_YM","mvinPrearngeYm","입주예정월"),
+                "status":        st,
+                "url":           g("HMPG_ADRES","hmpgAdres","홈페이지주소") or "https://www.applyhome.co.kr",
+                "competition":   {},
+                "lat":           None,
+                "lng":           None,
+                "scraped_date":  TODAY_STR,
+            })
+        return items
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         ctx = browser.new_context(
-            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/124",
-            viewport={"width": 1280, "height": 800},
+            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            viewport={"width": 1280, "height": 900},
         )
         page = ctx.new_page()
 
-        captured = []
+        all_responses = []
 
         def on_response(resp):
             url = resp.url
-            if "applyhome.co.kr" in url and (
-                "PblancList" in url or "pblancList" in url or
-                "selectAPT" in url or "LttotPblanc" in url
-            ):
-                try:
-                    body = resp.text()
-                    data = json.loads(body)
-                    captured.append(data)
-                    print(f"  [네트워크 캡처] {url[-60:]}")
-                except:
-                    pass
+            # 청약HOME의 데이터 API 응답 캡처
+            if "applyhome.co.kr" in url and resp.status == 200:
+                ct = resp.headers.get("content-type","")
+                if "json" in ct or "javascript" in ct or ".do" in url:
+                    try:
+                        body = resp.text()
+                        if len(body) > 100 and ('"HOUSE_NM"' in body or '"houseName"' in body
+                                or '"list"' in body or '"aptList"' in body
+                                or 'PBLANC_NO' in body or 'pblancNo' in body):
+                            all_responses.append((url, body))
+                            print(f"  [캡처] {url[-70:]}")
+                    except:
+                        pass
 
         page.on("response", on_response)
 
-        print("  브라우저 시작 → 청약HOME 접속 중...")
-        page.goto("https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancListView.do",
-                  wait_until="networkidle", timeout=30000)
+        print("  브라우저 시작 → 청약HOME 접속...")
+        try:
+            page.goto(
+                "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancListView.do",
+                wait_until="networkidle", timeout=30000
+            )
+        except Exception as e:
+            print(f"  페이지 로드 경고: {e}")
+
+        page.wait_for_timeout(4000)
+
+        # "청약중" 탭 클릭 시도
+        for sel in ["a:has-text('청약중')", "button:has-text('청약중')", "li:has-text('청약중') a"]:
+            try:
+                el = page.query_selector(sel)
+                if el:
+                    el.click()
+                    page.wait_for_timeout(2000)
+                    print(f"  '청약중' 탭 클릭: {sel}")
+                    break
+            except: pass
+
+        # "청약예정" 탭 클릭 시도
+        for sel in ["a:has-text('청약예정')", "button:has-text('청약예정')", "li:has-text('청약예정') a"]:
+            try:
+                el = page.query_selector(sel)
+                if el:
+                    el.click()
+                    page.wait_for_timeout(2000)
+                    print(f"  '청약예정' 탭 클릭: {sel}")
+                    break
+            except: pass
+
+        # 검색/조회 버튼 클릭
+        for sel in ["button:has-text('조회')", "input[value='조회']", "button:has-text('검색')", "#btnSearch"]:
+            try:
+                el = page.query_selector(sel)
+                if el:
+                    el.click()
+                    page.wait_for_timeout(3000)
+                    print(f"  조회 버튼 클릭: {sel}")
+                    break
+            except: pass
+
         page.wait_for_timeout(3000)
 
-        # 전체 탭 선택 (청약중 + 청약예정 모두 보이도록)
-        try:
-            # "전체" 탭 또는 첫번째 탭 클릭
-            all_tab = page.query_selector("a[href*='all'], button:has-text('전체')")
-            if all_tab:
-                all_tab.click()
-                page.wait_for_timeout(2000)
-        except: pass
+        # 잡힌 응답 파싱
+        seen_ids = set()
+        for url, body in all_responses:
+            items = parse_xhr_body(body, url)
+            for item in items:
+                key = item["id"]
+                if key not in seen_ids:
+                    seen_ids.add(key)
+                    captured_items.append(item)
+                    print(f"  ✓ {item['status']} | {item['name']} | {item['start_date']}~{item['end_date']}")
 
-        # 페이지 수 파악 후 전체 페이지 순회
-        page_count = 1
-        try:
-            pager = page.query_selector_all(".pagination a, .paging a, li.page a")
-            nums = []
-            for el in pager:
-                t = el.inner_text().strip()
-                if t.isdigit():
-                    nums.append(int(t))
-            if nums:
-                page_count = max(nums)
-        except: pass
-
-        print(f"  페이지 수: {page_count}")
-
-        def parse_page_dom():
-            """DOM에서 청약 카드 파싱"""
-            items = []
-            rows = page.query_selector_all(
-                "ul.list_wrap > li, .apt_item, .house_item, tr.list_item, .result_list li"
-            )
-            for row in rows:
-                try:
-                    txt = row.inner_text()
-                    lines = [l.strip() for l in txt.split('\n') if l.strip()]
-                    if len(lines) < 3: continue
-
-                    name    = lines[0]
-                    address = ""
-                    start   = ""
-                    end     = ""
-
-                    for line in lines:
-                        if "청약" in line and ("~" in line or "-" in line):
-                            parts = re.split(r"[~\-–]", line.replace("청약기간","").replace(":",""))
-                            if len(parts) >= 2:
-                                start = fd(parts[0].strip()[:8])
-                                end   = fd(parts[1].strip()[:8])
-                        if any(k in line for k in ["시 ","도 ","구 ","동 "]):
-                            if len(line) > 5: address = line
-
-                    items.append({
-                        "id":            name + start,
-                        "pblanc_no":     "",
-                        "name":          name,
-                        "type":          "APT",
-                        "builder":       "",
-                        "region":        address.split()[0] if address else "",
-                        "district":      address.split()[1] if len(address.split()) > 1 else "",
-                        "address":       address,
-                        "supply_count":  0,
-                        "announce_date": "",
-                        "start_date":    start,
-                        "end_date":      end,
-                        "win_date":      "",
-                        "move_in":       "",
-                        "status":        calc_status(start, end),
-                        "url":           "https://www.applyhome.co.kr",
-                        "competition":   {},
-                        "lat":           None,
-                        "lng":           None,
-                        "scraped_date":  TODAY_STR,
-                    })
-                except:
-                    pass
-            return items
-
-        # 네트워크 캡처 우선, 실패시 DOM 파싱
-        page_items = parse_page_dom()
-        results.extend(page_items)
-        print(f"  page 1 DOM 파싱: {len(page_items)}건")
-
-        # 페이지 2부터 순회
-        for pn in range(2, min(page_count+1, 10)):
+        # 응답이 없으면 직접 POST 요청 시도
+        if not captured_items:
+            print("  XHR 캡처 실패 → 직접 fetch 시도...")
             try:
-                btn = page.query_selector(f"a:has-text('{pn}'), button:has-text('{pn}')")
-                if btn:
-                    btn.click()
-                    page.wait_for_timeout(2000)
-                    items = parse_page_dom()
-                    results.extend(items)
-                    print(f"  page {pn}: {len(items)}건")
+                result = page.evaluate("""async () => {
+                    const res = await fetch('/ai/aia/selectAPTLttotPblancListZ.do', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', 'X-Requested-With': 'XMLHttpRequest'},
+                        body: 'sido=&gugun=&APT_NM=&houseSecd=&nowSuplyYmd=&sort=3&startPage=1&itemsPerPage=100&totalPages=0&totalItems=0'
+                    });
+                    return await res.text();
+                }""")
+                items = parse_xhr_body(result)
+                for item in items:
+                    key = item["id"]
+                    if key not in seen_ids:
+                        seen_ids.add(key)
+                        captured_items.append(item)
+                        print(f"  ✓ {item['status']} | {item['name']}")
             except Exception as e:
-                print(f"  page {pn} 실패: {e}")
-                break
+                print(f"  직접 fetch 실패: {e}")
 
-        # 네트워크 캡처된 JSON 처리
-        for d in captured:
+        # 모든 탭/페이지 시도해도 없으면 페이지 내 텍스트 확인
+        if not captured_items:
+            print("\n  [디버그] 현재 페이지 URL:", page.url)
+            # 페이지에서 단지명 패턴 텍스트 추출 시도
             try:
-                rows = d.get("data") or d.get("dataBody",{}).get("list",[]) or []
-                for raw in rows:
-                    def g(k): return str(raw.get(k) or "").strip()
-                    start = fd(g("SBSCRPT_RCEPT_BGNDE") or g("청약접수시작일"))
-                    end   = fd(g("SBSCRPT_RCEPT_ENDDE") or g("청약접수종료일"))
-                    name  = g("HOUSE_NM") or g("주택명")
-                    st    = calc_status(start, end)
-                    if st not in ("청약중","청약예정"): continue
-                    results.append({
-                        "id":            g("PBLANC_NO") or name+start,
-                        "pblanc_no":     g("PBLANC_NO"),
-                        "name":          name,
-                        "type":          g("HOUSE_SECD_NM") or "APT",
-                        "builder":       g("BSNS_MBY_NM"),
-                        "region":        g("SUBSCRPT_AREA_CODE_NM"),
-                        "district":      "",
-                        "address":       g("HSSPLY_ADRES"),
-                        "supply_count":  int(g("TOT_SUPLY_HSHLDCO") or 0),
-                        "announce_date": fd(g("RCRIT_PBLANC_DE")),
-                        "start_date":    start,
-                        "end_date":      end,
-                        "win_date":      fd(g("PRZWNER_PRESNATN_DE")),
-                        "move_in":       g("MVIN_PREARNGE_YM"),
-                        "status":        st,
-                        "url":           g("HMPG_ADRES") or "https://www.applyhome.co.kr",
-                        "competition":   {},
-                        "lat":           None,
-                        "lng":           None,
-                        "scraped_date":  TODAY_STR,
-                    })
-            except:
-                pass
+                texts = page.evaluate("""() => {
+                    const items = [];
+                    // 테이블 행
+                    document.querySelectorAll('table tr, .list_item, .apt_item, li').forEach(el => {
+                        const t = el.innerText.trim();
+                        if (t.length > 10 && t.length < 200) items.push(t);
+                    });
+                    return items.slice(0, 30);
+                }""")
+                print("  [페이지 텍스트 샘플]:")
+                for t in texts[:10]:
+                    print(f"    {t[:80]}")
+            except: pass
 
         browser.close()
 
-    # 중복 제거
-    seen, unique = set(), []
-    for item in results:
-        key = item.get("id","") or item.get("name","")
-        if key and key not in seen:
-            seen.add(key)
-            unique.append(item)
-
-    return [i for i in unique if i["status"] in ("청약중","청약예정")]
+    return captured_items
 
 # ══════════════════════════════════════════════════════════════
 #  메인
@@ -293,7 +317,7 @@ def scrape_via_playwright():
 def run():
     print(f"▶ 청약 데이터 수집 시작 ({TODAY_STR})")
 
-    # 기존 데이터 로드 (지오코딩 캐시)
+    # 기존 데이터 로드
     existing_map = {}
     try:
         with open(OUT_PATH, "r", encoding="utf-8") as f:
@@ -314,16 +338,8 @@ def run():
             print(f"  API 실패: {e} → Playwright 전환")
             items = scrape_via_playwright()
     else:
-        print("\n[방법 2] Playwright 직접 스크래핑 (API 키 없음)")
+        print("\n[방법 2] Playwright 직접 스크래핑")
         items = scrape_via_playwright()
-
-    if not items:
-        print("⚠️  수집된 데이터 없음. 기존 데이터 유지")
-        # 기존 데이터를 상태 재계산해서 저장
-        for k, v in existing_map.items():
-            if v.get("start_date") and v.get("end_date"):
-                v["status"] = calc_status(v["start_date"], v["end_date"])
-        items = list(existing_map.values())
 
     # 기존 지오코딩 이어받기
     for item in items:
@@ -332,9 +348,17 @@ def run():
             item["lat"] = old["lat"]
             item["lng"] = old["lng"]
 
-    # 마감된 것 제거 + 최신순 정렬
-    active = [i for i in items if i.get("status") in ("청약중","청약예정")]
-    active.sort(key=lambda x: x.get("start_date",""), reverse=True)
+    if items:
+        # 마감 제거 + 최신순 정렬
+        active = [i for i in items if i.get("status") in ("청약중","청약예정")]
+        active.sort(key=lambda x: x.get("start_date",""), reverse=True)
+    else:
+        print("⚠️  새 데이터 없음. 기존 데이터 상태 재계산 후 유지")
+        for k, v in existing_map.items():
+            if v.get("start_date") and v.get("end_date"):
+                v["status"] = calc_status(v["start_date"], v["end_date"])
+        active = [v for v in existing_map.values() if v.get("status") in ("청약중","청약예정")]
+        active.sort(key=lambda x: x.get("start_date",""), reverse=True)
 
     os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
