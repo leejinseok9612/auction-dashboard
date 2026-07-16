@@ -403,6 +403,25 @@
   <div class="pages" id="pages"></div>
 </main>
 
+<!-- 청약 HERO -->
+<section class="hero" id="cy-hero-section" style="display:none">
+  <div class="hero-inner">
+    <div class="hero-chip" style="background:#EFF6FF;color:var(--blue)">✦ <span id="cy-hero-date">-</span> 기준 최신 데이터</div>
+    <h1 class="hero-h1">수도권 청약 분양<br><span class="light" style="color:#94A3B8">정보 대시보드</span></h1>
+    <p class="hero-sub">서울·경기·인천 <strong>민간·공공</strong> 청약 분양 정보를 자동 수집·분석<br>무순위·선착순 청약 포함 · 실시간 업데이트</p>
+    <div class="hero-kpi">
+      <div class="kpi"><div class="kpi-num" style="color:var(--blue)" id="cy-ks-total">-</div><div class="kpi-lbl">총 단지 수</div></div>
+      <div class="kpi"><div class="kpi-num" style="color:var(--blue)" id="cy-ks-open">-</div><div class="kpi-lbl">현재 모집중</div></div>
+      <div class="kpi"><div class="kpi-num" style="color:var(--blue)" id="cy-ks-avg">-</div><div class="kpi-lbl">평균 분양가 (억)</div></div>
+      <div class="kpi"><div class="kpi-num" style="color:var(--blue)" id="cy-ks-month">-</div><div class="kpi-lbl">이번 달 청약</div></div>
+    </div>
+    <div class="hero-btns">
+      <button class="btn-dark" style="background:var(--blue)" onclick="filterCyOpen()">모집중 청약 보기 ↓</button>
+      <button class="btn-outline" onclick="filterCyAll()">전체 보기</button>
+    </div>
+  </div>
+</section>
+
 <!-- 청약 FILTER BAR -->
 <div class="cy-fbar" id="cy-fbar" style="display:none">
   <div class="fbar-left">
@@ -1085,6 +1104,7 @@ function switchMode(m){
   document.getElementById('tab-auction').className='mtab'+(m==='auction'?' on':'');
   document.getElementById('tab-cy').className='mtab cy'+(m==='cy'?' on':'');
   document.getElementById('hero-section').style.display= m==='auction'?'':'none';
+  document.getElementById('cy-hero-section').style.display= m==='cy'?'':'none';
   document.getElementById('fbar-wrap').style.display= m==='auction'?'':'none';
   document.getElementById('cy-fbar').style.display= m==='cy'?'':'none';
   document.getElementById('cy-cal-section').style.display= m==='cy'&&calOpen?'block':'none';
@@ -1110,8 +1130,25 @@ async function initCy(){
     const d=await r.json();
     CY_ALL=d.subscriptions||[];
   }catch(e){ CY_ALL=cyDemo(); }
+
+  // 청약 히어로 KPI 계산
+  const t=tstr();
+  document.getElementById('cy-hero-date').textContent=t;
+  const openN=CY_ALL.filter(a=>a.status==='청약중').length;
+  const prices=CY_ALL.filter(a=>(a.price_max||0)>0).map(a=>a.price_max);
+  const avgPrice=prices.length?(prices.reduce((s,v)=>s+v,0)/prices.length/1e8).toFixed(1):'-';
+  const thisMonth=t.slice(0,7);
+  const monthN=CY_ALL.filter(a=>(a.start_date||'').startsWith(thisMonth)).length;
+  set('cy-ks-total',CY_ALL.length.toLocaleString());
+  set('cy-ks-open',openN);
+  set('cy-ks-avg',avgPrice);
+  set('cy-ks-month',monthN);
+
   applyCyF();
 }
+
+function filterCyOpen(){ set('cy-status','청약중'); applyCyF(); document.getElementById('cy-wrap').scrollIntoView({behavior:'smooth'}); }
+function filterCyAll(){ set('cy-status',''); applyCyF(); document.getElementById('cy-wrap').scrollIntoView({behavior:'smooth'}); }
 
 function applyCyF(){
   const region=v('cy-region'), type=v('cy-type'),
