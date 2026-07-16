@@ -367,22 +367,11 @@
 <!-- FILTER BAR (경매) -->
 <div class="fbar" id="fbar-wrap">
   <div class="fbar-left">
-    <select class="fsel" id="fc-court">
-      <option value="">전체 법원</option>
-      <optgroup label="서울">
-        <option>서울중앙지방법원</option><option>서울동부지방법원</option>
-        <option>서울남부지방법원</option><option>서울북부지방법원</option><option>서울서부지방법원</option>
-      </optgroup>
-      <optgroup label="경기">
-        <option>수원지방법원</option><option>수원지방법원 성남지원</option>
-        <option>수원지방법원 안양지원</option><option>수원지방법원 안산지원</option>
-        <option>수원지방법원 평택지원</option><option>수원지방법원 여주지원</option>
-        <option>의정부지방법원</option><option>의정부지방법원 고양지원</option>
-        <option>의정부지방법원 남양주지원</option>
-      </optgroup>
-      <optgroup label="인천">
-        <option>인천지방법원</option><option>인천지방법원 부천지원</option>
-      </optgroup>
+    <select class="fsel" id="fc-region">
+      <option value="">전체 지역</option>
+      <option value="서울">서울</option>
+      <option value="경기">경기</option>
+      <option value="인천">인천</option>
     </select>
     <select class="fsel" id="fc-failed">
       <option value="">유찰 전체</option>
@@ -632,7 +621,7 @@ async function init(){
 }
 
 function applyF(){
-  const court=v('fc-court'),failed=v('fc-failed'),dateF=v('fc-date'),q=v('fc-q').toLowerCase();
+  const region=v('fc-region'),failed=v('fc-failed'),dateF=v('fc-date'),q=v('fc-q').toLowerCase();
   const today=tstr();
   const EXCL_LAND=['대지','임야','공장','창고','주차장'];
   const RESID=['아파트','다가구','다세대','연립','빌라','오피스텔','단독주택'];
@@ -648,7 +637,7 @@ function applyF(){
     }
     // 경매기일이 오늘 이전이면 자동 숨김 (완료된 경매)
     if(a.auction_date && a.auction_date < today) return false;
-    if(court&&a.court!==court)return false;
+    if(region&&!(a.address||'').includes(region))return false;
     if(failed!==''&&(a.failed_bids||0)<+failed)return false;
     if(dateF==='today'&&a.scraped_date!==today)return false;
     if(q&&!(a.id+a.court+a.address).toLowerCase().includes(q))return false;
@@ -666,7 +655,7 @@ function applyF(){
 
 function goToday(){ set('fc-date','today'); applyF(); scroll2(); }
 function goAll()  { set('fc-date','');      applyF(); scroll2(); }
-function resetF() { ['fc-court','fc-failed','fc-date','fc-q'].forEach(id=>set(id,'')); bmOnly=false; document.getElementById('btn-bm-a').classList.remove('on'); document.getElementById('btn-bm-a').textContent='🤍 즐겨찾기'; applyF(); }
+function resetF() { ['fc-region','fc-failed','fc-date','fc-q'].forEach(id=>set(id,'')); bmOnly=false; document.getElementById('btn-bm-a').classList.remove('on'); document.getElementById('btn-bm-a').textContent='🤍 즐겨찾기'; applyF(); }
 function scroll2(){ document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'}); }
 
 function renderCards(){
@@ -834,36 +823,21 @@ function getBidHistory(a){
    NAVER REAL ESTATE
 ───────────────────────────────────────────── */
 function openNaver(a){
-  const addr=a.address||'';
-  const parts=addr.split('(')[0].trim().split(' ');
-  // 괄호 안에 단지명이 있으면 (반포동,래미안퍼스티지) 형태로 추출
-  const parenMatch=addr.match(/\(([^)]+)\)/);
-  let query='';
-  if(parenMatch){
-    // 괄호 안 쉼표 뒤 단지명 사용 (예: "래미안퍼스티지")
-    const inside=parenMatch[1];
-    const parts2=inside.split(',');
-    query=parts2.length>1?parts2[parts2.length-1].trim():inside.trim();
-  } else {
-    // 숫자(지번) 이전까지 + 혹시 있는 건물명 단어 조합
-    // 동 단위까지 (앞 3토큰: 시·구·동) + 지번
-    const dongIdx=parts.findIndex(p=>p.endsWith('동')||p.endsWith('가')||(p.endsWith('로')&&p.length>2));
-    const base=dongIdx>=0?parts.slice(0,dongIdx+2).join(' '):parts.slice(0,4).join(' ');
-    // 단지명/건물명으로 보이는 한글 토큰 (숫자 아닌 것 중 4글자+)
-    const bldg=parts.slice(4).find(p=>/^[가-힣]{3,}/.test(p)&&!/^\d/.test(p));
-    query=bldg?`${bldg} ${base}`:base;
-  }
-  window.open('https://land.naver.com/search/?query='+encodeURIComponent(query.trim()),'_blank');
+  // 지번 주소 그대로 네이버 지도 검색 (가장 정확)
+  const addr=(a.address||'').split('(')[0].trim();
+  window.open('https://map.naver.com/p/search/'+encodeURIComponent(addr),'_blank');
 }
 function openNaverCy(a){
   const q=a.name||(a.address||'');
-  window.open('https://land.naver.com/search/?query='+encodeURIComponent(q),'_blank');
+  window.open('https://map.naver.com/p/search/'+encodeURIComponent(q),'_blank');
 }
 
 /* ─────────────────────────────────────────────
    AUCTION MODAL
 ───────────────────────────────────────────── */
+var _savedScroll=0;
 function openM(idx){
+  _savedScroll=window.scrollY;
   currentIdx=idx;
   const a=ALL[idx]; if(!a)return;
   const dist=getDist(a.address);
@@ -958,7 +932,7 @@ function openM(idx){
     </div>
     <div class="mfooter">
       <button class="mbtn-dark" onclick="openCourt(currentIdx)">🏛️ 대법원 경매 사이트 →</button>
-      <button class="mbtn-naver" onclick="openNaver(ALL[currentIdx])">🟢 네이버 부동산 시세 →</button>
+      <button class="mbtn-naver" onclick="openNaver(ALL[currentIdx])">🗺️ 네이버 지도에서 보기 →</button>
       <button class="mbtn-light" onclick="closeM()">닫기</button>
     </div>`;
 
@@ -966,7 +940,7 @@ function openM(idx){
   document.body.style.overflow='hidden';
 }
 function closeByBg(e){ if(e.target===document.getElementById('overlay'))closeM(); }
-function closeM(){ document.getElementById('overlay').classList.remove('on'); document.body.style.overflow=''; }
+function closeM(){ document.getElementById('overlay').classList.remove('on'); document.body.style.overflow=''; window.scrollTo({top:_savedScroll,behavior:'instant'}); }
 
 /* ─────────────────────────────────────────────
    HELPERS
@@ -1098,7 +1072,7 @@ function demo(){
   ];
 }
 
-['fc-court','fc-failed','fc-date'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
+['fc-region','fc-failed','fc-date'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
 document.getElementById('fc-q').addEventListener('input',applyF);
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeM(); closeScoreCalc(); } });
 
@@ -1443,7 +1417,7 @@ function openCyM(id){
     </div>
     <div class="mfooter">
       <button class="mbtn-dark" style="background:var(--blue)" onclick="openCyApply('${a.id}')">🏠 청약홈에서 신청하기 →</button>
-      <button class="mbtn-naver" onclick="openNaverCy(CY_ALL.find(x=>x.id==='${a.id}'))">🟢 네이버 부동산 →</button>
+      <button class="mbtn-naver" onclick="openNaverCy(CY_ALL.find(x=>x.id==='${a.id}'))">🗺️ 네이버 지도 →</button>
       <button class="mbtn-light" onclick="closeM()">닫기</button>
     </div>`;
   document.getElementById('overlay').classList.add('on');
