@@ -21,23 +21,41 @@ from datetime import date
 BASE       = "https://www.courtauction.go.kr"
 TODAY      = date.today().isoformat()
 OUT        = os.path.join(os.path.dirname(__file__), "..", "docs", "data", "auctions.json")
-MIN_BID    = 400_000_000
+MIN_BID    = 50_000_000   # 5천만원 이상 (유찰로 낮아진 물건도 포함)
 METRO_SIDO = {"11", "28", "41"}
 
-# WebSquare 보다 먼저 주입 — XHR 후크
+# WebSquare 보다 먼저 주입 — XHR 후크 (요청 본문도 캡처)
 INIT_SCRIPT = """
 window.__auction_captured = [];
+window.__auction_last_req = null;
 (function() {
     var _origOpen = XMLHttpRequest.prototype.open;
     var _origSend = XMLHttpRequest.prototype.send;
+    var _origSetHdr = XMLHttpRequest.prototype.setRequestHeader;
 
     XMLHttpRequest.prototype.open = function(method, url, async) {
         this.__iurl = (typeof url === 'string') ? url : '';
+        this.__method = method;
+        this.__hdrs = {};
         return _origOpen.apply(this, arguments);
+    };
+
+    XMLHttpRequest.prototype.setRequestHeader = function(name, value) {
+        this.__hdrs = this.__hdrs || {};
+        this.__hdrs[name] = value;
+        return _origSetHdr.apply(this, arguments);
     };
 
     XMLHttpRequest.prototype.send = function(body) {
         var self = this;
+        if ((self.__iurl || '').includes('searchControllerMain')) {
+            window.__auction_last_req = {
+                url: self.__iurl,
+                method: self.__method || 'POST',
+                body: (typeof body === 'string') ? body : '',
+                headers: self.__hdrs || {}
+            };
+        }
         self.addEventListener('loadend', function() {
             if ((self.__iurl || '').includes('searchControllerMain')) {
                 try {
@@ -112,6 +130,67 @@ def is_target(row):
 
 def get_captured(page):
     return page.evaluate("() => window.__auction_captured || []")
+
+def replay_with_sido(page, sido_code, sido_name, page_num=1):
+    """
+    캡처된 마지막 XHR 요청 body(JSON)에서 sido/page만 교체 후 fetch() 재실행.
+    courtauction body는 JSON 형식이고 sido 필드명은 rprsAdongSdCd / rdnmSdCd.
+    cortOfcCd(법원코드)를 비우고 sido 코드로만 검색해 전체 수도권을 커버.
+    """
+    sc = sido_code
+    pg = page_num
+    result = page.evaluate(f"""async () => {{
+        var req = window.__auction_last_req;
+        if (!req || !req.url || !req.body) return {{ok:false, reason:'no_req'}};
+
+        var bodyObj;
+        try {{ bodyObj = JSON.parse(req.body); }}
+        catch(e) {{ return {{ok:false, reason:'json_parse:'+e}}; }}
+
+        var si = bodyObj.dma_srchGdsDtlSrchInfo;
+        if (si) {{
+            si.rprsAdongSdCd            = '{sc}';
+            si.rdnmSdCd                 = '{sc}';
+            si.rprsAdongSggCd           = '';
+            si.rprsAdongEmdCd           = '';
+            si.rdnmSggCd                = '';
+            si.rdnmNo                   = '';
+            si.cortOfcCd                = '';
+            si.mvprpDspslPlcAdongSdCd   = '{sc}';
+            si.mvprpDspslPlcAdongSggCd  = '';
+            si.mvprpDspslPlcAdongEmdCd  = '';
+            si.rdDspslPlcAdongSdCd      = '{sc}';
+            si.rdDspslPlcAdongSggCd     = '';
+            si.rdDspslPlcAdongEmdCd     = '';
+        }}
+        if (bodyObj.dma_pageInfo) {{
+            bodyObj.dma_pageInfo.pageNo   = {pg};
+            bodyObj.dma_pageInfo.bfPageNo = String({pg} - 1);
+            bodyObj.dma_pageInfo.totalCnt = '';
+        }}
+
+        var hdrs = Object.assign({{}}, req.headers);
+        try {{
+            var resp = await fetch(req.url, {{
+                method: req.method || 'POST',
+                headers: hdrs,
+                body: JSON.stringify(bodyObj),
+                credentials: 'include'
+            }});
+            var text = await resp.text();
+            var d = JSON.parse(text);
+            if (d && d.data && d.data.dlt_srchResult) {{
+                window.__auction_captured.push(d);
+                return {{ok:true, count:d.data.dlt_srchResult.length,
+                        total:(d.data.dma_pageInfo||{{}}).totalCnt||0}};
+            }}
+            return {{ok:false, reason:'no_data', keys:Object.keys(d.data||{{}})}};
+        }} catch(e) {{
+            return {{ok:false, reason:String(e)}};
+        }}
+    }}""")
+    print(f"  [{sido_name}] replay p={page_num}: {result}")
+    return result
 
 def get_search_frame(page):
     """검색 폼이 있는 frame 반환 (메인 또는 iframe)"""
@@ -288,34 +367,61 @@ def main():
             print(f"    {u}")
         search_frame = get_search_frame(page)
 
-        # ── 5. 시도별 반복 검색 (서울·경기·인천) ──────────────
+        # ── 5. 첫 번째 검색 (서울) — XHR 캡처용 ──────────────
+        print("\n[5단계] 서울 최초 검색으로 XHR 요청 캡처...")
+        page.evaluate("() => { window.__auction_captured = []; window.__auction_last_req = null; }")
+
+        # 시도 드롭다운 설정 시도 (실패해도 계속)
+        set_sido_in_frame(search_frame, "11", "서울")
+        page.wait_for_timeout(1500)
+
+        # 검색 트리거
+        try_trigger_search(page, search_frame)
+        page.wait_for_timeout(8000)
+
+        # 첫 번째 XHR 캡처 확인
+        first_captured = get_captured(page)
+        last_req = page.evaluate("() => window.__auction_last_req")
+        print(f"  캡처된 응답: {len(first_captured)}개")
+        print(f"  캡처된 요청: {'있음 (' + last_req['url'][:60] + ')' if last_req else '없음'}")
+        if last_req and last_req.get('body'):
+            body_preview = last_req['body'][:800]
+            print(f"  [요청 body 미리보기]\n    {body_preview}")
+
+        # ── 6. 시도별 fetch() 직접 재실행 ──────────────────────
         SIDO_LIST = [("11","서울"), ("41","경기"), ("28","인천")]
         all_xhr_rows = []
 
         for sido_code, sido_name in SIDO_LIST:
-            print(f"\n[5단계] {sido_name} 검색 시작 (sido={sido_code})...")
-
-            # XHR 버퍼 클리어
+            print(f"\n[6단계] {sido_name} 데이터 수집 (sido={sido_code})...")
             page.evaluate("() => { window.__auction_captured = []; }")
 
-            # 시도 드롭다운 설정 (frame 우선)
-            set_sido_in_frame(search_frame, sido_code, sido_name)
-            page.wait_for_timeout(1500)
+            if last_req:
+                # fetch() 직접 재실행 방식 (WebSquare UI 우회)
+                r = replay_with_sido(page, sido_code, sido_name, page_num=1)
+                page.wait_for_timeout(2000)
+            else:
+                # fallback: UI 조작 방식
+                set_sido_in_frame(search_frame, sido_code, sido_name)
+                page.wait_for_timeout(1500)
+                try_trigger_search(page, search_frame)
+                page.wait_for_timeout(8000)
 
-            # 검색 트리거
-            try_trigger_search(page, search_frame)
-            page.wait_for_timeout(8000)
-
-            captured = get_captured(page)
-            if not captured:
-                print(f"  [{sido_name}] 캡처 없음, 스킵")
-                continue
+            captured_now = get_captured(page)
+            if not captured_now:
+                # fallback: first_captured (서울만)
+                if sido_code == "11" and first_captured:
+                    print(f"  [{sido_name}] replay 실패, 최초 캡처 사용")
+                    captured_now = first_captured
+                else:
+                    print(f"  [{sido_name}] 캡처 없음, 스킵")
+                    continue
 
             # 첫 페이지 수집
-            first = captured[0]
-            total_cnt = int(first.get("data",{}).get("dma_pageInfo",{}).get("totalCnt") or 0)
-            page_size = int(first.get("data",{}).get("dma_pageInfo",{}).get("pageSize") or 10)
-            total_pages = max(1, (total_cnt + page_size - 1) // page_size)
+            first = captured_now[0]
+            total_cnt = int((first.get("data",{}).get("dma_pageInfo") or {}).get("totalCnt") or 0)
+            page_size = int((first.get("data",{}).get("dma_pageInfo") or {}).get("pageSize") or 10)
+            total_pages = max(1, (total_cnt + page_size - 1) // page_size) if total_cnt else 1
             print(f"  [{sido_name}] 총 {total_cnt}건 / {total_pages}페이지")
 
             sido_rows = []
@@ -323,35 +429,43 @@ def main():
             sido_rows.extend(first_rows)
             print(f"  p=1 → {len(first_rows)}건")
 
-            # 2페이지~
+            # 2페이지~ (fetch replay 우선, 없으면 DOM 버튼)
             for pg in range(2, min(total_pages + 1, 50)):
                 page.evaluate("() => { window.__auction_captured = []; }")
-                # frame과 page 모두에서 페이지 버튼 탐색
-                clicked = 'not_found'
-                for target in ([search_frame, page] if search_frame != page else [page]):
-                    try:
-                        clicked = target.evaluate(f"""() => {{
-                            var btns = document.querySelectorAll('a, button, span');
-                            for (var b of btns) {{
-                                var txt = (b.innerText||b.textContent||'').trim();
-                                if (txt === '{pg}') {{ b.click(); return 'num:{pg}'; }}
-                            }}
-                            for (var b of btns) {{
-                                var txt = (b.innerText||b.textContent||'').trim();
-                                if (txt==='다음'||txt==='>'||txt==='▶'||txt==='→') {{ b.click(); return 'next'; }}
-                            }}
-                            return 'not_found';
-                        }}""")
-                        if clicked != 'not_found':
-                            break
-                    except:
-                        pass
-                if clicked == 'not_found':
-                    print(f"  p={pg} 버튼 없음, 종료")
-                    break
-                page.wait_for_timeout(3000)
+
+                if last_req:
+                    # fetch replay로 페이지 이동
+                    replay_with_sido(page, sido_code, sido_name, page_num=pg)
+                    page.wait_for_timeout(2000)
+                else:
+                    # DOM 버튼 클릭 fallback
+                    clicked = 'not_found'
+                    for target in ([search_frame, page] if search_frame != page else [page]):
+                        try:
+                            clicked = target.evaluate(f"""() => {{
+                                var btns = document.querySelectorAll('a, button, span');
+                                for (var b of btns) {{
+                                    var txt = (b.innerText||b.textContent||'').trim();
+                                    if (txt === '{pg}') {{ b.click(); return 'num:{pg}'; }}
+                                }}
+                                for (var b of btns) {{
+                                    var txt = (b.innerText||b.textContent||'').trim();
+                                    if (txt==='다음'||txt==='>'||txt==='▶'||txt==='→') {{ b.click(); return 'next'; }}
+                                }}
+                                return 'not_found';
+                            }}""")
+                            if clicked != 'not_found':
+                                break
+                        except:
+                            pass
+                    if clicked == 'not_found':
+                        print(f"  p={pg} 버튼 없음, 종료")
+                        break
+                    page.wait_for_timeout(3000)
+
                 new_cap = get_captured(page)
                 if not new_cap:
+                    print(f"  p={pg} 응답 없음, 종료")
                     break
                 rows = new_cap[-1].get("data",{}).get("dlt_srchResult") or []
                 sido_rows.extend(rows)
@@ -386,6 +500,33 @@ def main():
     if not all_raw_rows:
         print("\n=== 데이터 없음 ===")
         return
+
+    # ── 디버그: 첫 번째 row 필드 확인 ──
+    sample = all_raw_rows[0]
+    print(f"\n[디버그] 첫 번째 row 키: {list(sample.keys())[:20]}")
+    print(f"  srnSaNo={sample.get('srnSaNo')} minmaePrice={sample.get('minmaePrice')} "
+          f"dspslUsgNm={sample.get('dspslUsgNm')} daepyoSidoCd={sample.get('daepyoSidoCd')}")
+    # 실패 원인 분석 (처음 5건)
+    fail_stats = {"ptype":0, "sido":0, "price":0, "pass":0}
+    for row in all_raw_rows[:200]:
+        ptype = (row.get("dspslUsgNm") or "").strip()
+        if ptype:
+            has_res = any(k in ptype for k in RESID_KW)
+            if not has_res:
+                if any(k in ptype for k in EXCL_LAND) or all(any(k in s for k in ["근린시설","상가"]) for s in [s.strip() for s in ptype.split(',')]):
+                    fail_stats["ptype"] += 1; continue
+        sido = row.get("daepyoSidoCd") or row.get("srchHjguSidoCd") or ""
+        if sido not in METRO_SIDO:
+            addr = row.get("printSt","") or row.get("hjguSido","")
+            if not any(k in addr for k in ["서울","인천","경기"]):
+                fail_stats["sido"] += 1; continue
+        try:
+            bid = int(row.get("minmaePrice") or 0)
+            if bid < MIN_BID: fail_stats["price"] += 1
+            else: fail_stats["pass"] += 1
+        except: fail_stats["price"] += 1
+    print(f"  [첫 200건 분석] 업종필터={fail_stats['ptype']} 지역필터={fail_stats['sido']} "
+          f"가격미달={fail_stats['price']} 통과={fail_stats['pass']}")
 
     new_items = {}
     for row in all_raw_rows:
