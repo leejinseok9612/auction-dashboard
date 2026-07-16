@@ -1130,16 +1130,19 @@ async function initCy(){
     const d=await r.json();
     CY_ALL=d.subscriptions||[];
   }catch(e){ CY_ALL=cyDemo(); }
+  document.getElementById('cy-hero-date').textContent=tstr();
+  applyCyF(); // KPI는 applyCyF 내부에서 CY_FILT 확정 후 계산
+}
 
-  // 청약 히어로 KPI 계산
+function updateCyHeroKpi(){
+  // CY_FILT 기준으로 계산 → 화면에 보이는 건수와 일치
   const t=tstr();
-  document.getElementById('cy-hero-date').textContent=t;
-  const openN=CY_ALL.filter(a=>a.status==='청약중').length;
-  const upcomingN=CY_ALL.filter(a=>a.status==='청약예정').length;
   const thisMonth=t.slice(0,7);
-  const monthN=CY_ALL.filter(a=>(a.start_date||'').startsWith(thisMonth)).length;
+  const openN    =CY_FILT.filter(a=>a.status==='청약중').length;
+  const upcomingN=CY_FILT.filter(a=>a.status==='청약예정').length;
+  const monthN   =CY_FILT.filter(a=>(a.start_date||'').startsWith(thisMonth)).length;
   const now=new Date(); const weekEnd=new Date(now); weekEnd.setDate(now.getDate()+7);
-  const deadlineN=CY_ALL.filter(a=>{
+  const deadlineN=CY_FILT.filter(a=>{
     if(!a.end_date)return false;
     const d=new Date(a.end_date); return d>=now&&d<=weekEnd;
   }).length;
@@ -1147,8 +1150,6 @@ async function initCy(){
   set('cy-ks-upcoming',upcomingN);
   set('cy-ks-month',monthN);
   set('cy-ks-deadline',deadlineN);
-
-  applyCyF();
 }
 
 function filterCyOpen(){ set('cy-status','청약중'); applyCyF(); document.getElementById('cy-wrap').scrollIntoView({behavior:'smooth'}); }
@@ -1179,6 +1180,7 @@ function applyCyF(){
   cy_pg=1;
   set('cy-cnt', CY_FILT.length+'건');
   set('cy-sub', `총 ${CY_FILT.length}건`);
+  updateCyHeroKpi(); // CY_FILT 확정 후 히어로 KPI 업데이트
   if(MODE==='cy') renderCyCards();
   if(calOpen) renderCalendar();
 }
