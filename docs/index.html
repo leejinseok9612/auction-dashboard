@@ -940,7 +940,7 @@ function openM(idx){
   document.body.style.overflow='hidden';
 }
 function closeByBg(e){ if(e.target===document.getElementById('overlay'))closeM(); }
-function closeM(){ document.getElementById('overlay').classList.remove('on'); document.body.style.overflow=''; window.scrollTo({top:_savedScroll,behavior:'instant'}); }
+function closeM(){ document.getElementById('overlay').classList.remove('on'); document.body.style.overflow=''; window.scrollTo({top:0,behavior:'instant'}); }
 
 /* ─────────────────────────────────────────────
    HELPERS
