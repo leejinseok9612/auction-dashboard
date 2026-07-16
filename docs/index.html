@@ -410,10 +410,10 @@
     <h1 class="hero-h1">수도권 청약 분양<br><span class="light" style="color:#94A3B8">정보 대시보드</span></h1>
     <p class="hero-sub">서울·경기·인천 <strong>민간·공공</strong> 청약 분양 정보를 자동 수집·분석<br>무순위·선착순 청약 포함 · 실시간 업데이트</p>
     <div class="hero-kpi">
-      <div class="kpi"><div class="kpi-num" style="color:var(--blue)" id="cy-ks-total">-</div><div class="kpi-lbl">총 단지 수</div></div>
       <div class="kpi"><div class="kpi-num" style="color:var(--blue)" id="cy-ks-open">-</div><div class="kpi-lbl">현재 모집중</div></div>
-      <div class="kpi"><div class="kpi-num" style="color:var(--blue)" id="cy-ks-avg">-</div><div class="kpi-lbl">평균 분양가 (억)</div></div>
+      <div class="kpi"><div class="kpi-num" style="color:var(--blue)" id="cy-ks-upcoming">-</div><div class="kpi-lbl">청약 예정</div></div>
       <div class="kpi"><div class="kpi-num" style="color:var(--blue)" id="cy-ks-month">-</div><div class="kpi-lbl">이번 달 청약</div></div>
+      <div class="kpi"><div class="kpi-num" style="color:#EF4444" id="cy-ks-deadline">-</div><div class="kpi-lbl">이번 주 마감 🔥</div></div>
     </div>
     <div class="hero-btns">
       <button class="btn-dark" style="background:var(--blue)" onclick="filterCyOpen()">모집중 청약 보기 ↓</button>
@@ -1135,14 +1135,18 @@ async function initCy(){
   const t=tstr();
   document.getElementById('cy-hero-date').textContent=t;
   const openN=CY_ALL.filter(a=>a.status==='청약중').length;
-  const prices=CY_ALL.filter(a=>(a.price_max||0)>0).map(a=>a.price_max);
-  const avgPrice=prices.length?(prices.reduce((s,v)=>s+v,0)/prices.length/1e8).toFixed(1):'-';
+  const upcomingN=CY_ALL.filter(a=>a.status==='청약예정').length;
   const thisMonth=t.slice(0,7);
   const monthN=CY_ALL.filter(a=>(a.start_date||'').startsWith(thisMonth)).length;
-  set('cy-ks-total',CY_ALL.length.toLocaleString());
+  const now=new Date(); const weekEnd=new Date(now); weekEnd.setDate(now.getDate()+7);
+  const deadlineN=CY_ALL.filter(a=>{
+    if(!a.end_date)return false;
+    const d=new Date(a.end_date); return d>=now&&d<=weekEnd;
+  }).length;
   set('cy-ks-open',openN);
-  set('cy-ks-avg',avgPrice);
+  set('cy-ks-upcoming',upcomingN);
   set('cy-ks-month',monthN);
+  set('cy-ks-deadline',deadlineN);
 
   applyCyF();
 }
