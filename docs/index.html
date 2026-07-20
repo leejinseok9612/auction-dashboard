@@ -369,8 +369,12 @@
   <div class="fbar-left">
     <select class="fsel" id="fc-region">
       <option value="">전체 지역</option>
-      <option value="서울">서울</option>
-      <option value="경기">경기</option>
+      <option value="서울">서울 전체</option>
+      <option value="경기">경기 전체</option>
+      <option value="경기동부">경기 동부 (성남·광주·하남·용인)</option>
+      <option value="경기남부">경기 남부 (수원·화성·오산·평택)</option>
+      <option value="경기서부">경기 서부 (안산·안양·부천·광명)</option>
+      <option value="경기북부">경기 북부 (고양·의정부·남양주)</option>
       <option value="인천">인천</option>
     </select>
     <select class="fsel" id="fc-failed">
@@ -658,11 +662,21 @@ function applyF(){
     if(a.auction_date && a.auction_date < today) return false;
     if(region){
       const addr=a.address||'', court=a.court||'';
-      const GY_COURTS=['수원','의정부','성남','부천','안산','안양','평택','여주','고양'];
-      const matchSeoul = region==='서울' && (addr.includes('서울')||court.includes('서울'));
-      const matchGyeonggi = region==='경기' && (addr.includes('경기')||GY_COURTS.some(k=>court.includes(k)));
-      const matchIncheon = region==='인천' && (addr.includes('인천')||court.includes('인천'));
-      if(!matchSeoul&&!matchGyeonggi&&!matchIncheon) return false;
+      const GY_ALL=['수원','의정부','성남','부천','안산','안양','평택','여주','고양'];
+      // 경기 권역별 도시 매핑
+      const GY_EAST =['성남','광주','하남','용인','이천','여주','양평'];
+      const GY_SOUTH=['수원','화성','오산','평택','안성'];
+      const GY_WEST =['안산','안양','부천','광명','시흥','과천','군포','의왕'];
+      const GY_NORTH=['고양','의정부','남양주','구리','파주','양주','동두천','포천','가평','연천'];
+      const inAddr = (cities) => cities.some(c=>addr.includes(c));
+      const matchSeoul    = region==='서울'    && (addr.includes('서울')||court.includes('서울'));
+      const matchGyeonggi = region==='경기'    && (addr.includes('경기')||GY_ALL.some(k=>court.includes(k)));
+      const matchGyEast   = region==='경기동부' && addr.includes('경기') && inAddr(GY_EAST);
+      const matchGySouth  = region==='경기남부' && addr.includes('경기') && inAddr(GY_SOUTH);
+      const matchGyWest   = region==='경기서부' && addr.includes('경기') && inAddr(GY_WEST);
+      const matchGyNorth  = region==='경기북부' && addr.includes('경기') && inAddr(GY_NORTH);
+      const matchIncheon  = region==='인천'    && (addr.includes('인천')||court.includes('인천'));
+      if(!matchSeoul&&!matchGyeonggi&&!matchGyEast&&!matchGySouth&&!matchGyWest&&!matchGyNorth&&!matchIncheon) return false;
     }
     if(failed!==''&&(a.failed_bids||0)<+failed)return false;
     if(dateF==='today'&&a.scraped_date!==today)return false;
