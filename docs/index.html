@@ -656,7 +656,14 @@ function applyF(){
     }
     // 경매기일이 오늘 이전이면 자동 숨김 (완료된 경매)
     if(a.auction_date && a.auction_date < today) return false;
-    if(region&&!(a.address||'').includes(region))return false;
+    if(region){
+      const addr=a.address||'', court=a.court||'';
+      const GY_COURTS=['수원','의정부','성남','부천','안산','안양','평택','여주','고양'];
+      const matchSeoul = region==='서울' && (addr.includes('서울')||court.includes('서울'));
+      const matchGyeonggi = region==='경기' && (addr.includes('경기')||GY_COURTS.some(k=>court.includes(k)));
+      const matchIncheon = region==='인천' && (addr.includes('인천')||court.includes('인천'));
+      if(!matchSeoul&&!matchGyeonggi&&!matchIncheon) return false;
+    }
     if(failed!==''&&(a.failed_bids||0)<+failed)return false;
     if(dateF==='today'&&a.scraped_date!==today)return false;
     if(q&&!(a.id+a.court+a.address).toLowerCase().includes(q))return false;

@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 """
-법원경매정보 스크래퍼 v7
+법원경매정보 스크래퍼 v8
 ────────────────────────────────────────────────────────────
 핵심 발견:
   - 사이트는 index.on 에서 SPA로 동작
   - '물건상세검색' (id=mf_wfm_header_anc_auctnGdsMain) 클릭 →
     WebSquare 내부에서 경매 검색 폼 로드 → 자동검색 or 검색버튼
+  - 시도 코드(rprsAdongSdCd 등)는 서버에서 실제 필터링 안 됨
+  - cortOfcCd(법원코드)가 실제 필터 키 → 법원 코드별로 검색해야 함
 
 흐름:
   1. index.on 로드 + WebSquare 초기화 대기
   2. 물건상세검색 클릭
   3. 검색 폼 로드 대기 (20초)
-  4. scwin 검색함수 or 검색버튼 클릭
-  5. XHR 후크로 결과 캡처
+  4. 법원 드롭다운에서 수도권 법원 코드 추출
+  5. 서울 법원 검색으로 XHR 캡처
+  6. 수도권 각 법원코드로 fetch() 재실행
 """
 
 import json, os, time, sys
@@ -23,6 +26,11 @@ TODAY      = date.today().isoformat()
 OUT        = os.path.join(os.path.dirname(__file__), "..", "docs", "data", "auctions.json")
 MIN_BID    = 50_000_000   # 5천만원 이상 (유찰로 낮아진 물건도 포함)
 METRO_SIDO = {"11", "28", "41"}
+
+# 수도권 법원 키워드 (이름으로 구분)
+SEOUL_KW   = ["서울"]
+GYEONGGI_KW = ["수원","의정부","성남","부천","안산","안양","평택","여주","인천"]
+# 인천은 경기 광역권에 포함해서 처리
 
 # WebSquare 보다 먼저 주입 — XHR 후크 (요청 본문도 캡처)
 INIT_SCRIPT = """
@@ -131,13 +139,146 @@ def is_target(row):
 def get_captured(page):
     return page.evaluate("() => window.__auction_captured || []")
 
-def replay_with_sido(page, sido_code, sido_name, page_num=1):
+def get_all_courts_from_page(page, frame):
+    """페이지에서 가능한 모든 방법으로 법원 코드 추출 (디버그용)"""
+    result = frame.evaluate("""() => {
+        var found = [];
+
+        // 1. select DOM 탐색 — 모든 select의 id와 옵션 수 출력
+        var sels = document.querySelectorAll('select');
+        var selInfo = [];
+        for (var sel of sels) {
+            selInfo.push({id: sel.id, name: sel.name, optCount: sel.options.length,
+                firstVals: Array.from(sel.options).slice(0,3).map(o=>o.value+'='+o.text)});
+        }
+
+        // 2. select에서 법원 관련 옵션 탐색
+        for (var sel of sels) {
+            var id = (sel.id || sel.name || '').toLowerCase();
+            var opts = [];
+            for (var opt of sel.options) {
+                var v = opt.value.trim(), t = opt.text.trim();
+                if (v && (v.startsWith('B') || /지방법원|지원/.test(t))) {
+                    opts.push({code:v, name:t});
+                }
+            }
+            if (opts.length >= 3) {
+                return {method:'select', sel_id:sel.id, opts:opts, selInfo:selInfo};
+            }
+        }
+
+        // 3. WebSquare 데이터셋 탐색 (scwin 내 DataList, ComboBox)
+        if (typeof scwin !== 'undefined') {
+            var keys = Object.getOwnPropertyNames(scwin);
+            for (var k of keys) {
+                try {
+                    var obj = scwin[k];
+                    if (obj && typeof obj.getJSON === 'function') {
+                        var d = obj.getJSON();
+                        if (d && JSON.stringify(d).includes('지방법원')) {
+                            return {method:'scwin:'+k, raw: JSON.stringify(d).slice(0,500)};
+                        }
+                    }
+                } catch(e) {}
+            }
+        }
+
+        // 4. window 전역 변수 탐색
+        var winKeys = Object.getOwnPropertyNames(window);
+        for (var k of winKeys) {
+            try {
+                var v = window[k];
+                if (v && typeof v === 'object' && !Array.isArray(v)) {
+                    var s = JSON.stringify(v);
+                    if (s && s.includes('지방법원') && s.includes('B000')) {
+                        return {method:'window:'+k, raw:s.slice(0,800)};
+                    }
+                }
+            } catch(e) {}
+        }
+
+        return {method:'none', selInfo:selInfo};
+    }""")
+    return result
+
+def get_metro_courts(page, frame):
     """
-    캡처된 마지막 XHR 요청 body(JSON)에서 sido/page만 교체 후 fetch() 재실행.
-    courtauction body는 JSON 형식이고 sido 필드명은 rprsAdongSdCd / rdnmSdCd.
-    cortOfcCd(법원코드)를 비우고 sido 코드로만 검색해 전체 수도권을 커버.
+    법원 드롭다운에서 수도권 법원 코드 목록 추출.
+    반환: [{"code": "B000210", "name": "서울중앙지방법원", "region": "서울"}, ...]
     """
-    sc = sido_code
+    # 전체 탐색 실행
+    raw = get_all_courts_from_page(page, frame)
+    method = raw.get('method','none') if raw else 'none'
+    print(f"  [법원코드 탐색] method={method}")
+
+    result = None
+    if raw and raw.get('opts'):
+        result = raw  # select에서 발견
+
+    if not result:
+
+        # select 옵션 정보 출력 (디버그)
+        sel_info = raw.get('selInfo', []) if raw else []
+        print(f"  [법원코드] 페이지 select 목록 ({len(sel_info)}개):")
+        for s in sel_info:
+            print(f"    id={s.get('id')} name={s.get('name')} opts={s.get('optCount')} sample={s.get('firstVals')}")
+        if raw and raw.get('raw'):
+            print(f"  [법원코드] 힌트 데이터: {raw.get('raw','')[:300]}")
+        print("  [법원코드] 드롭다운 추출 실패 — 기본 코드 사용")
+        return DEFAULT_METRO_COURTS
+
+    print(f"  [법원코드] select id={result.get('sel_id')}, 총 {len(result['opts'])}개 발견")
+    courts = []
+    for opt in result["opts"]:
+        nm = opt["name"]
+        region = None
+        if "서울" in nm:
+            region = "서울"
+        elif any(k in nm for k in ["수원","성남","부천","안산","안양","평택","여주"]):
+            region = "경기"
+        elif "의정부" in nm:
+            region = "경기"
+        elif "인천" in nm:
+            region = "인천"
+        if region:
+            courts.append({"code": opt["code"], "name": nm, "region": region})
+            print(f"    {opt['code']} = {nm} [{region}]")
+
+    if not courts:
+        print("  [법원코드] 수도권 법원 없음 — 기본 코드 사용")
+        return DEFAULT_METRO_COURTS
+
+    return courts
+
+# ── 알려진 수도권 법원 코드 (드롭다운 추출 실패 시 fallback) ──────────
+# courtauction.go.kr 법원 select에서 확인한 실제 코드
+DEFAULT_METRO_COURTS = [
+    # 서울
+    {"code": "B000210", "name": "서울중앙지방법원",  "region": "서울"},
+    {"code": "B000215", "name": "서울동부지방법원",  "region": "서울"},
+    {"code": "B000220", "name": "서울남부지방법원",  "region": "서울"},
+    {"code": "B000225", "name": "서울북부지방법원",  "region": "서울"},
+    {"code": "B000230", "name": "서울서부지방법원",  "region": "서울"},
+    # 경기
+    {"code": "B000260", "name": "수원지방법원",      "region": "경기"},
+    {"code": "B000261", "name": "수원지방법원 성남지원", "region": "경기"},
+    {"code": "B000262", "name": "수원지방법원 여주지원", "region": "경기"},
+    {"code": "B000263", "name": "수원지방법원 평택지원", "region": "경기"},
+    {"code": "B000264", "name": "수원지방법원 안산지원", "region": "경기"},
+    {"code": "B000265", "name": "수원지방법원 안양지원", "region": "경기"},
+    {"code": "B000270", "name": "의정부지방법원",    "region": "경기"},
+    {"code": "B000271", "name": "의정부지방법원 고양지원", "region": "경기"},
+    # 인천
+    {"code": "B000250", "name": "인천지방법원",      "region": "인천"},
+    {"code": "B000251", "name": "인천지방법원 부천지원", "region": "인천"},
+]
+
+def replay_with_court(page, court_code, court_name, page_num=1):
+    """
+    캡처된 마지막 XHR 요청 body(JSON)에서 cortOfcCd(법원코드)/page만 교체 후 fetch() 재실행.
+    시도 코드는 실제 서버 필터링에 영향 없음 → cortOfcCd로만 지역 필터링.
+    """
+    cc = court_code
     pg = page_num
     result = page.evaluate(f"""async () => {{
         var req = window.__auction_last_req;
@@ -149,19 +290,20 @@ def replay_with_sido(page, sido_code, sido_name, page_num=1):
 
         var si = bodyObj.dma_srchGdsDtlSrchInfo;
         if (si) {{
-            si.rprsAdongSdCd            = '{sc}';
-            si.rdnmSdCd                 = '{sc}';
-            si.rprsAdongSggCd           = '';
-            si.rprsAdongEmdCd           = '';
-            si.rdnmSggCd                = '';
-            si.rdnmNo                   = '';
-            si.cortOfcCd                = '';
-            si.mvprpDspslPlcAdongSdCd   = '{sc}';
-            si.mvprpDspslPlcAdongSggCd  = '';
-            si.mvprpDspslPlcAdongEmdCd  = '';
-            si.rdDspslPlcAdongSdCd      = '{sc}';
-            si.rdDspslPlcAdongSggCd     = '';
-            si.rdDspslPlcAdongEmdCd     = '';
+            si.cortOfcCd = '{cc}';
+            // sido 필드 초기화 (법원 코드로만 필터링)
+            si.rprsAdongSdCd           = '';
+            si.rdnmSdCd                = '';
+            si.rprsAdongSggCd          = '';
+            si.rprsAdongEmdCd          = '';
+            si.rdnmSggCd               = '';
+            si.rdnmNo                  = '';
+            si.mvprpDspslPlcAdongSdCd  = '';
+            si.mvprpDspslPlcAdongSggCd = '';
+            si.mvprpDspslPlcAdongEmdCd = '';
+            si.rdDspslPlcAdongSdCd     = '';
+            si.rdDspslPlcAdongSggCd    = '';
+            si.rdDspslPlcAdongEmdCd    = '';
         }}
         if (bodyObj.dma_pageInfo) {{
             bodyObj.dma_pageInfo.pageNo   = {pg};
@@ -171,12 +313,16 @@ def replay_with_sido(page, sido_code, sido_name, page_num=1):
 
         var hdrs = Object.assign({{}}, req.headers);
         try {{
+            var controller = new AbortController();
+            var tid = setTimeout(function(){{ controller.abort(); }}, 20000);
             var resp = await fetch(req.url, {{
                 method: req.method || 'POST',
                 headers: hdrs,
                 body: JSON.stringify(bodyObj),
-                credentials: 'include'
+                credentials: 'include',
+                signal: controller.signal
             }});
+            clearTimeout(tid);
             var text = await resp.text();
             var d = JSON.parse(text);
             if (d && d.data && d.data.dlt_srchResult) {{
@@ -189,7 +335,7 @@ def replay_with_sido(page, sido_code, sido_name, page_num=1):
             return {{ok:false, reason:String(e)}};
         }}
     }}""")
-    print(f"  [{sido_name}] replay p={page_num}: {result}")
+    print(f"  [{court_name}] replay p={page_num}: {result}")
     return result
 
 def get_search_frame(page):
@@ -305,7 +451,7 @@ def try_trigger_search(page, frame=None):
     return False
 
 def main():
-    print(f"=== 경매 스크래퍼 v7 시작: {TODAY} ===\n")
+    print(f"=== 경매 스크래퍼 v8 시작: {TODAY} ===\n")
 
     try:
         from playwright.sync_api import sync_playwright
@@ -384,98 +530,102 @@ def main():
         last_req = page.evaluate("() => window.__auction_last_req")
         print(f"  캡처된 응답: {len(first_captured)}개")
         print(f"  캡처된 요청: {'있음 (' + last_req['url'][:60] + ')' if last_req else '없음'}")
-        if last_req and last_req.get('body'):
-            body_preview = last_req['body'][:800]
-            print(f"  [요청 body 미리보기]\n    {body_preview}")
 
-        # ── 6. 시도별 fetch() 직접 재실행 ──────────────────────
-        SIDO_LIST = [("11","서울"), ("41","경기"), ("28","인천")]
+        # ── 6. 법원 코드 목록 추출 ─────────────────────────────
+        print("\n[6단계] 수도권 법원 코드 추출...")
+        metro_courts = get_metro_courts(page, search_frame)
+        print(f"  → 수도권 법원 {len(metro_courts)}개 (서울/경기/인천)")
+
+        # ── 7. 법원별 fetch() 직접 재실행 ──────────────────────
         all_xhr_rows = []
+        seen_ids = set()  # 중복 방지
 
-        for sido_code, sido_name in SIDO_LIST:
-            print(f"\n[6단계] {sido_name} 데이터 수집 (sido={sido_code})...")
+        for court in metro_courts:
+            court_code = court["code"]
+            court_name = court["name"]
+            region     = court["region"]
+
+            print(f"\n[7단계] {court_name} ({region}) 데이터 수집...")
             page.evaluate("() => { window.__auction_captured = []; }")
 
             if last_req:
-                # fetch() 직접 재실행 방식 (WebSquare UI 우회)
-                r = replay_with_sido(page, sido_code, sido_name, page_num=1)
+                try:
+                    r = replay_with_court(page, court_code, court_name, page_num=1)
+                except Exception as e:
+                    print(f"  [{court_name}] p=1 오류: {e}, 스킵")
+                    continue
                 page.wait_for_timeout(2000)
             else:
-                # fallback: UI 조작 방식
-                set_sido_in_frame(search_frame, sido_code, sido_name)
-                page.wait_for_timeout(1500)
-                try_trigger_search(page, search_frame)
-                page.wait_for_timeout(8000)
+                print(f"  [{court_name}] XHR 요청 없음, 스킵")
+                continue
 
             captured_now = get_captured(page)
             if not captured_now:
-                # fallback: first_captured (서울만)
-                if sido_code == "11" and first_captured:
-                    print(f"  [{sido_name}] replay 실패, 최초 캡처 사용")
-                    captured_now = first_captured
-                else:
-                    print(f"  [{sido_name}] 캡처 없음, 스킵")
-                    continue
+                print(f"  [{court_name}] 캡처 없음, 스킵")
+                continue
 
-            # 첫 페이지 수집
             first = captured_now[0]
             total_cnt = int((first.get("data",{}).get("dma_pageInfo") or {}).get("totalCnt") or 0)
             page_size = int((first.get("data",{}).get("dma_pageInfo") or {}).get("pageSize") or 10)
+
+            if total_cnt == 0:
+                # 이 법원에 물건 없음 (코드 오류 또는 진짜 없음)
+                first_rows = first.get("data",{}).get("dlt_srchResult") or []
+                if not first_rows:
+                    print(f"  [{court_name}] 결과 없음 (totalCnt=0), 스킵")
+                    continue
+                total_cnt = len(first_rows)
+
             total_pages = max(1, (total_cnt + page_size - 1) // page_size) if total_cnt else 1
-            print(f"  [{sido_name}] 총 {total_cnt}건 / {total_pages}페이지")
+            print(f"  [{court_name}] 총 {total_cnt}건 / {total_pages}페이지")
 
-            sido_rows = []
+            court_rows = []
             first_rows = first.get("data",{}).get("dlt_srchResult") or []
-            sido_rows.extend(first_rows)
-            print(f"  p=1 → {len(first_rows)}건")
+            for row in first_rows:
+                rid = row.get("srnSaNo","")
+                if rid and rid not in seen_ids:
+                    seen_ids.add(rid)
+                    court_rows.append(row)
+            print(f"  p=1 → {len(first_rows)}건 (신규 {len(court_rows)}건)")
 
-            # 2페이지~ (fetch replay 우선, 없으면 DOM 버튼)
-            for pg in range(2, min(total_pages + 1, 50)):
+            # 2페이지~
+            for pg in range(2, min(total_pages + 1, 100)):
                 page.evaluate("() => { window.__auction_captured = []; }")
-
-                if last_req:
-                    # fetch replay로 페이지 이동
-                    replay_with_sido(page, sido_code, sido_name, page_num=pg)
-                    page.wait_for_timeout(2000)
-                else:
-                    # DOM 버튼 클릭 fallback
-                    clicked = 'not_found'
-                    for target in ([search_frame, page] if search_frame != page else [page]):
-                        try:
-                            clicked = target.evaluate(f"""() => {{
-                                var btns = document.querySelectorAll('a, button, span');
-                                for (var b of btns) {{
-                                    var txt = (b.innerText||b.textContent||'').trim();
-                                    if (txt === '{pg}') {{ b.click(); return 'num:{pg}'; }}
-                                }}
-                                for (var b of btns) {{
-                                    var txt = (b.innerText||b.textContent||'').trim();
-                                    if (txt==='다음'||txt==='>'||txt==='▶'||txt==='→') {{ b.click(); return 'next'; }}
-                                }}
-                                return 'not_found';
-                            }}""")
-                            if clicked != 'not_found':
-                                break
-                        except:
-                            pass
-                    if clicked == 'not_found':
-                        print(f"  p={pg} 버튼 없음, 종료")
-                        break
-                    page.wait_for_timeout(3000)
+                try:
+                    replay_with_court(page, court_code, court_name, page_num=pg)
+                except Exception as e:
+                    print(f"  p={pg} evaluate 오류: {e}, 종료")
+                    break
+                page.wait_for_timeout(2000)
 
                 new_cap = get_captured(page)
                 if not new_cap:
                     print(f"  p={pg} 응답 없음, 종료")
                     break
                 rows = new_cap[-1].get("data",{}).get("dlt_srchResult") or []
-                sido_rows.extend(rows)
-                print(f"  p={pg} → {len(rows)}건 (누적 {len(sido_rows)}건)")
-                if len(sido_rows) >= total_cnt:
+                if not rows:
+                    print(f"  p={pg} 결과 없음, 종료")
+                    break
+                new_count = 0
+                for row in rows:
+                    rid = row.get("srnSaNo","")
+                    if rid and rid not in seen_ids:
+                        seen_ids.add(rid)
+                        court_rows.append(row)
+                        new_count += 1
+                print(f"  p={pg} → {len(rows)}건 (신규 {new_count}건, 누적 {len(court_rows)}건)")
+                if len(court_rows) >= total_cnt:
                     break
 
-            print(f"  [{sido_name}] 수집 완료: {len(sido_rows)}건")
-            all_xhr_rows.extend(sido_rows)
+            print(f"  [{court_name}] 수집 완료: {len(court_rows)}건")
+            all_xhr_rows.extend(court_rows)
 
+        # 법원별 요약
+        from collections import Counter as _Counter
+        court_summary = _Counter(r.get('jiwonNm','') for r in all_xhr_rows)
+        print("\n  [법원별 수집 요약]")
+        for cn, cv in court_summary.most_common():
+            print(f"    {cn}: {cv}건")
         print(f"\n  [전체] 수집 완료: {len(all_xhr_rows)}건 (서울+경기+인천)")
         captured = all_xhr_rows
 
