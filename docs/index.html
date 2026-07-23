@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>수도권 경매·청약 대시보드</title>
+  <title>내집찾기 — 경매·청약으로 내 집 마련</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -387,7 +387,7 @@
 <nav>
   <a class="nav-logo" href="#">
     <div class="nav-logo-icon">🏠</div>
-    경매·청약 대시보드
+    내집찾기
   </a>
   <div class="nav-right">
     <span class="nav-pill" id="nav-today">오늘 0건 업데이트</span>
@@ -398,8 +398,8 @@
 
 <!-- MODE TABS -->
 <div class="mode-tabs">
-  <button class="mtab on" id="tab-auction" onclick="switchMode('auction')">🏛️ 경매</button>
-  <button class="mtab cy"   id="tab-cy"      onclick="switchMode('cy')">🏠 청약</button>
+  <button class="mtab on" id="tab-auction" onclick="switchMode('auction')">🔨 경매로 내 집 마련</button>
+  <button class="mtab cy"   id="tab-cy"      onclick="switchMode('cy')">📋 청약 일정 &amp; 가점</button>
 </div>
 
 <!-- HERO -->
@@ -407,9 +407,9 @@
   <div class="hero-inner auction-layout">
     <!-- 좌측: 타이틀 + KPI -->
     <div class="hero-left">
-      <div class="hero-chip">✦ <span id="hero-date">-</span> 기준 최신 데이터</div>
-      <h1 class="hero-h1">수도권 아파트<br><span class="light">경매 대시보드</span></h1>
-      <p class="hero-sub">매일 아침 서울·경기·인천 <strong>전체 법원</strong> 경매 매물을 자동 수집·분석<br><strong>5천만원대부터 전 구간</strong> 아파트·다가구·빌라 포함</p>
+      <div class="hero-chip">✦ <span id="hero-date">-</span> 오늘 실시간 업데이트</div>
+      <h1 class="hero-h1">시세보다 싸게,<br><span class="light">내 집 살 수 있어요</span></h1>
+      <p class="hero-sub">수도권 법원 경매 매물을 매일 자동 분석해요<br><strong>예산만 입력하면</strong> 내가 살 수 있는 아파트·빌라를 바로 찾아드려요</p>
       <div class="hero-kpi">
         <div class="kpi"><div class="kpi-num" id="ks-total">-</div><div class="kpi-lbl">입찰 예정 매물</div></div>
         <div class="kpi"><div class="kpi-num" id="ks-today">-</div><div class="kpi-lbl">오늘 신규</div></div>
@@ -417,14 +417,14 @@
         <div class="kpi"><div class="kpi-num" id="ks-week">-</div><div class="kpi-lbl">이번 주 경매</div></div>
       </div>
       <div class="hero-btns">
-        <button class="btn-dark" onclick="goToday()">오늘 신규 매물 ↓</button>
-        <button class="btn-outline" onclick="goAll()">전체 보기</button>
+        <button class="btn-dark" onclick="goToday()">오늘 새로 나온 매물 ↓</button>
+        <button class="btn-outline" onclick="goAll()">전체 매물 보기</button>
       </div>
     </div>
     <!-- 우측: 예산 검색 카드 -->
     <div class="budget-card">
-      <div class="budget-card-title">💰 내 예산으로 살 수 있는 매물 찾기</div>
-      <div class="budget-card-sub">예산을 입력하면 취득세·부대비용 포함<br>실투자금 기준으로 매물을 찾아드려요</div>
+      <div class="budget-card-title">🎯 내 예산으로 바로 찾기</div>
+      <div class="budget-card-sub">취득세·부대비용까지 계산해서<br>실제로 살 수 있는 매물만 보여드려요</div>
       <div class="budget-input-wrap">
         <span class="budget-currency">₩</span>
         <input class="budget-field" type="number" id="fc-budget" placeholder="0" min="0.1" max="200" step="0.1"
@@ -508,9 +508,9 @@
 <!-- 청약 HERO -->
 <section class="hero" id="cy-hero-section" style="display:none">
   <div class="hero-inner">
-    <div class="hero-chip" style="background:#EFF6FF;color:var(--blue)">✦ <span id="cy-hero-date">-</span> 기준 최신 데이터</div>
-    <h1 class="hero-h1">수도권 청약 분양<br><span class="light" style="color:#94A3B8">정보 대시보드</span></h1>
-    <p class="hero-sub">서울·경기·인천 <strong>민간·공공</strong> 청약 분양 정보를 자동 수집·분석<br>무순위·선착순 청약 포함 · 실시간 업데이트</p>
+    <div class="hero-chip" style="background:#EFF6FF;color:var(--blue)">✦ <span id="cy-hero-date">-</span> 청약홈 실시간 연동</div>
+    <h1 class="hero-h1">내 가점으로<br><span class="light" style="color:#94A3B8">당첨될 수 있을까요?</span></h1>
+    <p class="hero-sub">청약 일정·경쟁률·당첨 가점까지 한눈에<br><strong>가점 계산기</strong>로 내 점수 확인하고 노려볼 단지를 찾아보세요</p>
     <div class="hero-kpi">
       <div class="kpi"><div class="kpi-num" style="color:var(--blue)" id="cy-ks-open">-</div><div class="kpi-lbl">현재 모집중</div></div>
       <div class="kpi"><div class="kpi-num" style="color:var(--blue)" id="cy-ks-upcoming">-</div><div class="kpi-lbl">청약 예정</div></div>
@@ -518,7 +518,7 @@
       <div class="kpi"><div class="kpi-num" style="color:#EF4444" id="cy-ks-deadline">-</div><div class="kpi-lbl">이번 주 마감 🔥</div></div>
     </div>
     <div class="hero-btns">
-      <button class="btn-dark" style="background:var(--blue)" onclick="filterCyOpen()">모집중 청약 보기 ↓</button>
+      <button class="btn-dark" style="background:var(--blue)" onclick="filterCyOpen()">지금 청약 중인 단지 보기 ↓</button>
       <button class="btn-outline" onclick="filterCyAll()">전체 보기</button>
     </div>
   </div>
