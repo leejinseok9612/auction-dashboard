@@ -387,7 +387,7 @@
   <div class="hero-inner">
     <div class="hero-chip">✦ <span id="hero-date">-</span> 기준 최신 데이터</div>
     <h1 class="hero-h1">수도권 아파트<br><span class="light">경매 대시보드</span></h1>
-    <p class="hero-sub">매일 아침 서울·경기·인천 <strong>전체 법원</strong> 경매 매물을 자동 수집·분석<br>최저입찰가 <strong>4억 원 이상</strong> 아파트만 선별</p>
+    <p class="hero-sub">매일 아침 서울·경기·인천 <strong>전체 법원</strong> 경매 매물을 자동 수집·분석<br><strong>5천만원대부터 전 구간</strong> 아파트·다가구·빌라 포함</p>
     <div class="hero-kpi">
       <div class="kpi"><div class="kpi-num" id="ks-total">-</div><div class="kpi-lbl">총 누적 물건</div></div>
       <div class="kpi"><div class="kpi-num" id="ks-today">-</div><div class="kpi-lbl">오늘 신규</div></div>
@@ -427,16 +427,17 @@
     </select>
     <select class="fsel" id="fc-price" onchange="applyF()">
       <option value="">전체 가격</option>
-      <option value="~5">5억 미만</option>
+      <option value="~1">1억 미만</option>
+      <option value="1~2">1억 ~ 2억</option>
+      <option value="2~3">2억 ~ 3억</option>
+      <option value="3~5">3억 ~ 5억</option>
       <option value="5~7">5억 ~ 7억</option>
       <option value="7~10">7억 ~ 10억</option>
-      <option value="10~15">10억 ~ 15억</option>
-      <option value="15~20">15억 ~ 20억</option>
-      <option value="20~">20억 이상</option>
+      <option value="10~">10억 이상</option>
     </select>
     <div class="fbudget">
       <span class="fbudget-lbl">내 예산</span>
-      <input class="fbudget-input" type="number" id="fc-budget" placeholder="--" min="1" max="200" step="0.5" oninput="applyF()" />
+      <input class="fbudget-input" type="number" id="fc-budget" placeholder="--" min="0.1" max="200" step="0.1" oninput="applyF()" />
       <span class="fbudget-unit">억</span>
     </div>
     <input class="fsearch" type="text" id="fc-q" placeholder="🔍  주소, 사건번호 검색..." />
@@ -773,12 +774,13 @@ function applyF(){
     // 가격 구간 필터
     if(priceR){
       const bid=a.min_bid||0;
-      if(priceR==='~5'  && bid>=5e8)               return false;
+      if(priceR==='~1'  && bid>=1e8)               return false;
+      if(priceR==='1~2' && (bid<1e8||bid>=2e8))    return false;
+      if(priceR==='2~3' && (bid<2e8||bid>=3e8))    return false;
+      if(priceR==='3~5' && (bid<3e8||bid>=5e8))    return false;
       if(priceR==='5~7' && (bid<5e8||bid>=7e8))    return false;
       if(priceR==='7~10'&& (bid<7e8||bid>=10e8))   return false;
-      if(priceR==='10~15'&&(bid<10e8||bid>=15e8))  return false;
-      if(priceR==='15~20'&&(bid<15e8||bid>=20e8))  return false;
-      if(priceR==='20~' && bid<20e8)               return false;
+      if(priceR==='10~' && bid<10e8)               return false;
     }
     // 내 예산 필터 (취득세 포함 실투자금 기준)
     if(budget>0 && (a.min_bid||0)*1.046>budget) return false;
