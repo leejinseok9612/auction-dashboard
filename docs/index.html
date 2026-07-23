@@ -923,7 +923,7 @@ function goToday(){ set('fc-date','today'); applyF(); scroll2(); }
 function goAll()  { set('fc-date','');      applyF(); scroll2(); }
 
 /* ── TOP 5 추천 캐러셀 ── */
-let _featIdx=0, _featTimer=null, _featItems=[];
+let _featIdx=0, _featTimer=null, _featItems=[], FIDS=[];
 function getTop5(){
   const t=tstr();
   const RESID=['아파트','다가구','다세대','연립','빌라','오피스텔','단독주택'];
@@ -956,6 +956,7 @@ function renderFeatured(){
   const track=document.getElementById('featured-track');
   const dots=document.getElementById('featured-dots');
   if(!track||!_featItems.length){ document.getElementById('featured-section').classList.add('hidden'); return; }
+  FIDS=_featItems.map(a=>a.id);
   track.innerHTML=_featItems.map((a,i)=>{
     const roi=a._roi;
     const bid=((a.min_bid||0)/1e8).toFixed(1);
@@ -982,7 +983,7 @@ function renderFeatured(){
       </div>
       <div class="fcard-right">
         <div class="fcard-court-date">${court} · ${date}</div>
-        <button class="fcard-view-btn" onclick="openDetail(ALL.find(x=>x.id==='${a.id}'))">상세 보기 →</button>
+        <button class="fcard-view-btn" onclick="(function(){const idx=ALL.findIndex(x=>x.id===FIDS[${i}]);if(idx>=0)openM(idx);})()">상세 보기 →</button>
       </div>
     </div>`;
   }).join('');
