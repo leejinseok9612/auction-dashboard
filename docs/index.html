@@ -71,26 +71,31 @@
     .cy-fbar { background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200); padding:14px 48px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
     .cy-fbar .fbar-left { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
 
-    /* ── HERO ── */
-    .hero { position:relative; overflow:hidden; background:var(--white); padding:80px 48px 64px; }
+    /* ── HERO (공통) ── */
+    .hero { position:relative; overflow:hidden; background:var(--white); padding:80px 48px 64px; text-align:center; }
     .hero::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,#CECECE 1px,transparent 1px); background-size:24px 24px; opacity:0.55; pointer-events:none; }
     .hero::after  { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(255,255,255,0) 0%,rgba(255,255,255,0.88) 65%,white 100%); pointer-events:none; }
-    .hero-inner { position:relative; z-index:1; max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:60px; }
-    .hero-left { flex:1; min-width:0; }
+    .hero-inner { position:relative; z-index:1; max-width:740px; margin:0 auto; }
     .hero-chip { display:inline-flex; align-items:center; gap:6px; background:var(--yellow); color:var(--black); font-size:12px; font-weight:800; padding:6px 16px; border-radius:20px; margin-bottom:24px; letter-spacing:0.6px; text-transform:uppercase; }
-    .hero-h1 { font-size:52px; font-weight:900; line-height:1.05; letter-spacing:-2px; margin-bottom:8px; }
+    .hero-h1 { font-size:56px; font-weight:900; line-height:1.05; letter-spacing:-2px; margin-bottom:8px; }
     .hero-h1 .light { color:var(--gray-400); font-weight:300; }
     .hero-sub { font-size:15px; color:var(--gray-600); margin-bottom:32px; line-height:1.7; }
     .hero-sub strong { color:var(--black); font-weight:700; }
-    .hero-kpi { display:flex; gap:36px; margin-bottom:32px; flex-wrap:wrap; }
-    .kpi { text-align:left; }
-    .kpi-num { font-size:34px; font-weight:900; letter-spacing:-1.5px; line-height:1; }
+    .hero-kpi { display:flex; justify-content:center; gap:40px; margin-bottom:36px; flex-wrap:wrap; }
+    .kpi { text-align:center; }
+    .kpi-num { font-size:36px; font-weight:900; letter-spacing:-1.5px; line-height:1; }
     .kpi-lbl { font-size:12px; color:var(--gray-600); margin-top:4px; font-weight:500; }
-    .hero-btns { display:flex; gap:12px; }
+    .hero-btns { display:flex; justify-content:center; gap:12px; }
     .btn-dark { background:var(--black); color:white; border:2.5px solid var(--black); border-radius:12px; font-size:15px; font-weight:700; padding:14px 30px; cursor:pointer; font-family:inherit; transition:background 0.2s; }
     .btn-dark:hover { background:#333; }
     .btn-outline { background:white; color:var(--black); border:2.5px solid var(--gray-200); border-radius:12px; font-size:15px; font-weight:600; padding:14px 30px; cursor:pointer; font-family:inherit; transition:border-color 0.2s; }
     .btn-outline:hover { border-color:var(--black); }
+    /* ── 경매 HERO 전용: 2컬럼 레이아웃 ── */
+    .hero-inner.auction-layout { max-width:1100px; display:flex; align-items:center; gap:60px; text-align:left; }
+    .hero-inner.auction-layout .hero-kpi { justify-content:flex-start; gap:36px; margin-bottom:32px; }
+    .hero-inner.auction-layout .kpi { text-align:left; }
+    .hero-inner.auction-layout .hero-btns { justify-content:flex-start; }
+    .hero-left { flex:1; min-width:0; }
     /* ── BUDGET CARD (Hero 우측) ── */
     .budget-card { background:white; border:2px solid var(--gray-200); border-radius:22px; padding:32px; width:320px; flex-shrink:0; box-shadow:0 8px 32px rgba(0,0,0,0.08); }
     .budget-card-title { font-size:15px; font-weight:800; letter-spacing:-0.3px; margin-bottom:6px; }
@@ -399,7 +404,7 @@
 
 <!-- HERO -->
 <section class="hero" id="hero-section">
-  <div class="hero-inner">
+  <div class="hero-inner auction-layout">
     <!-- 좌측: 타이틀 + KPI -->
     <div class="hero-left">
       <div class="hero-chip">✦ <span id="hero-date">-</span> 기준 최신 데이터</div>
@@ -1300,6 +1305,8 @@ function switchMode(m){
   document.getElementById('cy-cal-section').style.display= m==='cy'&&calOpen?'block':'none';
   document.getElementById('cards-wrap').style.display= m==='auction'?'':'none';
   document.getElementById('cy-wrap').style.display= m==='cy'?'':'none';
+  const bb=document.getElementById('budget-banner');
+  if(bb && m!=='auction') bb.style.display='none';
   const extLink=document.getElementById('nav-ext-link');
   if(m==='cy'){ extLink.href='https://www.applyhome.co.kr'; extLink.textContent='청약홈 바로가기 →'; }
   else{ extLink.href='https://www.courtauction.go.kr'; extLink.textContent='대법원 바로가기 →'; }
