@@ -90,6 +90,8 @@
     .btn-dark:hover { background:#333; }
     .btn-outline { background:white; color:var(--black); border:2.5px solid var(--gray-200); border-radius:12px; font-size:15px; font-weight:600; padding:14px 30px; cursor:pointer; font-family:inherit; transition:border-color 0.2s; }
     .btn-outline:hover { border-color:var(--black); }
+    .btn-score-hero { background:var(--yellow); color:var(--black); border:2.5px solid var(--yellow); border-radius:12px; font-size:15px; font-weight:700; padding:14px 24px; cursor:pointer; font-family:inherit; transition:background 0.2s; }
+    .btn-score-hero:hover { background:#e8b800; border-color:#e8b800; }
     /* ── 경매 HERO 전용: 2컬럼 레이아웃 ── */
     .hero-inner.auction-layout { max-width:1100px; display:flex; align-items:center; gap:60px; text-align:left; }
     .hero-inner.auction-layout .hero-kpi { justify-content:flex-start; gap:36px; margin-bottom:32px; }
@@ -128,6 +130,39 @@
     .btn-cal-toggle { background:transparent; border:1.5px solid var(--gray-200); border-radius:9px; color:var(--gray-600); font-size:12px; font-weight:700; padding:7px 13px; cursor:pointer; font-family:inherit; transition:all 0.2s; }
     .btn-cal-toggle:hover { border-color:var(--blue); color:var(--blue); }
     .btn-cal-toggle.on { background:var(--blue-bg); border-color:var(--blue); color:var(--blue); }
+
+    /* ── TOP 5 추천 캐러셀 ── */
+    .featured-section { background:white; border-bottom:1px solid var(--gray-200); padding:40px 48px; }
+    .featured-section.hidden { display:none; }
+    .featured-hdr { display:flex; align-items:baseline; gap:12px; margin-bottom:24px; }
+    .featured-hdr-title { font-size:20px; font-weight:900; letter-spacing:-0.5px; }
+    .featured-hdr-sub { font-size:13px; color:var(--gray-400); }
+    .featured-outer { position:relative; }
+    .featured-track-wrap { overflow:hidden; border-radius:18px; }
+    .featured-track { display:flex; transition:transform 0.45s cubic-bezier(0.4,0,0.2,1); }
+    .fcard { min-width:100%; background:linear-gradient(135deg,#0F0F0F 0%,#1a1a2e 100%); border-radius:18px; padding:36px 40px; color:white; display:flex; align-items:center; gap:40px; box-sizing:border-box; }
+    .fcard-rank { font-size:64px; font-weight:900; color:rgba(255,255,255,0.12); line-height:1; flex-shrink:0; letter-spacing:-3px; }
+    .fcard-body { flex:1; min-width:0; }
+    .fcard-badge { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:800; padding:4px 12px; border-radius:20px; margin-bottom:14px; letter-spacing:0.3px; }
+    .fcard-badge.great { background:rgba(34,197,94,0.2); color:#4ade80; }
+    .fcard-badge.ok { background:rgba(234,179,8,0.2); color:#fbbf24; }
+    .fcard-addr { font-size:22px; font-weight:800; letter-spacing:-0.5px; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .fcard-type { font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:20px; }
+    .fcard-stats { display:flex; gap:32px; }
+    .fcard-stat-lbl { font-size:11px; color:rgba(255,255,255,0.4); margin-bottom:4px; }
+    .fcard-stat-val { font-size:20px; font-weight:800; letter-spacing:-0.5px; }
+    .fcard-stat-val.highlight { color:#facc15; }
+    .fcard-right { flex-shrink:0; text-align:right; }
+    .fcard-court-date { font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:12px; }
+    .fcard-view-btn { background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2); color:white; border-radius:10px; font-size:13px; font-weight:700; padding:10px 20px; cursor:pointer; font-family:inherit; transition:background 0.2s; white-space:nowrap; }
+    .fcard-view-btn:hover { background:rgba(255,255,255,0.22); }
+    .carousel-arrow { position:absolute; top:50%; transform:translateY(-50%); background:white; border:1.5px solid var(--gray-200); border-radius:50%; width:40px; height:40px; font-size:18px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:2; transition:all 0.2s; color:var(--black); }
+    .carousel-arrow:hover { border-color:var(--black); box-shadow:0 4px 20px rgba(0,0,0,0.18); }
+    .carousel-arrow.prev { left:-18px; }
+    .carousel-arrow.next { right:-18px; }
+    .featured-dots { display:flex; justify-content:center; gap:7px; margin-top:16px; }
+    .fdot { width:7px; height:7px; border-radius:50%; background:var(--gray-200); cursor:pointer; transition:all 0.2s; }
+    .fdot.on { background:var(--black); width:22px; border-radius:4px; }
 
     /* ── CARDS ── */
     .cards-wrap { padding:48px 48px 96px; max-width:1440px; margin:0 auto; }
@@ -378,6 +413,16 @@
       .fsel{font-size:12px;padding:7px 10px}
       .fsearch{width:100%!important}
       .cy-fbar{flex-direction:column;align-items:flex-start;gap:8px;padding:12px 16px}
+      .featured-section{padding:28px 16px}
+      .fcard{flex-direction:column;gap:16px;padding:24px 20px}
+      .fcard-rank{font-size:40px}
+      .fcard-addr{font-size:17px}
+      .fcard-stats{gap:20px}
+      .fcard-right{text-align:left}
+      .carousel-arrow{display:none}
+      .hero-inner.auction-layout{flex-direction:column;gap:24px}
+      .budget-card{width:100%;box-sizing:border-box}
+      .btn-score-hero{font-size:13px;padding:11px 16px}
     }
   </style>
 </head>
@@ -419,6 +464,7 @@
       <div class="hero-btns">
         <button class="btn-dark" onclick="goToday()">오늘 새로 나온 매물 ↓</button>
         <button class="btn-outline" onclick="goAll()">전체 매물 보기</button>
+        <button class="btn-score-hero" onclick="openScoreCalc()">💯 청약 가점 계산기</button>
       </div>
     </div>
     <!-- 우측: 예산 검색 카드 -->
@@ -435,6 +481,22 @@
       <div class="budget-card-note">실제 낙찰가는 최저입찰가와 다를 수 있어요<br>투자 판단은 반드시 직접 확인 후 결정하세요</div>
     </div>
   </div>
+</section>
+
+<!-- TOP 5 추천 캐러셀 -->
+<section class="featured-section" id="featured-section">
+  <div class="featured-hdr">
+    <span class="featured-hdr-title">✨ AI 추천 TOP 5</span>
+    <span class="featured-hdr-sub">수익성 · 입지 · 유찰횟수 기준 자동 선별</span>
+  </div>
+  <div class="featured-outer">
+    <button class="carousel-arrow prev" onclick="featurePrev()">‹</button>
+    <div class="featured-track-wrap">
+      <div class="featured-track" id="featured-track"></div>
+    </div>
+    <button class="carousel-arrow next" onclick="featureNext()">›</button>
+  </div>
+  <div class="featured-dots" id="featured-dots"></div>
 </section>
 
 <!-- FILTER BAR (경매) -->
@@ -773,6 +835,7 @@ async function init(){
   set('ks-avg',avg);
   set('ks-week',wk);
   set('nav-today',`오늘 ${todayN}건 업데이트`);
+  renderFeatured();
   applyF();
 }
 
@@ -858,6 +921,84 @@ function applyF(){
 
 function goToday(){ set('fc-date','today'); applyF(); scroll2(); }
 function goAll()  { set('fc-date','');      applyF(); scroll2(); }
+
+/* ── TOP 5 추천 캐러셀 ── */
+let _featIdx=0, _featTimer=null, _featItems=[];
+function getTop5(){
+  const t=tstr();
+  const RESID=['아파트','다가구','다세대','연립','빌라','오피스텔','단독주택'];
+  const TOP_AREAS=['강남','서초','송파','용산','마포','성동','광진','영등포','강서'];
+  return ALL
+    .filter(a=>{
+      if(a.auction_date && a.auction_date < t) return false;
+      const ptype=(a.property_type||'');
+      if(!RESID.some(k=>ptype.includes(k))) return false;
+      const roi=calcROI(a);
+      return roi.rate > 0 && (a.min_bid||0) > 0;
+    })
+    .map(a=>{
+      const roi=calcROI(a);
+      let score=roi.rate;
+      const addr=a.address||'';
+      if(TOP_AREAS.some(k=>addr.includes(k))) score+=8;
+      if((a.property_type||'').includes('아파트')) score+=5;
+      const fb=a.failed_bids||0;
+      if(fb===0) score+=4;
+      else if(fb<=2) score+=1;
+      else if(fb>=5) score-=10;
+      return {...a, _score:score, _roi:roi};
+    })
+    .sort((a,b)=>b._score-a._score)
+    .slice(0,5);
+}
+function renderFeatured(){
+  _featItems=getTop5();
+  const track=document.getElementById('featured-track');
+  const dots=document.getElementById('featured-dots');
+  if(!track||!_featItems.length){ document.getElementById('featured-section').classList.add('hidden'); return; }
+  track.innerHTML=_featItems.map((a,i)=>{
+    const roi=a._roi;
+    const bid=((a.min_bid||0)/1e8).toFixed(1);
+    const rateStr=(roi.rate>0?'+':'')+roi.rate+'%';
+    const isGreat=roi.rate>15;
+    const bname=isGreat?'우량':'보통';
+    const bclass=isGreat?'great':'ok';
+    const addr=(a.address||'주소 미상').replace(/\s*\[.*?\]/g,'');
+    const short=addr.length>28?addr.slice(0,28)+'…':addr;
+    const ptype=a.property_type||'';
+    const date=a.auction_date||'날짜 미정';
+    const court=a.court_name||'';
+    return `<div class="fcard">
+      <div class="fcard-rank">${String(i+1).padStart(2,'0')}</div>
+      <div class="fcard-body">
+        <div class="fcard-badge ${bclass}">⭐ ${bname} 매물</div>
+        <div class="fcard-addr">${short}</div>
+        <div class="fcard-type">${ptype}</div>
+        <div class="fcard-stats">
+          <div><div class="fcard-stat-lbl">최저 입찰가</div><div class="fcard-stat-val">${bid}억</div></div>
+          <div><div class="fcard-stat-lbl">예상 수익률</div><div class="fcard-stat-val highlight">${rateStr}</div></div>
+          <div><div class="fcard-stat-lbl">유찰 횟수</div><div class="fcard-stat-val">${a.failed_bids||0}회</div></div>
+        </div>
+      </div>
+      <div class="fcard-right">
+        <div class="fcard-court-date">${court} · ${date}</div>
+        <button class="fcard-view-btn" onclick="openDetail(ALL.find(x=>x.id==='${a.id}'))">상세 보기 →</button>
+      </div>
+    </div>`;
+  }).join('');
+  dots.innerHTML=_featItems.map((_,i)=>`<div class="fdot${i===0?' on':''}" onclick="featureGo(${i})"></div>`).join('');
+  featureGo(0,false);
+  clearInterval(_featTimer);
+  _featTimer=setInterval(()=>featureNext(),4500);
+}
+function featureGo(idx, animate=true){
+  _featIdx=(_featItems.length+idx)%_featItems.length;
+  const track=document.getElementById('featured-track');
+  if(track){ track.style.transition=animate?'transform 0.45s cubic-bezier(0.4,0,0.2,1)':'none'; track.style.transform=`translateX(-${_featIdx*100}%)`; }
+  document.querySelectorAll('.fdot').forEach((d,i)=>d.classList.toggle('on',i===_featIdx));
+}
+function featureNext(){ clearInterval(_featTimer); featureGo(_featIdx+1); _featTimer=setInterval(()=>featureNext(),4500); }
+function featurePrev(){ clearInterval(_featTimer); featureGo(_featIdx-1); _featTimer=setInterval(()=>featureNext(),4500); }
 function clearBudget(){ document.getElementById('fc-budget').value=''; applyF(); }
 function searchByBudget(){
   const val=document.getElementById('fc-budget').value;
@@ -1320,6 +1461,7 @@ function switchMode(m){
   document.getElementById('cy-cal-section').style.display= m==='cy'&&calOpen?'block':'none';
   document.getElementById('cards-wrap').style.display= m==='auction'?'':'none';
   document.getElementById('cy-wrap').style.display= m==='cy'?'':'none';
+  document.getElementById('featured-section').style.display= m==='auction'?'':'none';
   const bb=document.getElementById('budget-banner');
   if(bb && m!=='auction') bb.style.display='none';
   const extLink=document.getElementById('nav-ext-link');
