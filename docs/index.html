@@ -411,7 +411,7 @@
       <h1 class="hero-h1">수도권 아파트<br><span class="light">경매 대시보드</span></h1>
       <p class="hero-sub">매일 아침 서울·경기·인천 <strong>전체 법원</strong> 경매 매물을 자동 수집·분석<br><strong>5천만원대부터 전 구간</strong> 아파트·다가구·빌라 포함</p>
       <div class="hero-kpi">
-        <div class="kpi"><div class="kpi-num" id="ks-total">-</div><div class="kpi-lbl">총 누적 물건</div></div>
+        <div class="kpi"><div class="kpi-num" id="ks-total">-</div><div class="kpi-lbl">입찰 예정 매물</div></div>
         <div class="kpi"><div class="kpi-num" id="ks-today">-</div><div class="kpi-lbl">오늘 신규</div></div>
         <div class="kpi"><div class="kpi-num" id="ks-avg">-</div><div class="kpi-lbl">평균 최저가 (억)</div></div>
         <div class="kpi"><div class="kpi-num" id="ks-week">-</div><div class="kpi-lbl">이번 주 경매</div></div>
@@ -750,10 +750,25 @@ async function init(){
   const t=tstr();
   document.getElementById('hero-date').textContent=t;
   const todayN=ALL.filter(a=>a.scraped_date===t).length;
+  // 입찰 예정(오늘 이후) + 주거용만 카운트 — 카드 목록과 동일한 기준
+  const EXCL_LAND=['대지','임야','공장','창고','주차장'];
+  const RESID=['아파트','다가구','다세대','연립','빌라','오피스텔','단독주택'];
+  const activeN=ALL.filter(a=>{
+    if(a.auction_date && a.auction_date < t) return false;
+    const ptype=(a.property_type||'').trim();
+    if(ptype){
+      const hasRes=RESID.some(k=>ptype.includes(k));
+      if(!hasRes){
+        if(EXCL_LAND.some(k=>ptype.includes(k))) return false;
+        if(ptype.split(',').every(s=>['근린시설','상가'].some(k=>s.trim().includes(k)))) return false;
+      }
+    }
+    return true;
+  }).length;
   const avg=ALL.length?(ALL.reduce((s,a)=>s+(a.min_bid||0),0)/ALL.length/1e8).toFixed(1):'-';
   const now=new Date(),we=new Date(now); we.setDate(now.getDate()+7);
   const wk=ALL.filter(a=>{const d=new Date(a.auction_date);return d>=now&&d<=we;}).length;
-  set('ks-total',ALL.length.toLocaleString());
+  set('ks-total',activeN.toLocaleString());
   set('ks-today',todayN);
   set('ks-avg',avg);
   set('ks-week',wk);
