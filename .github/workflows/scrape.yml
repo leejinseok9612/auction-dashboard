@@ -1,0 +1,43 @@
+name: 🏠 경매 데이터 자동 업데이트
+
+on:
+  schedule:
+    - cron: '0 1 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 📥 레포 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 🐍 Python 3.11 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 의존성 설치
+        run: |
+          pip install playwright
+          pip install -r scraper/requirements.txt
+          python -m playwright install chromium --with-deps
+
+      - name: 🕷️ 스크래퍼 실행
+        run: python3 scraper/scrape_auctions.py
+
+      - name: 📊 변경 확인 및 커밋
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/data/auctions.json
+          if git diff --staged --quiet; then
+            echo "✅ 데이터 변경 없음 — 커밋 스킵"
+          else
+            COUNT=$(python3 -c "import json; d=json.load(open('docs/data/auctions.json')); print(len(d.get('auctions', [])))")
+            git commit -m "🏠 경매 데이터 업데이트: $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M') KST (총 ${COUNT}건)"
+            git push
+          fi
