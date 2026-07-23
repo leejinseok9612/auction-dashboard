@@ -39,5 +39,6 @@ jobs:
           else
             COUNT=$(python3 -c "import json; d=json.load(open('docs/data/auctions.json')); print(len(d.get('auctions', [])))")
             git commit -m "🏠 경매 데이터 업데이트: $(TZ='Asia/Seoul' date '+%Y-%m-%d %H:%M') KST (총 ${COUNT}건)"
+            git pull --rebase origin main
             git push
           fi
