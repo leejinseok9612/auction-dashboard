@@ -700,7 +700,12 @@ def main():
         except:
             pass
 
-    merged = {**existing, **new_items}
+    # 기존 매물은 최초 수집일(scraped_date) 유지 — 진짜 신규 매물만 오늘 날짜
+    merged = {**existing}
+    for k, v in new_items.items():
+        if k in existing:
+            v["scraped_date"] = existing[k]["scraped_date"]  # 원래 날짜 보존
+        merged[k] = v
     final = sorted(merged.values(),
                    key=lambda x: (x.get("scraped_date",""), x.get("auction_date","")),
                    reverse=True)
