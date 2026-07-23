@@ -72,24 +72,39 @@
     .cy-fbar .fbar-left { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
 
     /* ── HERO ── */
-    .hero { position:relative; overflow:hidden; background:var(--white); padding:96px 48px 72px; text-align:center; }
+    .hero { position:relative; overflow:hidden; background:var(--white); padding:80px 48px 64px; }
     .hero::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,#CECECE 1px,transparent 1px); background-size:24px 24px; opacity:0.55; pointer-events:none; }
     .hero::after  { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(255,255,255,0) 0%,rgba(255,255,255,0.88) 65%,white 100%); pointer-events:none; }
-    .hero-inner { position:relative; z-index:1; max-width:740px; margin:0 auto; }
-    .hero-chip { display:inline-flex; align-items:center; gap:6px; background:var(--yellow); color:var(--black); font-size:12px; font-weight:800; padding:6px 16px; border-radius:20px; margin-bottom:28px; letter-spacing:0.6px; text-transform:uppercase; }
-    .hero-h1 { font-size:60px; font-weight:900; line-height:1.05; letter-spacing:-2.5px; margin-bottom:6px; }
+    .hero-inner { position:relative; z-index:1; max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:60px; }
+    .hero-left { flex:1; min-width:0; }
+    .hero-chip { display:inline-flex; align-items:center; gap:6px; background:var(--yellow); color:var(--black); font-size:12px; font-weight:800; padding:6px 16px; border-radius:20px; margin-bottom:24px; letter-spacing:0.6px; text-transform:uppercase; }
+    .hero-h1 { font-size:52px; font-weight:900; line-height:1.05; letter-spacing:-2px; margin-bottom:8px; }
     .hero-h1 .light { color:var(--gray-400); font-weight:300; }
-    .hero-sub { font-size:17px; color:var(--gray-600); margin-bottom:40px; }
+    .hero-sub { font-size:15px; color:var(--gray-600); margin-bottom:32px; line-height:1.7; }
     .hero-sub strong { color:var(--black); font-weight:700; }
-    .hero-kpi { display:flex; justify-content:center; gap:40px; margin-bottom:40px; flex-wrap:wrap; }
-    .kpi { text-align:center; }
-    .kpi-num { font-size:38px; font-weight:900; letter-spacing:-1.5px; line-height:1; }
+    .hero-kpi { display:flex; gap:36px; margin-bottom:32px; flex-wrap:wrap; }
+    .kpi { text-align:left; }
+    .kpi-num { font-size:34px; font-weight:900; letter-spacing:-1.5px; line-height:1; }
     .kpi-lbl { font-size:12px; color:var(--gray-600); margin-top:4px; font-weight:500; }
-    .hero-btns { display:flex; justify-content:center; gap:12px; }
+    .hero-btns { display:flex; gap:12px; }
     .btn-dark { background:var(--black); color:white; border:2.5px solid var(--black); border-radius:12px; font-size:15px; font-weight:700; padding:14px 30px; cursor:pointer; font-family:inherit; transition:background 0.2s; }
     .btn-dark:hover { background:#333; }
     .btn-outline { background:white; color:var(--black); border:2.5px solid var(--gray-200); border-radius:12px; font-size:15px; font-weight:600; padding:14px 30px; cursor:pointer; font-family:inherit; transition:border-color 0.2s; }
     .btn-outline:hover { border-color:var(--black); }
+    /* ── BUDGET CARD (Hero 우측) ── */
+    .budget-card { background:white; border:2px solid var(--gray-200); border-radius:22px; padding:32px; width:320px; flex-shrink:0; box-shadow:0 8px 32px rgba(0,0,0,0.08); }
+    .budget-card-title { font-size:15px; font-weight:800; letter-spacing:-0.3px; margin-bottom:6px; }
+    .budget-card-sub { font-size:12px; color:var(--gray-600); margin-bottom:22px; line-height:1.5; }
+    .budget-input-wrap { display:flex; align-items:center; background:var(--gray-50); border:2px solid var(--gray-200); border-radius:14px; padding:14px 18px; margin-bottom:12px; gap:8px; transition:border-color 0.2s; }
+    .budget-input-wrap:focus-within { border-color:var(--black); background:white; }
+    .budget-currency { font-size:18px; color:var(--gray-400); font-weight:700; }
+    .budget-field { flex:1; border:none; outline:none; font-size:32px; font-weight:900; background:transparent; font-family:inherit; color:var(--black); letter-spacing:-1px; width:100%; }
+    .budget-field::placeholder { color:var(--gray-200); font-weight:400; font-size:28px; }
+    .budget-unit { font-size:16px; color:var(--gray-600); font-weight:700; flex-shrink:0; }
+    .budget-search-btn { width:100%; background:var(--black); color:white; border:none; border-radius:12px; font-size:15px; font-weight:700; padding:15px; cursor:pointer; font-family:inherit; transition:background 0.2s; letter-spacing:-0.2px; }
+    .budget-search-btn:hover { background:#333; }
+    .budget-search-btn:disabled { background:var(--gray-200); color:var(--gray-400); cursor:default; }
+    .budget-card-note { font-size:11px; color:var(--gray-400); text-align:center; margin-top:10px; line-height:1.5; }
 
     /* ── FILTER BAR ── */
     .fbar { background:var(--gray-50); border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200); padding:14px 48px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
@@ -385,18 +400,34 @@
 <!-- HERO -->
 <section class="hero" id="hero-section">
   <div class="hero-inner">
-    <div class="hero-chip">✦ <span id="hero-date">-</span> 기준 최신 데이터</div>
-    <h1 class="hero-h1">수도권 아파트<br><span class="light">경매 대시보드</span></h1>
-    <p class="hero-sub">매일 아침 서울·경기·인천 <strong>전체 법원</strong> 경매 매물을 자동 수집·분석<br><strong>5천만원대부터 전 구간</strong> 아파트·다가구·빌라 포함</p>
-    <div class="hero-kpi">
-      <div class="kpi"><div class="kpi-num" id="ks-total">-</div><div class="kpi-lbl">총 누적 물건</div></div>
-      <div class="kpi"><div class="kpi-num" id="ks-today">-</div><div class="kpi-lbl">오늘 신규</div></div>
-      <div class="kpi"><div class="kpi-num" id="ks-avg">-</div><div class="kpi-lbl">평균 최저가 (억)</div></div>
-      <div class="kpi"><div class="kpi-num" id="ks-week">-</div><div class="kpi-lbl">이번 주 경매</div></div>
+    <!-- 좌측: 타이틀 + KPI -->
+    <div class="hero-left">
+      <div class="hero-chip">✦ <span id="hero-date">-</span> 기준 최신 데이터</div>
+      <h1 class="hero-h1">수도권 아파트<br><span class="light">경매 대시보드</span></h1>
+      <p class="hero-sub">매일 아침 서울·경기·인천 <strong>전체 법원</strong> 경매 매물을 자동 수집·분석<br><strong>5천만원대부터 전 구간</strong> 아파트·다가구·빌라 포함</p>
+      <div class="hero-kpi">
+        <div class="kpi"><div class="kpi-num" id="ks-total">-</div><div class="kpi-lbl">총 누적 물건</div></div>
+        <div class="kpi"><div class="kpi-num" id="ks-today">-</div><div class="kpi-lbl">오늘 신규</div></div>
+        <div class="kpi"><div class="kpi-num" id="ks-avg">-</div><div class="kpi-lbl">평균 최저가 (억)</div></div>
+        <div class="kpi"><div class="kpi-num" id="ks-week">-</div><div class="kpi-lbl">이번 주 경매</div></div>
+      </div>
+      <div class="hero-btns">
+        <button class="btn-dark" onclick="goToday()">오늘 신규 매물 ↓</button>
+        <button class="btn-outline" onclick="goAll()">전체 보기</button>
+      </div>
     </div>
-    <div class="hero-btns">
-      <button class="btn-dark" onclick="goToday()">오늘 신규 매물 ↓</button>
-      <button class="btn-outline" onclick="goAll()">전체 보기</button>
+    <!-- 우측: 예산 검색 카드 -->
+    <div class="budget-card">
+      <div class="budget-card-title">💰 내 예산으로 살 수 있는 매물 찾기</div>
+      <div class="budget-card-sub">예산을 입력하면 취득세·부대비용 포함<br>실투자금 기준으로 매물을 찾아드려요</div>
+      <div class="budget-input-wrap">
+        <span class="budget-currency">₩</span>
+        <input class="budget-field" type="number" id="fc-budget" placeholder="0" min="0.1" max="200" step="0.1"
+          onkeydown="if(event.key==='Enter') searchByBudget()" />
+        <span class="budget-unit">억</span>
+      </div>
+      <button class="budget-search-btn" onclick="searchByBudget()">매물 검색하기 →</button>
+      <div class="budget-card-note">실제 낙찰가는 최저입찰가와 다를 수 있어요<br>투자 판단은 반드시 직접 확인 후 결정하세요</div>
     </div>
   </div>
 </section>
@@ -435,11 +466,6 @@
       <option value="7~10">7억 ~ 10억</option>
       <option value="10~">10억 이상</option>
     </select>
-    <div class="fbudget">
-      <span class="fbudget-lbl">내 예산</span>
-      <input class="fbudget-input" type="number" id="fc-budget" placeholder="--" min="0.1" max="200" step="0.1" oninput="applyF()" />
-      <span class="fbudget-unit">억</span>
-    </div>
     <input class="fsearch" type="text" id="fc-q" placeholder="🔍  주소, 사건번호 검색..." />
   </div>
   <div class="fbar-right">
@@ -811,6 +837,12 @@ function applyF(){
 function goToday(){ set('fc-date','today'); applyF(); scroll2(); }
 function goAll()  { set('fc-date','');      applyF(); scroll2(); }
 function clearBudget(){ document.getElementById('fc-budget').value=''; applyF(); }
+function searchByBudget(){
+  const val=document.getElementById('fc-budget').value;
+  if(!val||parseFloat(val)<=0) return;
+  applyF();
+  document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'});
+}
 function resetF() { ['fc-region','fc-failed','fc-date','fc-q','fc-price'].forEach(id=>set(id,'')); document.getElementById('fc-budget').value=''; bmOnly=false; document.getElementById('btn-bm-a').classList.remove('on'); document.getElementById('btn-bm-a').textContent='🤍 즐겨찾기'; profitOnly=false; document.getElementById('btn-profit').classList.remove('on'); document.getElementById('btn-profit').textContent='💰 수익 매물만'; applyF(); }
 function scroll2(){ document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'}); }
 
