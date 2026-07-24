@@ -127,6 +127,11 @@
     .btn-bm-toggle { background:transparent; border:1.5px solid var(--gray-200); border-radius:9px; color:var(--gray-600); font-size:12px; font-weight:700; padding:7px 13px; cursor:pointer; font-family:inherit; transition:all 0.2s; display:flex; align-items:center; gap:5px; }
     .btn-bm-toggle:hover { border-color:#DC2626; color:#DC2626; }
     .btn-bm-toggle.on { background:#FEE2E2; border-color:#DC2626; color:#DC2626; }
+    .failed-wrap { display:flex; align-items:center; gap:0; }
+    .failed-wrap .fsel { border-radius:9px 0 0 9px; border-right:none; }
+    .btn-failed-mode { background:white; border:1.5px solid var(--gray-200); border-radius:0 9px 9px 0; color:var(--gray-600); font-size:11px; font-weight:800; padding:8px 10px; cursor:pointer; font-family:inherit; transition:all 0.2s; white-space:nowrap; line-height:1; }
+    .btn-failed-mode:hover { background:var(--gray-50); color:var(--black); }
+    .btn-failed-mode.mode-lt { background:#EFF6FF; border-color:#3B82F6; color:#2563EB; }
     .btn-cal-toggle { background:transparent; border:1.5px solid var(--gray-200); border-radius:9px; color:var(--gray-600); font-size:12px; font-weight:700; padding:7px 13px; cursor:pointer; font-family:inherit; transition:all 0.2s; }
     .btn-cal-toggle:hover { border-color:var(--blue); color:var(--blue); }
     .btn-cal-toggle.on { background:var(--blue-bg); border-color:var(--blue); color:var(--blue); }
@@ -424,6 +429,131 @@
       .budget-card{width:100%;box-sizing:border-box}
       .btn-score-hero{font-size:13px;padding:11px 16px}
     }
+  /* ══════════════════════════════════════════
+     FAB 도구 메뉴
+  ══════════════════════════════════════════ */
+  .fab-wrap { position:fixed; bottom:32px; right:32px; z-index:8000; display:flex; flex-direction:column; align-items:flex-end; gap:12px; }
+  .fab-main { width:52px; height:52px; border-radius:50%; background:var(--black); color:white; border:none; font-size:22px; cursor:pointer; box-shadow:0 4px 20px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; transition:transform 0.25s, background 0.2s; font-family:inherit; }
+  .fab-main:hover { transform:scale(1.08); background:#333; }
+  .fab-main.open { transform:rotate(45deg); }
+  .fab-tools { display:none; flex-direction:column; align-items:flex-end; gap:8px; }
+  .fab-tools.open { display:flex; }
+  .fab-tool-btn { display:flex; align-items:center; gap:10px; background:white; border:none; border-radius:24px; padding:9px 16px 9px 12px; font-size:13px; font-weight:700; cursor:pointer; box-shadow:0 2px 12px rgba(0,0,0,0.15); font-family:inherit; color:var(--black); transition:all 0.18s; white-space:nowrap; }
+  .fab-tool-btn:hover { transform:translateX(-4px); box-shadow:0 4px 18px rgba(0,0,0,0.2); }
+  .fab-tool-icon { font-size:18px; }
+
+  /* 공통 오버레이 */
+  .tool-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:8500; display:none; backdrop-filter:blur(4px); }
+  .tool-overlay.open { display:block; }
+
+  /* ══════════════════════════════════════════
+     📚 용어 사전 — 오른쪽 슬라이드 패널
+  ══════════════════════════════════════════ */
+  .glossary-panel { position:fixed; top:0; right:-440px; width:420px; height:100vh; background:white; z-index:9000; box-shadow:-4px 0 32px rgba(0,0,0,0.15); transition:right 0.32s cubic-bezier(0.4,0,0.2,1); display:flex; flex-direction:column; }
+  .glossary-panel.open { right:0; }
+  .gp-head { padding:24px 24px 16px; border-bottom:1px solid var(--gray-200); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+  .gp-title { font-size:18px; font-weight:800; }
+  .gp-close { background:none; border:1.5px solid var(--gray-200); border-radius:8px; width:34px; height:34px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
+  .gp-search { margin:12px 16px; flex-shrink:0; }
+  .gp-search input { width:100%; box-sizing:border-box; border:1.5px solid var(--gray-200); border-radius:9px; padding:9px 14px; font-size:13px; font-family:inherit; outline:none; }
+  .gp-search input:focus { border-color:var(--black); }
+  .gp-body { overflow-y:auto; flex:1; padding:8px 16px 24px; }
+  .gp-cat { margin-bottom:4px; border-radius:10px; overflow:hidden; }
+  .gp-cat-hdr { display:flex; align-items:center; justify-content:space-between; padding:11px 14px; background:var(--gray-50); cursor:pointer; font-weight:700; font-size:13px; user-select:none; }
+  .gp-cat-hdr:hover { background:#ebebeb; }
+  .gp-cat-arrow { transition:transform 0.2s; font-size:10px; color:#9ca3af; }
+  .gp-cat.open .gp-cat-arrow { transform:rotate(180deg); }
+  .gp-terms { display:none; padding:4px 0 8px; }
+  .gp-cat.open .gp-terms { display:block; }
+  .gp-term { padding:10px 12px; border-radius:8px; }
+  .gp-term:hover { background:var(--gray-50); }
+  .gp-term-word { font-size:13px; font-weight:800; color:var(--black); margin-bottom:3px; }
+  .gp-term-def { font-size:12px; color:var(--gray-600); line-height:1.65; }
+  .gp-badge { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:99px; margin-left:6px; vertical-align:middle; }
+  .gp-badge.imp { background:#FEF3C7; color:#D97706; }
+  .gp-badge.warn { background:#FEE2E2; color:#DC2626; }
+  .gp-no-result { text-align:center; padding:40px 0; color:#9ca3af; font-size:13px; }
+
+  /* ══════════════════════════════════════════
+     🧮 입찰가 계산기 — 모달
+  ══════════════════════════════════════════ */
+  .calc-modal { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.94); opacity:0; pointer-events:none; z-index:9100; background:white; border-radius:20px; width:460px; max-width:calc(100vw - 32px); box-shadow:0 8px 48px rgba(0,0,0,0.22); transition:all 0.22s cubic-bezier(0.4,0,0.2,1); }
+  .calc-modal.open { transform:translate(-50%,-50%) scale(1); opacity:1; pointer-events:auto; }
+  .cm-head { padding:24px 24px 0; display:flex; align-items:center; justify-content:space-between; }
+  .cm-title { font-size:18px; font-weight:800; }
+  .cm-close { background:none; border:1.5px solid var(--gray-200); border-radius:8px; width:34px; height:34px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
+  .cm-body { padding:20px 24px 28px; }
+  .cm-row { margin-bottom:14px; }
+  .cm-label { font-size:12px; font-weight:700; color:var(--gray-600); margin-bottom:6px; }
+  .cm-input-wrap { position:relative; }
+  .cm-input { width:100%; box-sizing:border-box; border:1.5px solid var(--gray-200); border-radius:9px; padding:10px 50px 10px 14px; font-size:14px; font-family:inherit; outline:none; font-weight:500; }
+  .cm-input:focus { border-color:var(--black); }
+  .cm-unit { position:absolute; right:14px; top:50%; transform:translateY(-50%); font-size:13px; color:#9ca3af; font-weight:600; pointer-events:none; }
+  .cm-divider { border:none; border-top:1px solid var(--gray-200); margin:18px 0; }
+  .cm-result-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  .cm-result-item { background:var(--gray-50); border-radius:10px; padding:12px 14px; }
+  .cm-result-label { font-size:11px; color:var(--gray-600); font-weight:600; margin-bottom:4px; }
+  .cm-result-val { font-size:15px; font-weight:800; }
+  .cm-result-val.c-blue { color:#2563EB; }
+  .cm-result-val.c-green { color:var(--green); }
+  .cm-result-val.c-red { color:#DC2626; }
+  .cm-total { background:var(--black); border-radius:12px; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; }
+  .cm-total-label { font-size:13px; color:rgba(255,255,255,0.7); font-weight:600; }
+  .cm-total-val { font-size:18px; font-weight:800; color:white; }
+  .cm-tip { font-size:11px; color:#9ca3af; margin-top:12px; line-height:1.65; }
+
+  /* ══════════════════════════════════════════
+     ✅ 체크리스트 — 모달
+  ══════════════════════════════════════════ */
+  .check-modal { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.94); opacity:0; pointer-events:none; z-index:9100; background:white; border-radius:20px; width:480px; max-width:calc(100vw - 32px); max-height:85vh; box-shadow:0 8px 48px rgba(0,0,0,0.22); transition:all 0.22s cubic-bezier(0.4,0,0.2,1); display:flex; flex-direction:column; }
+  .check-modal.open { transform:translate(-50%,-50%) scale(1); opacity:1; pointer-events:auto; }
+  .ckm-head { padding:24px 24px 0; display:flex; align-items:flex-start; justify-content:space-between; flex-shrink:0; }
+  .ckm-title { font-size:18px; font-weight:800; }
+  .ckm-sub { font-size:12px; color:var(--gray-600); margin-top:3px; }
+  .ckm-close { background:none; border:1.5px solid var(--gray-200); border-radius:8px; width:34px; height:34px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .ckm-progress { padding:14px 24px 0; flex-shrink:0; }
+  .ckm-prog-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .ckm-prog-text { font-size:12px; font-weight:700; color:var(--gray-600); }
+  .ckm-reset { background:none; border:1.5px solid var(--gray-200); border-radius:7px; padding:4px 10px; font-size:11px; font-weight:700; cursor:pointer; font-family:inherit; color:var(--gray-600); }
+  .ckm-prog-bar-wrap { background:#f3f4f6; border-radius:99px; height:6px; overflow:hidden; }
+  .ckm-prog-bar { height:100%; background:var(--green); border-radius:99px; transition:width 0.3s; }
+  .ckm-body { overflow-y:auto; flex:1; padding:16px 24px 28px; }
+  .ckm-section { margin-bottom:18px; }
+  .ckm-section-title { font-size:11px; font-weight:800; color:#9ca3af; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .ckm-item { display:flex; align-items:flex-start; gap:12px; padding:10px 8px; border-radius:9px; cursor:pointer; transition:background 0.15s; }
+  .ckm-item:hover { background:var(--gray-50); }
+  .ckm-checkbox { width:20px; height:20px; border:2px solid var(--gray-200); border-radius:6px; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.15s; margin-top:1px; }
+  .ckm-item.done .ckm-checkbox { background:var(--green); border-color:var(--green); }
+  .ckm-item.done .ckm-checkbox::after { content:'✓'; color:white; font-size:12px; font-weight:800; }
+  .ckm-item-title { font-size:13px; font-weight:700; color:var(--black); line-height:1.4; }
+  .ckm-item.done .ckm-item-title { text-decoration:line-through; color:#9ca3af; }
+  .ckm-item-desc { font-size:11px; color:var(--gray-600); margin-top:3px; line-height:1.55; }
+
+  /* ══════════════════════════════════════════
+     📊 물건 비교 — 모달
+  ══════════════════════════════════════════ */
+  .cmp-modal { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.94); opacity:0; pointer-events:none; z-index:9100; background:white; border-radius:20px; width:min(860px,calc(100vw - 32px)); max-height:88vh; box-shadow:0 8px 48px rgba(0,0,0,0.22); transition:all 0.22s cubic-bezier(0.4,0,0.2,1); display:flex; flex-direction:column; }
+  .cmp-modal.open { transform:translate(-50%,-50%) scale(1); opacity:1; pointer-events:auto; }
+  .cmp-head { padding:24px 24px 16px; border-bottom:1px solid var(--gray-200); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+  .cmp-title { font-size:18px; font-weight:800; }
+  .cmp-close { background:none; border:1.5px solid var(--gray-200); border-radius:8px; width:34px; height:34px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; }
+  .cmp-body { overflow:auto; flex:1; padding:20px 24px 28px; }
+  .cmp-empty { text-align:center; padding:60px 0; color:#9ca3af; }
+  .cmp-empty-icon { font-size:40px; margin-bottom:12px; }
+  .cmp-empty-text { font-size:14px; }
+  .cmp-table { width:100%; border-collapse:collapse; min-width:480px; }
+  .cmp-table th { background:var(--gray-50); padding:12px 16px; font-size:12px; font-weight:800; color:var(--gray-600); text-align:left; border-bottom:2px solid var(--gray-200); }
+  .cmp-table td { padding:12px 16px; font-size:13px; border-bottom:1px solid #f3f4f6; vertical-align:top; }
+  .cmp-table .row-label { font-weight:700; color:var(--gray-600); font-size:12px; background:var(--gray-50); white-space:nowrap; }
+  .cmp-best { color:var(--green); font-weight:800; }
+  .cmp-worst { color:#DC2626; }
+  .cmp-remove { background:none; border:1.5px solid var(--gray-200); border-radius:6px; padding:3px 8px; font-size:11px; cursor:pointer; font-family:inherit; color:var(--gray-600); margin-top:4px; }
+  .cmp-tip { font-size:11px; color:#9ca3af; margin-top:14px; line-height:1.65; }
+  @media(max-width:600px){
+    .glossary-panel{width:100vw;right:-100vw}
+    .fab-wrap{bottom:20px;right:16px}
+    .fab-tool-btn{font-size:12px;padding:8px 12px 8px 10px}
+  }
   </style>
 </head>
 <body>
@@ -464,7 +594,6 @@
       <div class="hero-btns">
         <button class="btn-dark" onclick="goToday()">오늘 새로 나온 매물 ↓</button>
         <button class="btn-outline" onclick="goAll()">전체 매물 보기</button>
-        <button class="btn-score-hero" onclick="openScoreCalc()">💯 청약 가점 계산기</button>
       </div>
     </div>
     <!-- 우측: 예산 검색 카드 -->
@@ -512,13 +641,16 @@
       <option value="경기북부">경기 북부 (고양·의정부·남양주)</option>
       <option value="인천">인천</option>
     </select>
-    <select class="fsel" id="fc-failed">
-      <option value="">유찰 전체</option>
-      <option value="0">신건 (0회)</option>
-      <option value="1">1회 이상</option>
-      <option value="3">3회 이상</option>
-      <option value="5">5회 이상</option>
-    </select>
+    <div class="failed-wrap">
+      <select class="fsel" id="fc-failed" onchange="applyF()">
+        <option value="">유찰 전체</option>
+        <option value="0">신건 (0회)</option>
+        <option value="1">1회 이상</option>
+        <option value="3">3회 이상</option>
+        <option value="5">5회 이상</option>
+      </select>
+      <button class="btn-failed-mode" id="btn-failed-mode" onclick="toggleFailedMode()" title="이상/미만 전환">이상</button>
+    </div>
     <select class="fsel" id="fc-date">
       <option value="">날짜 전체</option>
       <option value="today">오늘 신규만</option>
@@ -749,7 +881,7 @@
 ───────────────────────────────────────────── */
 let BM   = new Set(JSON.parse(localStorage.getItem('bm_auctions')||'[]'));
 let CY_BM= new Set(JSON.parse(localStorage.getItem('bm_cy')||'[]'));
-let bmOnly=false, cyBmOnly=false, profitOnly=false;
+let bmOnly=false, cyBmOnly=false, profitOnly=false, failedMode='gte'; // gte=이상, lt=미만
 
 function toggleBM(id, e){
   e.stopPropagation();
@@ -774,6 +906,26 @@ function toggleProfitFilter(){
   const btn=document.getElementById('btn-profit');
   btn.classList.toggle('on',profitOnly);
   btn.textContent=profitOnly?'✅ 수익 매물만':'💰 수익 매물만';
+  applyF();
+}
+function toggleFailedMode(){
+  failedMode = failedMode==='gte' ? 'lt' : 'gte';
+  const btn=document.getElementById('btn-failed-mode');
+  const sel=document.getElementById('fc-failed');
+  const isLt = failedMode==='lt';
+  btn.textContent = isLt ? '미만' : '이상';
+  btn.classList.toggle('mode-lt', isLt);
+  // 옵션 라벨 업데이트 (신건은 고정, 나머지만 전환)
+  const opts=sel.options;
+  if(isLt){
+    opts[2].text='1회 미만'; // =신건과 동일하지만 명시
+    opts[3].text='3회 미만';
+    opts[4].text='5회 미만';
+  } else {
+    opts[2].text='1회 이상';
+    opts[3].text='3회 이상';
+    opts[4].text='5회 이상';
+  }
   applyF();
 }
 function profitInfo(a){
@@ -877,7 +1029,12 @@ function applyF(){
       const matchIncheon  = region==='인천'    && (addr.includes('인천')||court.includes('인천'));
       if(!matchSeoul&&!matchGyeonggi&&!matchGyEast&&!matchGySouth&&!matchGyWest&&!matchGyNorth&&!matchIncheon) return false;
     }
-    if(failed!==''&&(a.failed_bids||0)<+failed)return false;
+    if(failed!==''){
+      const fb=a.failed_bids||0, fv=+failed;
+      if(failed==='0'){ if(fb!==0) return false; } // 신건: 항상 정확히 0회
+      else if(failedMode==='gte'){ if(fb<fv) return false; }  // 이상: X회 이상
+      else { if(fb>=fv) return false; }                        // 미만: X회 미만
+    }
     if(dateF==='today'&&a.scraped_date!==today)return false;
     if(q&&!(a.id+a.court+a.address).toLowerCase().includes(q))return false;
     if(bmOnly&&!BM.has(a.id))return false;
@@ -1007,7 +1164,19 @@ function searchByBudget(){
   applyF();
   document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'});
 }
-function resetF() { ['fc-region','fc-failed','fc-date','fc-q','fc-price'].forEach(id=>set(id,'')); document.getElementById('fc-budget').value=''; bmOnly=false; document.getElementById('btn-bm-a').classList.remove('on'); document.getElementById('btn-bm-a').textContent='🤍 즐겨찾기'; profitOnly=false; document.getElementById('btn-profit').classList.remove('on'); document.getElementById('btn-profit').textContent='💰 수익 매물만'; applyF(); }
+function resetF() {
+  ['fc-region','fc-failed','fc-date','fc-q','fc-price'].forEach(id=>set(id,''));
+  document.getElementById('fc-budget').value='';
+  bmOnly=false; document.getElementById('btn-bm-a').classList.remove('on'); document.getElementById('btn-bm-a').textContent='🤍 즐겨찾기';
+  profitOnly=false; document.getElementById('btn-profit').classList.remove('on'); document.getElementById('btn-profit').textContent='💰 수익 매물만';
+  // 유찰 모드 초기화
+  failedMode='gte';
+  const bfm=document.getElementById('btn-failed-mode');
+  bfm.textContent='이상'; bfm.classList.remove('mode-lt');
+  const opts=document.getElementById('fc-failed').options;
+  opts[2].text='1회 이상'; opts[3].text='3회 이상'; opts[4].text='5회 이상';
+  applyF();
+}
 function scroll2(){ document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'}); }
 
 function renderCards(){
@@ -1304,6 +1473,8 @@ function openM(idx){
     <div class="mfooter">
       <button class="mbtn-dark" onclick="openCourt(currentIdx)">🏛️ 대법원 경매 사이트 →</button>
       <button class="mbtn-naver" onclick="openNaver(ALL[currentIdx])">🗺️ 네이버 지도에서 보기 →</button>
+      <button class="mbtn-light" onclick="openCalc(ALL[currentIdx].appraisal, ALL[currentIdx].min_bid)">🧮 계산기</button>
+      <button class="mbtn-light" onclick="openChecklist(ALL[currentIdx])">✅ 체크리스트</button>
       <button class="mbtn-light" onclick="closeM()">닫기</button>
     </div>`;
 
@@ -1445,7 +1616,7 @@ function demo(){
 
 ['fc-region','fc-failed','fc-date'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
 document.getElementById('fc-q').addEventListener('input',applyF);
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeM(); closeScoreCalc(); } });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeM(); closeScoreCalc(); closeAllTools(); } });
 
 /* ─────────────────────────────────────────────
    MODE SWITCH
@@ -1970,6 +2141,416 @@ document.getElementById('cy-q').addEventListener('input',applyCyF);
 
 initCy();
 init();
+</script>
+
+<!-- ══════════════════════════════════════════
+     공통 오버레이
+══════════════════════════════════════════ -->
+<div class="tool-overlay" id="tool-overlay" onclick="closeAllTools()"></div>
+
+<!-- ══════════════════════════════════════════
+     FAB 도구 메뉴
+══════════════════════════════════════════ -->
+<div class="fab-wrap">
+  <div class="fab-tools" id="fab-tools">
+    <button class="fab-tool-btn" onclick="openGlossary()"><span class="fab-tool-icon">📚</span> 경매 용어 사전</button>
+    <button class="fab-tool-btn" onclick="openCalc()"><span class="fab-tool-icon">🧮</span> 입찰가 계산기</button>
+    <button class="fab-tool-btn" onclick="openChecklist(null)"><span class="fab-tool-icon">✅</span> 입찰 전 체크리스트</button>
+    <button class="fab-tool-btn" onclick="openCompare()"><span class="fab-tool-icon">📊</span> 물건 비교</button>
+  </div>
+  <button class="fab-main" id="fab-main" onclick="toggleFab()" title="도구 열기">⚡</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     📚 용어 사전 패널
+══════════════════════════════════════════ -->
+<div class="glossary-panel" id="glossary-panel">
+  <div class="gp-head">
+    <div class="gp-title">📚 경매 용어 사전</div>
+    <button class="gp-close" onclick="closeGlossary()">✕</button>
+  </div>
+  <div class="gp-search"><input type="text" id="gp-search-input" placeholder="🔍  용어 검색..." oninput="filterGlossary(this.value)"/></div>
+  <div class="gp-body" id="gp-body"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     🧮 입찰가 계산기
+══════════════════════════════════════════ -->
+<div class="calc-modal" id="calc-modal">
+  <div class="cm-head">
+    <div class="cm-title">🧮 입찰가 계산기</div>
+    <button class="cm-close" onclick="closeCalc()">✕</button>
+  </div>
+  <div class="cm-body">
+    <div class="cm-row">
+      <div class="cm-label">감정가 (원)</div>
+      <div class="cm-input-wrap">
+        <input class="cm-input" id="cm-appraisal" type="number" placeholder="예: 1000000000" oninput="calcUpdate()"/>
+        <span class="cm-unit">원</span>
+      </div>
+    </div>
+    <div class="cm-row">
+      <div class="cm-label">내 입찰가 (원)</div>
+      <div class="cm-input-wrap">
+        <input class="cm-input" id="cm-bid" type="number" placeholder="예: 850000000" oninput="calcUpdate()"/>
+        <span class="cm-unit">원</span>
+      </div>
+    </div>
+    <div class="cm-row">
+      <div class="cm-label">예상 시세 / 전세가 (원)</div>
+      <div class="cm-input-wrap">
+        <input class="cm-input" id="cm-market" type="number" placeholder="예: 1100000000" oninput="calcUpdate()"/>
+        <span class="cm-unit">원</span>
+      </div>
+    </div>
+    <div class="cm-row">
+      <div class="cm-label">목표 수익률 (%)</div>
+      <div class="cm-input-wrap">
+        <input class="cm-input" id="cm-target-roi" type="number" placeholder="예: 15" value="15" oninput="calcUpdate()"/>
+        <span class="cm-unit">%</span>
+      </div>
+    </div>
+    <hr class="cm-divider"/>
+    <div class="cm-result-grid">
+      <div class="cm-result-item">
+        <div class="cm-result-label">감정가 대비 입찰가율</div>
+        <div class="cm-result-val c-blue" id="cm-r-ratio">—</div>
+      </div>
+      <div class="cm-result-item">
+        <div class="cm-result-label">취득세 (1~3%)</div>
+        <div class="cm-result-val" id="cm-r-tax">—</div>
+      </div>
+      <div class="cm-result-item">
+        <div class="cm-result-label">법무사·등기비 (추정)</div>
+        <div class="cm-result-val" id="cm-r-legal">—</div>
+      </div>
+      <div class="cm-result-item">
+        <div class="cm-result-label">예상 수익률</div>
+        <div class="cm-result-val" id="cm-r-roi">—</div>
+      </div>
+    </div>
+    <div class="cm-total">
+      <span class="cm-total-label">목표 수익률 기준 최대 입찰가</span>
+      <span class="cm-total-val" id="cm-r-maxbid">—</span>
+    </div>
+    <div class="cm-tip">※ 취득세는 6억 이하 1%, 6~9억 1~3%, 9억 초과 3% 기준 추산. 법무사비는 낙찰가의 약 0.3% 추정. 실제 비용과 다를 수 있으므로 참고용으로만 활용하세요.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ✅ 입찰 전 체크리스트
+══════════════════════════════════════════ -->
+<div class="check-modal" id="check-modal">
+  <div class="ckm-head">
+    <div>
+      <div class="ckm-title">✅ 입찰 전 체크리스트</div>
+      <div class="ckm-sub" id="ckm-prop-label">일반 체크리스트</div>
+    </div>
+    <button class="ckm-close" onclick="closeChecklist()">✕</button>
+  </div>
+  <div class="ckm-progress">
+    <div class="ckm-prog-row">
+      <span class="ckm-prog-text" id="ckm-prog-text">0 / 0 완료</span>
+      <button class="ckm-reset" onclick="resetChecklist()">↺ 초기화</button>
+    </div>
+    <div class="ckm-prog-bar-wrap"><div class="ckm-prog-bar" id="ckm-prog-bar" style="width:0%"></div></div>
+  </div>
+  <div class="ckm-body" id="ckm-body"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     📊 물건 비교
+══════════════════════════════════════════ -->
+<div class="cmp-modal" id="cmp-modal">
+  <div class="cmp-head">
+    <div class="cmp-title">📊 즐겨찾기 물건 비교</div>
+    <button class="cmp-close" onclick="closeCompare()">✕</button>
+  </div>
+  <div class="cmp-body" id="cmp-body"></div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   FAB
+══════════════════════════════════════════ */
+let fabOpen=false;
+function toggleFab(){
+  fabOpen=!fabOpen;
+  document.getElementById('fab-main').classList.toggle('open',fabOpen);
+  document.getElementById('fab-tools').classList.toggle('open',fabOpen);
+}
+function closeAllTools(){
+  closeGlossary(); closeCalc(); closeChecklist(); closeCompare();
+  document.getElementById('tool-overlay').classList.remove('open');
+}
+function showOverlay(){ document.getElementById('tool-overlay').classList.add('open'); }
+
+/* ══════════════════════════════════════════
+   📚 용어 사전
+══════════════════════════════════════════ */
+const GLOSSARY=[
+  { cat:'📌 기본 용어', terms:[
+    {w:'신건 (新件)',d:'한 번도 경매에 나온 적 없는 최초 입찰 물건. 최저입찰가가 감정가의 100%로 시작되며 경쟁이 치열할 수 있음.'},
+    {w:'유찰 (流札)',d:'입찰자가 없거나 최저가를 충족하는 입찰이 없어 경매가 무산된 것. 유찰될 때마다 최저입찰가가 통상 20~30% 하락함.',badge:'주의',btype:'warn'},
+    {w:'감정가 (鑑定價)',d:'법원이 선임한 감정인이 평가한 해당 물건의 시장 가치. 입찰 기준가의 출발점이 됨.'},
+    {w:'최저입찰가',d:'해당 회차에서 입찰 가능한 최소 금액. 신건은 감정가의 100%, 유찰될 때마다 일정 비율로 감소함.'},
+    {w:'낙찰가 (落札價)',d:'입찰자 중 가장 높은 가격을 써낸 사람의 입찰 금액. 이 금액이 법원에 납부되는 실제 매각 대금.'},
+    {w:'입찰보증금',d:'입찰에 참가할 때 미리 납부하는 보증금. 통상 최저입찰가의 10%. 낙찰되면 잔금에서 차감, 미납찰 시 반환됨.'},
+    {w:'낙찰률 (입찰가율)',d:'낙찰가 ÷ 감정가 × 100. 감정가 대비 얼마에 낙찰됐는지 보여주는 지표. 70% 이하면 상당한 할인.'},
+  ]},
+  { cat:'📜 권리 관련', terms:[
+    {w:'근저당 (根抵當)',d:'은행·금융기관이 설정한 담보권. 채권최고액까지 우선 배당을 받을 권리. 낙찰 후 소멸되는 것이 일반적.',badge:'핵심',btype:'imp'},
+    {w:'가처분 (假處分)',d:'부동산 처분을 금지하는 임시 조치. 종류에 따라 낙찰자에게 인수될 수 있어 반드시 확인 필요.',badge:'주의',btype:'warn'},
+    {w:'압류 (押留)',d:'국세·지방세 등 체납으로 인해 세금 기관이 설정한 권리. 매각 후 대금에서 우선 변제됨.'},
+    {w:'가압류 (假押留)',d:'소송 전 채권자가 재산을 보전하기 위해 신청한 임시 처분. 낙찰 후 소멸되나 배당 순위 확인 필요.'},
+    {w:'전세권 (傳貰權)',d:'등기된 전세금 반환 청구권. 임차인이 등기한 경우로, 대항력·배당요구 여부에 따라 낙찰자 인수 여부 결정.',badge:'주의',btype:'warn'},
+    {w:'지상권 (地上權)',d:'타인 토지 위에 건물 등을 소유할 수 있는 권리. 낙찰 후에도 소멸되지 않아 인수될 수 있음.',badge:'주의',btype:'warn'},
+    {w:'유치권 (留置權)',d:'공사대금 등 미수금을 이유로 점유를 유지하며 인도를 거부할 수 있는 권리. 허위 신고 많으나 성립 시 위험.',badge:'주의',btype:'warn'},
+    {w:'법정지상권 (法定地上權)',d:'토지와 건물 소유자가 달라진 경우 건물 소유자가 자동으로 취득하는 지상권. 반드시 등기부 확인 필요.',badge:'주의',btype:'warn'},
+  ]},
+  { cat:'🏠 임차인 관련', terms:[
+    {w:'대항력 (對抗力)',d:'임차인이 새로운 집주인(낙찰자)에게 임대차 계약을 주장할 수 있는 힘. 전입신고 + 점유 완료 시 취득.',badge:'핵심',btype:'imp'},
+    {w:'확정일자 (確定日字)',d:'임대차 계약서에 공증 효력을 부여하는 날짜 도장. 확정일자를 받은 임차인은 배당에서 우선 변제를 받을 수 있음.'},
+    {w:'우선변제권 (優先辨濟權)',d:'대항력 + 확정일자를 모두 갖춘 임차인이 경매 배당금에서 다른 채권자보다 먼저 돌려받을 수 있는 권리.'},
+    {w:'소액임차인',d:'보증금이 일정 기준 이하인 임차인. 대항력·확정일자 없어도 최우선변제금을 받을 수 있어 낙찰자에게 인수될 위험.',badge:'주의',btype:'warn'},
+    {w:'배당요구 (配當要求)',d:'임차인이 경매 배당에 참여해 보증금을 돌려받겠다고 신청하는 것. 배당요구 임차인은 배당 후 명도 가능.'},
+    {w:'인수 임차인',d:'경매 절차에서 보증금을 배당받지 못하고 낙찰자가 대신 부담하게 되는 임차인. 낙찰가에 포함된 것으로 간주.',badge:'주의',btype:'warn'},
+  ]},
+  { cat:'⚖️ 절차 관련', terms:[
+    {w:'매각허가결정',d:'법원이 낙찰을 공식 승인하는 결정. 통상 낙찰일로부터 7일 이내. 이의 신청 기간이 존재.'},
+    {w:'잔금납부',d:'낙찰 후 입찰보증금을 제외한 나머지 대금을 납부하는 것. 통상 매각허가결정 후 1개월 내.'},
+    {w:'명도 (明渡)',d:'낙찰 후 점유자(전 소유자·임차인)를 내보내고 부동산을 인도받는 과정. 협의 또는 인도명령 신청으로 진행.',badge:'핵심',btype:'imp'},
+    {w:'인도명령 (引渡命令)',d:'잔금 납부 후 6개월 이내 신청 가능한 간이 절차. 점유자가 협조하지 않을 경우 강제집행의 근거가 됨.'},
+    {w:'배당기일 (配當期日)',d:'채권자들에게 매각 대금을 분배하는 날. 등기 순위, 권리 종류에 따라 우선순위가 결정됨.'},
+    {w:'권리분석 (權利分析)',d:'등기부등본·매각물건명세서를 통해 낙찰자가 인수해야 할 권리를 미리 분석하는 작업. 입찰 전 필수.',badge:'핵심',btype:'imp'},
+    {w:'매각물건명세서',d:'법원이 작성한 물건 개요서. 임차인 현황, 인수되는 권리, 점유 관계 등이 기재되어 있어 반드시 열람 필요.'},
+  ]},
+  { cat:'💰 수익 분석', terms:[
+    {w:'수익률 (ROI)',d:'(시세 - 낙찰가 - 제반비용) ÷ 총투자금 × 100. 경매 투자의 핵심 지표로 통상 15% 이상이면 양호한 물건.'},
+    {w:'취득세 (取得稅)',d:'부동산 취득 시 납부하는 세금. 6억 이하 1%, 6~9억 구간 1~3%, 9억 초과 3%. 낙찰가 기준으로 계산.'},
+    {w:'명도비',d:'점유자가 자발적으로 이사할 수 있도록 지급하는 합의금. 통상 수십~수백만 원. 명도 리스크 줄이기 위한 현실적 비용.'},
+    {w:'입찰 마진',d:'낙찰가와 시세의 차이. 마진이 클수록 수익성이 높지만, 고유찰 물건일수록 리스크도 비례해서 증가.'},
+  ]},
+];
+
+function renderGlossary(filter=''){
+  const body=document.getElementById('gp-body');
+  const q=filter.trim().toLowerCase();
+  let html='', anyResult=false;
+  GLOSSARY.forEach((cat,ci)=>{
+    const terms=cat.terms.filter(t=>!q||(t.w+t.d).toLowerCase().includes(q));
+    if(!terms.length) return;
+    anyResult=true;
+    const isOpen=q||ci===0;
+    html+=`<div class="gp-cat${isOpen?' open':''}">
+      <div class="gp-cat-hdr" onclick="toggleGpCat(this)">
+        <span>${cat.cat}</span><span class="gp-cat-arrow">▼</span>
+      </div>
+      <div class="gp-terms">
+        ${terms.map(t=>`<div class="gp-term">
+          <div class="gp-term-word">${t.w}${t.badge?`<span class="gp-badge ${t.btype||'imp'}">${t.badge}</span>`:''}</div>
+          <div class="gp-term-def">${t.d}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  });
+  body.innerHTML=anyResult?html:`<div class="gp-no-result">검색 결과 없음 🔍</div>`;
+}
+function toggleGpCat(hdr){ hdr.closest('.gp-cat').classList.toggle('open'); }
+function filterGlossary(q){ renderGlossary(q); }
+function openGlossary(){
+  renderGlossary();
+  document.getElementById('glossary-panel').classList.add('open');
+  showOverlay();
+  if(fabOpen) toggleFab();
+}
+function closeGlossary(){
+  document.getElementById('glossary-panel').classList.remove('open');
+  document.getElementById('gp-search-input').value='';
+  document.getElementById('tool-overlay').classList.remove('open');
+}
+
+/* ══════════════════════════════════════════
+   🧮 입찰가 계산기
+══════════════════════════════════════════ */
+function openCalc(appraisal, bid){
+  if(appraisal) document.getElementById('cm-appraisal').value=appraisal;
+  if(bid) document.getElementById('cm-bid').value=bid;
+  document.getElementById('calc-modal').classList.add('open');
+  showOverlay();
+  calcUpdate();
+  if(fabOpen) toggleFab();
+}
+function closeCalc(){
+  document.getElementById('calc-modal').classList.remove('open');
+  document.getElementById('tool-overlay').classList.remove('open');
+}
+function fmt억(won){ if(!won) return '—'; return (won/1e8).toFixed(2)+'억'; }
+function calcAcqTax(bid){
+  if(bid<=6e8) return bid*0.01;
+  if(bid<=9e8) return bid*(0.01+(bid-6e8)/(3e8)*0.02);
+  return bid*0.03;
+}
+function calcUpdate(){
+  const appr=parseFloat(document.getElementById('cm-appraisal').value)||0;
+  const bid=parseFloat(document.getElementById('cm-bid').value)||0;
+  const market=parseFloat(document.getElementById('cm-market').value)||0;
+  const targetRoi=parseFloat(document.getElementById('cm-target-roi').value)||15;
+  // 감정가 대비 입찰가율
+  document.getElementById('cm-r-ratio').textContent=appr&&bid?Math.round(bid/appr*100)+'%':'—';
+  // 취득세
+  const tax=bid?calcAcqTax(bid):0;
+  document.getElementById('cm-r-tax').textContent=bid?fmt억(tax):'—';
+  // 법무사비 (약 0.3%)
+  const legal=bid?Math.round(bid*0.003):0;
+  document.getElementById('cm-r-legal').textContent=bid?fmt억(legal):'—';
+  // 예상 수익률
+  if(market&&bid){
+    const profit=market-bid-tax-legal;
+    const roi=Math.round(profit/bid*100);
+    const el=document.getElementById('cm-r-roi');
+    el.textContent=roi+'%';
+    el.className='cm-result-val '+(roi>=15?'c-green':roi>=5?'c-blue':'c-red');
+  } else { document.getElementById('cm-r-roi').textContent='—'; document.getElementById('cm-r-roi').className='cm-result-val'; }
+  // 목표 수익률 기준 최대 입찰가
+  if(market&&targetRoi){
+    // market = maxBid*(1+roi/100) + tax(maxBid) + legal(maxBid) ≈ maxBid*(1+roi/100+0.01+0.003)
+    const maxBid=Math.round(market/(1+targetRoi/100+0.013));
+    document.getElementById('cm-r-maxbid').textContent=fmt억(maxBid);
+  } else { document.getElementById('cm-r-maxbid').textContent='—'; }
+}
+
+/* ══════════════════════════════════════════
+   ✅ 체크리스트
+══════════════════════════════════════════ */
+const CHECKLIST=[
+  { section:'🔍 사전 조사 (입찰 전)', items:[
+    {id:'cl1',t:'등기부등본 열람',d:'법원 경매 사이트 또는 인터넷등기소에서 최신본 확인. 근저당·가압류·전세권 등 권리 파악.'},
+    {id:'cl2',t:'매각물건명세서 확인',d:'임차인 현황, 인수 권리, 점유 관계 등 법원이 정리한 핵심 정보 확인.'},
+    {id:'cl3',t:'감정평가서 검토',d:'감정가 산정 기준과 물건 상태 파악. 감정 시점과 현재 시세 차이 확인.'},
+    {id:'cl4',t:'인근 실거래가 조사',d:'국토부 실거래가 공개시스템에서 동일 단지·유사 물건 최근 거래가 확인.'},
+    {id:'cl5',t:'권리분석 완료',d:'인수 권리 없음 확인 또는 인수 권리의 금액·위험 수준 파악 완료.'},
+  ]},
+  { section:'🏠 현장 확인', items:[
+    {id:'cl6',t:'현장 방문 (외부)',d:'건물 상태, 주변 환경, 교통, 편의시설 직접 확인.'},
+    {id:'cl7',t:'점유자 확인',d:'실제 거주자가 누구인지 파악. 임차인인지, 소유자인지, 공실인지 확인.'},
+    {id:'cl8',t:'임차인 대항력 여부',d:'전입세대 열람 신청으로 임차인의 전입일 확인. 근저당 설정일과 선후 비교.'},
+    {id:'cl9',t:'관리비 미납 확인',d:'관리사무소에 미납 관리비 내역 문의. 장기 유찰 물건은 수백만 원 누적 가능.'},
+    {id:'cl10',t:'명도 난이도 파악',d:'점유자와의 협의 가능 여부 가늠. 분쟁 가능성 높으면 명도비 예산 책정.'},
+  ]},
+  { section:'💰 입찰 준비', items:[
+    {id:'cl11',t:'입찰가 결정 (최대 한도 설정)',d:'계산기로 목표 수익률 기준 최대 입찰가 산출. 감정에 흔들리지 않도록 상한선 확정.'},
+    {id:'cl12',t:'입찰보증금 준비',d:'최저입찰가의 10%. 법원에 지참할 현금 또는 수표 준비.'},
+    {id:'cl13',t:'자금 조달 계획 확인',d:'잔금 납부 기한(통상 1개월) 내 조달 가능 여부 확인. 경매 전용 대출 상품 검토.'},
+    {id:'cl14',t:'신분증·도장 준비',d:'입찰 당일 신분증, 인감 또는 서명 도장 지참.'},
+    {id:'cl15',t:'입찰표 사전 작성 연습',d:'입찰가 숫자 오기 방지. 법원 양식 미리 확인 및 연습.'},
+  ]},
+];
+let ckChecked=new Set();
+function openChecklist(auction){
+  const label=auction?`${(auction.address||'').substring(0,20)}…`:'일반 체크리스트';
+  document.getElementById('ckm-prop-label').textContent=label;
+  renderChecklist();
+  document.getElementById('check-modal').classList.add('open');
+  showOverlay();
+  if(fabOpen) toggleFab();
+}
+function closeChecklist(){
+  document.getElementById('check-modal').classList.remove('open');
+  document.getElementById('tool-overlay').classList.remove('open');
+}
+function resetChecklist(){ ckChecked.clear(); renderChecklist(); }
+function toggleCkItem(id){
+  if(ckChecked.has(id)) ckChecked.delete(id); else ckChecked.add(id);
+  renderChecklist();
+}
+function renderChecklist(){
+  const total=CHECKLIST.reduce((a,s)=>a+s.items.length,0);
+  const done=ckChecked.size;
+  document.getElementById('ckm-prog-text').textContent=`${done} / ${total} 완료`;
+  document.getElementById('ckm-prog-bar').style.width=total?Math.round(done/total*100)+'%':'0%';
+  let html='';
+  CHECKLIST.forEach(section=>{
+    html+=`<div class="ckm-section"><div class="ckm-section-title">${section.section}</div>`;
+    section.items.forEach(item=>{
+      const done=ckChecked.has(item.id);
+      html+=`<div class="ckm-item${done?' done':''}" onclick="toggleCkItem('${item.id}')">
+        <div class="ckm-checkbox"></div>
+        <div class="ckm-item-text">
+          <div class="ckm-item-title">${item.t}</div>
+          <div class="ckm-item-desc">${item.d}</div>
+        </div>
+      </div>`;
+    });
+    html+='</div>';
+  });
+  document.getElementById('ckm-body').innerHTML=html;
+}
+
+/* ══════════════════════════════════════════
+   📊 물건 비교
+══════════════════════════════════════════ */
+function openCompare(){
+  document.getElementById('cmp-modal').classList.add('open');
+  showOverlay();
+  renderCompare();
+  if(fabOpen) toggleFab();
+}
+function closeCompare(){
+  document.getElementById('cmp-modal').classList.remove('open');
+  document.getElementById('tool-overlay').classList.remove('open');
+}
+function renderCompare(){
+  const bmList=[...BM].map(id=>ALL.find(a=>a.id===id)).filter(Boolean);
+  const body=document.getElementById('cmp-body');
+  if(!bmList.length){
+    body.innerHTML=`<div class="cmp-empty"><div class="cmp-empty-icon">🤍</div><div class="cmp-empty-text">즐겨찾기한 물건이 없어요.<br>카드의 ♡ 버튼으로 물건을 추가하면 여기서 비교할 수 있어요.</div></div>`;
+    return;
+  }
+  const fmt=v=>v==null?'—':v;
+  const fmtW=v=>v?Math.round(v/1e8*10)/10+'억':'—';
+  // 최저입찰가 기준 best/worst
+  const bids=bmList.map(a=>a.min_bid||0);
+  const minBid=Math.min(...bids), maxBid=Math.max(...bids);
+  // 수익률 기준 best/worst
+  const rois=bmList.map(a=>{ const r=calcROI(a); return r?r.rate:-999; });
+  const maxRoi=Math.max(...rois);
+  let html=`<div style="overflow-x:auto"><table class="cmp-table">
+    <thead><tr>
+      <th style="min-width:90px">항목</th>
+      ${bmList.map((a,i)=>`<th>물건 ${i+1}<br><button class="cmp-remove" onclick="removeCmpItem('${a.id}')">✕ 제거</button></th>`).join('')}
+    </tr></thead>
+    <tbody>
+      <tr><td class="row-label">주소</td>${bmList.map(a=>`<td style="font-size:12px;line-height:1.5">${a.address||'—'}</td>`).join('')}</tr>
+      <tr><td class="row-label">법원</td>${bmList.map(a=>`<td>${a.court||'—'}</td>`).join('')}</tr>
+      <tr><td class="row-label">경매기일</td>${bmList.map(a=>`<td>${a.auction_date||'—'}</td>`).join('')}</tr>
+      <tr><td class="row-label">감정가</td>${bmList.map(a=>`<td>${fmtW(a.appraisal)}</td>`).join('')}</tr>
+      <tr><td class="row-label">최저입찰가</td>${bmList.map(a=>{
+        const v=a.min_bid||0;
+        const cls=v===minBid?'cmp-best':v===maxBid&&bmList.length>1?'cmp-worst':'';
+        return `<td class="${cls}">${fmtW(v)}</td>`;
+      }).join('')}</tr>
+      <tr><td class="row-label">입찰가율</td>${bmList.map(a=>`<td>${a.bid_ratio!=null?a.bid_ratio+'%':'—'}</td>`).join('')}</tr>
+      <tr><td class="row-label">유찰 횟수</td>${bmList.map(a=>{
+        const fb=a.failed_bids||0;
+        const cls=fb===0?'cmp-best':fb>=5?'cmp-worst':'';
+        return `<td class="${cls}">${fb}회${fb===0?' (신건)':''}</td>`;
+      }).join('')}</tr>
+      <tr><td class="row-label">예상 수익률</td>${bmList.map((a,i)=>{
+        const roi=rois[i];
+        const cls=roi===maxRoi&&roi>0?'cmp-best':roi<=0?'cmp-worst':'';
+        return `<td class="${cls}">${roi>-999?roi+'%':'—'}</td>`;
+      }).join('')}</tr>
+    </tbody>
+  </table></div>
+  <div class="cmp-tip">🟢 초록색 = 해당 항목에서 가장 유리한 값 &nbsp;|&nbsp; 🔴 빨간색 = 가장 불리한 값<br>즐겨찾기(♡)에서 물건을 추가하거나 제거하면 이 표에 즉시 반영됩니다.</div>`;
+  body.innerHTML=html;
+}
+function removeCmpItem(id){
+  BM.delete(id);
+  localStorage.setItem('bm_auctions',JSON.stringify([...BM]));
+  renderCompare();
+}
 </script>
 </body>
 </html>
