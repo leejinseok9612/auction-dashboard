@@ -540,6 +540,8 @@ def main():
         all_xhr_rows = []
         seen_ids = set()  # 중복 방지
 
+        failed_courts = []  # 수집 실패한 법원 추적
+
         for court in metro_courts:
             court_code = court["code"]
             court_name = court["name"]
@@ -548,20 +550,33 @@ def main():
             print(f"\n[7단계] {court_name} ({region}) 데이터 수집...")
             page.evaluate("() => { window.__auction_captured = []; }")
 
-            if last_req:
-                try:
-                    r = replay_with_court(page, court_code, court_name, page_num=1)
-                except Exception as e:
-                    print(f"  [{court_name}] p=1 오류: {e}, 스킵")
-                    continue
-                page.wait_for_timeout(2000)
-            else:
+            if not last_req:
                 print(f"  [{court_name}] XHR 요청 없음, 스킵")
+                failed_courts.append(court_name)
                 continue
 
-            captured_now = get_captured(page)
+            # ── retry 최대 3회 ──────────────────────────────────
+            captured_now = []
+            for attempt in range(1, 4):
+                try:
+                    page.evaluate("() => { window.__auction_captured = []; }")
+                    r = replay_with_court(page, court_code, court_name, page_num=1)
+                except Exception as e:
+                    print(f"  [{court_name}] 시도 {attempt}/3 오류: {e}")
+                    page.wait_for_timeout(3000)
+                    continue
+                page.wait_for_timeout(3000)
+                captured_now = get_captured(page)
+                if captured_now:
+                    if attempt > 1:
+                        print(f"  [{court_name}] {attempt}번째 시도 성공")
+                    break
+                print(f"  [{court_name}] 시도 {attempt}/3 캡처 없음, 재시도...")
+                page.wait_for_timeout(2000)
+
             if not captured_now:
-                print(f"  [{court_name}] 캡처 없음, 스킵")
+                print(f"  [{court_name}] ❌ 3회 시도 모두 실패, 스킵")
+                failed_courts.append(court_name)
                 continue
 
             first = captured_now[0]
@@ -625,7 +640,11 @@ def main():
         court_summary = _Counter(r.get('jiwonNm','') for r in all_xhr_rows)
         print("\n  [법원별 수집 요약]")
         for cn, cv in court_summary.most_common():
-            print(f"    {cn}: {cv}건")
+            print(f"    ✅ {cn}: {cv}건")
+        if failed_courts:
+            print(f"\n  [수집 실패 법원 ({len(failed_courts)}개)]")
+            for fc in failed_courts:
+                print(f"    ❌ {fc}")
         print(f"\n  [전체] 수집 완료: {len(all_xhr_rows)}건 (서울+경기+인천)")
         captured = all_xhr_rows
 
