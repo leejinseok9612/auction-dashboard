@@ -126,11 +126,10 @@ def is_target(row):
             segs = [s.strip() for s in ptype.split(',')]
             if all(any(k in s for k in ["근린시설", "상가"]) for s in segs):
                 return False
-    sido = row.get("daepyoSidoCd") or row.get("srchHjguSidoCd") or ""
-    if sido not in METRO_SIDO:
-        addr = row.get("printSt","") or row.get("hjguSido","")
-        if not any(k in addr for k in ["서울","인천","경기"]):
-            return False
+    # 항상 주소로 수도권 검증 (sido 코드가 잘못 매핑되는 경우 방어)
+    addr = row.get("printSt","") or row.get("hjguSido","") or ""
+    if not any(k in addr for k in ["서울","인천","경기"]):
+        return False
     try:
         return int(row.get("minmaePrice") or 0) >= MIN_BID
     except:
@@ -268,8 +267,8 @@ DEFAULT_METRO_COURTS = [
     {"code": "B000265", "name": "수원지방법원 안양지원", "region": "경기"},
     {"code": "B000270", "name": "의정부지방법원",    "region": "경기"},
     {"code": "B000271", "name": "의정부지방법원 고양지원", "region": "경기"},
-    # 인천
-    {"code": "B000250", "name": "인천지방법원",      "region": "인천"},
+    # 인천 (B000250은 실제로 청주지방법원에 매핑됨 → 제거)
+    {"code": "B000240", "name": "인천지방법원",      "region": "인천"},
     {"code": "B000251", "name": "인천지방법원 부천지원", "region": "인천"},
 ]
 
