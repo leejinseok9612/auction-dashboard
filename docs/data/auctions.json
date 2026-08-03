@@ -1,6 +1,30 @@
 {
-  "updated": "2026-07-31",
+  "updated": "2026-08-03",
   "auctions": [
+    {
+      "id": "2025타경511468",
+      "court": "인천지방법원",
+      "address": "인천광역시 미추홀구 주안동 1064-3 3층303호",
+      "property_type": "다세대",
+      "appraisal": 50000000,
+      "min_bid": 50000000,
+      "auction_date": "2026-08-13",
+      "failed_bids": 0,
+      "bid_ratio": 100.0,
+      "scraped_date": "2026-08-03"
+    },
+    {
+      "id": "2025타경511514",
+      "court": "인천지방법원",
+      "address": "인천광역시 부평구 청천동 200 부평1차금호타운 108동 2층206호",
+      "property_type": "아파트",
+      "appraisal": 501000000,
+      "min_bid": 501000000,
+      "auction_date": "2026-08-13",
+      "failed_bids": 0,
+      "bid_ratio": 100.0,
+      "scraped_date": "2026-08-03"
+    },
     {
       "id": "2022타경521399",
       "court": "인천지방법원",
