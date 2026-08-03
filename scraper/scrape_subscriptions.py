@@ -1,201 +1,162 @@
 #!/usr/bin/env python3
 """
-청약홈 스크래퍼
+청약홈 스크래퍼 v2
 ────────────────────────────────────────────────
 applyhome.co.kr 에서 수도권 청약 분양 정보를 수집합니다.
-XHR 후크로 API 응답을 캡처 후 JSON 저장.
+직접 fetch() 대신 페이지가 스스로 보내는 XHR을 후킹해서 캡처합니다.
 
 실행: python3 scraper/scrape_subscriptions.py
-출력: docs/data/subscriptions.json
+출력: docs/data/cheongyak.json
 """
 
 import json, os, sys, re
-from datetime import date, datetime, timedelta
+from datetime import date
 
-BASE    = "https://www.applyhome.co.kr"
-TODAY   = date.today().isoformat()
-OUT     = os.path.join(os.path.dirname(__file__), "..", "docs", "data", "cheongyak.json")
+BASE  = "https://www.applyhome.co.kr"
+TODAY = date.today().isoformat()
+OUT   = os.path.join(os.path.dirname(__file__), "..", "docs", "data", "cheongyak.json")
 
-# 수집 대상 지역 (시도명)
-METRO_REGIONS = ["서울특별시", "경기도", "인천광역시"]
+METRO = ["서울", "경기", "인천"]
 
+# 모든 XHR/fetch 응답을 캡처하는 후크
 INIT_SCRIPT = """
-window.__cy_captured = [];
-window.__cy_last_req = null;
+window.__cy_reqs  = [];   // 요청 목록 {url, method, body, headers}
+window.__cy_resps = [];   // 응답 목록 {url, body}
+
 (function() {
+    // ── XMLHttpRequest 후크 ──────────────────────────────────
     var _open = XMLHttpRequest.prototype.open;
     var _send = XMLHttpRequest.prototype.send;
-    var _setHdr = XMLHttpRequest.prototype.setRequestHeader;
+    var _setH = XMLHttpRequest.prototype.setRequestHeader;
 
-    XMLHttpRequest.prototype.open = function(method, url, async) {
-        this.__url = (typeof url === 'string') ? url : '';
-        this.__method = method;
-        this.__hdrs = {};
+    XMLHttpRequest.prototype.open = function(m, u) {
+        this.__u = u; this.__m = m; this.__h = {};
         return _open.apply(this, arguments);
     };
-    XMLHttpRequest.prototype.setRequestHeader = function(n, v) {
-        this.__hdrs = this.__hdrs || {};
-        this.__hdrs[n] = v;
-        return _setHdr.apply(this, arguments);
+    XMLHttpRequest.prototype.setRequestHeader = function(n,v) {
+        this.__h[n]=v; return _setH.apply(this, arguments);
     };
     XMLHttpRequest.prototype.send = function(body) {
         var self = this;
-        // 청약 목록 API 캡처
-        var isCyApi = (self.__url||'').includes('APTLttotPblancList') ||
-                      (self.__url||'').includes('lttotPblanc') ||
-                      (self.__url||'').includes('selectAPT');
-        if (isCyApi) {
-            window.__cy_last_req = {
-                url: self.__url,
-                method: self.__method || 'POST',
-                body: (typeof body === 'string') ? body : '',
-                headers: self.__hdrs || {}
-            };
-        }
+        var u = self.__u || '';
+        window.__cy_reqs.push({url:u, method:self.__m, body:body||'', headers:self.__h||{}});
         self.addEventListener('loadend', function() {
-            if (!isCyApi) return;
             try {
-                var d = JSON.parse(self.responseText);
-                window.__cy_captured.push({url: self.__url, data: d});
-                console.log('[CY HOOK] 캡처: ' + self.__url.slice(-40));
-            } catch(e) {}
+                var text = self.responseText;
+                if (text && text.trim().startsWith('{')) {
+                    window.__cy_resps.push({url:u, body:text});
+                }
+            } catch(e){}
         });
         return _send.apply(this, arguments);
+    };
+
+    // ── fetch 후크 ───────────────────────────────────────────
+    var _fetch = window.fetch;
+    window.fetch = function(input, init) {
+        var u = (typeof input === 'string') ? input : (input.url || '');
+        var p = _fetch.apply(this, arguments);
+        p.then(function(resp) {
+            resp.clone().text().then(function(text) {
+                if (text && text.trim().startsWith('{')) {
+                    window.__cy_resps.push({url:u, body:text});
+                }
+            });
+        }).catch(function(){});
+        return p;
     };
 })();
 """
 
 def parse_date(s):
-    """YYYYMMDD → YYYY-MM-DD"""
     if not s: return None
-    s = str(s).strip().replace("-","").replace(".","").replace("/","")
+    s = re.sub(r'[-./]', '', str(s).strip())
     if len(s) == 8 and s.isdigit():
         return f"{s[:4]}-{s[4:6]}-{s[6:]}"
     return None
 
 def get_status(start, end):
-    today = TODAY
+    t = TODAY
     if not start or not end: return "미정"
-    if today < start: return "청약예정"
-    if start <= today <= end: return "청약중"
+    if t < start:  return "청약예정"
+    if t <= end:   return "청약중"
     return "청약마감"
 
+def extract_rows(data):
+    """응답 JSON에서 리스트 추출 (다양한 구조 대응)"""
+    if isinstance(data, list): return data
+    if not isinstance(data, dict): return []
+    for key in ["data","list","dataList","items","item","result","body",
+                "APTLttotPblancList","lttotPblancList","houseList","aptList"]:
+        v = data.get(key)
+        if isinstance(v, list) and v: return v
+        if isinstance(v, dict):
+            for k2 in ["item","items","list","data"]:
+                v2 = v.get(k2)
+                if isinstance(v2, list) and v2: return v2
+    return []
+
 def parse_item(row):
-    """API 응답 row → 대시보드 아이템"""
-    # 필드명은 청약홈 API 기준 (확인 후 조정)
-    name = (row.get("houseNm") or row.get("houseName") or row.get("lttotNm") or "").strip()
-    if not name:
-        return None
+    name = (row.get("houseNm") or row.get("houseName") or row.get("lttotNm") or
+            row.get("aptNm") or "").strip()
+    if not name: return None
 
-    region_raw = (row.get("sido") or row.get("hssplyAdres") or "").strip()
-    # 지역 필터: 수도권만
-    if not any(r in region_raw for r in ["서울", "경기", "인천"]):
-        return None
+    # 지역 필터
+    addr_raw = (row.get("hssplyAdres") or row.get("address") or
+                row.get("sido","")+" "+row.get("sgungu","") or "").strip()
+    if not any(m in addr_raw for m in METRO): return None
 
-    # 시도 정규화
-    if "서울" in region_raw: region = "서울특별시"
-    elif "경기" in region_raw: region = "경기도"
-    elif "인천" in region_raw: region = "인천광역시"
-    else: region = region_raw
+    if   "서울" in addr_raw: region = "서울특별시"
+    elif "경기" in addr_raw: region = "경기도"
+    elif "인천" in addr_raw: region = "인천광역시"
+    else: return None
 
     district = (row.get("sgungu") or row.get("sigungu") or "").strip()
-    address  = (row.get("hssplyAdres") or row.get("address") or f"{region} {district}").strip()
+    address  = addr_raw or f"{region} {district}"
 
-    announce  = parse_date(row.get("rcritPblancDe") or row.get("pblancDe") or row.get("announceDate"))
-    start_dt  = parse_date(row.get("subscrptRceptBgnde") or row.get("startDate") or row.get("rceptBgnde"))
-    end_dt    = parse_date(row.get("subscrptRceptEndde") or row.get("endDate")   or row.get("rceptEndde"))
-    win_dt    = parse_date(row.get("przwnerPresnatnDe") or row.get("winDate")    or row.get("presnatnDe"))
-    move_in_raw = str(row.get("mvnPrearngeYm") or row.get("moveIn") or "").strip()
-    move_in = move_in_raw[:7] if len(move_in_raw) >= 6 else move_in_raw
+    start_dt = parse_date(row.get("subscrptRceptBgnde") or row.get("rceptBgnde") or row.get("startDate"))
+    end_dt   = parse_date(row.get("subscrptRceptEndde") or row.get("rceptEndde") or row.get("endDate"))
+    status   = get_status(start_dt, end_dt)
+    if status == "청약마감": return None
 
-    try: supply = int(row.get("totSuplyHshldco") or row.get("supplyCnt") or 0)
+    announce = parse_date(row.get("rcritPblancDe") or row.get("pblancDe") or row.get("announceDate"))
+    win_dt   = parse_date(row.get("przwnerPresnatnDe") or row.get("presnatnDe") or row.get("winDate"))
+    move_raw = str(row.get("mvnPrearngeYm") or row.get("moveIn") or "").strip()
+    move_in  = move_raw[:7] if len(move_raw) >= 6 else move_raw
+
+    try:    supply = int(row.get("totSuplyHshldco") or row.get("supplyCnt") or 0)
     except: supply = 0
 
-    try: p_min = int(str(row.get("lllc") or row.get("priceMin") or "0").replace(",","")) // 10000
-    except: p_min = None
-    try: p_max = int(str(row.get("parcprc") or row.get("priceMax") or "0").replace(",","")) // 10000
-    except: p_max = None
+    def to_man(v):
+        try: return int(str(v).replace(",","")) // 10000
+        except: return None
 
-    house_type = (row.get("houseSecd") or row.get("type") or "APT").strip().upper()
-    if "오피" in house_type or "오피스텔" in name: house_type = "OFT"
-    elif "민간" in house_type or "APT" in house_type: house_type = "APT"
-    builder = (row.get("cnstrctEntrpsNm") or row.get("builder") or "").strip()
-    url_path = row.get("pblancUrl") or row.get("url") or ""
-    full_url = (BASE + url_path) if url_path.startswith("/") else (url_path or BASE)
+    p_min = to_man(row.get("lllc") or row.get("priceMin"))
+    p_max = to_man(row.get("parcprc") or row.get("priceMax"))
 
-    # 고유 ID: 공고번호 또는 이름+날짜 해시
+    htype = str(row.get("houseSecd") or row.get("type") or "APT").upper()
+    if "오피" in htype or "오피스텔" in name: htype = "OFT"
+    else: htype = "APT"
+
+    builder = (row.get("cnstrctEntrpsNm") or row.get("bsnsMbyNm") or row.get("builder") or "").strip()
+    url_p   = row.get("pblancUrl") or row.get("url") or ""
+    full_url = (BASE + url_p) if url_p.startswith("/") else (url_p or BASE)
+
     item_id = str(row.get("pblancNo") or row.get("houseManageNo") or "")
     if not item_id:
-        item_id = re.sub(r'\W', '', name)[:12] + (start_dt or "")[:7].replace("-","")
+        item_id = re.sub(r'\W','', name)[:12] + (start_dt or "").replace("-","")[:6]
 
-    status = get_status(start_dt, end_dt)
-    # 마감된 건은 제외 (오늘 기준 end_date 지난 것)
-    if status == "청약마감":
-        return None
-
-    return {
-        "id":           item_id,
-        "name":         name,
-        "type":         house_type,
-        "builder":      builder,
-        "region":       region,
-        "district":     district,
-        "address":      address,
-        "supply_count": supply,
-        "price_min":    p_min,
-        "price_max":    p_max,
-        "announce_date":announce,
-        "start_date":   start_dt,
-        "end_date":     end_dt,
-        "win_date":     win_dt,
-        "move_in":      move_in,
-        "status":       status,
-        "url":          full_url,
-        "scraped_date": TODAY,
-    }
-
-def try_fetch_pages(page, url, params_base, region_code, max_pages=20):
-    """fetch()로 페이지네이션 수집"""
-    rows = []
-    for pg in range(1, max_pages + 1):
-        params = {**params_base, "pageIndex": pg}
-        result = page.evaluate(f"""async () => {{
-            try {{
-                var resp = await fetch('{url}', {{
-                    method: 'POST',
-                    headers: {{'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                               'X-Requested-With': 'XMLHttpRequest'}},
-                    body: new URLSearchParams({json.dumps(params)}).toString()
-                }});
-                var text = await resp.text();
-                var d = JSON.parse(text);
-                return {{ok:true, data:d}};
-            }} catch(e) {{
-                return {{ok:false, reason:String(e)}};
-            }}
-        }}""")
-        if not result or not result.get('ok'):
-            print(f"  p={pg} 오류: {result}")
-            break
-        data = result.get('data', {})
-        # 응답 구조 파악
-        items = (data.get('data') or data.get('list') or data.get('dataList') or
-                 data.get('APTLttotPblancList') or [])
-        if isinstance(items, dict):
-            items = items.get('item') or items.get('items') or []
-        if not items:
-            break
-        rows.extend(items)
-        print(f"  {region_code} p={pg}: {len(items)}건 (누적 {len(rows)}건)")
-        total = int(data.get('totalCount') or data.get('total') or 0)
-        if total and len(rows) >= total:
-            break
-        if len(items) < 10:
-            break
-    return rows
+    return dict(
+        id=item_id, name=name, type=htype, builder=builder,
+        region=region, district=district, address=address,
+        supply_count=supply, price_min=p_min, price_max=p_max,
+        announce_date=announce, start_date=start_dt, end_date=end_dt,
+        win_date=win_dt, move_in=move_in, status=status,
+        url=full_url, scraped_date=TODAY,
+    )
 
 def main():
-    print(f"=== 청약홈 스크래퍼 시작: {TODAY} ===\n")
+    print(f"=== 청약홈 스크래퍼 v2 시작: {TODAY} ===\n")
 
     try:
         from playwright.sync_api import sync_playwright
@@ -207,178 +168,132 @@ def main():
 
     with sync_playwright() as p:
         browser = p.chromium.launch(
-            headless=True,
-            args=["--no-sandbox", "--disable-dev-shm-usage"]
+            headless=False,   # 디버그용: 브라우저 직접 확인
+            args=["--no-sandbox"]
         )
         context = browser.new_context(
             user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36",
-            viewport={"width": 1920, "height": 1080},
+            viewport={"width": 1440, "height": 900},
         )
         context.add_init_script(INIT_SCRIPT)
         page = context.new_page()
 
-        # ── 1. 청약홈 메인 로드 ─────────────────────────────────
-        print("[1단계] 청약홈 로드...")
-        page.goto(BASE + "/ai/aia/selectAPTLttotPblancListView.do",
-                  wait_until="networkidle", timeout=30000)
-        page.wait_for_timeout(5000)
-        print(f"  URL: {page.url}")
-
-        # ── 2. XHR 캡처 확인 ────────────────────────────────────
-        print("\n[2단계] 자동 XHR 캡처 확인...")
-        page.wait_for_timeout(3000)
-        captured = page.evaluate("() => window.__cy_captured || []")
-        last_req = page.evaluate("() => window.__cy_last_req")
-        print(f"  자동 캡처: {len(captured)}개")
-
-        # ── 3. 검색 폼 조작 ─────────────────────────────────────
-        print("\n[3단계] 지역·날짜 검색 조작...")
-
-        # 수도권 탐색
-        REGION_CODES = [
-            ("11", "서울"),
-            ("41", "경기"),
-            ("28", "인천"),
+        # ── 1. 청약홈 APT 목록 페이지 ──────────────────────────
+        list_urls = [
+            BASE + "/ai/aia/selectAPTLttotPblancListView.do",
+            BASE + "/apt/applyHome.do",
+            BASE + "/ai/aia/selectAPTRemndrLttotPblancListView.do",  # 무순위
         ]
 
-        # API 엔드포인트 후보들
-        API_ENDPOINTS = [
-            "/ai/aia/selectAPTLttotPblancList.do",
-            "/ai/aib/selectAPTRemndrLttotPblancList.do",  # 무순위
-        ]
+        for url in list_urls:
+            print(f"\n[로드] {url}")
+            try:
+                page.goto(url, wait_until="networkidle", timeout=30000)
+                page.wait_for_timeout(5000)
 
-        for sido_code, sido_name in REGION_CODES:
-            print(f"\n  [{sido_name}] 검색 시작...")
+                resps = page.evaluate("() => window.__cy_resps || []")
+                reqs  = page.evaluate("() => window.__cy_reqs  || []")
+                print(f"  XHR 응답 캡처: {len(resps)}개, 요청: {len(reqs)}개")
 
-            for endpoint in API_ENDPOINTS:
-                params = {
-                    "sido":         sido_code,
-                    "sgungu":       "",
-                    "houseSecd":    "",         # 전체 유형
-                    "strtRecordNo": 1,
-                    "pageIndex":    1,
-                    "orderBy":      "3",        # 최신순
-                    "searchCondition": "",
-                    "searchKeyword":   "",
-                }
+                # 유효한 응답 파싱
+                for resp in resps:
+                    try:
+                        d = json.loads(resp['body'])
+                        rows = extract_rows(d)
+                        if rows:
+                            print(f"  ✓ {resp['url'][-50:]}: {len(rows)}건 발견!")
+                            all_rows.extend(rows)
+                    except: pass
 
-                # 직접 fetch 시도
-                result = page.evaluate(f"""async () => {{
-                    try {{
-                        var params = {json.dumps(params)};
-                        var body = Object.keys(params).map(k=>
-                            encodeURIComponent(k)+'='+encodeURIComponent(params[k])).join('&');
-                        var resp = await fetch('{BASE + endpoint}', {{
-                            method: 'POST',
-                            headers: {{
-                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'Referer': '{BASE}/ai/aia/selectAPTLttotPblancListView.do'
-                            }},
-                            credentials: 'include',
-                            body: body
+                # 요청 URL 출력 (디버그)
+                if not all_rows:
+                    print("  데이터 없음. 캡처된 XHR URL:")
+                    for req in reqs[-10:]:
+                        print(f"    [{req.get('method','?')}] {req.get('url','')[-70:]}")
+
+            except Exception as e:
+                print(f"  오류: {e}")
+
+        # ── 2. 페이지 조작으로 추가 수집 ───────────────────────
+        if not all_rows:
+            print("\n[2단계] 페이지 조작으로 수집 시도...")
+
+            # 청약홈 메인에서 청약중/예정 탭 클릭 시도
+            page.goto(BASE, wait_until="networkidle", timeout=30000)
+            page.wait_for_timeout(5000)
+            page.evaluate("() => { window.__cy_resps = []; window.__cy_reqs = []; }")
+
+            # 청약 관련 링크/버튼 클릭 시도
+            for selector in [
+                "a:has-text('아파트')", "a:has-text('청약정보')",
+                "a:has-text('분양정보')", "button:has-text('청약')",
+                "[href*='APT']", "[href*='apt']", "[onclick*='apt']",
+            ]:
+                try:
+                    el = page.locator(selector).first
+                    if el.is_visible():
+                        print(f"  클릭: {selector}")
+                        el.click()
+                        page.wait_for_timeout(5000)
+                        resps = page.evaluate("() => window.__cy_resps || []")
+                        for resp in resps:
+                            try:
+                                d = json.loads(resp['body'])
+                                rows = extract_rows(d)
+                                if rows:
+                                    print(f"  ✓ {len(rows)}건 발견!")
+                                    all_rows.extend(rows)
+                            except: pass
+                        if all_rows: break
+                except: pass
+
+        # ── 3. 전체 XHR 요청 재현 ──────────────────────────────
+        if not all_rows:
+            print("\n[3단계] 캡처된 XHR 요청 재현...")
+            reqs = page.evaluate("() => window.__cy_reqs || []")
+            for req in reqs:
+                url = req.get('url','')
+                if not url or 'applyhome' not in url: continue
+                try:
+                    body_param = json.dumps(req.get('body',''))
+                    result = page.evaluate(f"""async () => {{
+                        var resp = await fetch({json.dumps(url)}, {{
+                            method: {json.dumps(req.get('method','GET'))},
+                            headers: {json.dumps(req.get('headers',{}))},
+                            body: {body_param} || undefined,
+                            credentials: 'include'
                         }});
                         var text = await resp.text();
-                        return {{ok:true, status:resp.status, text:text.slice(0,1000), len:text.length}};
-                    }} catch(e) {{
-                        return {{ok:false, reason:String(e)}};
-                    }}
-                }}""")
-
-                if not result or not result.get('ok'):
-                    print(f"    {endpoint}: 실패 ({result})")
-                    continue
-
-                status_code = result.get('status')
-                text_preview = result.get('text','')
-                print(f"    {endpoint}: HTTP {status_code}, {result.get('len',0)}바이트")
-
-                # JSON 파싱 시도
-                try:
-                    full_result = page.evaluate(f"""async () => {{
-                        var params = {json.dumps(params)};
-                        var body = Object.keys(params).map(k=>
-                            encodeURIComponent(k)+'='+encodeURIComponent(params[k])).join('&');
-                        var resp = await fetch('{BASE + endpoint}', {{
-                            method: 'POST',
-                            headers: {{
-                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'Referer': '{BASE}/ai/aia/selectAPTLttotPblancListView.do'
-                            }},
-                            credentials: 'include',
-                            body: body
-                        }});
-                        var d = await resp.json();
-                        return d;
+                        return {{status: resp.status, body: text.slice(0,2000)}};
                     }}""")
-
-                    if full_result:
-                        # 데이터 목록 추출
-                        items = (full_result.get('data') or full_result.get('list') or
-                                 full_result.get('dataList') or [])
-                        if isinstance(items, dict):
-                            items = items.get('item') or items.get('items') or []
-                        total = full_result.get('totalCount') or full_result.get('total') or 0
-                        print(f"    ✓ {len(items)}건 (총 {total}건) 발견!")
-                        if items:
-                            all_rows.extend(items)
-                            # 2페이지~
-                            page_size = len(items)
-                            total_pages = (int(total) + page_size - 1) // page_size if total else 1
-                            for pg in range(2, min(total_pages + 1, 20)):
-                                params["pageIndex"] = pg
-                                page_result = page.evaluate(f"""async () => {{
-                                    var params = {json.dumps(params)};
-                                    var body = Object.keys(params).map(k=>
-                                        encodeURIComponent(k)+'='+encodeURIComponent(params[k])).join('&');
-                                    var resp = await fetch('{BASE + endpoint}', {{
-                                        method: 'POST',
-                                        headers: {{
-                                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                                            'X-Requested-With': 'XMLHttpRequest'
-                                        }},
-                                        credentials: 'include',
-                                        body: body
-                                    }});
-                                    var d = await resp.json();
-                                    return d;
-                                }}""")
-                                page_items = (page_result.get('data') or page_result.get('list') or
-                                              page_result.get('dataList') or []) if page_result else []
-                                if not page_items: break
-                                all_rows.extend(page_items)
-                                print(f"    p={pg}: {len(page_items)}건 (누적 {len(all_rows)}건)")
-                            break  # 이 endpoint 성공 → 다음 endpoint 스킵
+                    if result and result.get('body','').strip().startswith('{'):
+                        d = json.loads(result['body'])
+                        rows = extract_rows(d)
+                        if rows:
+                            print(f"  ✓ {url[-50:]}: {len(rows)}건")
+                            all_rows.extend(rows)
                 except Exception as e:
-                    print(f"    JSON 파싱 오류: {e}")
-                    print(f"    응답 미리보기: {text_preview[:200]}")
+                    pass
 
-        # ── 4. XHR 자동 캡처 결과도 합산 ────────────────────────
-        auto_captured = page.evaluate("() => window.__cy_captured || []")
-        for cap in auto_captured:
-            data = cap.get('data', {})
-            items = (data.get('data') or data.get('list') or data.get('dataList') or [])
-            if items:
-                all_rows.extend(items)
-                print(f"  [자동캡처] {cap.get('url','')[-40:]}: {len(items)}건")
+        # 마지막 캡처 상태 출력
+        final_reqs  = page.evaluate("() => window.__cy_reqs  || []")
+        final_resps = page.evaluate("() => window.__cy_resps || []")
+        print(f"\n최종 캡처: 요청 {len(final_reqs)}개, 응답 {len(final_resps)}개")
+        if not all_rows:
+            print("\n캡처된 전체 XHR URL 목록:")
+            for req in final_reqs:
+                print(f"  {req.get('method','?')} {req.get('url','')}")
 
         context.close()
         browser.close()
-        print("\n[브라우저 종료]")
 
-    # ── 데이터 처리 ──────────────────────────────────────────────
-    print(f"\n[처리] 수집된 raw 데이터: {len(all_rows)}건")
+    # ── 데이터 처리 ──────────────────────────────────────────
+    print(f"\n[처리] 수집된 raw: {len(all_rows)}건")
 
     if not all_rows:
-        print("\n⚠️  데이터 수집 실패 — 응답 구조가 예상과 다를 수 있습니다.")
-        print("   청약홈 API 구조를 재확인 후 재시도하세요.")
-        # 기존 파일 유지
-        if os.path.exists(OUT):
-            print(f"   기존 {OUT} 유지")
+        print("\n⚠️  XHR 캡처 실패 - 기존 cheongyak.json 유지")
         return
 
-    # 파싱 & 필터
     seen = set()
     items = []
     for row in all_rows:
@@ -386,21 +301,17 @@ def main():
         if item and item["id"] not in seen:
             seen.add(item["id"])
             items.append(item)
-            print(f"  ✓ {item['name'][:30]} [{item['region'][:2]}] {item['start_date']}~{item['end_date']} {item['status']}")
+            print(f"  ✓ {item['name'][:28]} [{item['region'][:2]}] {item['start_date']}~{item['end_date']} {item['status']}")
 
-    print(f"\n[결과] 유효 청약 {len(items)}건 (수도권 + 진행중/예정)")
-
-    # 날짜순 정렬
     items.sort(key=lambda x: (x.get('start_date') or '9999', x.get('name','')))
+    print(f"\n[결과] 유효 청약 {len(items)}건")
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump({"updated": TODAY, "subscriptions": items}, f,
                   ensure_ascii=False, indent=2)
-
-    print(f"[저장] {OUT} — 총 {len(items)}건")
+    print(f"[저장] {OUT}")
     print("=== 완료 ===")
-
 
 if __name__ == "__main__":
     main()
