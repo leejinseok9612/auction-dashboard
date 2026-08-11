@@ -752,8 +752,9 @@
     </select>
     <select class="fsel" id="cy-status">
       <option value="">전체 상태</option>
-      <option value="청약예정">청약예정</option>
       <option value="청약중">청약중</option>
+      <option value="청약예정">청약예정</option>
+      <option value="발표대기">발표대기</option>
     </select>
     <input class="fsearch" type="text" id="cy-q" placeholder="🔍  공고명, 지역 검색..." style="width:200px" />
   </div>
@@ -1639,7 +1640,7 @@ function switchMode(m){
   const extLink=document.getElementById('nav-ext-link');
   if(m==='cy'){ extLink.href='https://www.applyhome.co.kr'; extLink.textContent='청약홈 바로가기 →'; }
   else{ extLink.href='https://www.courtauction.go.kr'; extLink.textContent='대법원 바로가기 →'; }
-  if(m==='cy') set('nav-today',`청약 ${CY_FILT.length}건`);
+  if(m==='cy') set('nav-today',`청약 ${CY_ALL.length}건`);
   else set('nav-today',`오늘 ${ALL.filter(a=>a.scraped_date===tstr()).length}건 업데이트`);
   if(m==='cy') renderCyCards();
 }
@@ -1661,14 +1662,14 @@ async function initCy(){
 }
 
 function updateCyHeroKpi(){
-  // CY_FILT 기준으로 계산 → 화면에 보이는 건수와 일치
+  // KPI는 CY_ALL 전체 기준 (필터 상태와 무관하게 실제 현황 표시)
   const t=tstr();
   const thisMonth=t.slice(0,7);
-  const openN    =CY_FILT.filter(a=>a.status==='청약중').length;
-  const upcomingN=CY_FILT.filter(a=>a.status==='청약예정').length;
-  const monthN   =CY_FILT.filter(a=>(a.start_date||'').startsWith(thisMonth)).length;
+  const openN    =CY_ALL.filter(a=>a.status==='청약중').length;
+  const upcomingN=CY_ALL.filter(a=>a.status==='청약예정').length;
+  const monthN   =CY_ALL.filter(a=>(a.start_date||'').startsWith(thisMonth)).length;
   const now=new Date(); const weekEnd=new Date(now); weekEnd.setDate(now.getDate()+7);
-  const deadlineN=CY_FILT.filter(a=>{
+  const deadlineN=CY_ALL.filter(a=>{
     if(!a.end_date)return false;
     const d=new Date(a.end_date); return d>=now&&d<=weekEnd;
   }).length;
@@ -1687,9 +1688,14 @@ function applyCyF(){
         q=v('cy-q').toLowerCase();
   const cyToday=tstr();
   CY_FILT=CY_ALL.filter(a=>{
-    // 기본 필터: 미정 제외, 마감된 것 제외
+    // 기본 필터: 미정 제외, 완전히 종료된 것만 제외
     if(!status && a.status==='미정') return false;
-    if(a.end_date && a.end_date < cyToday) return false;
+    // 발표대기는 end_date가 지나도 win_date가 미래면 포함
+    if(a.status==='발표대기'){
+      if(a.win_date && a.win_date < cyToday) return false;
+    } else {
+      if(a.end_date && a.end_date < cyToday) return false;
+    }
     if(region && !region.startsWith(a.region||'') && !(a.region||'').startsWith(region)) return false;
     if(type   && !(a.type||'').includes(type))     return false;
     if(status && a.status!==status)                return false;
