@@ -8,3 +8,4 @@ scraper/scraper.log
 __pycache__/
 *.pyc
 .env
+scraper/debug_page.html

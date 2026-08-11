@@ -1,21 +1,34 @@
 #!/usr/bin/env python3
 """
-청약홈 스크래퍼 v3
+청약홈 스크래퍼 v5  (SSR HTML 테이블 파싱 방식)
 ────────────────────────────────────────────────
-Playwright 내장 response 인터셉터를 사용합니다.
-넷퍼넬(대기열) 통과 후 실제 데이터 XHR을 자동 캡처합니다.
+핵심 발견:
+  - 청약홈 목록 페이지는 SSR (서버사이드 렌더링)
+  - 데이터는 <tr data-pbno="..."> 형태로 HTML에 직접 포함
+  - 검색 폼: name="suplyAreaCode", 값="서울"/"경기"/"인천"
+  - 페이지 이동: fn_link_page(n) JS 함수 → $net.submit()
+  - XHR 없음 → response 인터셉터로는 데이터 캡처 불가
 
 실행: python3 scraper/scrape_subscriptions.py
 출력: docs/data/cheongyak.json
 """
 
-import json, os, sys, re, time
+import json, os, re, sys, time
 from datetime import date
+
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    print("pip3 install beautifulsoup4 를 먼저 실행하세요")
+    sys.exit(1)
 
 BASE  = "https://www.applyhome.co.kr"
 TODAY = date.today().isoformat()
 OUT   = os.path.join(os.path.dirname(__file__), "..", "docs", "data", "cheongyak.json")
-METRO = ["서울", "경기", "인천"]
+
+REGION_CODES = ["서울", "경기", "인천"]
+
+# ── 날짜/상태 유틸 ────────────────────────────────────────────────────────────
 
 def parse_date(s):
     if not s: return None
@@ -31,217 +44,288 @@ def get_status(start, end):
     if t <= end:   return "청약중"
     return "청약마감"
 
-def extract_rows(data):
-    if isinstance(data, list): return data
-    if not isinstance(data, dict): return []
-    for key in ["data","list","dataList","items","item","result","body",
-                "APTLttotPblancList","lttotPblancList","houseList","aptList",
-                "pblanc","pblancList"]:
-        v = data.get(key)
-        if isinstance(v, list) and v: return v
-        if isinstance(v, dict):
-            for k2 in ["item","items","list","data","pblanc"]:
-                v2 = v.get(k2)
-                if isinstance(v2, list) and v2: return v2
-    return []
+# ── HTML 테이블에서 청약 데이터 추출 (핵심 함수) ─────────────────────────────
 
-def parse_item(row):
-    name = (row.get("houseNm") or row.get("houseName") or row.get("lttotNm") or
-            row.get("aptNm") or row.get("HOUSE_NM") or "").strip()
-    if not name: return None
+def parse_apt_table(html: str, region_filter: str) -> list:
+    """
+    HTML에서 <tr data-pbno="..."> 청약 목록을 파싱합니다.
 
-    addr_raw = (row.get("hssplyAdres") or row.get("address") or
-                (row.get("sido","") + " " + row.get("sgungu",""))).strip()
-    if not any(m in addr_raw for m in METRO): return None
+    테이블 컬럼 순서 (청약홈 APT 분양정보 기준):
+      td[0]: 지역 (서울/경기/인천/...)
+      td[1]: 구분 (민영/국민)
+      td[2]: 주택유형 (분양주택/임대주택)
+      td[3]: 주택명 (<a><b>명칭</b></a>)
+      td[4]: 시공사
+      td[5]: 문의처 (전화번호)
+      td[6]: 모집공고일 (yyyy-mm-dd)
+      td[7]: 청약기간 (yyyy-mm-dd ~ yyyy-mm-dd)
+      td[8]: 당첨자발표일 (yyyy-mm-dd)
+    """
+    soup  = BeautifulSoup(html, "html.parser")
+    items = []
 
-    if   "서울" in addr_raw: region = "서울특별시"
-    elif "경기" in addr_raw: region = "경기도"
-    elif "인천" in addr_raw: region = "인천광역시"
-    else: return None
+    for tr in soup.select("tr[data-pbno]"):
+        pbno = tr.get("data-pbno","").strip()
+        hmno = tr.get("data-hmno","").strip()
+        honm = tr.get("data-honm","").strip()
+        if not pbno: continue
 
-    district = (row.get("sgungu") or row.get("sigungu") or "").strip()
-    address  = addr_raw or f"{region} {district}"
+        tds = tr.find_all("td")
+        if len(tds) < 8: continue
 
-    start_dt = parse_date(row.get("subscrptRceptBgnde") or row.get("rceptBgnde") or row.get("startDate"))
-    end_dt   = parse_date(row.get("subscrptRceptEndde") or row.get("rceptEndde") or row.get("endDate"))
-    status   = get_status(start_dt, end_dt)
-    if status == "청약마감": return None
+        def td(i): return tds[i].get_text(" ", strip=True) if i < len(tds) else ""
 
-    announce = parse_date(row.get("rcritPblancDe") or row.get("pblancDe") or row.get("announceDate"))
-    win_dt   = parse_date(row.get("przwnerPresnatnDe") or row.get("presnatnDe") or row.get("winDate"))
-    move_raw = str(row.get("mvnPrearngeYm") or row.get("moveIn") or "").strip()
-    move_in  = move_raw[:7] if len(move_raw) >= 6 else move_raw
+        region_raw = td(0)  # "서울", "경기", "인천", ...
+        if region_filter and region_filter not in region_raw: continue
+        if not any(r in region_raw for r in REGION_CODES):   continue
 
-    try:    supply = int(row.get("totSuplyHshldco") or row.get("supplyCnt") or 0)
-    except: supply = 0
+        # 지역 정규화
+        if "서울" in region_raw: region = "서울특별시"
+        elif "경기" in region_raw: region = "경기도"
+        elif "인천" in region_raw: region = "인천광역시"
+        else: continue
 
-    def to_man(v):
-        try: return int(str(v).replace(",","")) // 10000
-        except: return None
+        # 주택명 (data-honm 우선)
+        name = honm
+        if not name:
+            b = tds[3].find("b")
+            name = b.get_text(strip=True) if b else td(3)
+        name = name.strip()
+        if not name: continue
 
-    p_min = to_man(row.get("lllc") or row.get("priceMin"))
-    p_max = to_man(row.get("parcprc") or row.get("priceMax"))
+        builder = td(4)
+        # 연락처(td[5])는 스킵
 
-    htype = str(row.get("houseSecd") or row.get("type") or "APT").upper()
-    htype = "OFT" if ("오피" in htype or "오피스텔" in name) else "APT"
-    builder = (row.get("cnstrctEntrpsNm") or row.get("bsnsMbyNm") or row.get("builder") or "").strip()
-    url_p   = row.get("pblancUrl") or row.get("url") or ""
-    full_url = (BASE + url_p) if url_p.startswith("/") else (url_p or BASE)
+        announce = parse_date(td(6))
 
-    item_id = str(row.get("pblancNo") or row.get("houseManageNo") or "")
-    if not item_id:
-        item_id = re.sub(r'\W','', name)[:12] + (start_dt or "").replace("-","")[:6]
+        # 청약기간: "2026-07-27 ~ 2026-07-30"
+        period = td(7)
+        m = re.search(r'(\d{4}[-./]\d{2}[-./]\d{2})\s*[~∼]\s*(\d{4}[-./]\d{2}[-./]\d{2})', period)
+        start_dt = parse_date(m.group(1)) if m else None
+        end_dt   = parse_date(m.group(2)) if m else None
 
-    return dict(
-        id=item_id, name=name, type=htype, builder=builder,
-        region=region, district=district, address=address,
-        supply_count=supply, price_min=p_min, price_max=p_max,
-        announce_date=announce, start_date=start_dt, end_date=end_dt,
-        win_date=win_dt, move_in=move_in, status=status,
-        url=full_url, scraped_date=TODAY,
-    )
+        win_dt = parse_date(td(8))
+        status = get_status(start_dt, end_dt)
 
-def main():
-    print(f"=== 청약홈 스크래퍼 v3 시작: {TODAY} ===\n")
+        # 청약마감은 제외 (당첨자 발표가 아직 안 된 경우는 포함)
+        # 당첨자 발표일(win_dt)이 오늘 이후면 아직 결과 대기 중 → 포함
+        if status == "청약마감":
+            if win_dt and win_dt >= TODAY:
+                status = "발표대기"  # 청약은 끝났지만 당첨자 발표 전
+            else:
+                continue  # 완전히 종료된 건 제외
 
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        print("pip3 install playwright && python3 -m playwright install chromium")
-        sys.exit(1)
+        htype   = "OFT" if "오피스텔" in name else "APT"
+        item_id = pbno or (re.sub(r'\W','', name)[:12] + (start_dt or "").replace("-","")[:6])
+        detail_url = (f"{BASE}/ai/aia/selectAPTLttotPblancDetailView.do"
+                      f"?houseManageNo={hmno}&pblancNo={pbno}")
 
-    captured_responses = []
-    all_rows = []
+        items.append(dict(
+            id=item_id, name=name, type=htype, builder=builder,
+            region=region, district="", address=region,
+            supply_count=0, price_min=None, price_max=None,
+            announce_date=announce, start_date=start_dt, end_date=end_dt,
+            win_date=win_dt, move_in=None, status=status,
+            url=detail_url, scraped_date=TODAY,
+        ))
 
-    def on_response(resp):
-        url = resp.url
-        ct  = resp.headers.get("content-type","")
-        skip = ["netFunnel","google","analytics","kakao","naver","jquery",
-                "font",".css",".png",".jpg",".gif",".woff",".svg",".ico"]
-        if any(k in url.lower() for k in skip): return
-        if "json" not in ct and "javascript" not in ct: return
+    return items
+
+def get_total_pages(html: str) -> int:
+    """페이지 수 파악: pagination 링크에서 최대 pageIndex 추출"""
+    m = re.findall(r'fn_link_page\((\d+)\)', html)
+    if m:
+        return max(int(x) for x in m)
+    return 1
+
+# ── 3개월 전 YYYYMM 계산 ─────────────────────────────────────────────────────
+
+def prev_yyyymm(months=3):
+    import datetime
+    dt = datetime.date.today().replace(day=1)
+    for _ in range(months):
+        dt = (dt - datetime.timedelta(days=1)).replace(day=1)
+    return dt.strftime("%Y%m")
+
+# ── Playwright 스크래핑 ──────────────────────────────────────────────────────
+
+def scrape_with_playwright():
+    from playwright.sync_api import sync_playwright
+
+    all_items = []
+
+    # 청약홈 목록 유형 (APT 분양 + 잔여세대 + 오피스텔/도시형)
+    LIST_TYPES = [
+        ("/ai/aia/selectAPTLttotPblancListView.do",       "APT 분양"),
+        ("/ai/aib/selectAPTRemndrLttotPblancListView.do", "잔여세대"),
+        ("/ai/aia/selectULttotPblancListView.do",         "오피/도시형"),
+    ]
+
+    def set_filters_and_search(page, region):
+        """지역 선택 + 조회 버튼 클릭
+        ※ beginPd는 사이트 기본값(현재월) 유지
+          - 사이트가 '당첨자발표≥현재월' 기준으로 필터링 → 이미 올바른 범위
+          - 3개월 전으로 바꾸면 오래된 마감 항목이 앞 페이지를 채워
+            5연속 0건 제한에 걸려 오히려 유효 항목을 놓침 (7→5건 역효과 확인)
+        """
+        # 지역 필터
         try:
-            body = resp.body()
-            text = body.decode("utf-8", errors="ignore")
-            if not (text.strip().startswith("{") or text.strip().startswith("[")):
-                return
-            d = json.loads(text)
-            captured_responses.append({"url": url, "data": d})
-            print(f"  [캡처] {url[-65:]}")
-        except:
-            pass
+            page.locator("select[name='suplyAreaCode']").select_option(value=region)
+            page.wait_for_timeout(300)
+        except: pass
+
+        # 조회 버튼 클릭
+        clicked = False
+        for sel in ["button.search_btn", "button:has-text('조회')",
+                    "button:has-text('검색')", "#btnSearch"]:
+            try:
+                btn = page.locator(sel).first
+                if btn.is_visible(timeout=1500):
+                    btn.click(); clicked = True
+                    print(f"    조회 클릭: {sel}")
+                    break
+            except: pass
+        if not clicked:
+            try:
+                page.evaluate("""() => {
+                    if (typeof search !== 'undefined') search.submit([], 1);
+                    else if (typeof $net !== 'undefined')
+                        $net.submit('pbSearchForm', location.pathname);
+                }""")
+            except: pass
+        page.wait_for_timeout(6000)
+
+    def scrape_all_pages(page, region, list_name):
+        """현재 페이지부터 모든 페이지 순회하며 파싱"""
+        html        = page.content()
+        total       = get_total_pages(html)
+        items_p1    = parse_apt_table(html, region)
+        print(f"    페이지 1/{total}: {len(items_p1)}건")
+        collected   = list(items_p1)
+
+        empty_streak = 0
+        for pg in range(2, min(total + 1, 51)):
+            try:
+                page.evaluate(f"fn_link_page({pg})")
+                page.wait_for_timeout(5000)
+                items = parse_apt_table(page.content(), region)
+                print(f"    페이지 {pg}/{total}: {len(items)}건  (누적 {len(collected)+len(items)}건)")
+                collected.extend(items)
+                empty_streak = 0 if items else empty_streak + 1
+                if empty_streak >= 5:
+                    print(f"    5페이지 연속 0건 → 종료")
+                    break
+            except Exception as e:
+                print(f"    페이지 {pg} 오류: {e}"); break
+        return collected
 
     with sync_playwright() as p:
         browser = p.chromium.launch(
             headless=True,
-            args=["--no-sandbox", "--disable-dev-shm-usage"]
+            args=["--no-sandbox","--disable-dev-shm-usage",
+                  "--disable-blink-features=AutomationControlled"]
         )
-        context = browser.new_context(
-            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36",
+        ctx = browser.new_context(
+            user_agent=("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) "
+                        "Chrome/124.0.0.0 Safari/537.36"),
             viewport={"width": 1440, "height": 900},
         )
-        page = context.new_page()
-        page.on("response", on_response)
+        page = ctx.new_page()
 
-        # ── 1. 넷퍼넬 통과 대기 ──────────────────────────────
-        print("[1단계] 청약홈 로드 (넷퍼넬 통과 최대 90초)...")
+        # ── 1단계: 넷퍼넬 통과 ────────────────────────────────────────────
+        print("[1단계] 청약홈 로드 + 넷퍼넬 통과 (최대 120초)...")
         try:
             page.goto(BASE, wait_until="domcontentloaded", timeout=30000)
-        except:
-            pass
+        except Exception as e:
+            print(f"  초기 goto: {e}")
 
-        deadline = time.time() + 90
+        deadline = time.time() + 120
+        passed   = False
         while time.time() < deadline:
             page.wait_for_timeout(3000)
             url_now = page.url
             title   = page.title()
-            print(f"  [{int(deadline-time.time())}s] {title[:25]} | {url_now[-45:]}")
+            print(f"  [{int(deadline-time.time()):3}s] {title[:30]:30s} | {url_now[-50:]}")
             if "netFunnel" not in url_now and ("청약" in title or "apply" in url_now.lower()):
-                print("  → 넷퍼넬 통과 완료!")
+                print("  → 넷퍼넬 통과!")
+                passed = True
                 break
-        page.wait_for_timeout(5000)
+            if "chrome-error" in url_now:
+                print("  ✗ 네트워크 오류 - 종료")
+                ctx.close(); browser.close()
+                return []
 
-        # ── 2. 청약 목록 직접 이동 ───────────────────────────
-        print("\n[2단계] 청약 목록 페이지 직접 이동...")
-        paths = [
-            "/ai/aia/selectAPTLttotPblancListView.do",
-            "/ai/aib/selectAPTRemndrLttotPblancListView.do",
-            "/ai/aia/selectULttotPblancListView.do",
-        ]
-        for path in paths:
+        if not passed:
+            print("  ⚠️  시간 초과 (계속 진행)")
+        page.wait_for_timeout(3000)
+
+        # ── 2단계: 목록 유형 × 지역별 스크래핑 ──────────────────────────
+        for list_path, list_name in LIST_TYPES:
+            print(f"\n=== [{list_name}] ===")
             try:
-                print(f"  → {path}")
-                page.goto(BASE + path, wait_until="networkidle", timeout=30000)
-                page.wait_for_timeout(8000)
-                print(f"    캡처 누적: {len(captured_responses)}개")
+                page.goto(BASE + list_path, wait_until="networkidle", timeout=40000)
+                page.wait_for_timeout(3000)
             except Exception as e:
-                print(f"    오류: {e}")
+                print(f"  페이지 이동 실패: {e}"); continue
 
-        # ── 3. 지역 필터 조작 ────────────────────────────────
-        print("\n[3단계] 지역 필터 조작...")
-        for sido_val, sido_name in [("11","서울"),("41","경기"),("28","인천")]:
-            try:
-                # select 옵션 설정
-                changed = page.evaluate(f"""() => {{
-                    var sels = document.querySelectorAll('select');
-                    for (var s of sels) {{
-                        for (var o of s.options) {{
-                            if (o.value === '{sido_val}') {{
-                                s.value = '{sido_val}';
-                                s.dispatchEvent(new Event('change', {{bubbles:true}}));
-                                return s.id || s.name || 'ok';
-                            }}
-                        }}
-                    }}
-                    return 'not_found';
-                }}""")
-                if changed != 'not_found':
-                    print(f"  {sido_name} 선택: {changed}")
-                    page.wait_for_timeout(1000)
-                    # 검색 버튼 클릭
-                    for sel in ["button:has-text('검색')", "input[value='검색']",
-                                "#btnSearch", ".btn_search", "a:has-text('검색')"]:
-                        try:
-                            el = page.locator(sel).first
-                            if el.is_visible():
-                                el.click()
-                                page.wait_for_timeout(5000)
-                                print(f"    검색 클릭 완료. 캡처: {len(captured_responses)}개")
-                                break
-                        except: pass
-            except Exception as e:
-                print(f"  {sido_name} 오류: {e}")
+            for region in REGION_CODES:
+                print(f"\n  ── {region} ({list_name}) ──")
+                try:
+                    set_filters_and_search(page, region)
+                    items = scrape_all_pages(page, region, list_name)
+                    all_items.extend(items)
+                    print(f"  [{region}] {list_name}: {len(items)}건")
+                except Exception as e:
+                    print(f"  오류: {e}")
 
-        print(f"\n최종 캡처: {len(captured_responses)}개")
-        for r in captured_responses:
-            rows = extract_rows(r["data"])
-            print(f"  {r['url'][-60:]} → {len(rows)}행")
-
-        context.close()
+        ctx.close()
         browser.close()
 
-    # ── 추출 & 파싱 ─────────────────────────────────────────
-    for resp in captured_responses:
-        rows = extract_rows(resp["data"])
-        if rows:
-            all_rows.extend(rows)
+    return all_items
 
-    print(f"\n[처리] raw {len(all_rows)}건")
+# ── 메인 ─────────────────────────────────────────────────────────────────────
 
-    if not all_rows:
+def main():
+    print(f"=== 청약홈 스크래퍼 v5 (SSR 파싱) 시작: {TODAY} ===\n")
+
+    try:
+        from playwright.sync_api import sync_playwright  # noqa
+        from bs4 import BeautifulSoup                    # noqa
+    except ImportError as e:
+        print(f"❌ 패키지 미설치: {e}")
+        print("   pip3 install playwright beautifulsoup4")
+        print("   python3 -m playwright install chromium")
+        sys.exit(1)
+
+    raw = scrape_with_playwright()
+    print(f"\n[처리] raw {len(raw)}건")
+
+    if not raw:
         print("\n⚠️  데이터 수집 실패 - 기존 cheongyak.json 유지")
-        print("  → 청약홈 구조 변경 가능성. 캡처된 URL을 확인해주세요.")
         return
 
-    seen, items = set(), []
-    for row in all_rows:
-        item = parse_item(row)
-        if item and item["id"] not in seen:
-            seen.add(item["id"])
-            items.append(item)
-            print(f"  ✓ {item['name'][:28]} [{item['region'][:2]}] {item['start_date']}~{item['end_date']} {item['status']}")
+    # 기존 JSON 로드 (scraped_date 보존용)
+    existing = {}
+    if os.path.exists(OUT):
+        try:
+            with open(OUT) as f:
+                for s in json.load(f).get("subscriptions", []):
+                    existing[s["id"]] = s
+        except: pass
 
-    items.sort(key=lambda x: (x.get('start_date') or '9999', x.get('name','')))
+    seen, items = set(), []
+    for item in raw:
+        if item["id"] in seen: continue
+        seen.add(item["id"])
+        # 기존 scraped_date 보존
+        if item["id"] in existing:
+            item["scraped_date"] = existing[item["id"]]["scraped_date"]
+        items.append(item)
+        print(f"  ✓ {item['name'][:30]} [{item['region'][:2]}] "
+              f"{item['start_date']}~{item['end_date']} [{item['status']}]")
+
+    items.sort(key=lambda x: (x.get("start_date") or "9999", x.get("name","")))
     print(f"\n[결과] 유효 청약 {len(items)}건")
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
