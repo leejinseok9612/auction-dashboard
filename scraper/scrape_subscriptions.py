@@ -117,8 +117,9 @@ def parse_apt_table(html: str, region_filter: str) -> list:
 
         htype   = "OFT" if "오피스텔" in name else "APT"
         item_id = pbno or (re.sub(r'\W','', name)[:12] + (start_dt or "").replace("-","")[:6])
-        detail_url = (f"{BASE}/ai/aia/selectAPTLttotPblancDetailView.do"
-                      f"?houseManageNo={hmno}&pblancNo={pbno}")
+        # 청약홈은 넷퍼넬(대기열) 시스템을 사용해 직접 URL 접근이 차단됨
+        # → 메인 페이지 링크 사용 (사용자가 넷퍼넬 거쳐서 진입)
+        detail_url = BASE
 
         items.append(dict(
             id=item_id, name=name, type=htype, builder=builder,
