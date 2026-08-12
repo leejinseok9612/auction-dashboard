@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-11",
+  "updated": "2026-08-12",
   "subscriptions": [
     {
       "id": "2026000320",
@@ -42,6 +42,46 @@
       "scraped_date": "2026-08-04"
     },
     {
+      "id": "2026000356",
+      "name": "두산위브더제니스 대연",
+      "type": "APT",
+      "builder": "두산건설 주식회사",
+      "region": "부산광역시",
+      "district": "",
+      "address": "부산광역시",
+      "supply_count": 0,
+      "price_min": null,
+      "price_max": null,
+      "announce_date": "2026-07-30",
+      "start_date": "2026-08-10",
+      "end_date": "2026-08-12",
+      "win_date": "2026-08-19",
+      "move_in": null,
+      "status": "청약중",
+      "url": "https://www.applyhome.co.kr",
+      "scraped_date": "2026-08-12"
+    },
+    {
+      "id": "2026000323",
+      "name": "세종 우미 린 센터파크(행정중심복합도시 5-2생활권 S1블록, 글미마을 9단지)",
+      "type": "APT",
+      "builder": "우미건설(주)",
+      "region": "세종특별자치시",
+      "district": "",
+      "address": "세종특별자치시",
+      "supply_count": 0,
+      "price_min": null,
+      "price_max": null,
+      "announce_date": "2026-07-31",
+      "start_date": "2026-08-10",
+      "end_date": "2026-08-12",
+      "win_date": "2026-08-19",
+      "move_in": null,
+      "status": "청약중",
+      "url": "https://www.applyhome.co.kr",
+      "scraped_date": "2026-08-12"
+    },
+    {
       "id": "2026000367",
       "name": "한강 푸르지오 리버프론트",
       "type": "APT",
@@ -60,6 +100,26 @@
       "status": "청약중",
       "url": "https://www.applyhome.co.kr",
       "scraped_date": "2026-08-04"
+    },
+    {
+      "id": "2026000376",
+      "name": "달서자이 제니크",
+      "type": "APT",
+      "builder": "지에스건설(주)",
+      "region": "대구광역시",
+      "district": "",
+      "address": "대구광역시",
+      "supply_count": 0,
+      "price_min": null,
+      "price_max": null,
+      "announce_date": "2026-08-06",
+      "start_date": "2026-08-18",
+      "end_date": "2026-08-20",
+      "win_date": "2026-08-26",
+      "move_in": null,
+      "status": "청약예정",
+      "url": "https://www.applyhome.co.kr",
+      "scraped_date": "2026-08-12"
     },
     {
       "id": "2026000374",
