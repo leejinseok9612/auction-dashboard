@@ -168,8 +168,32 @@ def scrape_with_playwright():
         ("/ai/aib/selectPublicRentHouseListView.do",       "공공지원 민간임대"),
     ]
 
+    def prev_yyyymm(months=1):
+        """N개월 전의 YYYYMM 반환"""
+        import datetime
+        dt = datetime.date.today().replace(day=1)
+        for _ in range(months):
+            dt = (dt - datetime.timedelta(days=1)).replace(day=1)
+        return dt.strftime("%Y%m")
+
     def click_search(page):
-        """조회 버튼 클릭 (지역 필터 없이 전국 조회)"""
+        """
+        조회 버튼 클릭 (전국 전체 / beginPd=1개월 전)
+        - 7월 공고 → 8월 현재 접수 중인 항목을 포함하기 위해 1개월 전부터 검색
+        - 3개월 전으로 설정하면 만료 항목이 앞 페이지를 채워 누락 발생(v5 검증)
+          → 1개월 전은 안전 범위
+        """
+        begin_ym = prev_yyyymm(1)
+        # 날짜 입력 필드 초기화 (beginPd / rceptBgnde 등 사이트마다 다름)
+        try:
+            page.evaluate(f"""() => {{
+                const inputs = document.querySelectorAll(
+                    'input[name="beginPd"], input[name="rceptBgnde"], '
+                    + 'input[id="beginPd"], input[id="rceptBgnde"]');
+                inputs.forEach(el => {{ el.value = '{begin_ym}'; }});
+            }}""")
+        except: pass
+
         clicked = False
         for sel in ["button.search_btn", "button:has-text('조회')",
                     "button:has-text('검색')", "#btnSearch"]:
@@ -177,7 +201,7 @@ def scrape_with_playwright():
                 btn = page.locator(sel).first
                 if btn.is_visible(timeout=1500):
                     btn.click(); clicked = True
-                    print(f"    조회 클릭: {sel}")
+                    print(f"    조회 클릭: {sel} (beginPd={begin_ym})")
                     break
             except: pass
         if not clicked:
@@ -191,7 +215,10 @@ def scrape_with_playwright():
         page.wait_for_timeout(6000)
 
     def scrape_all_pages(page, list_name):
-        """현재 페이지부터 모든 페이지 순회하며 파싱"""
+        """현재 페이지부터 모든 페이지 순회하며 파싱
+        ※ empty_streak 기준: 유효 항목(청약중/예정/발표대기) 0건인 페이지 연속 수
+           (페이지 자체에 행이 있어도 모두 마감이면 0건으로 카운트)
+        """
         html        = page.content()
         total       = get_total_pages(html)
         items_p1    = parse_apt_table(html)
@@ -206,9 +233,11 @@ def scrape_with_playwright():
                 items = parse_apt_table(page.content())
                 print(f"    페이지 {pg}/{total}: {len(items)}건  (누적 {len(collected)+len(items)}건)")
                 collected.extend(items)
+                # 유효 항목이 없는 페이지가 7페이지 연속이면 종료
+                # (beginPd 1개월 전 설정으로 마감 항목도 포함될 수 있어 기준 완화)
                 empty_streak = 0 if items else empty_streak + 1
-                if empty_streak >= 5:
-                    print(f"    5페이지 연속 0건 → 종료")
+                if empty_streak >= 7:
+                    print(f"    7페이지 연속 유효 0건 → 종료")
                     break
             except Exception as e:
                 print(f"    페이지 {pg} 오류: {e}"); break
