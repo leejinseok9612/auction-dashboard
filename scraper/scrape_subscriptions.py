@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """
-청약홈 스크래퍼 v5  (SSR HTML 테이블 파싱 방식)
+청약홈 스크래퍼 v6  (전국 + 공공지원 민간임대 추가)
 ────────────────────────────────────────────────
-핵심 발견:
-  - 청약홈 목록 페이지는 SSR (서버사이드 렌더링)
-  - 데이터는 <tr data-pbno="..."> 형태로 HTML에 직접 포함
-  - 검색 폼: name="suplyAreaCode", 값="서울"/"경기"/"인천"
-  - 페이지 이동: fn_link_page(n) JS 함수 → $net.submit()
-  - XHR 없음 → response 인터셉터로는 데이터 캡처 불가
+변경사항 v6:
+  - 지역 필터 제거 → 전국 전체 수집 (지역 옵션 선택 없이 조회)
+  - LIST_TYPES에 공공지원 민간임대 추가
+  - 지역 정규화 테이블 전국 17개 시도로 확장
 
 실행: python3 scraper/scrape_subscriptions.py
 출력: docs/data/cheongyak.json
@@ -26,7 +24,26 @@ BASE  = "https://www.applyhome.co.kr"
 TODAY = date.today().isoformat()
 OUT   = os.path.join(os.path.dirname(__file__), "..", "docs", "data", "cheongyak.json")
 
-REGION_CODES = ["서울", "경기", "인천"]
+# 전국 17개 시도 정규화 테이블
+REGION_NORM = {
+    "서울": "서울특별시",
+    "경기": "경기도",
+    "인천": "인천광역시",
+    "부산": "부산광역시",
+    "대구": "대구광역시",
+    "광주": "광주광역시",
+    "대전": "대전광역시",
+    "울산": "울산광역시",
+    "세종": "세종특별자치시",
+    "강원": "강원특별자치도",
+    "충북": "충청북도",
+    "충남": "충청남도",
+    "전북": "전북특별자치도",
+    "전남": "전라남도",
+    "경북": "경상북도",
+    "경남": "경상남도",
+    "제주": "제주특별자치도",
+}
 
 # ── 날짜/상태 유틸 ────────────────────────────────────────────────────────────
 
@@ -44,22 +61,30 @@ def get_status(start, end):
     if t <= end:   return "청약중"
     return "청약마감"
 
-# ── HTML 테이블에서 청약 데이터 추출 (핵심 함수) ─────────────────────────────
+def normalize_region(region_raw):
+    """지역명 → 정규화 (예: '경기 김포' → '경기도')"""
+    for key, full in REGION_NORM.items():
+        if key in region_raw:
+            return full
+    return region_raw.strip() or "기타"
 
-def parse_apt_table(html: str, region_filter: str) -> list:
+# ── HTML 테이블에서 청약 데이터 추출 ─────────────────────────────────────────
+
+def parse_apt_table(html: str) -> list:
     """
     HTML에서 <tr data-pbno="..."> 청약 목록을 파싱합니다.
+    전국 전체 수집 (지역 필터 없음)
 
-    테이블 컬럼 순서 (청약홈 APT 분양정보 기준):
-      td[0]: 지역 (서울/경기/인천/...)
+    테이블 컬럼 순서:
+      td[0]: 지역
       td[1]: 구분 (민영/국민)
-      td[2]: 주택유형 (분양주택/임대주택)
+      td[2]: 주택유형
       td[3]: 주택명 (<a><b>명칭</b></a>)
       td[4]: 시공사
-      td[5]: 문의처 (전화번호)
-      td[6]: 모집공고일 (yyyy-mm-dd)
-      td[7]: 청약기간 (yyyy-mm-dd ~ yyyy-mm-dd)
-      td[8]: 당첨자발표일 (yyyy-mm-dd)
+      td[5]: 문의처
+      td[6]: 모집공고일
+      td[7]: 청약기간
+      td[8]: 당첨자발표일
     """
     soup  = BeautifulSoup(html, "html.parser")
     items = []
@@ -75,15 +100,8 @@ def parse_apt_table(html: str, region_filter: str) -> list:
 
         def td(i): return tds[i].get_text(" ", strip=True) if i < len(tds) else ""
 
-        region_raw = td(0)  # "서울", "경기", "인천", ...
-        if region_filter and region_filter not in region_raw: continue
-        if not any(r in region_raw for r in REGION_CODES):   continue
-
-        # 지역 정규화
-        if "서울" in region_raw: region = "서울특별시"
-        elif "경기" in region_raw: region = "경기도"
-        elif "인천" in region_raw: region = "인천광역시"
-        else: continue
+        region_raw = td(0)
+        region = normalize_region(region_raw)
 
         # 주택명 (data-honm 우선)
         name = honm
@@ -94,7 +112,6 @@ def parse_apt_table(html: str, region_filter: str) -> list:
         if not name: continue
 
         builder = td(4)
-        # 연락처(td[5])는 스킵
 
         announce = parse_date(td(6))
 
@@ -107,19 +124,16 @@ def parse_apt_table(html: str, region_filter: str) -> list:
         win_dt = parse_date(td(8))
         status = get_status(start_dt, end_dt)
 
-        # 청약마감은 제외 (당첨자 발표가 아직 안 된 경우는 포함)
-        # 당첨자 발표일(win_dt)이 오늘 이후면 아직 결과 대기 중 → 포함
+        # 청약마감: 당첨자 발표 전이면 발표대기로 포함
         if status == "청약마감":
             if win_dt and win_dt >= TODAY:
-                status = "발표대기"  # 청약은 끝났지만 당첨자 발표 전
+                status = "발표대기"
             else:
                 continue  # 완전히 종료된 건 제외
 
         htype   = "OFT" if "오피스텔" in name else "APT"
         item_id = pbno or (re.sub(r'\W','', name)[:12] + (start_dt or "").replace("-","")[:6])
-        # 청약홈은 넷퍼넬(대기열) 시스템을 사용해 직접 URL 접근이 차단됨
-        # → 메인 페이지 링크 사용 (사용자가 넷퍼넬 거쳐서 진입)
-        detail_url = BASE
+        detail_url = BASE  # 넷퍼넬 때문에 메인 페이지 링크 사용
 
         items.append(dict(
             id=item_id, name=name, type=htype, builder=builder,
@@ -139,15 +153,6 @@ def get_total_pages(html: str) -> int:
         return max(int(x) for x in m)
     return 1
 
-# ── 3개월 전 YYYYMM 계산 ─────────────────────────────────────────────────────
-
-def prev_yyyymm(months=3):
-    import datetime
-    dt = datetime.date.today().replace(day=1)
-    for _ in range(months):
-        dt = (dt - datetime.timedelta(days=1)).replace(day=1)
-    return dt.strftime("%Y%m")
-
 # ── Playwright 스크래핑 ──────────────────────────────────────────────────────
 
 def scrape_with_playwright():
@@ -155,27 +160,16 @@ def scrape_with_playwright():
 
     all_items = []
 
-    # 청약홈 목록 유형 (APT 분양 + 잔여세대 + 오피스텔/도시형)
+    # 청약홈 목록 유형 (APT 분양 + 잔여세대 + 오피스텔/도시형 + 공공지원 민간임대)
     LIST_TYPES = [
-        ("/ai/aia/selectAPTLttotPblancListView.do",       "APT 분양"),
-        ("/ai/aib/selectAPTRemndrLttotPblancListView.do", "잔여세대"),
-        ("/ai/aia/selectULttotPblancListView.do",         "오피/도시형"),
+        ("/ai/aia/selectAPTLttotPblancListView.do",        "APT 분양"),
+        ("/ai/aib/selectAPTRemndrLttotPblancListView.do",  "잔여세대"),
+        ("/ai/aia/selectULttotPblancListView.do",          "오피/도시형"),
+        ("/ai/aib/selectPublicRentHouseListView.do",       "공공지원 민간임대"),
     ]
 
-    def set_filters_and_search(page, region):
-        """지역 선택 + 조회 버튼 클릭
-        ※ beginPd는 사이트 기본값(현재월) 유지
-          - 사이트가 '당첨자발표≥현재월' 기준으로 필터링 → 이미 올바른 범위
-          - 3개월 전으로 바꾸면 오래된 마감 항목이 앞 페이지를 채워
-            5연속 0건 제한에 걸려 오히려 유효 항목을 놓침 (7→5건 역효과 확인)
-        """
-        # 지역 필터
-        try:
-            page.locator("select[name='suplyAreaCode']").select_option(value=region)
-            page.wait_for_timeout(300)
-        except: pass
-
-        # 조회 버튼 클릭
+    def click_search(page):
+        """조회 버튼 클릭 (지역 필터 없이 전국 조회)"""
         clicked = False
         for sel in ["button.search_btn", "button:has-text('조회')",
                     "button:has-text('검색')", "#btnSearch"]:
@@ -196,11 +190,11 @@ def scrape_with_playwright():
             except: pass
         page.wait_for_timeout(6000)
 
-    def scrape_all_pages(page, region, list_name):
+    def scrape_all_pages(page, list_name):
         """현재 페이지부터 모든 페이지 순회하며 파싱"""
         html        = page.content()
         total       = get_total_pages(html)
-        items_p1    = parse_apt_table(html, region)
+        items_p1    = parse_apt_table(html)
         print(f"    페이지 1/{total}: {len(items_p1)}건")
         collected   = list(items_p1)
 
@@ -209,7 +203,7 @@ def scrape_with_playwright():
             try:
                 page.evaluate(f"fn_link_page({pg})")
                 page.wait_for_timeout(5000)
-                items = parse_apt_table(page.content(), region)
+                items = parse_apt_table(page.content())
                 print(f"    페이지 {pg}/{total}: {len(items)}건  (누적 {len(collected)+len(items)}건)")
                 collected.extend(items)
                 empty_streak = 0 if items else empty_streak + 1
@@ -261,24 +255,22 @@ def scrape_with_playwright():
             print("  ⚠️  시간 초과 (계속 진행)")
         page.wait_for_timeout(3000)
 
-        # ── 2단계: 목록 유형 × 지역별 스크래핑 ──────────────────────────
+        # ── 2단계: 목록 유형별 전국 스크래핑 ──────────────────────────────
         for list_path, list_name in LIST_TYPES:
-            print(f"\n=== [{list_name}] ===")
+            print(f"\n=== [{list_name}] 전국 ===")
             try:
                 page.goto(BASE + list_path, wait_until="networkidle", timeout=40000)
                 page.wait_for_timeout(3000)
             except Exception as e:
                 print(f"  페이지 이동 실패: {e}"); continue
 
-            for region in REGION_CODES:
-                print(f"\n  ── {region} ({list_name}) ──")
-                try:
-                    set_filters_and_search(page, region)
-                    items = scrape_all_pages(page, region, list_name)
-                    all_items.extend(items)
-                    print(f"  [{region}] {list_name}: {len(items)}건")
-                except Exception as e:
-                    print(f"  오류: {e}")
+            try:
+                click_search(page)
+                items = scrape_all_pages(page, list_name)
+                all_items.extend(items)
+                print(f"  [{list_name}] 전국 합계: {len(items)}건")
+            except Exception as e:
+                print(f"  오류: {e}")
 
         ctx.close()
         browser.close()
@@ -288,7 +280,7 @@ def scrape_with_playwright():
 # ── 메인 ─────────────────────────────────────────────────────────────────────
 
 def main():
-    print(f"=== 청약홈 스크래퍼 v5 (SSR 파싱) 시작: {TODAY} ===\n")
+    print(f"=== 청약홈 스크래퍼 v6 (전국) 시작: {TODAY} ===\n")
 
     try:
         from playwright.sync_api import sync_playwright  # noqa
@@ -319,7 +311,6 @@ def main():
     for item in raw:
         if item["id"] in seen: continue
         seen.add(item["id"])
-        # 기존 scraped_date 보존
         if item["id"] in existing:
             item["scraped_date"] = existing[item["id"]]["scraped_date"]
         items.append(item)
