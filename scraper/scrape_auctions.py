@@ -233,9 +233,8 @@ def get_metro_courts(page, frame):
         region = None
         if "서울" in nm:
             region = "서울"
-        elif any(k in nm for k in ["수원","성남","부천","안산","안양","평택","여주"]):
-            region = "경기"
-        elif "의정부" in nm:
+        elif any(k in nm for k in ["수원","성남","부천","안산","안양","평택","여주",
+                                    "의정부","고양","파주","김포"]):
             region = "경기"
         elif "인천" in nm:
             region = "인천"
@@ -267,9 +266,14 @@ DEFAULT_METRO_COURTS = [
     {"code": "B000265", "name": "수원지방법원 안양지원", "region": "경기"},
     {"code": "B000270", "name": "의정부지방법원",    "region": "경기"},
     {"code": "B000271", "name": "의정부지방법원 고양지원", "region": "경기"},
+    {"code": "B000272", "name": "의정부지방법원 파주지원", "region": "경기"},
     # 인천 (B000250은 실제로 청주지방법원에 매핑됨 → 제거)
     {"code": "B000240", "name": "인천지방법원",      "region": "인천"},
     {"code": "B000251", "name": "인천지방법원 부천지원", "region": "인천"},
+    # 김포지원 - 2019년 9월 개원, 경기 김포시 관할
+    # 코드 확인 필요: B000252 또는 B000253 (대법원 사이트 드롭다운에서 확인)
+    {"code": "B000252", "name": "인천지방법원 김포지원", "region": "경기"},
+    {"code": "B000253", "name": "인천지방법원 김포지원", "region": "경기"},
 ]
 
 def replay_with_court(page, court_code, court_name, page_num=1):
