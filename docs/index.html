@@ -357,6 +357,7 @@
     .cal-ev:hover { opacity:0.8; }
     .ev-open { background:var(--green-bg); color:var(--green); }
     .ev-soon { background:var(--blue-bg); color:var(--blue); }
+    .ev-win  { background:#FEF3C7; color:#D97706; }
     .ev-more { background:var(--gray-200); color:var(--gray-600); }
     .cal-legend { display:flex; gap:16px; margin-top:12px; font-size:12px; font-weight:600; color:var(--gray-600); flex-wrap:wrap; }
     .cal-legend-item { display:flex; align-items:center; gap:5px; }
@@ -772,6 +773,7 @@
   <div class="cal-legend">
     <div class="cal-legend-item"><div class="cal-legend-dot ev-open"></div> 청약중</div>
     <div class="cal-legend-item"><div class="cal-legend-dot ev-soon"></div> 청약예정</div>
+    <div class="cal-legend-item"><div class="cal-legend-dot ev-win"></div> 당첨자발표</div>
   </div>
 </div>
 
@@ -2041,7 +2043,7 @@ function renderCalendar(){
   const now=new Date();
   const DAYS=['일','월','화','수','목','금','토'];
   let html='';
-  for(let mi=0;mi<2;mi++){
+  for(let mi=0;mi<3;mi++){
     const yr=now.getFullYear()+Math.floor((now.getMonth()+mi)/12);
     const mo=(now.getMonth()+mi)%12;
     const firstDow=new Date(yr,mo,1).getDay();
@@ -2058,12 +2060,19 @@ function renderCalendar(){
     for(let day=1;day<=daysInMo;day++){
       const ds=`${moStr}-${String(day).padStart(2,'0')}`;
       const isToday=ds===tstr();
-      // CY_ALL (not filtered) so calendar shows all
+      // ① 청약기간이 해당 날짜를 포함하는 항목 (날짜 기준 동적 계산)
       const active=CY_ALL.filter(a=>a.start_date&&a.end_date&&a.start_date<=ds&&a.end_date>=ds);
+      // ② 발표대기 항목 중 당첨자발표일이 해당 날짜인 항목
+      const winDay=CY_ALL.filter(a=>a.status==='발표대기'&&a.win_date===ds);
+      // 클래스: 청약기간 → 초록(ev-open), 청약예정 → 파랑(ev-soon), 당첨발표 → 회색(ev-win)
+      const allEvs=[
+        ...active.map(a=>({...a,_cls:(a.start_date<=ds&&a.end_date>=ds)?'ev-open':'ev-soon'})),
+        ...winDay.map(a=>({...a,_cls:'ev-win',_label:'발표'}))
+      ];
       html+=`<div class="cal-day ${isToday?'today':''}">
         <div class="cal-day-num">${day}</div>
-        ${active.slice(0,2).map(a=>`<div class="cal-ev ${a.status==='청약중'?'ev-open':'ev-soon'}" onclick="event.stopPropagation();openCyM('${a.id}')" title="${a.name}">${a.name.slice(0,5)}</div>`).join('')}
-        ${active.length>2?`<div class="cal-ev ev-more">+${active.length-2}건</div>`:''}
+        ${allEvs.slice(0,2).map(a=>`<div class="cal-ev ${a._cls}" onclick="event.stopPropagation();openCyM('${a.id}')" title="${a.name}">${a._label||a.name.slice(0,5)}</div>`).join('')}
+        ${allEvs.length>2?`<div class="cal-ev ev-more">+${allEvs.length-2}건</div>`:''}
       </div>`;
     }
     html+=`</div></div>`;
