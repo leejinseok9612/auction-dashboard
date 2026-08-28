@@ -1664,16 +1664,16 @@ async function initCy(){
 }
 
 function updateCyHeroKpi(){
-  // KPI는 CY_ALL 전체 기준 (필터 상태와 무관하게 실제 현황 표시)
+  // KPI는 CY_ALL 전체 기준 + 날짜 동적 계산 (JSON status는 스크랩 시점 기준이라 오래되면 틀림)
   const t=tstr();
   const thisMonth=t.slice(0,7);
-  const openN    =CY_ALL.filter(a=>a.status==='청약중').length;
-  const upcomingN=CY_ALL.filter(a=>a.status==='청약예정').length;
+  const openN    =CY_ALL.filter(a=>a.start_date&&a.end_date&&a.start_date<=t&&a.end_date>=t).length;
+  const upcomingN=CY_ALL.filter(a=>a.start_date&&a.start_date>t).length;
   const monthN   =CY_ALL.filter(a=>(a.start_date||'').startsWith(thisMonth)).length;
   const now=new Date(); const weekEnd=new Date(now); weekEnd.setDate(now.getDate()+7);
   const deadlineN=CY_ALL.filter(a=>{
-    if(!a.end_date)return false;
-    const d=new Date(a.end_date); return d>=now&&d<=weekEnd;
+    if(!a.end_date||a.end_date<t)return false;
+    const d=new Date(a.end_date+'T23:59:59'); return d>=now&&d<=weekEnd;
   }).length;
   set('cy-ks-open',openN);
   set('cy-ks-upcoming',upcomingN);
