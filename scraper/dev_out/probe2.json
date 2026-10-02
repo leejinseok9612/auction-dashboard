@@ -1,0 +1,378 @@
+{
+ "started": "2026-10-02 16:59:54",
+ "steps": {
+  "mcl_options": [
+   "중분류",
+   "주거용건물",
+   "상업용및업무용",
+   "산업용및기타특수용",
+   "용도복합용"
+  ],
+  "scl_options": {
+   "주거용건물": [
+    "소분류",
+    "단독주택",
+    "다가구주택",
+    "다중주택",
+    "아파트",
+    "연립주택",
+    "다세대주택",
+    "기숙사",
+    "빌라",
+    "상가주택",
+    "오피스텔",
+    "주상복합"
+   ],
+   "상업용및업무용": [
+    "소분류",
+    "근린생활시설",
+    "문화및집회시설",
+    "종교시설",
+    "판매시설",
+    "운수시설",
+    "의료시설",
+    "교육연구시설",
+    "노유자시설",
+    "수련시설",
+    "운동시설",
+    "업무시설",
+    "숙박시설",
+    "위락시설",
+    "교정및군사시설",
+    "방송통신시설",
+    "발전시설",
+    "묘지관련시설",
+    "관광휴게시설"
+   ],
+   "산업용및기타특수용": [
+    "소분류",
+    "공장",
+    "창고시설",
+    "위험물저장및처리시설",
+    "자동차관련시설",
+    "동물및식물관련시설",
+    "분뇨및쓰레기처리시설"
+   ],
+   "용도복합용": [
+    "소분류",
+    "주/상용건물",
+    "주/산용건물",
+    "기타복합용건물"
+   ]
+  },
+  "has_req": true,
+  "tests": {
+   "여주 base": {
+    "total": "0",
+    "group": 0,
+    "ok": true,
+    "reason": null
+   },
+   "여주 +60": {
+    "total": "411",
+    "group": 164,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 end+14": {
+    "total": "616",
+    "group": 552,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 end+30": {
+    "total": "775",
+    "group": 680,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 end+45": {
+    "total": "775",
+    "group": 680,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 end+60": {
+    "total": "775",
+    "group": 680,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 end+90": {
+    "total": "775",
+    "group": 680,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 end+180": {
+    "total": "775",
+    "group": 680,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 end+365": {
+    "total": "775",
+    "group": 680,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 begin-30 end+14": {
+    "total": "616",
+    "group": 552,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 bidDvs='' end+60": {
+    "total": "775",
+    "group": 680,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 기간입찰 000332 end+60": {
+    "total": "0",
+    "group": 0,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 건물만(lcl=20000) end+60": {
+    "total": "746",
+    "group": 652,
+    "ok": true,
+    "reason": null
+   },
+   "중앙 주거용(mcl=20100) end+60": {
+    "total": "576",
+    "group": 511,
+    "ok": true,
+    "reason": null
+   },
+   "전체법원 end+60": {
+    "total": "39165",
+    "group": 23511,
+    "ok": true,
+    "reason": null
+   }
+  },
+  "raw2": 200,
+  "detail_target": {
+   "srnSaNo": "2008타경25092",
+   "maemulSer": "1",
+   "docid": "B0002102008013002509213",
+   "printSt": "서울특별시 성북구 정릉동 508-123 1층102호"
+  },
+  "detail_error": "gdsDtlSrchResult_cell_0_0\" class=\"gridBodyDefault gridBodyDefault_data mf_wfm_mainFrame_grd_gdsDtlSrchResult_columnstyle_0_ gridNative\">…</td> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <td rowspan=\"2\" data-tdindex=\"0\" data-colindex=\"0\" data-colmerged=\"0\" data-or_bgcolor=\"\" data-colmerge=\"true\" data-readonly=\"false\" data-col_id=\"checkBox\" data-inputtype=\"checkbox\" data-style_bak=\"text-align:center\" id=\"mf_wfm_mainFrame_grd_gdsDtlSrchResult_cell_0_0\" class=\"gridBodyDefault gridBodyDefault_data mf_wfm_mainFrame_grd_gdsDtlSrchResult_columnstyle_0_ gridNative\">…</td> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    29 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <td rowspan=\"2\" data-tdindex=\"0\" data-colindex=\"0\" data-colmerged=\"0\" data-or_bgcolor=\"\" data-colmerge=\"true\" data-readonly=\"false\" data-col_id=\"checkBox\" data-inputtype=\"checkbox\" data-style_bak=\"text-align:center\" id=\"mf_wfm_mainFrame_grd_gdsDtlSrchResult_cell_0_0\" class=\"gridBodyDefault gridBodyDefault_data mf_wfm_mainFrame_grd_gdsDtlSrchResult_columnstyle_0_ gridNative\">…</td> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n\n",
+  "xhrs": [
+   {
+    "phase": "usg",
+    "url": "/pgj/pgj002/selectMclLst.on",
+    "len": 256,
+    "post": "{\"code\":\"20000\"}",
+    "saved": "x005_usg_pgj_pgj002_selectMclLst.on"
+   },
+   {
+    "phase": "usg",
+    "url": "/pgj/pgj002/selectSclLst.on",
+    "len": 461,
+    "post": "{\"code\":\"20100\"}",
+    "saved": "x006_usg_pgj_pgj002_selectSclLst.on"
+   },
+   {
+    "phase": "usg",
+    "url": "/pgj/pgj002/selectSclLst.on",
+    "len": 697,
+    "post": "{\"code\":\"21100\"}",
+    "saved": "x007_usg_pgj_pgj002_selectSclLst.on"
+   },
+   {
+    "phase": "usg",
+    "url": "/pgj/pgj002/selectSclLst.on",
+    "len": 326,
+    "post": "{\"code\":\"22100\"}",
+    "saved": "x008_usg_pgj_pgj002_selectSclLst.on"
+   },
+   {
+    "phase": "usg",
+    "url": "/pgj/pgj002/selectSclLst.on",
+    "len": 222,
+    "post": "{\"code\":\"23100\"}",
+    "saved": "x009_usg_pgj_pgj002_selectSclLst.on"
+   },
+   {
+    "phase": "usg",
+    "url": "/pgj/pgj002/selectAdongSdLst.on",
+    "len": 975,
+    "post": "{\"pbancMidYn\":\"Y\",\"srchDvsCd\":\"B\",\"pbancDvsCd\":\"BR\"}",
+    "saved": "x010_usg_pgj_pgj002_selectAdongSdLst.on"
+   },
+   {
+    "phase": "usg",
+    "url": "/pgj/pgj002/selectAdongSdLst.on",
+    "len": 1028,
+    "post": "{\"pbancMidYn\":\"Y\",\"srchDvsCd\":\"B\",\"pbancDvsCd\":\"A\"}",
+    "saved": "x011_usg_pgj_pgj002_selectAdongSdLst.on"
+   },
+   {
+    "phase": "usg",
+    "url": "/pgj/pgj002/selectMclLst.on",
+    "len": 123,
+    "post": "{\"code\":\"\"}",
+    "saved": "x012_usg_pgj_pgj002_selectMclLst.on"
+   },
+   {
+    "phase": "usg",
+    "url": "/pgj/pgj002/selectSclLst.on",
+    "len": 123,
+    "post": "{\"code\":\"\"}",
+    "saved": "x013_usg_pgj_pgj002_selectSclLst.on"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/ui/pgj100/PGJ151M01.xml",
+    "len": 84846,
+    "post": "",
+    "saved": "x014_search_pgj_ui_pgj100_PGJ151M01.xml"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/ui/common/sideMenu/side002.xml",
+    "len": 5521,
+    "post": "",
+    "saved": "x015_search_pgj_ui_common_sideMenu_side002.xml"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24049,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDspsl"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgj002/selectCortOfcLst.on",
+    "len": 2163,
+    "post": "{\"cortExecrOfcDvsCd\":\"00079B\"}",
+    "saved": "x016_search_pgj_pgj002_selectCortOfcLst.on"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 260,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000252\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 26193,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000252\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24050,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24050,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24050,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24050,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24050,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24050,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24050,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24050,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24050,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDspslGdsLs"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 260,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000332\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24050,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"20000\",\"mc"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24050,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"20000\",\"mc"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 24054,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDspslGdsLst"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 95845,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":40,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 96793,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":2,\"pageSize\":40,\"bfPageNo\":\"1\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 99996,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":3,\"pageSize\":40,\"bfPageNo\":\"2\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 97668,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":4,\"pageSize\":40,\"bfPageNo\":\"3\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   },
+   {
+    "phase": "search",
+    "url": "/pgj/pgjsearch/searchControllerMain.on",
+    "len": 100431,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":5,\"pageSize\":40,\"bfPageNo\":\"4\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+   }
+  ]
+ },
+ "finished": "2026-10-02 17:01:48"
+}
