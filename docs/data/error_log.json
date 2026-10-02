@@ -1,532 +1,3535 @@
 {
-  "run_at": "2026-10-02T11:15:25+09:00",
-  "duration_sec": 694.0,
+  "run_at": "2026-10-02T20:11:04+09:00",
+  "duration_sec": 1919.5,
   "summary": {
-    "total": 2008,
+    "total": 1709,
     "scrape_ok": true,
-    "with_bjdong_code": 895,
-    "with_building_info": 0,
+    "with_bjdong_code": 988,
+    "with_building_info": 828,
     "with_official_price": 0,
-    "with_trade_price": 0,
+    "with_trade_price": 745,
     "rights_checked": 0,
-    "tag_근생주의": 0,
+    "tag_근생주의": 3,
     "tag_위반건축물": 0,
-    "tag_안전마진": 0,
-    "pending_enrich": 1015,
-    "api_calls": 260,
-    "api_retries": 195,
-    "api_failures": 65,
+    "tag_안전마진": 245,
+    "pending_enrich": 1187,
+    "api_calls": 4026,
+    "api_retries": 24,
+    "api_failures": 557,
     "blocked_endpoints": {
-      "bld:getBrTitleInfo": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
-      "price:nsdi_apt": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
-      "bld:getBrHsprcInfo": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
-      "juso:business.juso.go.kr": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (business.juso.go.kr))",
-      "juso:www.juso.go.kr": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (www.juso.go.kr))",
-      "trade:rh": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
-      "trade:apt": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
-      "trade:offi": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
-      "trade:sh": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
+      "bld:getBrExposPubuseAreaInfo": "연속 5회 실패 (마지막: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 )"
     },
+    "unreachable_hosts": {},
+    "last_scrape_ok_date": "2026-10-02",
     "error_counts": {
-      "building:error": 8,
-      "juso:error": 8,
-      "official_price:warn": 13,
-      "api:error": 9,
-      "trade:error": 28,
+      "official_price:warn": 549,
+      "building:warn": 164,
+      "juso:warn": 12,
+      "api:error": 1,
       "rights:warn": 3,
       "rights:error": 1
     }
   },
   "errors": [
     {
-      "time": "2026-10-02T11:04:27+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "2025타경1864",
-      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:04:27+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "2025타경787",
-      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:05:03+09:00",
-      "stage": "juso",
-      "level": "error",
-      "id": "2024타경577853",
-      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:05:03+09:00",
+      "time": "2026-10-02T20:04:36+09:00",
       "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경1864",
-      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:05:03+09:00",
-      "stage": "juso",
-      "level": "error",
-      "id": "2024타경555501",
-      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:05:03+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경787",
-      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:05:39+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "2025타경1121",
-      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:05:39+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "2025타경1040",
-      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:05:39+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경1864",
-      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:05:40+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [bld:getBrTitleInfo]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
-    },
-    {
-      "time": "2026-10-02T11:05:40+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "2025타경1259",
-      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:06:15+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "2025타경1417",
-      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:06:15+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "2025타경1499",
-      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:06:16+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "2025타경1469",
-      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:06:52+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경1499",
-      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:06:52+09:00",
-      "stage": "juso",
-      "level": "error",
-      "id": "2025타경502443",
-      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:06:52+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경1469",
-      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:07:27+09:00",
-      "stage": "juso",
-      "level": "error",
-      "id": "2025타경506742",
-      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:07:28+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경507295",
-      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:07:28+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경1499",
-      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:07:28+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경1469",
-      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:08:03+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [price:nsdi_apt]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
-    },
-    {
-      "time": "2026-10-02T11:08:03+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경508753",
-      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:08:04+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [bld:getBrHsprcInfo]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
-    },
-    {
-      "time": "2026-10-02T11:08:04+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경509287",
-      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:08:04+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경507295",
-      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:08:04+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경509810",
-      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:08:39+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "2025타경508753",
-      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:08:40+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [juso:business.juso.go.kr]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (business.juso.go.kr))"
-    },
-    {
-      "time": "2026-10-02T11:09:17+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [juso:www.juso.go.kr]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (www.juso.go.kr))"
-    },
-    {
-      "time": "2026-10-02T11:09:17+09:00",
-      "stage": "juso",
-      "level": "error",
-      "id": "2018타경6939",
-      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:09:17+09:00",
-      "stage": "juso",
-      "level": "error",
-      "id": "2026타경30539",
-      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:09:17+09:00",
-      "stage": "juso",
-      "level": "error",
-      "id": "2025타경30392",
-      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:09:52+09:00",
-      "stage": "juso",
-      "level": "error",
-      "id": "2022타경101244",
-      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:10:28+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "연립다세대 28110 202607: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:10:28+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "연립다세대 28110 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:10:28+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "연립다세대 28110 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:10:28+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "연립다세대 28110 202608: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:11:04+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "아파트 41220 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:11:04+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [trade:rh]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
-    },
-    {
-      "time": "2026-10-02T11:11:04+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "연립다세대 28110 202605: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:11:04+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "연립다세대 28110 202606: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:11:05+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "아파트 41220 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:11:40+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "아파트 41220 202607: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:11:41+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "아파트 41220 202608: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:11:41+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [trade:apt]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
-    },
-    {
-      "time": "2026-10-02T11:11:41+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "아파트 41220 202605: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:11:41+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "아파트 41220 202606: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:12:17+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "오피스텔 28177 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:12:17+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "오피스텔 28177 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:12:18+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "오피스텔 28177 202607: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:12:18+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "오피스텔 28177 202608: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:12:53+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [trade:offi]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
-    },
-    {
-      "time": "2026-10-02T11:12:53+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "오피스텔 28177 202605: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:12:53+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "오피스텔 28177 202606: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:12:54+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "오피스텔 28260 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:12:54+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "오피스텔 28260 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:13:29+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "단독다가구 11620 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:13:29+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "단독다가구 11620 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:13:30+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "단독다가구 11620 202607: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:13:30+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "단독다가구 11620 202608: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:14:05+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [trade:sh]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
-    },
-    {
-      "time": "2026-10-02T11:14:05+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "단독다가구 11620 202606: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:14:05+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "단독다가구 11620 202605: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:14:05+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "단독다가구 11110 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:14:06+09:00",
-      "stage": "trade",
-      "level": "error",
-      "id": null,
-      "message": "단독다가구 11110 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
-    },
-    {
-      "time": "2026-10-02T11:14:28+09:00",
-      "stage": "rights",
       "level": "warn",
       "id": "2026타경500766",
-      "message": "명세서 조회 실패: RuntimeError: 검색 폼 인식 실패 (법원=False, 연도=False, 번호=False)"
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
     },
     {
-      "time": "2026-10-02T11:14:57+09:00",
-      "stage": "rights",
+      "time": "2026-10-02T20:04:37+09:00",
+      "stage": "building",
       "level": "warn",
-      "id": "2026타경500772",
-      "message": "명세서 조회 실패: RuntimeError: 검색 폼 인식 실패 (법원=False, 연도=False, 번호=False)"
+      "id": "2026타경501336",
+      "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T11:15:24+09:00",
-      "stage": "rights",
+      "time": "2026-10-02T20:04:37+09:00",
+      "stage": "building",
       "level": "warn",
-      "id": "2026타경500833",
-      "message": "명세서 조회 실패: RuntimeError: 검색 폼 인식 실패 (법원=False, 연도=False, 번호=False)"
+      "id": "2026타경501361",
+      "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T11:15:24+09:00",
-      "stage": "rights",
+      "time": "2026-10-02T20:04:37+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501336",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:38+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501361",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:38+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501381",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:38+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501386",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501416",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:39+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501442",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:40+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501469",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:41+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501459",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:41+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501486",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:41+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501469",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:42+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501512",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:42+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501486",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:43+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501531",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:43+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501527",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:43+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501581",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501581",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501627",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501636",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:44+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501691",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:45+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501722",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:45+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501738",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:45+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501691",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:45+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501762",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:45+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501730",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:46+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501779",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:46+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501829",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:46+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501762",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:47+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501779",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:47+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501829",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:48+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501966",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:49+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501966",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:49+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501977",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경502010",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경502015",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경502026",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:51+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경502052",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:51+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경502037",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:51+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경502052",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:52+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경502047",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:52+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경502057",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:52+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경502075",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:53+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경502120",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:54+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경502140",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:55+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경502188",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:55+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경502140",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:55+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경502188",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:57+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경13632",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:57+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경514821",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:57+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경526473",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:58+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "2024타경576959",
+      "message": "주소 변환 실패: 인천광역시 서구 경서동 경서3구역도시개발지구25블록2로트 청라로데오시티포레안 8층 870호"
+    },
+    {
+      "time": "2026-10-02T20:04:58+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경549506",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:58+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1659",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:58+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경576799",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:59+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1713",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:59+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1885",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:59+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1938",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:59+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1964",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:59+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1993",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:04:59+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1885",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:04:59+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1938",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:01+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경503774",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:01+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경503149",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:01+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경501327",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:02+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경507480",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:02+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경508391",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:03+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경508107",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:03+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경509767",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:04+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경509767",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:05+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경510222",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:06+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경510673",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:07+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경510748",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:07+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경510952",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:08+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경510946",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:08+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511008",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:09+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511053",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:10+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511096",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:10+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511053",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:10+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511115",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:10+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511122",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:10+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511096",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:10+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511115",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:11+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511122",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:11+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511129",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:12+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511358",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:12+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511315",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:12+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511327",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:13+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511442",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:13+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511424",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:13+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511577",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:13+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511442",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:14+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511577",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:14+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511664",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:14+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511648",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:15+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511664",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:15+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511731",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:15+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511701",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:16+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511706",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:16+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511731",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:17+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511836",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:17+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511875",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:17+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511932",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:18+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경512373",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:18+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512182",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:18+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512248",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:19+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512476",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:20+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경512992",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:20+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512816",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:20+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512839",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:20+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경513135",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:21+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513104",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:21+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경513222",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:21+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513149",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:22+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경513417",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:23+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513347",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:23+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513417",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:23+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513554",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:24+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513579",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:24+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513709",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:26+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513758",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:26+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513827",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:27+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513781",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:27+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513887",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:28+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513936",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:28+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514023",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:29+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514151",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:29+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경514359",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:31+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514249",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:31+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514359",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:31+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514302",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:32+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514170",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:34+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514511",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:34+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514553",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:34+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514532",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:34+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514617",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:34+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경514682",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:35+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경514693",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:35+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514635",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:35+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514682",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:35+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514693",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:36+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514760",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:36+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514711",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:37+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경514918",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:37+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경514947",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:37+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514857",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:38+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514947",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경514982",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경515040",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:39+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경515070",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:40+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경515064",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:40+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경515143",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:40+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경515070",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:40+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경500079",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:40+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경500111",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:41+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500079",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:41+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500199",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:41+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500111",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:42+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500252",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:42+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경500287",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:42+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500272",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:43+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500287",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:43+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경500344",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:43+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경500373",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:44+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경500547",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500373",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500339",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:45+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500497",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:45+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500547",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:45+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500552",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:46+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500574",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:46+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경500588",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:47+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500588",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:49+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1456",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:49+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경50012",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:49+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1456",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50252",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경102999",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:51+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경119034",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:52+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경2720",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:52+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경124531",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:53+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경102728",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:05:54+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102686",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:54+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경100105",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:54+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102793",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:54+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경103119",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:55+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경103165",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:55+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경103314",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:56+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경103504",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:57+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경103691",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:57+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경103821",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:57+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경103551",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:58+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경103867",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:58+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경103928",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:05:59+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경103932",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:00+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경104212",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:00+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경104455",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:01+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경104527",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:01+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경104556",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:02+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경104569",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:03+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경104590",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:04+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100057",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:06+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100136",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:06+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100062",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:06+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100172",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:06+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100096",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:08+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100188",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:08+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100205",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:08+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100315",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:09+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100250",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:11+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100420",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:11+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100393",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:11+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100434",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:12+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100455",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:12+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100496",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:16+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100513",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:17+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100530",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:18+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100697",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:18+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100707",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:19+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100758",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:19+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경100777",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:21+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경50154",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:22+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경56435",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:23+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경56886",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:23+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경55203",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:24+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경58615",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:24+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경59984",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:25+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경60717",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:25+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경60960",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:26+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경62096",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:26+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경62324",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:27+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경62485",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:27+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경62553",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:27+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경63143",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:28+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경63396",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:28+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경63860",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:29+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경64160",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:29+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경64603",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:29+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경64566",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:29+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경64627",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:30+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경64764",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:30+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1227",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:06:30+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경64962",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:31+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1142",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:32+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1869",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:33+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경2251",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:33+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경2510",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:37+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경50229",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:06:38+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경50366",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경50304",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경2428",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:40+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경50656",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:41+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경50984",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:41+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51002",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:42+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51074",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:42+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51108",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:42+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51113",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:43+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51161",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:43+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51173",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:43+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51186",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:43+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경51238",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:06:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51224",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51230",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51238",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:46+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51395",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:46+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51449",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:46+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51487",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:47+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경51542",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:06:47+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51533",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:47+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51538",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:47+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51550",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:48+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51598",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:48+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51600",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:49+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51611",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51685",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51688",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51704",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:51+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51772",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:51+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51742",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:51+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51785",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:53+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51836",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:53+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51820",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:54+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51882",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:54+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51896",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:54+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경51935",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:56+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52015",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:57+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52022",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:57+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52056",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:58+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52037",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:58+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52088",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:59+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52101",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:06:59+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52118",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:03+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52231",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:03+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52221",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:04+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52289",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:19+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경52274",
+      "message": "전유공용면적 조회 실패: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
+    },
+    {
+      "time": "2026-10-02T20:07:19+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경52292",
+      "message": "전유공용면적 조회 실패: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
+    },
+    {
+      "time": "2026-10-02T20:07:19+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경52297",
+      "message": "전유공용면적 조회 실패: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
+    },
+    {
+      "time": "2026-10-02T20:07:19+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52292",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:35+09:00",
+      "stage": "api",
       "level": "error",
       "id": null,
-      "message": "매각물건명세서 조회 연속 3회 실패 — 이번 실행 중단 (사이트 구조 변경 가능성)"
+      "message": "엔드포인트 차단 [bld:getBrExposPubuseAreaInfo]: 연속 5회 실패 (마지막: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 )"
+    },
+    {
+      "time": "2026-10-02T20:07:35+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52325",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:35+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52353",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:35+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경52309",
+      "message": "전유공용면적 조회 실패: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
+    },
+    {
+      "time": "2026-10-02T20:07:36+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52309",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:36+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52357",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:36+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52370",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:36+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52382",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:36+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52391",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:37+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52394",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:37+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52399",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:37+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52408",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:38+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52434",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:38+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52441",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:38+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경52443",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:38+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50130",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50163",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50219",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50259",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50283",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50319",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50382",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:40+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50490",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:40+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50502",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:40+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50538",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:40+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50639",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:40+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2024타경13205",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:41+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2024타경512061",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:41+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "2024타경7811",
+      "message": "주소 변환 실패: 인천광역시 서구 가람로 14 2층204호 (오류동,인천표면처리센터공장동)"
+    },
+    {
+      "time": "2026-10-02T20:07:42+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "2024타경528547",
+      "message": "주소 변환 실패: 인천광역시 서구 검단로 419 105동 4층411호 (왕길동,원흥아파트)"
+    },
+    {
+      "time": "2026-10-02T20:07:42+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1431",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:42+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경533266",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:42+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1431",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:42+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1568",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:42+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1591",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:43+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1665",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:43+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경508049",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:43+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경508374",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:43+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경508718",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:43+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경508374",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:43+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경508718",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:44+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경509149",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:44+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경509250",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경509525",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경509621",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:44+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경510682",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경510578",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:44+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경510682",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:45+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경510779",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:45+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경510885",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:45+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경510688",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:45+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경510779",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:45+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511283",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:45+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511489",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:45+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511596",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:46+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511510",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:46+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511935",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:46+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511602",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:46+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511935",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:46+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경512085",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:46+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경512124",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:46+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512085",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:47+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512124",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:47+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경512350",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:47+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경512694",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:47+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경512725",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:47+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512584",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:47+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512624",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:47+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512725",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:47+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512859",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:48+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513017",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:48+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513058",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:48+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513115",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:48+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513129",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:49+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경513181",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:49+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경513229",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:49+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513181",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:49+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경513355",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513355",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:50+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경513464",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513434",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경513464",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:50+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경233",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:50+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경80",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:51+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경696",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:51+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경774",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:51+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경793",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:51+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경778",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:52+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경944",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:52+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경40309",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:53+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경41638",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:53+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경41768",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:53+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경41961",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:53+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경42018",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:53+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경42075",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:07:54+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경42305",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:55+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경42380",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:55+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경42735",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:55+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경42762",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:56+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경42813",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:56+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경42836",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:56+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경42953",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:56+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경43073",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:56+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경43100",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:57+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경43104",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:57+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경114",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:57+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50027",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:59+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50083",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:59+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50169",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:59+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50179",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:59+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50200",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:07:59+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50299",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:00+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50318",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:00+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경50329",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:00+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50392",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:01+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50592",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:01+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "2026타경50820",
+      "message": "주소 변환 실패: 사용본거지 : 경기도 평택시 죽백동 0000-0000"
+    },
+    {
+      "time": "2026-10-02T20:08:01+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "2026타경51000",
+      "message": "주소 변환 실패: 사용본거지 : 경기도 평택시 죽백1길 157"
+    },
+    {
+      "time": "2026-10-02T20:08:01+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50693",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:02+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경50234",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:02+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2022타경523579",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:02+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2023타경517816",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:02+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2024타경2861",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:02+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2024타경4911",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:02+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2024타경6337",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:03+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경14468",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:03+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "2024타경17092",
+      "message": "주소 변환 실패: 인천광역시 서구 청라에메랄드로76번길 7-23 1층105호 (청라동,청라월드메르디앙커낼웨이)"
+    },
+    {
+      "time": "2026-10-02T20:08:03+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경524712",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:03+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2024타경548985",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:03+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경749",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:04+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1218",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:04+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경749",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:04+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경781",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:04+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1312",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:04+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1517",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:04+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1465",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:04+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경1559",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:04+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1517",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:04+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1559",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:04+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1635",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:05+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경508641",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:05+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경508499",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:05+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경509872",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:05+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경510159",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:06+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511037",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:06+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경510542",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:06+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경510786",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:06+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511037",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:07+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511144",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:07+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511485",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:07+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511495",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:07+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511823",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:08+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511862",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:08+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경511948",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:08+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경511948",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:08+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경512091",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:08+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경512129",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:08+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512030",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:08+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512091",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:09+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512129",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:09+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512467",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:09+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경512892",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:09+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경128",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:09+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경512751",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:09+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경283",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:10+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "2026타경355",
+      "message": "주소 변환 실패: 인천광역시 남구 주안동 858-2 소암빌라 2층203호"
+    },
+    {
+      "time": "2026-10-02T20:08:10+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경388",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:10+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경363",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:10+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경430",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:10+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경388",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:10+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경500038",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:10+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500038",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:11+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경500570",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:11+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경500624",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:11+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500624",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:11+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경500917",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:11+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501747",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:11+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501747",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:11+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2026타경501848",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:11+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501845",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:12+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2025타경949",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:12+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2026타경501848",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:12+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "2021타경103946",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T20:08:12+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2023타경113350",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:12+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2023타경114490",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:13+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경100474",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:13+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2024타경121266",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:13+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경3334",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:14+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경101061",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:14+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102046",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:14+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102367",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:14+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102558",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:15+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102673",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:15+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102691",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:15+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102721",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:15+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102769",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:16+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102832",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:16+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102847",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:16+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경102975",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
+    },
+    {
+      "time": "2026-10-02T20:08:17+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경103100",
+      "message": "price:nsdi_apt: HTTP 400: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"NO_OPENAPI_SERVICE_ERROR\",       \"returnAuthMsg\": \"해당 오픈API 서비스가 없거나 폐기됨\",    "
     }
   ]
 }
