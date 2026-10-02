@@ -1,0 +1,110 @@
+{
+  "run_at": "2026-10-02T10:33:23+09:00",
+  "duration_sec": 84.6,
+  "summary": {
+    "total": 2008,
+    "scrape_ok": true,
+    "with_bjdong_code": 0,
+    "with_building_info": 0,
+    "with_official_price": 0,
+    "with_trade_price": 0,
+    "rights_checked": 0,
+    "tag_근생주의": 0,
+    "tag_위반건축물": 0,
+    "tag_안전마진": 0,
+    "pending_enrich": 2007,
+    "api_calls": 8,
+    "api_retries": 0,
+    "api_failures": 0,
+    "blocked_endpoints": {
+      "juso:business.juso.go.kr": "주소 API 승인키 오류 [E0001] 승인되지 않은 KEY 입니다.",
+      "juso:www.juso.go.kr": "주소 API 승인키 오류 [E0001] 승인되지 않은 KEY 입니다."
+    },
+    "error_counts": {
+      "api:error": 2,
+      "juso:error": 4,
+      "juso:warn": 1,
+      "rights:warn": 3,
+      "rights:error": 1
+    }
+  },
+  "errors": [
+    {
+      "time": "2026-10-02T10:31:59+09:00",
+      "stage": "api",
+      "level": "error",
+      "id": null,
+      "message": "엔드포인트 차단 [juso:business.juso.go.kr]: 주소 API 승인키 오류 [E0001] 승인되지 않은 KEY 입니다."
+    },
+    {
+      "time": "2026-10-02T10:32:00+09:00",
+      "stage": "api",
+      "level": "error",
+      "id": null,
+      "message": "엔드포인트 차단 [juso:www.juso.go.kr]: 주소 API 승인키 오류 [E0001] 승인되지 않은 KEY 입니다."
+    },
+    {
+      "time": "2026-10-02T10:32:00+09:00",
+      "stage": "juso",
+      "level": "error",
+      "id": "2025타경787",
+      "message": "주소 API 승인키 오류 [E0001] 승인되지 않은 KEY 입니다."
+    },
+    {
+      "time": "2026-10-02T10:32:00+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "2025타경1040",
+      "message": "주소 변환 실패: 인천광역시 미추홀구 학익동 401-58 시티필드 6층6023호"
+    },
+    {
+      "time": "2026-10-02T10:32:00+09:00",
+      "stage": "juso",
+      "level": "error",
+      "id": "2024타경555501",
+      "message": "주소 API 승인키 오류 [E0001] 승인되지 않은 KEY 입니다."
+    },
+    {
+      "time": "2026-10-02T10:32:00+09:00",
+      "stage": "juso",
+      "level": "error",
+      "id": "2025타경1864",
+      "message": "주소 API 승인키 오류 [E0001] 승인되지 않은 KEY 입니다."
+    },
+    {
+      "time": "2026-10-02T10:32:00+09:00",
+      "stage": "juso",
+      "level": "error",
+      "id": "2024타경577853",
+      "message": "주소 API 승인키 오류 [E0001] 승인되지 않은 KEY 입니다."
+    },
+    {
+      "time": "2026-10-02T10:32:26+09:00",
+      "stage": "rights",
+      "level": "warn",
+      "id": "2026타경500766",
+      "message": "명세서 조회 실패: RuntimeError: 검색 폼 인식 실패 (법원=False, 연도=False, 번호=False)"
+    },
+    {
+      "time": "2026-10-02T10:32:53+09:00",
+      "stage": "rights",
+      "level": "warn",
+      "id": "2026타경500772",
+      "message": "명세서 조회 실패: RuntimeError: 검색 폼 인식 실패 (법원=False, 연도=False, 번호=False)"
+    },
+    {
+      "time": "2026-10-02T10:33:23+09:00",
+      "stage": "rights",
+      "level": "warn",
+      "id": "2026타경500833",
+      "message": "명세서 조회 실패: RuntimeError: 검색 폼 인식 실패 (법원=False, 연도=False, 번호=False)"
+    },
+    {
+      "time": "2026-10-02T10:33:23+09:00",
+      "stage": "rights",
+      "level": "error",
+      "id": null,
+      "message": "매각물건명세서 조회 연속 3회 실패 — 이번 실행 중단 (사이트 구조 변경 가능성)"
+    }
+  ]
+}
