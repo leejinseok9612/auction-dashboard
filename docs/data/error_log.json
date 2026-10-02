@@ -1,10 +1,10 @@
 {
-  "run_at": "2026-10-02T10:52:52+09:00",
-  "duration_sec": 489.7,
+  "run_at": "2026-10-02T11:15:25+09:00",
+  "duration_sec": 694.0,
   "summary": {
     "total": 2008,
     "scrape_ok": true,
-    "with_bjdong_code": 0,
+    "with_bjdong_code": 895,
     "with_building_info": 0,
     "with_official_price": 0,
     "with_trade_price": 0,
@@ -13,3521 +13,520 @@
     "tag_위반건축물": 0,
     "tag_안전마진": 0,
     "pending_enrich": 1015,
-    "api_calls": 64,
-    "api_retries": 48,
-    "api_failures": 16,
+    "api_calls": 260,
+    "api_retries": 195,
+    "api_failures": 65,
     "blocked_endpoints": {
-      "juso:business.juso.go.kr": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout: HTTPSConnectionPool(host='business.juso.go.kr', port=443): Max retries exceeded with url: /addrlink/addrLinkApi.do?confmKey=U01TX0FVVEgyMDI2MTAwMjEwMDg1OTEyMDU2MTA%3D&keyword=%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C+%EC%A4%91%EA%B5%AC+%EC%A4%91%EC%82%B0%EB%8F%99+1873-21&currentPage=1&countPerPage=5&resultType=json (Caused by ConnectTimeoutError(<HTTPSConnection(host='business.juso.go.kr', port=443) at 0x7f280c4c7cd0>, 'Connection to business.juso.go.kr timed out. (connect timeout=20)')))",
-      "juso:www.juso.go.kr": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout: HTTPSConnectionPool(host='www.juso.go.kr', port=443): Max retries exceeded with url: /addrlink/addrLinkApi.do?confmKey=U01TX0FVVEgyMDI2MTAwMjEwMDg1OTEyMDU2MTA%3D&keyword=%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C+%EC%A4%91%EA%B5%AC+%EC%A4%91%EC%82%B0%EB%8F%99+1873-21&currentPage=1&countPerPage=5&resultType=json (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.juso.go.kr', port=443) at 0x7f280c4cfa50>, 'Connection to www.juso.go.kr timed out. (connect timeout=20)')))"
+      "bld:getBrTitleInfo": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
+      "price:nsdi_apt": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
+      "bld:getBrHsprcInfo": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
+      "juso:business.juso.go.kr": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (business.juso.go.kr))",
+      "juso:www.juso.go.kr": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (www.juso.go.kr))",
+      "trade:rh": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
+      "trade:apt": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
+      "trade:offi": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))",
+      "trade:sh": "연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
     },
     "error_counts": {
+      "building:error": 8,
       "juso:error": 8,
-      "api:error": 2,
-      "juso:warn": 992,
+      "official_price:warn": 13,
+      "api:error": 9,
+      "trade:error": 28,
       "rights:warn": 3,
       "rights:error": 1
     }
   },
   "errors": [
     {
-      "time": "2026-10-02T10:47:38+09:00",
+      "time": "2026-10-02T11:04:27+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "2025타경1864",
+      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
+    },
+    {
+      "time": "2026-10-02T11:04:27+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "2025타경787",
+      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
+    },
+    {
+      "time": "2026-10-02T11:05:03+09:00",
       "stage": "juso",
       "level": "error",
       "id": "2024타경577853",
-      "message": "네트워크 오류: ConnectTimeout: HTTPSConnectionPool(host='www.juso.go.kr', port=443): Max retries exceeded with url: /addrlink/addrLinkApi.do?confmKey=U01TX0FVVEgyMDI2MTAwMjEwMDg1OTEyMDU2MTA%3D&keyword=%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C+%EB%B6%80%ED%8F%89%EA%B5%AC+%EA%B2%BD%EC%9D%B8%EB%A1%9C834%EB%B2%88%EA%B8%B8+69&currentPage=1&countPerPage=5&resultType=json (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.juso.go.kr', port=443) at 0x7f280c4e4850>, 'Connection to www.juso.go.kr tim"
+      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
     },
     {
-      "time": "2026-10-02T10:47:39+09:00",
-      "stage": "juso",
-      "level": "error",
-      "id": "2025타경787",
-      "message": "네트워크 오류: ConnectTimeout: HTTPSConnectionPool(host='www.juso.go.kr', port=443): Max retries exceeded with url: /addrlink/addrLinkApi.do?confmKey=U01TX0FVVEgyMDI2MTAwMjEwMDg1OTEyMDU2MTA%3D&keyword=%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C+%EC%98%B9%EC%A7%84%EA%B5%B0+%EC%98%81%ED%9D%A5%EB%A9%B4+%EB%82%B4%EB%A6%AC+9-2&currentPage=1&countPerPage=5&resultType=json (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.juso.go.kr', port=443) at 0x7f280c4e56d0>, 'Connection to www.juso.go.kr time"
+      "time": "2026-10-02T11:05:03+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1864",
+      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:47:39+09:00",
+      "time": "2026-10-02T11:05:03+09:00",
       "stage": "juso",
       "level": "error",
       "id": "2024타경555501",
-      "message": "네트워크 오류: ConnectTimeout: HTTPSConnectionPool(host='www.juso.go.kr', port=443): Max retries exceeded with url: /addrlink/addrLinkApi.do?confmKey=U01TX0FVVEgyMDI2MTAwMjEwMDg1OTEyMDU2MTA%3D&keyword=%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C+%EC%A4%91%EA%B5%AC+%ED%95%98%EB%8A%98%EC%A4%91%EC%95%99%EB%A1%9C225%EB%B2%88%EA%B8%B8+20&currentPage=1&countPerPage=5&resultType=json (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.juso.go.kr', port=443) at 0x7f280c4e6610>, 'Connection to www.juso."
+      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
     },
     {
-      "time": "2026-10-02T10:47:39+09:00",
-      "stage": "juso",
-      "level": "error",
-      "id": "2025타경1864",
-      "message": "네트워크 오류: ConnectTimeout: HTTPSConnectionPool(host='www.juso.go.kr', port=443): Max retries exceeded with url: /addrlink/addrLinkApi.do?confmKey=U01TX0FVVEgyMDI2MTAwMjEwMDg1OTEyMDU2MTA%3D&keyword=%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C+%EB%AF%B8%EC%B6%94%ED%99%80%EA%B5%AC+%ED%95%99%EC%9D%B5%EB%8F%99+701-4&currentPage=1&countPerPage=5&resultType=json (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.juso.go.kr', port=443) at 0x7f280c4b7b50>, 'Connection to www.juso.go.kr timed out. ("
+      "time": "2026-10-02T11:05:03+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경787",
+      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:49:07+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [juso:business.juso.go.kr]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout: HTTPSConnectionPool(host='business.juso.go.kr', port=443): Max retries exceeded with url: /addrlink/addrLinkApi.do?confmKey=U01TX0FVVEgyMDI2MTAwMjEwMDg1OTEyMDU2MTA%3D&keyword=%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C+%EC%A4%91%EA%B5%AC+%EC%A4%91%EC%82%B0%EB%8F%99+1873-21&currentPage=1&countPerPage=5&resultType=json (Caused by ConnectTimeoutError(<HTTPSConnection(host='business.juso.go.kr', port=443) at 0x7f280c4c7cd"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [juso:www.juso.go.kr]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout: HTTPSConnectionPool(host='www.juso.go.kr', port=443): Max retries exceeded with url: /addrlink/addrLinkApi.do?confmKey=U01TX0FVVEgyMDI2MTAwMjEwMDg1OTEyMDU2MTA%3D&keyword=%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C+%EC%A4%91%EA%B5%AC+%EC%A4%91%EC%82%B0%EB%8F%99+1873-21&currentPage=1&countPerPage=5&resultType=json (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.juso.go.kr', port=443) at 0x7f280c4cfa50>, 'Connection"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:05:39+09:00",
+      "stage": "building",
       "level": "error",
       "id": "2025타경1121",
-      "message": "네트워크 오류: ConnectTimeout: HTTPSConnectionPool(host='www.juso.go.kr', port=443): Max retries exceeded with url: /addrlink/addrLinkApi.do?confmKey=U01TX0FVVEgyMDI2MTAwMjEwMDg1OTEyMDU2MTA%3D&keyword=%EC%9D%B8%EC%B2%9C%EA%B4%91%EC%97%AD%EC%8B%9C+%EC%A4%91%EA%B5%AC+%EC%A4%91%EC%82%B0%EB%8F%99+1873-21&currentPage=1&countPerPage=5&resultType=json (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.juso.go.kr', port=443) at 0x7f280c4cfa50>, 'Connection to www.juso.go.kr timed out. (connect timeout="
+      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:05:39+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "2025타경1040",
+      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
+    },
+    {
+      "time": "2026-10-02T11:05:39+09:00",
+      "stage": "official_price",
+      "level": "warn",
+      "id": "2025타경1864",
+      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
+    },
+    {
+      "time": "2026-10-02T11:05:40+09:00",
+      "stage": "api",
+      "level": "error",
+      "id": null,
+      "message": "엔드포인트 차단 [bld:getBrTitleInfo]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
+    },
+    {
+      "time": "2026-10-02T11:05:40+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "2025타경1259",
+      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
+    },
+    {
+      "time": "2026-10-02T11:06:15+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "2025타경1417",
+      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
+    },
+    {
+      "time": "2026-10-02T11:06:15+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "2025타경1499",
+      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
+    },
+    {
+      "time": "2026-10-02T11:06:16+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "2025타경1469",
+      "message": "네트워크 오류: ConnectTimeout (apis.data.go.kr)"
+    },
+    {
+      "time": "2026-10-02T11:06:52+09:00",
+      "stage": "official_price",
       "level": "warn",
       "id": "2025타경1499",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1318-6 검단신도시디에트르더펠리체 607동 1층102호"
+      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
+      "time": "2026-10-02T11:06:52+09:00",
       "stage": "juso",
-      "level": "warn",
-      "id": "2025타경500942",
-      "message": "주소 변환 실패: 인천광역시 서구 오류동 1639-5"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
+      "level": "error",
       "id": "2025타경502443",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 경인로116번길 12 6층601호 (숭의동,온누리휴그린)"
+      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:06:52+09:00",
+      "stage": "official_price",
       "level": "warn",
-      "id": "2025타경506742",
-      "message": "주소 변환 실패: 인천광역시 부평구 길주로 623 101-2002호 (삼산동,대덕리치아노)"
+      "id": "2025타경1469",
+      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
+      "time": "2026-10-02T11:07:27+09:00",
       "stage": "juso",
+      "level": "error",
+      "id": "2025타경506742",
+      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
+    },
+    {
+      "time": "2026-10-02T11:07:28+09:00",
+      "stage": "official_price",
       "level": "warn",
       "id": "2025타경507295",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 91-1 2층202호"
+      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:07:28+09:00",
+      "stage": "official_price",
       "level": "warn",
-      "id": "2025타경508217",
-      "message": "주소 변환 실패: 인천광역시 서구 석남동 488-13 해강빌리지 4층402호"
+      "id": "2025타경1499",
+      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:07:28+09:00",
+      "stage": "official_price",
       "level": "warn",
-      "id": "2025타경508530",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 171-1 에코플러스 10층1001호"
+      "id": "2025타경1469",
+      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경508674",
-      "message": "주소 변환 실패: 인천광역시 강화군 화도면 내리 1776"
+      "time": "2026-10-02T11:08:03+09:00",
+      "stage": "api",
+      "level": "error",
+      "id": null,
+      "message": "엔드포인트 차단 [price:nsdi_apt]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:08:03+09:00",
+      "stage": "official_price",
       "level": "warn",
       "id": "2025타경508753",
-      "message": "주소 변환 실패: 인천광역시 서구 가좌동 30-86 진주아파트 306동 4층 401호"
+      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경509106",
-      "message": "주소 변환 실패: 인천광역시 연수구 송도동 214 송도비알씨스마트밸리지식산업센터 이동 21층2101호"
+      "time": "2026-10-02T11:08:04+09:00",
+      "stage": "api",
+      "level": "error",
+      "id": null,
+      "message": "엔드포인트 차단 [bld:getBrHsprcInfo]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:08:04+09:00",
+      "stage": "official_price",
       "level": "warn",
       "id": "2025타경509287",
-      "message": "주소 변환 실패: 인천광역시 서구 청라동 8-5"
+      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:08:04+09:00",
+      "stage": "official_price",
       "level": "warn",
-      "id": "2025타경509711",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 416-31 리치카운티 7층701호"
+      "id": "2025타경507295",
+      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:08:04+09:00",
+      "stage": "official_price",
       "level": "warn",
       "id": "2025타경509810",
-      "message": "주소 변환 실패: 인천광역시 서구 검암동 676-10 해피하우스 102동 4층401호"
+      "message": "price:nsdi_apt: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:08:39+09:00",
+      "stage": "official_price",
       "level": "warn",
-      "id": "2025타경509893",
-      "message": "주소 변환 실패: 인천광역시 연수구 송도동 319-1 이편한세상송도 108동 30층 3002호"
+      "id": "2025타경508753",
+      "message": "건축물대장 주택가격: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경509930",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 303-189 더프라임 2층203호"
+      "time": "2026-10-02T11:08:40+09:00",
+      "stage": "api",
+      "level": "error",
+      "id": null,
+      "message": "엔드포인트 차단 [juso:business.juso.go.kr]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (business.juso.go.kr))"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510271",
-      "message": "주소 변환 실패: 인천광역시 서구 검암동 638-8 2층202호"
+      "time": "2026-10-02T11:09:17+09:00",
+      "stage": "api",
+      "level": "error",
+      "id": null,
+      "message": "엔드포인트 차단 [juso:www.juso.go.kr]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (www.juso.go.kr))"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
+      "time": "2026-10-02T11:09:17+09:00",
       "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510397",
-      "message": "주소 변환 실패: 인천광역시 부평구 갈산동 182-13 세종빌리지 비동 1층101호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510549",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 220-13 삼성캐슬 5층507호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510615",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1304-34 201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510734",
-      "message": "주소 변환 실패: 인천광역시 중구 중산동 1872-2 인천영종동보노빌리티아파트 736동 7층702호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510805",
-      "message": "주소 변환 실패: 인천광역시 계양구 효성동 154-19 하이네스빌 1동 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510823",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1087-9 스페이스빌 나동 2층204호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510879",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1314-2 호반써밋프라임뷰 403동 6층602호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510936",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 631-25 보광팰리스 2층206호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510976",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 248-177 석정빌라 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511040",
-      "message": "주소 변환 실패: 인천광역시 계양구 작전동 99-5 중앙하이츠아파트 2동 11층1104호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511057",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 도화동 437-1 스타뷰 4층403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511126",
-      "message": "주소 변환 실패: 인천광역시 계양구 계산동 20 계산주공아파트 104동 5층501호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511251",
-      "message": "주소 변환 실패: 인천광역시 중구 중산동 1947-1 영종오션솔레뷰 4층410호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511256",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 273-1 리더스타워 에이동 20층2007호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511307",
-      "message": "주소 변환 실패: 인천광역시 서구 심곡동 341-16 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511396",
-      "message": "주소 변환 실패: 인천광역시 연수구 옥련동 640-1 아주아파트 102동 12층1204호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511516",
-      "message": "주소 변환 실패: 인천광역시 서구 가좌동 178-78 현광아파트형공장 4층408호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511532",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 2-132 태진베스트빌 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511625",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 학익동 306-96 대도빌라 1층102호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511733",
-      "message": "주소 변환 실패: 인천광역시 서구 석남동 111-144 이화파크빌 104동 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경614",
-      "message": "주소 변환 실패: 경기도 양평군 양동면 삼산리 663"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경624",
-      "message": "주소 변환 실패: 경기도 여주시 북내면 신접리 4"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경628",
-      "message": "주소 변환 실패: 경기도 여주시 점봉동 429-178 골드렉스힐 디동 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경632",
-      "message": "주소 변환 실패: 경기도 이천시 안흥동 231-3"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경674",
-      "message": "주소 변환 실패: 경기도 여주시 산북면 상품리 62"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경689",
-      "message": "주소 변환 실패: 경기도 양평군 옥천면 옥천리 599-5"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경691",
-      "message": "주소 변환 실패: 경기도 양평군 강상면 대석리 350-7"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경743",
-      "message": "주소 변환 실패: 경기도 양평군 옥천면 옥천리 106-2"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경30392",
-      "message": "주소 변환 실패: 경기도 여주시 여흥로160번길 50-28 4층402호 (상동,아이엔4)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경30954",
-      "message": "주소 변환 실패: 경기도 이천시 신둔면 장동리 668-45 1동"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경30962",
-      "message": "주소 변환 실패: 경기도 양평군 개군면 하자포리 45-1"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경30975",
-      "message": "주소 변환 실패: 경기도 이천시 사음동 189-6 성원캐슬 1동 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경30998",
-      "message": "주소 변환 실패: 경기도 양평군 옥천면 용천리 275-8"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31013",
-      "message": "주소 변환 실패: 경기도 여주시 강천면 적금리 125-3 가동"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31025",
-      "message": "주소 변환 실패: 경기도 이천시 백사면 현방리 193-28"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31046",
-      "message": "주소 변환 실패: 경기도 양평군 양평읍 원덕리 375-2"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31072",
-      "message": "주소 변환 실패: 경기도 이천시 대월면 초지리 116-5 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31080",
-      "message": "주소 변환 실패: 경기도 양평군 양동면 고송리 62-17"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31246",
-      "message": "주소 변환 실패: 경기도 양평군 옥천면 용천리 162"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31269",
-      "message": "주소 변환 실패: 경기도 이천시 송정동 375-61 송정다울3차 1동 7층701호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31270",
-      "message": "주소 변환 실패: 경기도 양평군 양평읍 공흥리 778-1 미담채주건축물제1동 4층407호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31294",
-      "message": "주소 변환 실패: 경기도 이천시 대월면 사동리 386-72 현대5차아파트 501동 4층403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31306",
-      "message": "주소 변환 실패: 경기도 여주시 창동 2-4"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31370",
-      "message": "주소 변환 실패: 경기도 이천시 창전동 149-2 가온오피스텔 1동 5층506호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31387",
-      "message": "주소 변환 실패: 경기도 여주시 월송동 247-2 에코타운 104동 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31405",
-      "message": "주소 변환 실패: 경기도 여주시 흥천면 외사리 233-3"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31416",
-      "message": "주소 변환 실패: 경기도 양평군 옥천면 신복리 402-19"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31429",
-      "message": "주소 변환 실패: 경기도 양평군 옥천면 신복리 206 뉴한화타운하우스 1동 1,2층103호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31451",
-      "message": "주소 변환 실패: 경기도 이천시 대월면 사동리 116-13 1동 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31574",
-      "message": "주소 변환 실패: 경기도 이천시 율면 월포리 966-23"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31724",
-      "message": "주소 변환 실패: 경기도 이천시 부발읍 아미리 753 아미리7차현대아파트 707동 18층1801호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31738",
-      "message": "주소 변환 실패: 경기도 양평군 서종면 명달리 166-1"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31766",
-      "message": "주소 변환 실패: 경기도 이천시 백사면 모전리 520-9 엠520빌리지 1동 2호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경31818",
-      "message": "주소 변환 실패: 경기도 이천시 백사면 경사리 195"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경30539",
-      "message": "주소 변환 실패: 소재지 : 경기도 이천시 부발읍 황무로 1416 201호(대원빌딩)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
+      "level": "error",
       "id": "2018타경6939",
-      "message": "주소 변환 실패: 서울특별시 중구 퇴계로 217 4층10호"
+      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
+      "time": "2026-10-02T11:09:17+09:00",
       "stage": "juso",
-      "level": "warn",
+      "level": "error",
+      "id": "2026타경30539",
+      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
+    },
+    {
+      "time": "2026-10-02T11:09:17+09:00",
+      "stage": "juso",
+      "level": "error",
+      "id": "2025타경30392",
+      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
+    },
+    {
+      "time": "2026-10-02T11:09:52+09:00",
+      "stage": "juso",
+      "level": "error",
       "id": "2022타경101244",
-      "message": "주소 변환 실패: 서울특별시 강남구 논현로8길 32-16 1층102호"
+      "message": "네트워크 오류: ConnectTimeout (www.juso.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2023타경106499",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 65-3"
+      "time": "2026-10-02T11:10:28+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "연립다세대 28110 202607: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경124548",
-      "message": "주소 변환 실패: 서울특별시 동작구 매봉로 25 2층202호 (상도1동,더포레스트)"
+      "time": "2026-10-02T11:10:28+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "연립다세대 28110 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경1130",
-      "message": "주소 변환 실패: 서울특별시 동작구 신대방동 366-220"
+      "time": "2026-10-02T11:10:28+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "연립다세대 28110 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경2263",
-      "message": "주소 변환 실패: 서울특별시 강남구 청담동 91-2 아노블리81 3층307호"
+      "time": "2026-10-02T11:10:28+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "연립다세대 28110 202608: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경2409",
-      "message": "주소 변환 실패: 서울특별시 동작구 신대방동 348-37"
+      "time": "2026-10-02T11:11:04+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "아파트 41220 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경3327",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 497-5 그린플러스신림해담채 5층502호"
+      "time": "2026-10-02T11:11:04+09:00",
+      "stage": "api",
+      "level": "error",
+      "id": null,
+      "message": "엔드포인트 차단 [trade:rh]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경3914",
-      "message": "주소 변환 실패: 서울특별시 종로구 명륜2가 158"
+      "time": "2026-10-02T11:11:04+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "연립다세대 28110 202605: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경4139",
-      "message": "주소 변환 실패: 서울특별시 중구 신당동 217-91 1층가-3호"
+      "time": "2026-10-02T11:11:04+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "연립다세대 28110 202606: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경100280",
-      "message": "주소 변환 실패: 서울특별시 동작구 남부순환로265길 13 6층602호 (사당동,기쁨채)"
+      "time": "2026-10-02T11:11:05+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "아파트 41220 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경101405",
-      "message": "주소 변환 실패: 서울특별시 관악구 난곡로 298 14층1407호 (신림동,더위일관악파크뷰)"
+      "time": "2026-10-02T11:11:40+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "아파트 41220 202607: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경101733",
-      "message": "주소 변환 실패: 서울특별시 강남구 삼성로 212 31동 14층1401호 (개포동,은마아파트)"
+      "time": "2026-10-02T11:11:41+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "아파트 41220 202608: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102122",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1568-5 더위일관악파크뷰 10층1007호"
+      "time": "2026-10-02T11:11:41+09:00",
+      "stage": "api",
+      "level": "error",
+      "id": null,
+      "message": "엔드포인트 차단 [trade:apt]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102337",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 610-399 청운아트빌 4층401호"
+      "time": "2026-10-02T11:11:41+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "아파트 41220 202605: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102472",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 457-161 현대파라곤 3층301호"
+      "time": "2026-10-02T11:11:41+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "아파트 41220 202606: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102503",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 1535-52 수팰리스에프티 101동 6층602호"
+      "time": "2026-10-02T11:12:17+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "오피스텔 28177 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102571",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1437-19 태양오피스텔 7층701호"
+      "time": "2026-10-02T11:12:17+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "오피스텔 28177 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102688",
-      "message": "주소 변환 실패: 서울특별시 중구 광희동1가 287"
+      "time": "2026-10-02T11:12:18+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "오피스텔 28177 202607: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102915",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 98-82 1층101호"
+      "time": "2026-10-02T11:12:18+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "오피스텔 28177 202608: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102940",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 713-1 성진리치빌5차 5층502호"
+      "time": "2026-10-02T11:12:53+09:00",
+      "stage": "api",
+      "level": "error",
+      "id": null,
+      "message": "엔드포인트 차단 [trade:offi]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102989",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 635-449 1층102호"
+      "time": "2026-10-02T11:12:53+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "오피스텔 28177 202605: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103007",
-      "message": "주소 변환 실패: 서울특별시 서초구 양재동 81-12 코너스톤에이 4층401호"
+      "time": "2026-10-02T11:12:53+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "오피스텔 28177 202606: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103190",
-      "message": "주소 변환 실패: 서울특별시 관악구 남현동 1072-100 제이엠빌리지 3층302호"
+      "time": "2026-10-02T11:12:54+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "오피스텔 28260 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103302",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 649-191 한성파크빌리지 107동 4층402호"
+      "time": "2026-10-02T11:12:54+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "오피스텔 28260 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103418",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 645 6층602호"
+      "time": "2026-10-02T11:13:29+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "단독다가구 11620 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103505",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 635-516 아르떼빌 5층503호"
+      "time": "2026-10-02T11:13:29+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "단독다가구 11620 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103519",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 635-198 팰리스타운 2층201호"
+      "time": "2026-10-02T11:13:30+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "단독다가구 11620 202607: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103552",
-      "message": "주소 변환 실패: 서울특별시 종로구 창신동 340-2"
+      "time": "2026-10-02T11:13:30+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "단독다가구 11620 202608: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103565",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1450-17"
+      "time": "2026-10-02T11:14:05+09:00",
+      "stage": "api",
+      "level": "error",
+      "id": null,
+      "message": "엔드포인트 차단 [trade:sh]: 연속 5회 실패 (마지막: 네트워크 오류: ConnectTimeout (apis.data.go.kr))"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103583",
-      "message": "주소 변환 실패: 서울특별시 종로구 종로6가 289-39"
+      "time": "2026-10-02T11:14:05+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "단독다가구 11620 202606: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103683",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 1511-18"
+      "time": "2026-10-02T11:14:05+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "단독다가구 11620 202605: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103707",
-      "message": "주소 변환 실패: 서울특별시 강남구 대치동 896-19"
+      "time": "2026-10-02T11:14:05+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "단독다가구 11110 202609: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103755",
-      "message": "주소 변환 실패: 서울특별시 동작구 노량진동 16-1 노량진드림스퀘어복합빌딩 8층에이804호"
+      "time": "2026-10-02T11:14:06+09:00",
+      "stage": "trade",
+      "level": "error",
+      "id": null,
+      "message": "단독다가구 11110 202610: 네트워크 오류: ConnectTimeout (apis.data.go.kr)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103822",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 712-70"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103851",
-      "message": "주소 변환 실패: 서울특별시 동작구 상도동 324-41 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103868",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 610-246 레미안아트빌 1층103호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103940",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 713-146 첼시하우스씨동 5층501호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103957",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 409-234 태경빌 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103987",
-      "message": "주소 변환 실패: 서울특별시 중구 황학동 819 황학동복합시설(듀오302) 2층211호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104021",
-      "message": "주소 변환 실패: 서울특별시 중구 회현동1가 208 남산롯데캐슬아이리스 3층314호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104108",
-      "message": "주소 변환 실패: 서울특별시 동작구 신대방동 686-48 동작협성휴포레시그니처 105동 9층902호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104183",
-      "message": "주소 변환 실패: 서울특별시 종로구 명륜3가 1-1093"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104213",
-      "message": "주소 변환 실패: 서울특별시 서초구 서초동 1446-11 현대슈퍼빌 11층디-1101호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104219",
-      "message": "주소 변환 실패: 서울특별시 서초구 서초동 1660-17"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104248",
-      "message": "주소 변환 실패: 서울특별시 강남구 논현동 211-21 펜트힐루논현 지1층비103호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104253",
-      "message": "주소 변환 실패: 서울특별시 종로구 명륜1가 41-5"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104349",
-      "message": "주소 변환 실패: 서울특별시 강남구 삼성동 90 삼성브르넨 10층1001호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104392",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 610-249 우성아트빌 3층303호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104408",
-      "message": "주소 변환 실패: 서울특별시 관악구 남현동 1086-24 편백나무빌라 2층204호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104429",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1421-1 신림큐브 5층510호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104456",
-      "message": "주소 변환 실패: 서울특별시 동작구 상도1동 244-2 필하우스2차 5층603호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104476",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1659-35"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104479",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 470-20 우영아르떼5차 5층501호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104516",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 893-12 마에스트로캠퍼스타운 11층1104호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104528",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1433-55 프라비다트라움 4층416호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104557",
-      "message": "주소 변환 실패: 서울특별시 강남구 논현동 67-17 지하층나호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104570",
-      "message": "주소 변환 실패: 서울특별시 관악구 남현동 1054-41 남광센트빌 2층203호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104634",
-      "message": "주소 변환 실패: 서울특별시 서초구 방배동 725 방배삼호아파트 나동 13층1304호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104654",
-      "message": "주소 변환 실패: 서울특별시 서초구 우면동 603-1"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104681",
-      "message": "주소 변환 실패: 서울특별시 중구 충무로2가 48-2 명동엠퍼스트플레이스 13층1311호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104703",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 180-91 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104712",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1421-1 신림큐브 2층211호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100039",
-      "message": "주소 변환 실패: 서울특별시 중구 묵정동 35 힐스테이트남산 101동 지1층비106호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100040",
-      "message": "주소 변환 실패: 서울특별시 동작구 대방동 336-6 무이비엔 5층503호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100059",
-      "message": "주소 변환 실패: 서울특별시 동작구 신대방동 364-102"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100084",
-      "message": "주소 변환 실패: 서울특별시 동작구 노량진동 267-6 노량진큐브스테이트 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100088",
-      "message": "주소 변환 실패: 서울특별시 서초구 서초동 1466-2 서초네스피아에이 6층601호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100101",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 100-66 비쥬타운2차 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100139",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1421-1 신림큐브 4층405호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100316",
-      "message": "주소 변환 실패: 서울특별시 서초구 잠원동 162 반포센트럴자이 104동 22층2201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2020타경33426",
-      "message": "주소 변환 실패: 경기도 양평군 양평읍 공흥리 441-1"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2023타경6265",
-      "message": "주소 변환 실패: 경기도 양평군 용문면 연수리 371-4"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2023타경38255",
-      "message": "주소 변환 실패: 경기도 양평군 용문면 더좋은마을길 3"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경677",
-      "message": "주소 변환 실패: 경기도 이천시 신둔면 용면리 176"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경1366",
-      "message": "주소 변환 실패: 경기도 양평군 용문면 다문북길 106 1층101호 (조은프라자)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경1687",
-      "message": "주소 변환 실패: 경기도 여주시 세종대왕면 오계리 416-1"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경2970",
-      "message": "주소 변환 실패: 경기도 이천시 신둔면 고척리 66-1"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경3065",
-      "message": "주소 변환 실패: 경기도 이천시 장호원읍 이황리 397-1"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경3232",
-      "message": "주소 변환 실패: 경기도 양평군 양서면 증동리 616-1"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경4587",
-      "message": "주소 변환 실패: 경기도 양평군 용문면 연수리 547-8"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경4631",
-      "message": "주소 변환 실패: 경기도 양평군 서종면 수능리 53-18"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경5573",
-      "message": "주소 변환 실패: 경기도 여주시 현암동 219-15"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경6040",
-      "message": "주소 변환 실패: 경기도 이천시 대월면 대평로174번길 86-11 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경6101",
-      "message": "주소 변환 실패: 경기도 양평군 서종면 수능리 422-3"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경6668",
-      "message": "주소 변환 실패: 경기도 양평군 서종면 문호리 718"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경6866",
-      "message": "주소 변환 실패: 경기도 여주시 월송동 25-1"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경6934",
-      "message": "주소 변환 실패: 경기도 이천시 애련정로136번길 33-9 101동 10층1007호 (창전동,현대아파트)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경30463",
-      "message": "주소 변환 실패: 경기도 이천시 설성면 설장로 434-20 (1동)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경30685",
-      "message": "주소 변환 실패: 경기도 양평군 양서면 목왕리 347-13"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경32247",
-      "message": "주소 변환 실패: 경기도 양평군 용문면 다문리 428-9"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경32636",
-      "message": "주소 변환 실패: 경기도 양평군 강하면 항금리 377-9"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경33325",
-      "message": "주소 변환 실패: 경기도 이천시 신둔면 장동리 320-3"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경35482",
-      "message": "주소 변환 실패: 경기도 여주시 천송동 54-4"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경36577",
-      "message": "주소 변환 실패: 경기도 이천시 호법면 안평리 198"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경36737",
-      "message": "주소 변환 실패: 경기도 양평군 강상면 교평리 56-10"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경36874",
-      "message": "주소 변환 실패: 경기도 여주시 가남읍 화평리 82"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경37723",
-      "message": "주소 변환 실패: 경기도 여주시 청심로 40 비동 4층401호 (하동,한빛타운)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경39354",
-      "message": "주소 변환 실패: 경기도 양평군 양평읍 대흥리 50-2"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경39415",
-      "message": "주소 변환 실패: 경기도 이천시 마장면 중앙로10번길 30 2층 202호 (더큐브어센딩센터)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경40118",
-      "message": "주소 변환 실패: 경기도 이천시 구만리로 191 101동 44층 4404호 (안흥동,이천롯데캐슬골드스카이)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경40378",
-      "message": "주소 변환 실패: 경기도 이천시 부발읍 경충대로 2088 7층704호 (삼성홈플렉스)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경40484",
-      "message": "주소 변환 실패: 경기도 이천시 호법면 안평리 78-2"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경40910",
-      "message": "주소 변환 실패: 경기도 양평군 양평읍 흥청중앙길 25 2층 201호 (미담채주건축물제1동)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경40941",
-      "message": "주소 변환 실패: 경기도 여주시 세종로 453 (점봉동,제1동)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경41098",
-      "message": "주소 변환 실패: 경기도 양평군 단월면 봉상리 387-7"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경41180",
-      "message": "주소 변환 실패: 경기도 이천시 호법면 동산리 129-7"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경41364",
-      "message": "주소 변환 실패: 경기도 이천시 장호원읍 장호원리 34-6"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경41388",
-      "message": "주소 변환 실패: 경기도 이천시 모가면 산내리 105"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경41654",
-      "message": "주소 변환 실패: 경기도 양평군 양평읍 중앙로167번길 8 104동 8층 801호 (양평공흥지구한신휴플러스)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경41920",
-      "message": "주소 변환 실패: 경기도 여주시 삼교동 434-55"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경41968",
-      "message": "주소 변환 실패: 경기도 이천시 양진로104번길 103 101동 4층401호 (사음동,탑클래스)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경42206",
-      "message": "주소 변환 실패: 경기도 이천시 신둔면 인후리 64-12"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경42466",
-      "message": "주소 변환 실패: 경기도 이천시 사음로 48 102동 1층102호 (사음동,건화홈타운)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경42671",
-      "message": "주소 변환 실패: 경기도 양평군 단월면 향소리 184-12"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경42770",
-      "message": "주소 변환 실패: 경기도 이천시 부발읍 대산로 759-1 204동 3층302호 (블레싱타운)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경42978",
-      "message": "주소 변환 실패: 경기도 이천시 백사면 송말리 672-19"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경261",
-      "message": "주소 변환 실패: 경기도 양평군 양동면 고송리 1380-5"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경391",
-      "message": "주소 변환 실패: 경기도 여주시 도예로 39-4 1동 2층201호 (현암동,애플하우스이)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경495",
-      "message": "주소 변환 실패: 경기도 이천시 백사면 상용리 211-5"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경545",
-      "message": "주소 변환 실패: 경기도 양평군 용문면 신점리 369-54"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경553",
-      "message": "주소 변환 실패: 경기도 양평군 강하면 전수리 93-6"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경567",
-      "message": "주소 변환 실패: 경기도 여주시 금사면 소유리 157"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경584",
-      "message": "주소 변환 실패: 경기도 양평군 강하면 항금리 124-6"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경554",
-      "message": "주소 변환 실패: 경기도 여주시 금사면 주록리 118"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경1333",
-      "message": "주소 변환 실패: 인천광역시 서구 청라동 152-7 청라아리스타 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경500832",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 166-17 다드림아파트 5층504호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경500948",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 302-8 숭의엠타운 9층901호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경500956",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1203-2 주건축물 1동 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경500980",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 642-6 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501012",
-      "message": "주소 변환 실패: 인천광역시 서구 마전동 988-1 6층606호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501046",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 451-98 센트럴뷰2차 13층1304호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501064",
-      "message": "주소 변환 실패: 인천광역시 서구 청라동 167-17 딜라이트타워2 5층516호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501136",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 372-12 현대홈타운 2층205호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501138",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 용현동 630-32 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501152",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 401-2 더뷰스테이트 2층205호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501180",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 33-38 101동 13층1304호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501226",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 518-7 스위트홈 2동 5층503호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501248",
-      "message": "주소 변환 실패: 인천광역시 남동구 논현동 645-5 인천논현포레오피스텔 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501256",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1084-14 나(그랜드비스타)동 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501274",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1135-5 구월프라움시티 에이동 11층1101호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501310",
-      "message": "주소 변환 실패: 인천광역시 서구 검암동 525-10 베르데힐 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501322",
-      "message": "주소 변환 실패: 인천광역시 부평구 십정동 180-53 행복아트빌 1층102호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501343",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 531-1 태강 씨티 12층1210호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501360",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 119-50 더스카이뷰 9층902호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501380",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 616-36 헤렌시티 헤렌시티101동 7층701호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501420",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1085-4 골드클래스 103동 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501454",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 51-4 블루하임 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501462",
-      "message": "주소 변환 실패: 인천광역시 서구 연희동 701-8 굿모닝힐타운 215동 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501504",
-      "message": "주소 변환 실패: 인천광역시 서구 검암동 611-7 태성휴빌5차 3층304호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501516",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 241-2 해마루더펠리체 3층309호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501520",
-      "message": "주소 변환 실패: 인천광역시 서구 석남동 488-2 파크원 7층706호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501530",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 316-3 센트라움주건축물 1동 10층102동1006호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501534",
-      "message": "주소 변환 실패: 인천광역시 남동구 논현동 644-4 논현두손지젤타워 13층1302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501614",
-      "message": "주소 변환 실패: 인천광역시 남동구 서창동 560-7 서창에스클래스 5동 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501624",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 495-10 헤르메스아파트 2동 3층307호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501640",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 348-12 한아름빌 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501659",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 415-8 인스테이션 6층608호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501664",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 568-1 대준블루온 11층1104호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501688",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 577-2 퍼스트씨티56 2층204호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501721",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1124-5 리치캐슬 7층701호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501729",
-      "message": "주소 변환 실패: 인천광역시 남동구 남촌동 624-3 제이케이루체스타지식산업센터 11층1116호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501737",
-      "message": "주소 변환 실패: 인천광역시 부평구 청천동 175-37 삼성에센빌 4층403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501761",
-      "message": "주소 변환 실패: 인천광역시 서구 석남동 507-24 대명노블리안 2층203호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501768",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1129 14층1411호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501773",
-      "message": "주소 변환 실패: 인천광역시 서해구 검암동 636-11 풀하우스 102동 3층303호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501778",
-      "message": "주소 변환 실패: 인천광역시 서해구 석남동 111-152 프라임빌 102동 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501828",
-      "message": "주소 변환 실패: 인천광역시 남동구 장수동 788-10 광백드림빌 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501834",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 185-39 6층602호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501864",
-      "message": "주소 변환 실패: 인천광역시 서구 검암동 644-1 에스클래스 비동 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501868",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 161-3 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501883",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 216-5 간석리페(1차)도시형생활주택 1동 3층306호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501890",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 972-5 7층701호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501895",
-      "message": "주소 변환 실패: 인천광역시 남동구 논현동 448 논현2차푸르지오시티 6층647호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501902",
-      "message": "주소 변환 실패: 인천광역시 남동구 논현동 650-1 푸르지오시티 11층1113호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501911",
-      "message": "주소 변환 실패: 인천광역시 계양구 귤현동 510-1 스마트타운 2동 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501962",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 용현동 624-79 6층602호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501975",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 494-3 골드캐슬 9층906호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501981",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1129 10층1010호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502001",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1087-21 하나로아트빌 2동 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502009",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 928-23 굿하우스 2동 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502023",
-      "message": "주소 변환 실패: 인천광역시 서구 마전동 1022-1 에스뽀아빌 1동 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502036",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 112-9 센트레빌 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502046",
-      "message": "주소 변환 실패: 인천광역시 서구 마전동 1149-17 미앤느 102동 2-5층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502051",
-      "message": "주소 변환 실패: 인천광역시 서구 검암동 525-10 베르데힐 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502056",
-      "message": "주소 변환 실패: 인천광역시 서구 검암동 664-7 라움 3층304호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502074",
-      "message": "주소 변환 실패: 인천광역시 서구 석남동 583-61 신성빌 4층403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502087",
-      "message": "주소 변환 실패: 인천광역시 서구 청라동 157-6 청라봄빌딩 10층1014호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502119",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1129-8 구월룩소르주상복합아파트 9층906호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502127",
-      "message": "주소 변환 실패: 인천광역시 남동구 만수동 937-12 해마루플러스 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502134",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 도화동 437-1 스타뷰 10층1004호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502138",
-      "message": "주소 변환 실패: 인천광역시 부평구 갈산동 66-14 가동 1층102호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502143",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 303-1 휴프라임 12층1202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502174",
-      "message": "주소 변환 실패: 인천광역시 서구 마전동 1025-14 중앙이클래스19차 1동 3층306호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경502187",
-      "message": "주소 변환 실패: 인천광역시 남동구 서창동 565-14 청봉산에들에 1동 4층403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514274",
-      "message": "주소 변환 실패: 인천광역시 서구 가정동 603-1 루원제일풍경채 404동 1층102호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514408",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 1216-17 주안에쉐르 1층115호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514430",
-      "message": "주소 변환 실패: 인천광역시 부평구 삼산동 67-49 다승프라임 111동 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514463",
-      "message": "주소 변환 실패: 인천광역시 남동구 만수동 1-52 디에이치씨밀레 1동 12층1204호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514525",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1080-17 멤버스힐 105동 5층501호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514531",
-      "message": "주소 변환 실패: 인천광역시 계양구 귤현동 492-1 정도쉐르빌 1동 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514562",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 185-39 5층501호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514563",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 도화동 877 어반스뷰5차 8층비-804호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514565",
-      "message": "주소 변환 실패: 인천광역시 서구 가좌동 136 무한퍼스트지 3층307호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514609",
-      "message": "주소 변환 실패: 인천광역시 서구 연희동 712-21 주천그린빌라 5동 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514615",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 학익동 666-15 드림빌 비동 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514634",
-      "message": "주소 변환 실패: 인천광역시 계양구 작전동 679-10 어반스카이 2동 14층1404호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514673",
-      "message": "주소 변환 실패: 인천광역시 부평구 삼산동 67-31 다승프라임 117동 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514681",
-      "message": "주소 변환 실패: 인천광역시 서구 마전동 1129-8 동아그랑빌 가동 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514731",
-      "message": "주소 변환 실패: 인천광역시 계양구 효성동 321-30 청송빌라 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514764",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 1-11 다우림 14층1401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514805",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 922-5 나동-지하층1호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514817",
-      "message": "주소 변환 실패: 인천광역시 부평구 청천동 199-20 더프라임클래스 11층1106호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514835",
-      "message": "주소 변환 실패: 인천광역시 계양구 장기동 123-4 대경이즈뷰 4동 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514856",
-      "message": "주소 변환 실패: 인천광역시 계양구 작전동 861-25 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514860",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 241-1 엠타워식스 15층1507호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514929",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 431-37 부평타워큐아파트 11층1107호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514946",
-      "message": "주소 변환 실패: 인천광역시 서구 검암동 680-3 유현샤인빌 에이동 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514965",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 75-5 투민힐스빌 13층1305호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514973",
-      "message": "주소 변환 실패: 인천광역시 남동구 만수동 839-24 해밀뜨락 2층204호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경514991",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 102-1 와이지캐슬 11층1101호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경515039",
-      "message": "주소 변환 실패: 인천광역시 서구 신현동 212-3 장인하이츠빌라 102동 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경515045",
-      "message": "주소 변환 실패: 인천광역시 서구 마전동 923-3 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경515088",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 760-70 휴안레뷰 9층901호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경515093",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 94-4 엘비주택 3층304호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경515158",
-      "message": "주소 변환 실패: 인천광역시 부평구 십정동 482-14 서보한마음 5층501호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2023타경109238",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 96-14"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2023타경109474",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 66-195"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2023타경110719",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 65-29"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2023타경111675",
-      "message": "주소 변환 실패: 서울특별시 관악구 행운1라길 25"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2023타경116427",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 95-13"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경125053",
-      "message": "주소 변환 실패: 서울특별시 강남구 영동대로 22(일원동) 810동 18층1804호 (일원동,디에이치자이개포)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경1970",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 497-5 그린플러스신림해담채 4층410호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경2782",
-      "message": "주소 변환 실패: 서울특별시 강남구 삼성동 90 삼성브르넨 12층1201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경3136",
-      "message": "주소 변환 실패: 서울특별시 동작구 사당동 220-75 중앙빌라 지층01호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경100846",
-      "message": "주소 변환 실패: 서울특별시 관악구 난곡로 298 3층304호 (신림동,더위일관악파크뷰)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102277",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1474-15 몽삐에뜨골드 5층504호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102413",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1437-19 태양오피스텔 5층503호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102482",
-      "message": "주소 변환 실패: 서울특별시 동작구 사당동 44-179 디에스리브1단지디에스리브1단지103동 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102587",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 649-22 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102629",
-      "message": "주소 변환 실패: 서울특별시 종로구 창신동 255-1 3층308호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102642",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1568-5 더위일관악파크뷰 12층1210호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102810",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 507-38 엠엘쉐르빌 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102826",
-      "message": "주소 변환 실패: 서울특별시 동작구 상도1동 519-1 더포레스트 2층207호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102888",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 10-559 아름채 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102934",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1655-15 지밸리마인드 14층1404호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102969",
-      "message": "주소 변환 실패: 서울특별시 강남구 역삼동 681-26 역삼동하나빌 6층602호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경102983",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 635-279 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103001",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 458-66 디앤씨타운 에이동 6층601호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103256",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 458-71 2층203호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103272",
-      "message": "주소 변환 실패: 서울특별시 서초구 서초동 1432-24 성심빌딩 지1층비101호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103324",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 706-79 로하스하임씨 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103327",
-      "message": "주소 변환 실패: 서울특별시 서초구 반포동 50-8 신성리더스카운티 6층602호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103343",
-      "message": "주소 변환 실패: 서울특별시 서초구 서초동 1337-3 강남역푸르지오시티 3층306호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103485",
-      "message": "주소 변환 실패: 서울특별시 종로구 창신동 255-1 6층615호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103487",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 102-87 아르떼빌 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103502",
-      "message": "주소 변환 실패: 서울특별시 중구 황학동 1074-2 메트하임신당역오피스텔주건축물제1동 17층1704호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103531",
-      "message": "주소 변환 실패: 서울특별시 동작구 상도동 175-29 모던힐타운4차모던힐타운 1동 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103577",
-      "message": "주소 변환 실패: 서울특별시 중구 중림동 355 브라운스톤 서울 20층102-2002호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103630",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 610-249 우성아트빌 3층304호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103647",
-      "message": "주소 변환 실패: 서울특별시 종로구 동숭동 4-50 지하층비01호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103688",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 1513-5 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103750",
-      "message": "주소 변환 실패: 서울특별시 동작구 상도1동 519-1 더포레스트 7층701호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103780",
-      "message": "주소 변환 실패: 서울특별시 종로구 숭인동 298-9 인스파이어 1동 3층304호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103784",
-      "message": "주소 변환 실패: 서울특별시 종로구 인의동 48-2 효성주얼리시티 1층제이1105호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103797",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 180-252 아르떼빌 6층601호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103848",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1568-5 더위일관악파크뷰 10층1009호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103865",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1437-19 태양오피스텔 5층501호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103881",
-      "message": "주소 변환 실패: 서울특별시 동작구 상도동 408 상도동삼호아파트 102동 7층702호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103897",
-      "message": "주소 변환 실패: 서울특별시 강남구 세곡동 541 강남효성해링턴코트111 1층103호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103938",
-      "message": "주소 변환 실패: 서울특별시 종로구 창신동 255-1 7층710호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103954",
-      "message": "주소 변환 실패: 서울특별시 서초구 반포동 12 래미안원펜타스 102동 14층1403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경103981",
-      "message": "주소 변환 실패: 서울특별시 관악구 봉천동 886-43 이룸뉴캐슬 4층403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104017",
-      "message": "주소 변환 실패: 서울특별시 중구 중림동 363 쌍용더플래티넘서울역 4층418호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104062",
-      "message": "주소 변환 실패: 서울특별시 강남구 역삼동 605-17 태건강남헤븐리치더써밋761 1층103호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104069",
-      "message": "주소 변환 실패: 서울특별시 종로구 창신동 255-1 10층1003호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104105",
-      "message": "주소 변환 실패: 서울특별시 서초구 반포동 720-19 퍼스트캐슬1동 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104150",
-      "message": "주소 변환 실패: 서울특별시 동작구 상도동 302-17 미소가 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104210",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 95-64 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104268",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 462-1 더퍼스트빌 5층503호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104287",
-      "message": "주소 변환 실패: 서울특별시 강남구 논현동 222-30 3층303호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104308",
-      "message": "주소 변환 실패: 서울특별시 강남구 대치동 1027 래미안대치팰리스 104동 12층1201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104359",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 610-59 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104402",
-      "message": "주소 변환 실패: 서울특별시 동작구 상도동 301-73 카리스빌 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104440",
-      "message": "주소 변환 실패: 서울특별시 동작구 상도동 299-164 휴먼빌레 2층204호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경104536",
-      "message": "주소 변환 실패: 서울특별시 종로구 창신동 255-1 4층406호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100006",
-      "message": "주소 변환 실패: 서울특별시 서초구 양재동 11-50 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100212",
-      "message": "주소 변환 실패: 서울특별시 동작구 신대방동 632-30 1층102호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100459",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1678-42 푸르미르빌2차 4층403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100667",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 713-1 성진리치빌5차 2층203호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100696",
-      "message": "주소 변환 실패: 사용본거지 : 서울특별시 서초구 원지동 0401-0005"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경100876",
-      "message": "주소 변환 실패: 서울특별시 관악구 신림동 1433-55 프라비다트라움 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2021타경526137",
-      "message": "주소 변환 실패: 인천광역시 옹진군 영흥면 내리 219-31"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2023타경18081",
-      "message": "주소 변환 실패: 인천광역시 강화군 양도면 인산리 8-2"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경70",
-      "message": "주소 변환 실패: 인천광역시 연수구 송도과학로51번길 136 208동 24층2402호 (송도동,송도캐슬앤해모로)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경1684",
-      "message": "주소 변환 실패: 인천광역시 서구 보듬로 158 지하2층공존-비103호 (오류동,블루텍)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경14628",
-      "message": "주소 변환 실패: 인천광역시 서구 가람로 14 4층402호 (오류동,인천표면처리센터공장동)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경15218",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 인주대로418번길 19 1동 1층108호 (주안동,광명아파트)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경514173",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동로26번길 17 103동 3층302호 (주안동,신한아파트3차)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경514845",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 한나루로573번길 9 11층1103호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경515763",
-      "message": "주소 변환 실패: 인천광역시 부평구 대정로 42 4층402호 (부평동,아이홈아파트)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경522228",
-      "message": "주소 변환 실패: 인천광역시 부평구 장제로52번길 9 4층404호 (부평동,삼성캐슬아파트)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경532256",
-      "message": "주소 변환 실패: 인천광역시 계양구 아나지로187번길 7 2층201호 (효성동,경복하우스)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경539158",
-      "message": "주소 변환 실패: 인천광역시 서구 완정로117번길 61 1동 7층706호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경542833",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1343-2 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경552816",
-      "message": "주소 변환 실패: 인천광역시 부평구 시장로 65 7층702호 (부평동,에이치.비엘림캐슬)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경552960",
-      "message": "주소 변환 실패: 인천광역시 서구 고산후로78번안길 20 504동 5층501호 (당하동,삼익캐슬)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경568675",
-      "message": "주소 변환 실패: 인천광역시 계양구 새벌로112번길 17-2 2동 2층201호 (효성동,하늘빌리지)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경575093",
-      "message": "주소 변환 실패: 인천광역시 남동구 용천로153번길 30 9층906호 (간석동,대준블루인)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경577716",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 매소홀로 77-16 3층301호 (용현동,성심빌라)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2024타경585090",
-      "message": "주소 변환 실패: 인천광역시 동구 송현동 72-64"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경1565",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1486 구월아시아드선수촌1단지 106동 28층2803호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경1662",
-      "message": "주소 변환 실패: 인천광역시 부평구 청천동 380-14 효마을타운 313동 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경500119",
-      "message": "주소 변환 실패: 인천광역시 부평구 영성로 22 1동 3층301호 (삼산동,삼산리드빌)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경500782",
-      "message": "주소 변환 실패: 인천광역시 남동구 인주대로591번길 74 2층205호 (구월동,메종야베스)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경501532",
-      "message": "주소 변환 실패: 인천광역시 남동구 용천로168번길 10 9층902호 (간석동,신승바이올렛)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경502337",
-      "message": "주소 변환 실패: 인천광역시 남동구 독점로 13 1동 7층702호 (구월동,주건축물)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경503897",
-      "message": "주소 변환 실패: 인천광역시 부평구 주부토로75번길 33 2층201호 (부평동,참빛아파트)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경505640",
-      "message": "주소 변환 실패: 인천광역시 부평구 장제로52번길 35 6층601호 (부평동,카리스뷰)"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경507343",
-      "message": "주소 변환 실패: 인천광역시 서구 오류동 1656-1 블루텍 2층공존-212호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경507609",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 81-15 알바트로스 7층702호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경508486",
-      "message": "주소 변환 실패: 인천광역시 중구 신흥동3가 35-7 메트로시티주건축물 1동 2층204-1호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경508816",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 1488-15 화이트빌라 2동 1층 102호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경509585",
-      "message": "주소 변환 실패: 인천광역시 중구 신흥동3가 31-13 인천유림노르웨이숲에듀오션 103동 36층3604호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경509756",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 77-3 주안지웰에스테이트 102동 21층오피스텔2101호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경509784",
-      "message": "주소 변환 실패: 인천광역시 부평구 갈산동 41-9 스카이캐슬 비동 5층501호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경509813",
-      "message": "주소 변환 실패: 인천광역시 서구 청라동 153-3 크리스탈뷰2차 7층 706호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경509950",
-      "message": "주소 변환 실패: 인천광역시 남동구 논현동 66-5 논현유호엔시티2단지 201동 14층오피스텔1403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경509995",
-      "message": "주소 변환 실패: 인천광역시 서구 청라동 96-20 인천청라골드클래스2차오피스텔 14층1419호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경509996",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 492-10 한결아파트 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510104",
-      "message": "주소 변환 실패: 인천광역시 서구 경서동 765-6 드림하우스 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510232",
-      "message": "주소 변환 실패: 인천광역시 계양구 박촌동 317 계양2차하우스토리 201동 10층1003호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510246",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 573-7 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510529",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 용현동 676-24 다흥힐타운 2동 1층102호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510757",
-      "message": "주소 변환 실패: 인천광역시 서구 청라동 167-29 청라디오스텔 1층102호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510844",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 학익동 413-1 10동 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510870",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 341-36 디-바인아파트 13층1303호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경510899",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 182-14 더원레뷰3차 11층1102호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511086",
-      "message": "주소 변환 실패: 인천광역시 서구 청라동 157-10 현대썬앤빌더테라스 지하1층비124호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511097",
-      "message": "주소 변환 실패: 인천광역시 계양구 계산동 898-20 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511109",
-      "message": "주소 변환 실패: 인천광역시 서구 검암동 633-6 플로채 101동 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511184",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 도화동 534-1 해든빌 12층1202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511209",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 201-15 엔에스파크 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511218",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 640-1 뉴스테이하우스 6층601호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511275",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 37-317 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511279",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1091-1 더캐슬 102동 4층404호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511348",
-      "message": "주소 변환 실패: 인천광역시 서구 연희동 696-7 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511381",
-      "message": "주소 변환 실패: 인천광역시 중구 중산동 1953-2 영종웨스턴인터내셔널호텔 7층708호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511423",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 101-3 해담가 13층1303호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511456",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 도화동 83-29 2동 3층304호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511507",
-      "message": "주소 변환 실패: 인천광역시 남동구 만수동 111-21 승희빌라 3층303호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511597",
-      "message": "주소 변환 실패: 인천광역시 남동구 만수동 894-14 명성빌라 비동 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511621",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 167-2 렉스타워 12층1204호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511663",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 844-29 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511689",
-      "message": "주소 변환 실패: 인천광역시 연수구 연수동 582-2 연수1차시영아파트 116동 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511797",
-      "message": "주소 변환 실패: 인천광역시 중구 중산동 1886-7 블루오션 1차 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511896",
-      "message": "주소 변환 실패: 인천광역시 연수구 연수동 582-2 솔밭마을아파트 104동 4층408호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511968",
-      "message": "주소 변환 실패: 인천광역시 서구 왕길동 670-2 한울빌리지 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경511983",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 26-33 로앤그린 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512072",
-      "message": "주소 변환 실패: 인천광역시 계양구 귤현동 509 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512077",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 용현동 451-63 효성 해링턴타워 인하 29층2922호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512080",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 186-16 디오빌 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512114",
-      "message": "주소 변환 실패: 인천광역시 서구 마전동 1022-6 남두아이빌 4층402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512317",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 250-18 한승타워2차 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512346",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 250-5 신한아파트 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512431",
-      "message": "주소 변환 실패: 인천광역시 중구 운서동 3092-3 더예스 클라우드 에이동 10층1004호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512583",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 528-9 더갤러리 14층102-1402호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512688",
-      "message": "주소 변환 실패: 인천광역시 부평구 갈산동 169-11 우남카사벨라 5층504호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512698",
-      "message": "주소 변환 실패: 인천광역시 계양구 박촌동 46 성원예가 1동 4층503호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512705",
-      "message": "주소 변환 실패: 인천광역시 계양구 동양동 593-6 현대렉스힐 304동 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경512838",
-      "message": "주소 변환 실패: 인천광역시 계양구 계산동 898-8 월드빌 2층203호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513006",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 1506-5 보광그랑베르 1동 7층701호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513221",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 용현동 475-1 용마루아파트 2층203호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513371",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1252-3 호산빌라 1층101호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513376",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 학익동 710-6 은혜쉐르빌 비동 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513502",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 444-5 대림센스빌 4층404호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513553",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 377-9 우리아파트 6층602호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513560",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 431-15 헤리움노블레스 14층1417호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513688",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 339-20 우솔빌 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513697",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 632-1 4층405호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513729",
-      "message": "주소 변환 실패: 인천광역시 남동구 논현동 751-1 인천소래논현구역씨10블록에코메트로3차더타워 에이동 4층오403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513831",
-      "message": "주소 변환 실패: 인천광역시 서구 검암동 526-4 천우웨스턴빌 102동 3층301호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513884",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 489-2 드림빌리지 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513892",
-      "message": "주소 변환 실패: 인천광역시 계양구 계산동 895-23 1층102호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513955",
-      "message": "주소 변환 실패: 인천광역시 남동구 남촌동 624-3 제이케이루체스타지식산업센터 7층744호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2025타경513988",
-      "message": "주소 변환 실패: 인천광역시 서구 마전동 1025-6 건영캐슬 103동 5층501호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:14:28+09:00",
+      "stage": "rights",
       "level": "warn",
       "id": "2026타경500766",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 854-20 씨엠하우스 2층203호"
+      "message": "명세서 조회 실패: RuntimeError: 검색 폼 인식 실패 (법원=False, 연도=False, 번호=False)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:14:57+09:00",
+      "stage": "rights",
       "level": "warn",
       "id": "2026타경500772",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 220-13 삼성캐슬 2층208호"
+      "message": "명세서 조회 실패: RuntimeError: 검색 폼 인식 실패 (법원=False, 연도=False, 번호=False)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
+      "time": "2026-10-02T11:15:24+09:00",
+      "stage": "rights",
       "level": "warn",
       "id": "2026타경500833",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 449-4 하임힐 4층404호"
+      "message": "명세서 조회 실패: RuntimeError: 검색 폼 인식 실패 (법원=False, 연도=False, 번호=False)"
     },
     {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501270",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 316-1 리더스타워 비동 13층1320호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501318",
-      "message": "주소 변환 실패: 인천광역시 연수구 청학동 499 연수푸르지오4단지 4층401동-401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501336",
-      "message": "주소 변환 실패: 인천광역시 서구 가좌동 140-14 힘찬해가 6동 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501344",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 119-7 로뎀레뷰 3층303호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501361",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1087-5 플로채 108동 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501366",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 431-42 디에이치씨밀레 6층604호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501381",
-      "message": "주소 변환 실패: 인천광역시 계양구 장기동 123 대경이즈뷰 1동 2층201호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501386",
-      "message": "주소 변환 실패: 인천광역시 서구 마전동 1017-2 삼성쉐르빌2 5층502호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501416",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 94-14 태진베스트빌 3층302호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501421",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1144-10 룩소르주상복합아파트 3층310호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501426",
-      "message": "주소 변환 실패: 인천광역시 남동구 간석동 273-1 리더스타워 에이동 17층1709호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501442",
-      "message": "주소 변환 실패: 인천광역시 서구 청라동 162-22 청라에일린의뜰 3층318호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501446",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 98-85 해송파크뷰 5층503호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501459",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 483-3 일신빌라 3층303호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501463",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 도화동 496-11 제이프라임빌 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501469",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1091-7 홈캐슬 102동 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501486",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1088-3 1동 4층403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501512",
-      "message": "주소 변환 실패: 인천광역시 부평구 일신동 101-16 일신홈타운 105동 5층501호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501517",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 학익동 269-4 미래홈타운 1동 9층901호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501527",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 주안동 1216-17 주안에쉐르 3층319호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501531",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 484-6 스프링스빌 에이동 6층602호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501535",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 568-1 대준블루온 14층1401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501568",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1129 7층711호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501581",
-      "message": "주소 변환 실패: 인천광역시 서구 검암동 530-15 몽베르타운하우스 3차 102동 2층202호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501627",
-      "message": "주소 변환 실패: 인천광역시 계양구 동양동 601-9 마이웨이빌 5층501호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501636",
-      "message": "주소 변환 실패: 인천광역시 계양구 효성동 545-9 스타클래스 104-에이동 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501650",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 숭의동 158-31 아르누보 2층204호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501691",
-      "message": "주소 변환 실패: 인천광역시 서구 심곡동 254-10 비동 2층203호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501722",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1135-5 구월프라움시티 비동 9층905호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501730",
-      "message": "주소 변환 실패: 인천광역시 계양구 귤현동 493 중앙이클래스5차 비동 4층401호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501738",
-      "message": "주소 변환 실패: 인천광역시 부평구 부평동 536-2 부평현대더로프트 15층1동-1519호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501762",
-      "message": "주소 변환 실패: 인천광역시 서구 당하동 1087-5 플로채 102동 4층403호"
-    },
-    {
-      "time": "2026-10-02T10:50:35+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "2026타경501774",
-      "message": "주소 변환 실패: 인천광역시 남동구 구월동 1527 구월아시아드더블루시티 11층1128호"
+      "time": "2026-10-02T11:15:24+09:00",
+      "stage": "rights",
+      "level": "error",
+      "id": null,
+      "message": "매각물건명세서 조회 연속 3회 실패 — 이번 실행 중단 (사이트 구조 변경 가능성)"
     }
   ]
 }
