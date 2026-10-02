@@ -1,11 +1,11 @@
 {
-  "run_at": "2026-10-02T18:43:29+09:00",
-  "duration_sec": 155.6,
+  "run_at": "2026-10-02T18:45:29+09:00",
+  "duration_sec": 20.6,
   "summary": {
     "total": 7080,
     "scrape_ok": true,
     "with_bjdong_code": 7074,
-    "with_building_info": 486,
+    "with_building_info": 538,
     "with_official_price": 0,
     "with_trade_price": 5370,
     "rights_detail_checked": 80,
@@ -19,95 +19,74 @@
     "collect_courts_failed": [],
     "tag_근생주의": 1,
     "tag_위반건축물": 67,
-    "tag_안전마진": 1878,
-    "pending_enrich": 6420,
+    "tag_안전마진": 1879,
+    "pending_enrich": 6360,
     "clean_default_count": 1851,
-    "api_calls": 2199,
+    "api_calls": 257,
     "api_retries": 0,
     "api_failures": 0,
     "blocked_endpoints": {},
     "unreachable_hosts": {},
     "last_scrape_ok_date": "2026-10-02",
     "error_counts": {
-      "building:warn": 11
+      "building:warn": 8
     }
   },
   "errors": [
     {
-      "time": "2026-10-02T18:40:54+09:00",
+      "time": "2026-10-02T18:45:13+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300130021",
+      "id": "B000212202501300137601",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:40:55+09:00",
+      "time": "2026-10-02T18:45:17+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300130511",
+      "id": "B000212202501300138651",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:40:57+09:00",
+      "time": "2026-10-02T18:45:17+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300131301",
+      "id": "B000212202501300138731",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:40:57+09:00",
+      "time": "2026-10-02T18:45:19+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300131891",
+      "id": "B000212202501300139571",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:40:58+09:00",
+      "time": "2026-10-02T18:45:23+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300132251",
+      "id": "B000212202501300140791",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:40:59+09:00",
+      "time": "2026-10-02T18:45:26+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300132521",
+      "id": "B000212202501300142221",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:41:00+09:00",
+      "time": "2026-10-02T18:45:26+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300133501",
+      "id": "B000212202501300142371",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:41:03+09:00",
+      "time": "2026-10-02T18:45:27+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300134351",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-10-02T18:41:04+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000212202501300134521",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-10-02T18:41:05+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000212202501300134851",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-10-02T18:41:09+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000212202501300136071",
+      "id": "B000212202601300030031",
       "message": "건축물대장 표제부 없음"
     }
   ]

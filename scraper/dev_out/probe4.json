@@ -1152,13 +1152,8 @@
     "rows": []
    },
    "getBrRecapTitleInfo/기본": {
-    "http": 200,
-    "header": {
-     "resultCode": "00",
-     "resultMsg": "NORMAL SERVICE"
-    },
-    "total": "0",
-    "rows": []
+    "error": "ReadTimeout",
+    "sec": 8.2
    },
    "getBrBasisOulnInfo/기본": {
     "http": 200,
