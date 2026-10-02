@@ -1013,8 +1013,13 @@
     "rows": []
    },
    "getBrBasisOulnInfo/기본": {
-    "error": "ReadTimeout",
-    "sec": 8.4
+    "http": 200,
+    "header": {
+     "resultCode": "00",
+     "resultMsg": "NORMAL SERVICE"
+    },
+    "total": "0",
+    "rows": []
    },
    "getBrExposInfo/기본": {
     "http": 200,
@@ -1510,13 +1515,8 @@
     "rows": []
    },
    "getBrExposPubuseAreaInfo/hoNm": {
-    "http": 200,
-    "header": {
-     "resultCode": "00",
-     "resultMsg": "NORMAL SERVICE"
-    },
-    "total": "0",
-    "rows": []
+    "error": "ReadTimeout",
+    "sec": 8.8
    },
    "getBrExposPubuseAreaInfo/hoNm숫자": {
     "http": 200,
@@ -1976,8 +1976,13 @@
     "rows": []
    },
    "getBrExposPubuseAreaInfo/hoNm숫자": {
-    "error": "ReadTimeout",
-    "sec": 8.2
+    "http": 200,
+    "header": {
+     "resultCode": "00",
+     "resultMsg": "NORMAL SERVICE"
+    },
+    "total": "0",
+    "rows": []
    },
    "getBrHsprcInfo/기본": {
     "http": 200,
