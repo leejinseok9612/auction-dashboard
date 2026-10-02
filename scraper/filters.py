@@ -20,6 +20,7 @@
   · "제외" 필터(위반건축물·근생·특수물건)는 '확인된' 물건만 숨긴다. (자료가 아직 없는 물건은 통과)
   · "값 조건" 필터(안전마진·공시가·갭·사용승인일)는 값이 없는 물건을 결과에서 뺀다. (모르는 값을 충족으로 치지 않음)
   · 권리 등급은 '미확인'을 안전으로 취급하지 않는다.
+  · 안전마진 조건은 비교 거래 신뢰도가 '보통' 이상인 물건만 충족으로 본다.
 """
 
 from __future__ import annotations
@@ -218,7 +219,8 @@ def matches(item: dict, criteria: dict | None = None, today: date | None = None)
             return False
     if c["margin_min"] is not None:
         sm = item.get("safety_margin_pct")
-        if sm is None or sm < c["margin_min"]:
+        # 비교 거래의 신뢰도가 낮으면(다른 단지·면적 환산 등) 마진 수치를 믿기 어려우므로 조건 충족으로 치지 않는다
+        if sm is None or sm < c["margin_min"] or item.get("nearby_trade_confidence") not in ("high", "medium"):
             return False
     if c["gap_max"] is not None:
         if d["expected_gap"] is None or d["expected_gap"] > c["gap_max"]:

@@ -3,44 +3,48 @@
 """
 경매 대시보드 전체 파이프라인 (main.py)
 ────────────────────────────────────────────────────────────
-  1단계  scrape_auctions.py 서브프로세스 실행 (경매 목록 수집 — 기존 코드 그대로 호출)
-  2단계  주소 → 법정동코드/PNU 변환 (도로명주소 API, JUSO_CONFIRM_KEY)
-  3단계  공공데이터 API 연동 (DATA_GO_KR_KEY)
+  1단계  collect_court.py 실행 — 법원경매정보 수도권 16개 법원 · 주거용 물건 수집
+         (사건·물건번호, 감정가, 이번 기일 최저가, 유찰 횟수, 특수조건, 물건비고, 면적, 법정동코드·지번)
+  2단계  PNU 확정 — 수집된 법정동코드+지번 사용, 없을 때만 주소 변환 (내장 코드표 → 도로명주소 API)
+  3단계  공공데이터 API (DATA_GO_KR_KEY)
            ① 건축물대장(건축HUB)  → is_illegal_building, actual_use, approval_date, 면적
-           ② 공동주택 공시가격     → official_price, official_price_year
-           ③ 실거래가(물건유형별)   → nearby_trade_price / count / date
+           ② 주택 공시가격         → official_price, official_price_year  (브이월드 키 VWORLD_KEY 필요)
+           ③ 실거래가(물건유형별)   → nearby_trade_price / count / date / basis / confidence
   4단계  투자분석 (safe_jeonse, safety_margin_pct, is_under_100m, risk_tags)
-  5단계  권리분석 (매각물건명세서 키워드 스캔 → rights_risk, rights_keywords)
+  5단계  권리분석 (rights.py) — 법원 특수조건·물건비고 + 명세서 요약(상세 API) + 현황조사서(임차인)
   6단계  docs/data/auctions.json 저장 + 백업 + docs/data/error_log.json
 
 설계 포인트
-  - scrape_auctions.py 는 auctions.json 을 "기본 필드만" 으로 덮어쓴다.
-    → 실행 전에 기존 파일을 읽어 두었다가, 같은 사건(id+주소)은 분석 결과를 다시 붙인다.
-    → 같은 물건을 매일 다시 조회하지 않으므로 API 일일 트래픽을 크게 아낀다.
-  - API 호출: 재시도 최대 3회(지수 백오프 + 지터), 429/Retry-After 처리,
-    호스트별 호출 간격 제한, 엔드포인트별 서킷브레이커(키 오류·트래픽 초과 시 즉시 차단).
+  - 수집기 출력이 "현재 법원에 올라와 있는 물건"의 기준이다. 사라진 물건(취하·변경·매각)은 목록에서 빠진다.
+  - 수집기는 기본 정보만 쓰므로, 실행 전에 기존 파일을 읽어 두었다가 같은 물건(id+주소)은 분석 결과를 다시 붙인다.
+    → 같은 물건을 매일 다시 조회하지 않아 API 일일 트래픽을 아낀다.
+  - API 호출: 재시도 최대 3회(지수 백오프 + 지터), 429/Retry-After 처리, 호스트별 호출 간격 제한,
+    엔드포인트별 서킷브레이커(키 오류·트래픽 초과 시 즉시 차단), 접속 불가 호스트는 빠르게 포기.
   - 실거래가는 (유형, 시군구, 계약월) 단위로 디스크 캐시 → 같은 구 물건끼리 공유.
-  - 출력은 {"updated", "auctions": [...]} 구조를 유지 → 기존 index.html(d.auctions) 하위 호환.
+  - 출력은 {"updated", "auctions": [...]} 구조 유지 (index.html 은 d.auctions 를 읽음).
 
 사용법
   python3 scraper/main.py                 # 전체 실행
   python3 scraper/main.py --skip-scrape   # 수집 생략, 기존 auctions.json 으로 분석만
   python3 scraper/main.py --limit 5 -v    # 신규 분석 5건만 (API 키 동작 확인용)
-  python3 scraper/main.py --no-rights     # 권리분석(브라우저) 생략
+  python3 scraper/main.py --no-rights     # 권리분석 상세 조회(브라우저) 생략
+  python3 scraper/filters.py              # 조건에 맞는 매물 리포트 출력
 
 환경변수
   DATA_GO_KR_KEY      공공데이터포털 인증키 (Encoding/Decoding 키 모두 가능)
-  JUSO_CONFIRM_KEY    도로명주소 검색 API 승인키
-  VWORLD_KEY          (선택) 브이월드 인증키 — 있으면 공시가격 조회 정확도 ↑
+  JUSO_CONFIRM_KEY    도로명주소 검색 API 승인키 (지번을 못 구한 일부 물건·개편 지역 보정용)
+  VWORLD_KEY          (선택) 브이월드 인증키 — 공동주택 공시가격 조회에 필요
   VWORLD_DOMAIN       (선택) 브이월드 키 발급 시 등록한 서비스 URL
   MAX_ENRICH_PER_RUN  1회 실행당 신규 분석 최대 건수 (기본 1000)
   ENRICH_TTL_DAYS     건축물대장·공시가격 재조회 주기 (기본 30일)
-  RIGHTS_MAX_PER_RUN  1회 실행당 매각물건명세서 조회 최대 건수 (기본 40)
-  RIGHTS_TTL_DAYS     권리분석 재조회 주기 (기본 7일)
+  RIGHTS_MAX_PER_RUN  1회 실행당 상세·현황조사서 조회 최대 건수 (기본 200)
+  RIGHTS_WINDOW_DAYS  매각기일이 이 일수 안인 물건만 상세 조회 (기본 8)
+  RIGHTS_TTL_DAYS     권리분석 재조회 주기 (기본 3일)
   SAFETY_MARGIN_PCT   "✨ 안전마진 확보" 기준 % (기본 20)
   TRADE_MONTHS        실거래가 조회 기간(개월, 기본 6)
   WORKERS             API 병렬 작업 수 (기본 4)
-  SCRAPE_TIMEOUT_MIN  스크래퍼 제한 시간(분, 기본 45)
+  SCRAPE_TIMEOUT_MIN  수집기 제한 시간(분, 기본 45)
+  COLLECT_DAYS_AHEAD  매각기일 조회 범위 (오늘부터 N일, 기본 60)
 """
 
 from __future__ import annotations
@@ -627,7 +631,7 @@ class DiskCache:
 
 
 # ════════════════════════════════════════════════════════════
-# 1단계: 경매 목록 수집 (기존 scrape_auctions.py 를 서브프로세스로 실행)
+# 1단계: 경매 목록 수집 (collect_court.py 를 서브프로세스로 실행)
 # ════════════════════════════════════════════════════════════
 def backup_auctions() -> Path | None:
     """현재 auctions.json 백업 (최근 BACKUP_KEEP 개만 유지)"""
@@ -644,7 +648,7 @@ def backup_auctions() -> Path | None:
 
 
 def run_scraper() -> bool:
-    """scrape_auctions.py 실행. 성공 여부 반환 (실패해도 파이프라인은 기존 데이터로 계속)"""
+    """수집기 실행. 성공 여부 반환 (실패해도 파이프라인은 기존 데이터로 계속)"""
     if not SCRAPER_SCRIPT.exists():
         ERRORS.add("scrape", f"{SCRAPER_SCRIPT} 없음")
         return False
@@ -1651,7 +1655,7 @@ def main() -> int:
     backup_path = backup_auctions()
 
     # ── 1단계 ──
-    log("[1단계] 경매 목록 수집 (scrape_auctions.py)")
+    log("[1단계] 경매 목록 수집 (collect_court.py)")
     global LAST_SCRAPE_OK_DATE
     today = now_kst().date().isoformat()
     LAST_SCRAPE_OK_DATE = ((read_json(ERROR_LOG_PATH, {}) or {}).get("summary") or {}).get("last_scrape_ok_date")

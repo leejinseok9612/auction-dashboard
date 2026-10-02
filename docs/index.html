@@ -741,7 +741,7 @@
     <div class="adv-ttl">투자 · 세금 조건</div>
     <div class="adv-row">
       <button class="chip" id="tg-under100" onclick="toggleChip(this)">공시가 1억 이하</button>
-      <select class="fsel" id="fc-margin" onchange="applyF()">
+      <select class="fsel" id="fc-margin" onchange="applyF()" title="인근 실거래가 대비 · 비교 신뢰도 보통 이상인 물건만">
         <option value="">안전마진 전체</option>
         <option value="10">10% 이상</option>
         <option value="15">15% 이상</option>
@@ -1227,7 +1227,7 @@ function passAdv(a,d,c){
   if(c.exGeun && d.geun===true) return false;
   if(c.exSpecial && d.special===true) return false;
   if(c.under100 && !(a.official_price && a.official_price<=1e8)) return false;
-  if(c.margin!=null && !(a.safety_margin_pct!=null && a.safety_margin_pct>=c.margin)) return false;
+  if(c.margin!=null && !(a.safety_margin_pct!=null && a.safety_margin_pct>=c.margin && ['high','medium'].includes(a.nearby_trade_confidence))) return false;
   if(c.gapMax!=null && !(d.gap!=null && d.gap<=c.gapMax*1e4)) return false;
   if(!gradeAllowed(d.grade,c.grades)) return false;
   return true;
@@ -1290,7 +1290,7 @@ function renderCleanNote(c){
   el.innerHTML=`<b>권리 안전 등급 조건 적용 중</b> — 🟢 안전 · 🟡 대항력 포기 매물만 표시합니다. `
     +`권리분석 <b>미확인 ${unknown.toLocaleString()}건</b>${risky?`, 주의·위험 ${risky.toLocaleString()}건`:''}은 숨겨져 있어요.`
     +`<button onclick="showRestGrades()">숨긴 매물도 보기</button>`
-    +`<br><span style="font-size:12px">※ '안전'은 매각물건명세서 키워드 자동 판정입니다. 입찰 전 등기부등본·명세서 원문을 반드시 직접 확인하세요.</span>`;
+    +`<br><span style="font-size:12px">※ 등급은 법원 공고·명세서 요약·현황조사서 자동 판정입니다. 임차인 배당요구 여부는 반영되지 않으니 입찰 전 원문을 반드시 확인하세요.</span>`;
   el.style.display='block';
 }
 

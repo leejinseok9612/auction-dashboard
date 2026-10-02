@@ -20,7 +20,7 @@ echo "=========================================="
 # ── 1단계: 스크래퍼 실행 ──────────────────────
 echo ""
 echo "[1단계] 스크래퍼 실행..."
-$PYTHON scraper/scrape_auctions.py
+$PYTHON scraper/main.py     # 수집 + 분석 전체 파이프라인 (API 키는 환경변수로)
 SCRAPER_EXIT=$?
 
 if [ $SCRAPER_EXIT -ne 0 ]; then
@@ -55,7 +55,7 @@ echo "  -> 총 ${TOTAL}건 수집"
 echo ""
 echo "[3단계] Git 커밋 & 푸시..."
 
-$GIT add docs/data/auctions.json
+$GIT add docs/data/auctions.json docs/data/error_log.json
 $GIT commit -m "경매 데이터 업데이트: $(date '+%Y-%m-%d %H:%M') KST (총 ${TOTAL}건)"
 $GIT pull --rebase origin main && $GIT push origin main
 

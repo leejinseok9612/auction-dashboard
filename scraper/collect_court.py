@@ -3,7 +3,7 @@
 """
 법원경매정보(courtauction.go.kr) 수도권 주거용 물건 수집기 (collect_court.py)
 ────────────────────────────────────────────────────────────
-기존 scrape_auctions.py 를 대체한다. 실제 사이트 응답을 조사해 확인한 사실에 맞춰 다시 작성:
+옛 수집기(scrape_auctions.py)를 대체한다. 실제 사이트 응답을 조사해 확인한 사실에 맞춰 작성:
 
   · 법원 코드   사이트의 법원 목록 API(selectCortOfcLst) 값 사용 — 수도권 16개 법원 전부
   · 최저가      화면에 표시되는 값은 notifyMinmaePrice1 (minmaePrice 는 직전 회차 가격)
