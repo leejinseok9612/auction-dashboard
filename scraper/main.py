@@ -309,6 +309,7 @@ class ErrorCollector:
 
 ERRORS = ErrorCollector()
 ARGS: argparse.Namespace | None = None
+AUDIT = {"checked": 0, "mismatched": 0}   # 목록 값과 상세 값 대조 결과 (이번 실행)
 LAST_SCRAPE_OK_DATE: str | None = None    # 목록 수집이 마지막으로 성공한 날짜 (하루 여러 번 실행 시 중복 수집 방지)
 
 
@@ -1528,10 +1529,20 @@ def stage_rights(items: list[dict]) -> None:
     log(f"  상세·현황조사서 조회 {len(targets)}건 (대상 {waiting}건 중, 매각기일 {RIGHTS_WINDOW_DAYS}일 이내)")
     got = RT.fetch_court_details(targets, log=log)
     stamp = now_kst().isoformat(timespec="seconds")
+    mismatches = []
     for it in targets:
         g = got.get(it["id"])
         if not g:
             continue        # 조회 실패 → 다음 실행에서 재시도
+        # 자체 검증: 목록에서 수집한 값이 물건 상세 화면의 값과 같은지 대조
+        info = g["detail"].get("dspslGdsDxdyInfo") or {}
+        checks = (("감정가", it.get("appraisal"), to_int(info.get("aeeEvlAmt"))),
+                  ("최저가", it.get("min_bid"), to_int(info.get("fstPbancLwsDspslPrc"))),
+                  ("유찰횟수", it.get("failed_bids"), to_int(info.get("flbdNcnt"))),
+                  ("매각기일", it.get("auction_date"), fmt_ymd(info.get("dspslDxdyYmd"))))
+        bad = [f"{name} 목록 {a} ≠ 상세 {b}" for name, a, b in checks if b is not None and a != b]
+        if bad:
+            mismatches.append(f"{it.get('case_no')}({it.get('item_no')}): " + ", ".join(bad))
         it.update(RT.analyze(it, g["detail"], g["curst"]))
         it["rights_checked_at"] = stamp
         # 상세의 PNU 로 보완 (목록 지번이 블록·로트 표기라 PNU 를 못 만든 물건)
@@ -1541,6 +1552,11 @@ def stage_rights(items: list[dict]) -> None:
                 if len(pn) == 19 and pn.isdigit():
                     it["pnu"], it["bjdong_code"] = pn, pn[:10]
                     break
+    AUDIT["checked"] += len(got)
+    AUDIT["mismatched"] += len(mismatches)
+    for m in mismatches[:20]:
+        ERRORS.add("audit", "목록·상세 값 불일치 — " + m, level="warn")
+    log(f"  자체 검증: 상세와 대조 {len(got)}건 중 불일치 {len(mismatches)}건")
     if targets and len(got) < len(targets):
         ERRORS.add("rights", f"상세 조회 {len(targets) - len(got)}건 실패 (다음 실행에서 재시도)", level="warn")
     log(f"  상세 분석 완료 {len(got)}건")
@@ -1605,6 +1621,7 @@ def save_outputs(items: list[dict], prev_doc: dict, started: float, scrape_ok: b
         "rights_detail_checked": cnt(lambda i: i.get("rights_checked_at")),
         "rights_by_grade": {g: cnt(lambda i, g=g: i.get("rights_grade") == g) for g in ("safe", "waiver", "caution", "danger", "unknown")},
         "collect_courts_failed": (cur_doc.get("collect_report") or {}).get("courts_failed"),
+        "audit_list_vs_detail": dict(AUDIT),
         "tag_근생주의": cnt(lambda i: "🚨 근생주의" in (i.get("risk_tags") or [])),
         "tag_위반건축물": cnt(lambda i: "🚨 위반건축물" in (i.get("risk_tags") or [])),
         "tag_안전마진": cnt(lambda i: "✨ 안전마진 확보" in (i.get("risk_tags") or [])),
