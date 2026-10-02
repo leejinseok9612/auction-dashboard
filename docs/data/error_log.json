@@ -1,11 +1,11 @@
 {
-  "run_at": "2026-10-02T18:58:35+09:00",
-  "duration_sec": 34.6,
+  "run_at": "2026-10-02T18:59:44+09:00",
+  "duration_sec": 45.3,
   "summary": {
     "total": 7080,
     "scrape_ok": true,
     "with_bjdong_code": 7074,
-    "with_building_info": 846,
+    "with_building_info": 904,
     "with_official_price": 0,
     "with_trade_price": 5386,
     "rights_detail_checked": 80,
@@ -21,12 +21,12 @@
       "checked": 0,
       "mismatched": 0
     },
-    "tag_근생주의": 2,
+    "tag_근생주의": 3,
     "tag_위반건축물": 67,
     "tag_안전마진": 358,
-    "pending_enrich": 6003,
+    "pending_enrich": 5944,
     "clean_default_count": 1851,
-    "api_calls": 259,
+    "api_calls": 182,
     "api_retries": 0,
     "api_failures": 0,
     "blocked_endpoints": {},
@@ -39,17 +39,17 @@
   },
   "errors": [
     {
-      "time": "2026-10-02T18:58:01+09:00",
+      "time": "2026-10-02T18:59:00+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B214807202501300624071",
       "message": "주소 변환 실패: 경기도 고양시 일산서구 덕이동 일산서구덕이도시개발사업지구앤2-3 덕이동정연빌딩 1층101호"
     },
     {
-      "time": "2026-10-02T18:58:09+09:00",
+      "time": "2026-10-02T18:59:37+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000250202501300009261",
+      "id": "B000253202501300421561",
       "message": "건축물대장 표제부 없음"
     }
   ]
