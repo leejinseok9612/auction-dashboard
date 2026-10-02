@@ -136,6 +136,26 @@
     .btn-cal-toggle:hover { border-color:var(--blue); color:var(--blue); }
     .btn-cal-toggle.on { background:var(--blue-bg); border-color:var(--blue); color:var(--blue); }
 
+    /* ── 상세 조건 패널 (리스크·투자·권리 필터) ── */
+    .adv { background:white; border-bottom:1px solid var(--gray-200); padding:14px 48px 16px; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px 28px; }
+    .adv-group { min-width:0; }
+    .adv-ttl { font-size:11px; font-weight:800; color:var(--gray-600); letter-spacing:0.3px; margin-bottom:8px; }
+    .adv-row { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+    .adv-row + .adv-row { margin-top:6px; }
+    .chip { background:white; border:1.5px solid var(--gray-200); border-radius:20px; color:var(--gray-600); font-size:12px; font-weight:700; padding:6px 12px; cursor:pointer; font-family:inherit; transition:all 0.15s; white-space:nowrap; }
+    .chip:hover { border-color:var(--black); color:var(--black); }
+    .chip.on { background:var(--black); border-color:var(--black); color:white; }
+    .chip.on.chip-safe { background:#DCFCE7; border-color:#16A34A; color:#166534; }
+    .chip.on.chip-waiver { background:#FEF3C7; border-color:#D97706; color:#92400E; }
+    .chip.on.chip-block { background:#FEE2E2; border-color:#DC2626; color:#B91C1C; }
+    .adv-num { width:74px; background:white; border:1.5px solid var(--gray-200); border-radius:9px; font-size:13px; padding:7px 9px; outline:none; font-family:inherit; }
+    .adv-num:focus { border-color:var(--black); }
+    .adv-unit { font-size:12px; color:var(--gray-600); }
+    .price-custom { display:flex; align-items:center; gap:5px; }
+    .clean-note { background:#FFFBEB; border:1px solid #FDE68A; border-radius:12px; color:#92400E; font-size:13px; line-height:1.6; padding:12px 16px; margin-bottom:18px; display:none; }
+    .clean-note b { font-weight:800; }
+    .clean-note button { background:#92400E; border:none; border-radius:8px; color:white; cursor:pointer; font-family:inherit; font-size:12px; font-weight:700; margin-left:8px; padding:5px 11px; }
+
     /* ── TOP 5 추천 캐러셀 ── */
     .featured-section { background:white; border-bottom:1px solid var(--gray-200); padding:40px 48px; }
     .featured-section.hidden { display:none; }
@@ -425,6 +445,7 @@
       .fbar{flex-direction:column;align-items:flex-start;gap:8px}
       .fbar-left{flex-wrap:wrap;gap:6px}
       .fsel{font-size:12px;padding:7px 10px}
+      .adv{grid-template-columns:1fr;padding:12px 16px 14px;gap:12px}
       .fsearch{width:100%!important}
       .cy-fbar{flex-direction:column;align-items:flex-start;gap:8px;padding:12px 16px}
       .featured-section{padding:28px 16px}
@@ -641,22 +662,21 @@
 <div class="fbar" id="fbar-wrap">
   <div class="fbar-left">
     <select class="fsel" id="fc-region">
-      <option value="">전체 지역</option>
-      <option value="서울">서울 전체</option>
-      <option value="경기">경기 전체</option>
-      <option value="경기동부">경기 동부 (성남·광주·하남·용인)</option>
-      <option value="경기남부">경기 남부 (수원·화성·오산·평택)</option>
-      <option value="경기서부">경기 서부 (안산·안양·부천·광명)</option>
-      <option value="경기북부">경기 북부 (고양·의정부·남양주)</option>
+      <option value="">시/도 전체</option>
+      <option value="서울">서울</option>
+      <option value="경기">경기</option>
       <option value="인천">인천</option>
+    </select>
+    <select class="fsel" id="fc-sigungu" onchange="applyF()">
+      <option value="">구/군 전체</option>
     </select>
     <div class="failed-wrap">
       <select class="fsel" id="fc-failed" onchange="applyF()">
         <option value="">유찰 전체</option>
         <option value="0">신건 (0회)</option>
         <option value="1">1회 이상</option>
+        <option value="2">2회 이상</option>
         <option value="3">3회 이상</option>
-        <option value="5">5회 이상</option>
       </select>
       <button class="btn-failed-mode" id="btn-failed-mode" onclick="toggleFailedMode()" title="이상/미만 전환">이상</button>
     </div>
@@ -664,16 +684,22 @@
       <option value="">날짜 전체</option>
       <option value="today">오늘 신규만</option>
     </select>
-    <select class="fsel" id="fc-price" onchange="applyF()">
-      <option value="">전체 가격</option>
+    <select class="fsel" id="fc-price" onchange="onPricePreset()">
+      <option value="">최저가 전체</option>
       <option value="~1">1억 미만</option>
-      <option value="1~2">1억 ~ 2억</option>
-      <option value="2~3">2억 ~ 3억</option>
+      <option value="1~3">1억 ~ 3억</option>
       <option value="3~5">3억 ~ 5억</option>
       <option value="5~7">5억 ~ 7억</option>
       <option value="7~10">7억 ~ 10억</option>
       <option value="10~">10억 이상</option>
+      <option value="custom">직접 입력</option>
     </select>
+    <span class="price-custom" id="price-custom" style="display:none">
+      <input class="adv-num" type="number" id="fc-price-min" min="0" step="0.1" placeholder="최소" oninput="applyF()" />
+      <span class="adv-unit">~</span>
+      <input class="adv-num" type="number" id="fc-price-max" min="0" step="0.1" placeholder="최대" oninput="applyF()" />
+      <span class="adv-unit">억</span>
+    </span>
     <input class="fsearch" type="text" id="fc-q" placeholder="🔍  주소, 사건번호 검색..." />
   </div>
   <div class="fbar-right">
@@ -681,6 +707,61 @@
     <button class="btn-profit-toggle" id="btn-profit" onclick="toggleProfitFilter()">💰 수익 매물만</button>
     <button class="btn-bm-toggle" id="btn-bm-a" onclick="toggleBmFilter()">🤍 즐겨찾기</button>
     <button class="btn-reset" onclick="resetF()">↺ 초기화</button>
+  </div>
+</div>
+
+<!-- 상세 조건 (경매): 종류·연식 / 리스크 차단 / 투자·세금 / 권리 등급 -->
+<div class="adv" id="adv-wrap">
+  <div class="adv-group">
+    <div class="adv-ttl">물건 종류 · 건물 연식</div>
+    <div class="adv-row" id="adv-types">
+      <button class="chip" data-type="apt" onclick="toggleChip(this)">아파트</button>
+      <button class="chip" data-type="villa" onclick="toggleChip(this)">연립/다세대</button>
+      <button class="chip" data-type="offi" onclick="toggleChip(this)">오피스텔</button>
+      <button class="chip" data-type="house" onclick="toggleChip(this)">단독/다가구</button>
+    </div>
+    <div class="adv-row">
+      <select class="fsel" id="fc-age" onchange="applyF()">
+        <option value="">사용승인일 전체</option>
+        <option value="new5">5년 이내 (신축)</option>
+        <option value="new10">10년 이내</option>
+        <option value="old15">15년 이상 (노후·재개발)</option>
+      </select>
+    </div>
+  </div>
+  <div class="adv-group">
+    <div class="adv-ttl">리스크 차단</div>
+    <div class="adv-row">
+      <button class="chip chip-block on" id="tg-illegal" onclick="toggleChip(this)">🚫 위반건축물 제외</button>
+      <button class="chip chip-block on" id="tg-geun" onclick="toggleChip(this)">🚫 근생빌라 제외</button>
+      <button class="chip chip-block" id="tg-special" onclick="toggleChip(this)">🚫 특수물건 제외 (유치권·법정지상권 등)</button>
+    </div>
+  </div>
+  <div class="adv-group">
+    <div class="adv-ttl">투자 · 세금 조건</div>
+    <div class="adv-row">
+      <button class="chip" id="tg-under100" onclick="toggleChip(this)">공시가 1억 이하</button>
+      <select class="fsel" id="fc-margin" onchange="applyF()">
+        <option value="">안전마진 전체</option>
+        <option value="10">10% 이상</option>
+        <option value="15">15% 이상</option>
+        <option value="20">20% 이상</option>
+        <option value="30">30% 이상</option>
+      </select>
+    </div>
+    <div class="adv-row">
+      <span class="adv-unit">예상 실투금(갭)</span>
+      <input class="adv-num" style="width:96px" type="number" id="fc-gap" min="0" step="500" placeholder="예: 3000" oninput="applyF()" />
+      <span class="adv-unit">만원 이하</span>
+    </div>
+  </div>
+  <div class="adv-group">
+    <div class="adv-ttl">권리 안전 등급</div>
+    <div class="adv-row" id="adv-grades">
+      <button class="chip chip-safe on" data-grade="safe" onclick="toggleChip(this)">🟢 안전</button>
+      <button class="chip chip-waiver on" data-grade="waiver" onclick="toggleChip(this)">🟡 대항력 포기</button>
+      <button class="chip" data-grade="rest" onclick="toggleChip(this)">그 외 (주의·위험·미확인)</button>
+    </div>
   </div>
 </div>
 
@@ -704,6 +785,7 @@
     <span class="sec-title" id="sec-title">오늘의 신규 매물</span>
     <span class="sec-sub" id="sec-sub">-</span>
   </div>
+  <div class="clean-note" id="clean-note"></div>
   <div class="card-grid" id="card-grid"></div>
   <div class="pages" id="pages"></div>
 </main>
@@ -930,12 +1012,12 @@ function toggleFailedMode(){
   const opts=sel.options;
   if(isLt){
     opts[2].text='1회 미만'; // =신건과 동일하지만 명시
-    opts[3].text='3회 미만';
-    opts[4].text='5회 미만';
+    opts[3].text='2회 미만';
+    opts[4].text='3회 미만';
   } else {
     opts[2].text='1회 이상';
-    opts[3].text='3회 이상';
-    opts[4].text='5회 이상';
+    opts[3].text='2회 이상';
+    opts[4].text='3회 이상';
   }
   applyF();
 }
@@ -999,12 +1081,15 @@ async function init(){
   set('ks-week',wk);
   set('nav-today',`오늘 ${todayN}건 업데이트`);
   renderFeatured();
+  fillSigungu();
   applyF();
 }
 
 function applyF(){
   const region=v('fc-region'),failed=v('fc-failed'),dateF=v('fc-date'),q=v('fc-q').toLowerCase();
-  const priceR=v('fc-price');
+  const sgg=v('fc-sigungu');
+  const [pMin,pMax]=priceRange();
+  const adv=readAdv();
   const budgetRaw=document.getElementById('fc-budget').value;
   const budget=budgetRaw?parseFloat(budgetRaw)*1e8:0;
   const today=tstr();
@@ -1022,24 +1107,9 @@ function applyF(){
     }
     // 경매기일이 오늘 이전이면 자동 숨김 (완료된 경매)
     if(a.auction_date && a.auction_date < today) return false;
-    if(region){
-      const addr=a.address||'', court=a.court||'';
-      const GY_ALL=['수원','의정부','성남','부천','안산','안양','평택','여주','고양'];
-      // 경기 권역별 도시 매핑
-      const GY_EAST =['성남','광주','하남','용인','이천','여주','양평'];
-      const GY_SOUTH=['수원','화성','오산','평택','안성'];
-      const GY_WEST =['안산','안양','부천','광명','시흥','과천','군포','의왕'];
-      const GY_NORTH=['고양','의정부','남양주','구리','파주','양주','동두천','포천','가평','연천'];
-      const inAddr = (cities) => cities.some(c=>addr.includes(c));
-      const matchSeoul    = region==='서울'    && (addr.includes('서울')||court.includes('서울'));
-      const matchGyeonggi = region==='경기'    && (addr.includes('경기')||GY_ALL.some(k=>court.includes(k)));
-      const matchGyEast   = region==='경기동부' && addr.includes('경기') && inAddr(GY_EAST);
-      const matchGySouth  = region==='경기남부' && addr.includes('경기') && inAddr(GY_SOUTH);
-      const matchGyWest   = region==='경기서부' && addr.includes('경기') && inAddr(GY_WEST);
-      const matchGyNorth  = region==='경기북부' && addr.includes('경기') && inAddr(GY_NORTH);
-      const matchIncheon  = region==='인천'    && (addr.includes('인천')||court.includes('인천'));
-      if(!matchSeoul&&!matchGyeonggi&&!matchGyEast&&!matchGySouth&&!matchGyWest&&!matchGyNorth&&!matchIncheon) return false;
-    }
+    const d=deriveA(a);
+    if(region && d.sido!==region) return false;
+    if(sgg && d.sigungu!==sgg) return false;
     if(failed!==''){
       const fb=a.failed_bids||0, fv=+failed;
       if(failed==='0'){ if(fb!==0) return false; } // 신건: 항상 정확히 0회
@@ -1050,17 +1120,11 @@ function applyF(){
     if(q&&!(a.id+a.court+a.address).toLowerCase().includes(q))return false;
     if(bmOnly&&!BM.has(a.id))return false;
     if(profitOnly){ const roi=calcROI(a); if(roi.rate<=0) return false; }
-    // 가격 구간 필터
-    if(priceR){
-      const bid=a.min_bid||0;
-      if(priceR==='~1'  && bid>=1e8)               return false;
-      if(priceR==='1~2' && (bid<1e8||bid>=2e8))    return false;
-      if(priceR==='2~3' && (bid<2e8||bid>=3e8))    return false;
-      if(priceR==='3~5' && (bid<3e8||bid>=5e8))    return false;
-      if(priceR==='5~7' && (bid<5e8||bid>=7e8))    return false;
-      if(priceR==='7~10'&& (bid<7e8||bid>=10e8))   return false;
-      if(priceR==='10~' && bid<10e8)               return false;
-    }
+    // 최저매각가격 범위 (구간 선택 또는 직접 입력, 억 단위)
+    const bid=a.min_bid||0;
+    if(pMin!=null && bid<pMin*1e8) return false;
+    if(pMax!=null && bid>=pMax*1e8) return false;
+    if(!passAdv(a,d,adv)) return false;
     // 내 예산 필터 (취득세 포함 실투자금 기준)
     if(budget>0 && (a.min_bid||0)*1.046>budget) return false;
     return true;
@@ -1071,6 +1135,7 @@ function applyF(){
   });
   pg=1;
   set('fc-cnt',FILT.length+'건');
+  renderCleanNote(adv);
   // 예산 배너 업데이트
   const bannerEl=document.getElementById('budget-banner');
   if(budget>0){
@@ -1088,7 +1153,145 @@ function applyF(){
 }
 
 function goToday(){ set('fc-date','today'); applyF(); scroll2(); }
-function goAll()  { set('fc-date','');      applyF(); scroll2(); }
+function goAll()  { set('fc-date',''); showAllListings(); scroll2(); }
+
+/* ─────────────────────────────────────────────
+   상세 조건 필터 (scraper/filters.py 와 같은 정의)
+   · "제외" 필터는 확인된 물건만 숨김 (자료가 아직 없는 물건은 통과)
+   · "값 조건" 필터는 값이 없는 물건을 결과에서 뺌
+   · 권리 등급은 '미확인'을 안전으로 취급하지 않음
+───────────────────────────────────────────── */
+const SIDO_SHORT={'서울특별시':'서울','서울시':'서울','경기도':'경기','인천광역시':'인천','인천시':'인천'};
+const SPECIAL_KW=['유치권','법정지상권','분묘기지권','지분 매각','특별매각조건','선순위 가처분','예고등기','대지권 미등기','제시외 건물','농지취득자격증명'];
+const TENANT_KW=['대항력 있는 임차인','보증금 인수','대항력 여지','HUG 관련 조건','대항력 포기','점유관계 미상','선순위 전세권'];
+const DANGER_KW=['유치권','법정지상권','분묘기지권','선순위 가처분','예고등기','대지권 미등기','보증금 인수','대항력 있는 임차인','지분 매각'];
+const PRICE_PRESETS={'~1':[null,1],'1~3':[1,3],'3~5':[3,5],'5~7':[5,7],'7~10':[7,10],'10~':[10,null]};
+const _derCache=new Map();
+
+// 물건 1건의 검색용 파생값 (백엔드가 저장한 값이 있으면 그것을, 없으면 화면에서 계산)
+function deriveA(a){
+  if(_derCache.has(a)) return _derCache.get(a);
+  const tk=(a.address||'').replace(/^\s*사용본거지\s*:\s*/,'').split(/\s+/);
+  let sido=SIDO_SHORT[tk[0]]||null, sgg=null;
+  if(sido && tk[1] && /[시군구]$/.test(tk[1])){
+    sgg=tk[1];
+    if(sgg.endsWith('시') && tk[2] && tk[2].endsWith('구')) sgg+=' '+tk[2];
+  }
+  const pt=a.property_type||'';
+  const cat=pt.includes('아파트')?'apt':['다세대','연립','빌라'].some(k=>pt.includes(k))?'villa':pt.includes('오피스텔')?'offi':['단독','다가구'].some(k=>pt.includes(k))?'house':'other';
+  const kws=a.rights_keywords||[];
+  let grade;
+  if(!a.rights_risk||a.rights_risk==='미확인') grade='unknown';
+  else if(kws.includes('대항력 포기')) grade=kws.some(k=>!TENANT_KW.includes(k)&&(DANGER_KW.includes(k)||SPECIAL_KW.includes(k)))?'danger':'waiver';
+  else if(a.rights_risk==='안전') grade='safe';
+  else if(a.rights_risk==='위험'||kws.some(k=>DANGER_KW.includes(k))) grade='danger';
+  else grade='caution';
+  const d={
+    sido:a.sido||sido, sigungu:a.sigungu||sgg, cat:a.type_category||cat,
+    geun:a.is_geunsaeng!=null?a.is_geunsaeng:(a.actual_use?a.actual_use.includes('근린생활'):null),
+    gap:a.expected_gap!=null?a.expected_gap:((a.official_price&&a.min_bid)?a.min_bid-Math.round(a.official_price*1.26):null),
+    grade:a.rights_grade||grade,
+    special:a.is_special_case!=null?a.is_special_case:(grade==='unknown'?null:kws.some(k=>SPECIAL_KW.includes(k))),
+  };
+  _derCache.set(a,d); return d;
+}
+function isOn(id){ return document.getElementById(id).classList.contains('on'); }
+function toggleChip(el){ el.classList.toggle('on'); applyF(); }
+function readAdv(){
+  const num=id=>{ const x=parseFloat(document.getElementById(id).value); return isNaN(x)?null:x; };
+  return {
+    types:[...document.querySelectorAll('#adv-types .chip.on')].map(e=>e.dataset.type),
+    age:v('fc-age'),
+    exIllegal:isOn('tg-illegal'), exGeun:isOn('tg-geun'), exSpecial:isOn('tg-special'),
+    under100:isOn('tg-under100'), margin:num('fc-margin'), gapMax:num('fc-gap'),
+    grades:[...document.querySelectorAll('#adv-grades .chip.on')].map(e=>e.dataset.grade),
+  };
+}
+function gradeAllowed(grade,grades){
+  if(!grades.length) return true;                      // 아무것도 선택 안 하면 전체
+  if(grade==='safe'||grade==='waiver') return grades.includes(grade);
+  return grades.includes('rest');                      // 주의·위험·미확인
+}
+function passAdv(a,d,c){
+  if(c.types.length && !c.types.includes(d.cat)) return false;
+  if(c.age){
+    if(!a.approval_date) return false;
+    const yrs=(Date.now()-new Date(a.approval_date))/31557600000;
+    if(isNaN(yrs)) return false;
+    if(c.age==='new5'&&yrs>5) return false;
+    if(c.age==='new10'&&yrs>10) return false;
+    if(c.age==='old15'&&yrs<15) return false;
+  }
+  if(c.exIllegal && a.is_illegal_building===true) return false;
+  if(c.exGeun && d.geun===true) return false;
+  if(c.exSpecial && d.special===true) return false;
+  if(c.under100 && !(a.official_price && a.official_price<=1e8)) return false;
+  if(c.margin!=null && !(a.safety_margin_pct!=null && a.safety_margin_pct>=c.margin)) return false;
+  if(c.gapMax!=null && !(d.gap!=null && d.gap<=c.gapMax*1e4)) return false;
+  if(!gradeAllowed(d.grade,c.grades)) return false;
+  return true;
+}
+function priceRange(){
+  const sel=v('fc-price');
+  if(sel==='custom'){
+    const lo=parseFloat(v('fc-price-min')), hi=parseFloat(v('fc-price-max'));
+    return [isNaN(lo)?null:lo, isNaN(hi)?null:hi];
+  }
+  return PRICE_PRESETS[sel]||[null,null];
+}
+function onPricePreset(){
+  document.getElementById('price-custom').style.display = v('fc-price')==='custom' ? 'flex' : 'none';
+  applyF();
+}
+// 시/도 선택에 맞춰 구/군 목록 채우기 (실제 매물이 있는 곳만)
+function fillSigungu(){
+  const sido=v('fc-region'), sel=document.getElementById('fc-sigungu'), today=tstr();
+  const cnt={};
+  ALL.forEach(a=>{
+    if(a.auction_date && a.auction_date<today) return;
+    const d=deriveA(a);
+    if(d.sigungu && (!sido||d.sido===sido)) { const k=sido?d.sigungu:d.sido+' '+d.sigungu; cnt[k]=(cnt[k]||0)+1; }
+  });
+  sel.innerHTML='<option value="">구/군 전체</option>'+
+    (sido?Object.keys(cnt).sort((x,y)=>x.localeCompare(y,'ko')).map(k=>`<option value="${k}">${k} (${cnt[k]})</option>`).join(''):'');
+  sel.disabled=!sido;
+}
+// 기본값 = '클린 매물' (위반건축물 제외 ON / 근생 제외 ON / 권리 등급 안전+대항력 포기)
+function resetAdv(){
+  document.querySelectorAll('#adv-wrap .chip').forEach(e=>e.classList.remove('on'));
+  ['tg-illegal','tg-geun'].forEach(id=>document.getElementById(id).classList.add('on'));
+  document.querySelectorAll('#adv-grades .chip[data-grade="safe"], #adv-grades .chip[data-grade="waiver"]').forEach(e=>e.classList.add('on'));
+  ['fc-age','fc-margin','fc-sigungu'].forEach(id=>set(id,''));
+  ['fc-gap','fc-price-min','fc-price-max'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('price-custom').style.display='none';
+  fillSigungu();
+}
+// 권리 등급 조건을 풀어 전체 등급 보기 (리스크 차단 토글은 유지)
+function showRestGrades(){
+  document.querySelector('#adv-grades .chip[data-grade="rest"]').classList.add('on');
+  applyF();
+}
+// '전체 매물 보기' — 클린 조건까지 모두 해제
+function showAllListings(){
+  document.querySelectorAll('#adv-wrap .chip').forEach(e=>e.classList.remove('on'));
+  applyF();
+}
+// 기본 조건 때문에 숨겨진 매물 안내
+function renderCleanNote(c){
+  const el=document.getElementById('clean-note');
+  const restOff=c.grades.length && !c.grades.includes('rest');
+  if(!restOff){ el.style.display='none'; return; }
+  const today=tstr();
+  const active=ALL.filter(a=>!(a.auction_date&&a.auction_date<today));
+  const unknown=active.filter(a=>deriveA(a).grade==='unknown').length;
+  const risky=active.filter(a=>['caution','danger'].includes(deriveA(a).grade)).length;
+  if(!unknown && !risky){ el.style.display='none'; return; }
+  el.innerHTML=`<b>권리 안전 등급 조건 적용 중</b> — 🟢 안전 · 🟡 대항력 포기 매물만 표시합니다. `
+    +`권리분석 <b>미확인 ${unknown.toLocaleString()}건</b>${risky?`, 주의·위험 ${risky.toLocaleString()}건`:''}은 숨겨져 있어요.`
+    +`<button onclick="showRestGrades()">숨긴 매물도 보기</button>`
+    +`<br><span style="font-size:12px">※ '안전'은 매각물건명세서 키워드 자동 판정입니다. 입찰 전 등기부등본·명세서 원문을 반드시 직접 확인하세요.</span>`;
+  el.style.display='block';
+}
 
 /* ── TOP 5 추천 캐러셀 ── */
 let _featIdx=0, _featTimer=null, _featItems=[], FIDS=[];
@@ -1185,7 +1388,8 @@ function resetF() {
   const bfm=document.getElementById('btn-failed-mode');
   bfm.textContent='이상'; bfm.classList.remove('mode-lt');
   const opts=document.getElementById('fc-failed').options;
-  opts[2].text='1회 이상'; opts[3].text='3회 이상'; opts[4].text='5회 이상';
+  opts[2].text='1회 이상'; opts[3].text='2회 이상'; opts[4].text='3회 이상';
+  resetAdv();
   applyF();
 }
 function scroll2(){ document.getElementById('cards-wrap').scrollIntoView({behavior:'smooth'}); }
@@ -1673,7 +1877,8 @@ function demo(){
   ];
 }
 
-['fc-region','fc-failed','fc-date'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
+document.getElementById('fc-region').addEventListener('change',()=>{ fillSigungu(); applyF(); });
+['fc-failed','fc-date'].forEach(id=>document.getElementById(id).addEventListener('change',applyF));
 document.getElementById('fc-q').addEventListener('input',applyF);
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeM(); closeScoreCalc(); closeAllTools(); } });
 
@@ -1688,6 +1893,7 @@ function switchMode(m){
   document.getElementById('hero-section').style.display= m==='auction'?'':'none';
   document.getElementById('cy-hero-section').style.display= m==='cy'?'':'none';
   document.getElementById('fbar-wrap').style.display= m==='auction'?'':'none';
+  document.getElementById('adv-wrap').style.display= m==='auction'?'':'none';
   document.getElementById('cy-fbar').style.display= m==='cy'?'':'none';
   document.getElementById('cy-cal-section').style.display= m==='cy'&&calOpen?'block':'none';
   document.getElementById('cards-wrap').style.display= m==='auction'?'':'none';

@@ -14,7 +14,6 @@
       "failed_bids": "[기존] 유찰 횟수",
       "bid_ratio": "[기존] 최저가/감정가 (%)",
       "scraped_date": "[기존] 최초 수집일",
-
       "bjdong_code": "[2단계] 법정동코드 10자리 (도로명주소 API admCd)",
       "pnu": "[2단계] 필지고유번호 19자리 = 법정동코드 + 산구분(1일반/2산) + 본번4 + 부번4",
       "road_address": "[2단계] 도로명주소",
@@ -22,33 +21,34 @@
       "umd_name": "[2단계] 읍면동(+리) — 실거래가 비교 기준",
       "building_dong": "[2단계] 원문 주소에서 추출한 건물 동 (예: '514'), 없으면 null",
       "unit_ho": "[2단계] 원문 주소에서 추출한 호수 (예: '901', 지하는 'B01'), 없으면 null",
-
       "is_illegal_building": "[3-①] 위반건축물 여부 (건축물대장 또는 매각물건명세서에 '위반건축물' 표기 시 true)",
       "actual_use": "[3-①] 건축물대장상 실제 용도 (예: '공동주택(다세대주택)', '제2종근린생활시설')",
       "actual_use_level": "[3-①] 용도 기준: '호'(전유부, 정확) / '동'(표제부 주용도)",
       "approval_date": "[3-①] 사용승인일 (YYYY-MM-DD)",
       "exclusive_area": "[3-①] 전용면적 ㎡ (집합건물 전유부 기준)",
       "building_area": "[3-①] 건물 연면적 ㎡ (표제부 기준, 단독·다가구 비교용)",
-
       "official_price": "[3-②] 주택 공시가격 (원). 오피스텔·상가는 대상 아님 → null",
       "official_price_year": "[3-②] 공시 기준연도",
-
       "nearby_trade_price": "[3-③] 유사 실거래 추정가 (원, 최근 TRADE_MONTHS개월 중위값, 면적 알면 ㎡단가×면적)",
       "nearby_trade_count": "[3-③] 비교에 사용한 거래 건수",
       "nearby_trade_date": "[3-③] 비교 거래 중 가장 최근 계약일",
       "nearby_trade_basis": "[3-③] 비교 기준: 동일단지·유사면적 / 동일법정동·유사면적 / 동일단지·㎡단가환산 / 동일법정동·㎡단가환산 / 동일단지 / 동일법정동(면적미확인)",
-
       "safe_jeonse": "[4단계] 안전 전세가 = 공시가격 × 1.26 (원, 만원 단위 반올림)",
       "safety_margin_pct": "[4단계] 안전마진 = (실거래가 - 최저가) / 실거래가 × 100",
       "is_under_100m": "[4단계] 공시가격 1억 이하 여부 (공시가격 미확인이면 null)",
       "risk_tags": "[4단계] 자동 태그: '🚨 근생주의'(주거용인데 대장상 근린생활시설), '🚨 위반건축물', '✨ 안전마진 확보'(안전마진 ≥ 20% & 비교거래 2건 이상)",
-
       "rights_risk": "[5단계] 권리분석 결과: 안전 / 주의 / 위험 / 미확인(명세서를 아직 못 읽음)",
       "rights_keywords": "[5단계] 명세서에서 발견된 키워드 (위험 키워드 먼저)",
       "rights_checked_at": "[5단계] 명세서 확인 시각",
-
       "enriched_at": "[내부] 건축물대장·공시가격 조회 시각 (ENRICH_TTL_DAYS 지나면 재조회)",
-      "enrich_status": "[내부] ok / pending(아직 분석 전) / no_address(주소 변환 실패)"
+      "enrich_status": "[내부] ok / pending(아직 분석 전) / no_address(주소 변환 실패)",
+      "sido": "[검색] 시/도 약칭: 서울 / 경기 / 인천",
+      "sigungu": "[검색] 구/군 (일반구가 있는 시는 '성남시 분당구' 형태)",
+      "type_category": "[검색] 물건 종류 분류: apt(아파트) / villa(연립·다세대) / offi(오피스텔) / house(단독·다가구) / other",
+      "is_geunsaeng": "[검색] 대장상 용도가 근린생활시설인지 (용도 미확인이면 null)",
+      "expected_gap": "[검색] 예상 실투금(갭) = 최저가 - 공시가격 × 1.26 (원, 공시가격 미확인이면 null)",
+      "rights_grade": "[검색] 권리 등급: safe(안전) / waiver(대항력 포기) / caution(주의) / danger(위험) / unknown(미확인)",
+      "is_special_case": "[검색] 특수물건 여부 — 명세서에 유치권·법정지상권·특별매각조건 등 기재 (명세서 미확인이면 null)"
     }
   },
   "updated": "2026-10-01",
@@ -87,12 +87,21 @@
       "safe_jeonse": 1411200000,
       "safety_margin_pct": 23.3,
       "is_under_100m": false,
-      "risk_tags": ["✨ 안전마진 확보"],
+      "risk_tags": [
+        "✨ 안전마진 확보"
+      ],
       "rights_risk": "안전",
       "rights_keywords": [],
       "rights_checked_at": "2026-10-01T08:41:03+09:00",
       "enriched_at": "2026-10-01T08:35:20+09:00",
-      "enrich_status": "ok"
+      "enrich_status": "ok",
+      "sido": "서울",
+      "sigungu": "강남구",
+      "type_category": "apt",
+      "is_geunsaeng": false,
+      "expected_gap": 84800000,
+      "rights_grade": "safe",
+      "is_special_case": false
     },
     {
       "id": "2024타경116011",
@@ -127,12 +136,25 @@
       "safe_jeonse": 112140000,
       "safety_margin_pct": 12.4,
       "is_under_100m": true,
-      "risk_tags": ["🚨 근생주의", "🚨 위반건축물"],
+      "risk_tags": [
+        "🚨 근생주의",
+        "🚨 위반건축물"
+      ],
       "rights_risk": "주의",
-      "rights_keywords": ["위반건축물", "점유관계 미상"],
+      "rights_keywords": [
+        "위반건축물",
+        "점유관계 미상"
+      ],
       "rights_checked_at": "2026-10-01T08:42:55+09:00",
       "enriched_at": "2026-10-01T08:35:41+09:00",
-      "enrich_status": "ok"
+      "enrich_status": "ok",
+      "sido": "서울",
+      "sigungu": "종로구",
+      "type_category": "villa",
+      "is_geunsaeng": true,
+      "expected_gap": 87540000,
+      "rights_grade": "caution",
+      "is_special_case": false
     },
     {
       "id": "2024타경5319",
@@ -172,7 +194,14 @@
       "rights_keywords": [],
       "rights_checked_at": null,
       "enriched_at": "2026-10-01T08:35:44+09:00",
-      "enrich_status": "ok"
+      "enrich_status": "ok",
+      "sido": "서울",
+      "sigungu": "관악구",
+      "type_category": "offi",
+      "is_geunsaeng": false,
+      "expected_gap": null,
+      "rights_grade": "unknown",
+      "is_special_case": null
     }
   ]
 }

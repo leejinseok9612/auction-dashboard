@@ -64,6 +64,9 @@ from urllib.parse import unquote, urlparse
 
 import requests
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from filters import DEFAULT_CRITERIA, derive, filter_items   # 검색·필터 정의 (화면과 동일한 기준)  # noqa: E402
+
 # ════════════════════════════════════════════════════════════
 # 경로 · 설정
 # ════════════════════════════════════════════════════════════
@@ -1204,6 +1207,8 @@ RIGHTS_RULES = [
     ("위험", "보증금 인수", r"(?:보증금|임차권|전세권)[^.\n]{0,20}인수|인수[^.\n]{0,10}(?:보증금|임차)"),
     ("위험", "대항력 있는 임차인", r"대항력\s*(?:이\s*)?있는\s*임차인|대항력\s*있음"),
     ("위험", "지분 매각", r"지분\s*매각|공유\s*지분"),
+    # 대항력 포기 확약 (HUG 등이 우선변제권만 행사) — 등급 판정은 filters.rights_grade 에서
+    ("포기", "대항력 포기", r"대항력[^.\n]{0,15}포기|우선변제권만\s*(?:을\s*)?행사|인수\s*조건\s*변경"),
     ("주의", "토지별도등기", r"토지\s*별도\s*등기"),
     ("주의", "위반건축물", r"위반\s*건축물"),
     ("주의", "선순위 전세권", r"(?:선순위|최선순위)\s*전세권"),
@@ -1579,6 +1584,7 @@ def finalize_item(it: dict) -> dict:
     for k, v in it.items():          # 스크래퍼가 나중에 추가할 수 있는 필드도 보존
         if k not in out:
             out[k] = v
+    out.update(derive(out))          # 검색용 파생 필드 (지역·종류·갭·권리등급 등) — 매번 다시 계산
     return out
 
 
@@ -1622,6 +1628,7 @@ def save_outputs(items: list[dict], prev_doc: dict, started: float, scrape_ok: b
         "tag_위반건축물": cnt(lambda i: "🚨 위반건축물" in (i.get("risk_tags") or [])),
         "tag_안전마진": cnt(lambda i: "✨ 안전마진 확보" in (i.get("risk_tags") or [])),
         "pending_enrich": cnt(lambda i: i.get("enrich_status") == "pending"),
+        "clean_default_count": len(filter_items(items, DEFAULT_CRITERIA)),   # 첫 화면 '클린 매물' 건수
         "api_calls": HTTP.stats["calls"],
         "api_retries": HTTP.stats["retries"],
         "api_failures": HTTP.stats["failures"],
