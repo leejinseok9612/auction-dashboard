@@ -41,6 +41,7 @@ jobs:
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add -A scraper/dev_out docs/data 2>/dev/null || true
-          git diff --staged --quiet || git commit -m "dev: 탐침 결과"
-          git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" || true
+          git add -A docs/data || true
+          [ -d scraper/dev_out ] && git add -A scraper/dev_out || true
+          git diff --staged --quiet || git commit -m "dev: 실행 결과"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" || true
