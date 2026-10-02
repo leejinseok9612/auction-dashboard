@@ -156,7 +156,7 @@ jobs:
                   except Exception:
                       s = {}
                   dead = "apis.data.go.kr" in (s.get("unreachable_hosts") or {})
-                  quota = any("트래픽 초과" in str(v) for v in (s.get("blocked_endpoints") or {}).values())
+                  quota = any(("트래픽 초과" in str(v) or "EXCEEDS" in str(v)) for v in (s.get("blocked_endpoints") or {}).values())
                   pending = int(s.get("pending_enrich") or 0)
                   if mode == "full" and s.get("scrape_ok") is False and attempt < 4:
                       nxt = "full"                     # 법원 사이트 접속 실패 → 수집부터 다시

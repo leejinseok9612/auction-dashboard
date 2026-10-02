@@ -454,6 +454,9 @@ class HttpClient:
         if sc == 200:
             return None
         body = resp.text[:150].replace("\n", " ")
+        if sc == 429 and "LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS" in resp.text:
+            # 공공데이터포털 일일 호출 한도 소진 → 오늘은 다시 시도해도 소용없음
+            return ApiError("일일 트래픽 초과 (HTTP 429)", code="22", fatal=True)
         if sc == 429:
             ra = to_float(resp.headers.get("Retry-After")) or 5.0
             return ApiError(f"HTTP 429 호출 제한: {body}", code="429", retryable=True, retry_after=ra)
@@ -1097,8 +1100,8 @@ def fetch_official_price(item: dict) -> None:
             item["official_price"], item["official_price_year"] = hit[0], (hit[1] or None)
             return
 
-    # 최후 수단: 건축HUB 건축물대장 주택가격 (주로 단독·다가구 개별주택가격)
-    if DATA_GO_KR_KEY and not HTTP.is_blocked("bld:getBrHsprcInfo"):
+    # 단독·다가구: 건축HUB 건축물대장 주택가격(개별주택가격). 집합건물은 이 API 에 가격이 없어 호출하지 않는다.
+    if is_house and DATA_GO_KR_KEY and not HTTP.is_blocked("bld:getBrHsprcInfo"):
         try:
             rows = _bld_call("getBrHsprcInfo", pnu_parts(item["pnu"]), item["id"])
             hit = _pick_price_row(rows, item, unit_required=is_collective)
@@ -1365,7 +1368,7 @@ def needs_enrich(it: dict) -> bool:
     if it.get("enrich_status") != "ok":
         return True
     if it.get("building_status") == "not_found":
-        return days_since(it.get("enriched_at")) > 7      # 대장을 못 찾은 물건은 1주 뒤 다시 시도
+        return days_since(it.get("enriched_at")) > 1      # 대장을 못 찾은 물건은 하루 뒤 다시 시도
     return days_since(it.get("enriched_at")) > ENRICH_TTL_DAYS
 
 
