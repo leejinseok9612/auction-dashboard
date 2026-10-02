@@ -1,13 +1,13 @@
 {
-  "run_at": "2026-10-02T18:52:45+09:00",
-  "duration_sec": 42.8,
+  "run_at": "2026-10-02T18:56:38+09:00",
+  "duration_sec": 28.8,
   "summary": {
     "total": 7080,
     "scrape_ok": true,
     "with_bjdong_code": 7074,
-    "with_building_info": 690,
+    "with_building_info": 742,
     "with_official_price": 0,
-    "with_trade_price": 5370,
+    "with_trade_price": 5373,
     "rights_detail_checked": 80,
     "rights_by_grade": {
       "safe": 6,
@@ -17,105 +17,77 @@
       "unknown": 4538
     },
     "collect_courts_failed": [],
-    "tag_근생주의": 1,
+    "tag_근생주의": 2,
     "tag_위반건축물": 67,
-    "tag_안전마진": 1880,
-    "pending_enrich": 6180,
+    "tag_안전마진": 353,
+    "pending_enrich": 6121,
     "clean_default_count": 1851,
-    "api_calls": 285,
+    "api_calls": 238,
     "api_retries": 0,
     "api_failures": 0,
     "blocked_endpoints": {},
     "unreachable_hosts": {},
     "last_scrape_ok_date": "2026-10-02",
     "error_counts": {
-      "building:warn": 11,
-      "juso:warn": 1
+      "juso:warn": 1,
+      "building:warn": 7
     }
   },
   "errors": [
     {
-      "time": "2026-10-02T18:52:20+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B214807202401300652551",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-10-02T18:52:21+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B214807202401300753061",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-10-02T18:52:23+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B214807202501300071331",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-10-02T18:52:23+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B214807202501300075841",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-10-02T18:52:24+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B214807202501300625791",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-10-02T18:52:24+09:00",
+      "time": "2026-10-02T18:56:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B214807202501300624071",
       "message": "주소 변환 실패: 경기도 고양시 일산서구 덕이동 일산서구덕이도시개발사업지구앤2-3 덕이동정연빌딩 1층101호"
     },
     {
-      "time": "2026-10-02T18:52:25+09:00",
+      "time": "2026-10-02T18:56:14+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B214807202501300640831",
+      "id": "B214804202501300045551",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:52:26+09:00",
+      "time": "2026-10-02T18:56:30+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B214807202501300647111",
+      "id": "B000240202401305285471",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:52:27+09:00",
+      "time": "2026-10-02T18:56:31+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B214807202501300649221",
+      "id": "B000240202501300014311",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:52:28+09:00",
+      "time": "2026-10-02T18:56:31+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B214807202601300016991",
+      "id": "B000240202501300014561",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:52:33+09:00",
+      "time": "2026-10-02T18:56:33+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B214807202601300601211",
+      "id": "B000240202501305083741",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:52:39+09:00",
+      "time": "2026-10-02T18:56:33+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B214807202601300606421",
+      "id": "B000240202501305087181",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T18:56:34+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000240202501305089761",
       "message": "건축물대장 표제부 없음"
     }
   ]
