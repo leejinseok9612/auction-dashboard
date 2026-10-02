@@ -1,0 +1,440 @@
+[
+ {
+  "case": "OK 관악 다세대",
+  "pnu": "1162010300110860012",
+  "params": {
+   "sigunguCd": "11620",
+   "bjdongCd": "10300",
+   "platGbCd": "0",
+   "bun": "1086",
+   "ji": "0012"
+  },
+  "ops": {
+   "getBrTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrTitleInfo/ji없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrTitleInfo/platGb없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   },
+   "getBrRecapTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   },
+   "getBrBasisOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrExposPubuseAreaInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposPubuseAreaInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrExposPubuseAreaInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrHsprcInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrHsprcInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrHsprcInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   },
+   "getBrFlrOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   }
+  }
+ },
+ {
+  "case": "FAIL 금천 오피스텔 골드마운틴",
+  "pnu": "1154010200110440003",
+  "params": {
+   "sigunguCd": "11540",
+   "bjdongCd": "10200",
+   "platGbCd": "0",
+   "bun": "1044",
+   "ji": "0003"
+  },
+  "ops": {
+   "getBrTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrTitleInfo/ji없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrTitleInfo/platGb없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrRecapTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrBasisOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrExposPubuseAreaInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposPubuseAreaInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.3
+   },
+   "getBrExposPubuseAreaInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrHsprcInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 9.2
+   },
+   "getBrHsprcInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   },
+   "getBrHsprcInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrFlrOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   }
+  }
+ },
+ {
+  "case": "FAIL 금천 다세대 금강파크빌",
+  "pnu": "1154010300107970017",
+  "params": {
+   "sigunguCd": "11540",
+   "bjdongCd": "10300",
+   "platGbCd": "0",
+   "bun": "0797",
+   "ji": "0017"
+  },
+  "ops": {
+   "getBrTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.6
+   },
+   "getBrTitleInfo/ji없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrTitleInfo/platGb없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrRecapTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrBasisOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposPubuseAreaInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposPubuseAreaInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposPubuseAreaInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrHsprcInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrHsprcInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrHsprcInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrFlrOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   }
+  }
+ },
+ {
+  "case": "FAIL 은평 연송에버빌",
+  "pnu": "1138010700100850017",
+  "params": {
+   "sigunguCd": "11380",
+   "bjdongCd": "10700",
+   "platGbCd": "0",
+   "bun": "0085",
+   "ji": "0017"
+  },
+  "ops": {
+   "getBrTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrTitleInfo/ji없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrTitleInfo/platGb없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrRecapTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   },
+   "getBrBasisOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   },
+   "getBrExposInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposPubuseAreaInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrExposPubuseAreaInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.6
+   },
+   "getBrExposPubuseAreaInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrHsprcInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrHsprcInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrHsprcInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.2
+   },
+   "getBrFlrOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   }
+  }
+ },
+ {
+  "case": "FAIL 금천 아파트 가산양우내안애",
+  "pnu": "1154010100101410002",
+  "params": {
+   "sigunguCd": "11540",
+   "bjdongCd": "10100",
+   "platGbCd": "0",
+   "bun": "0141",
+   "ji": "0002"
+  },
+  "ops": {
+   "getBrTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrTitleInfo/ji없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.3
+   },
+   "getBrTitleInfo/platGb없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrRecapTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrBasisOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   },
+   "getBrExposInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrExposPubuseAreaInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   },
+   "getBrExposPubuseAreaInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposPubuseAreaInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrHsprcInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrHsprcInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.2
+   },
+   "getBrHsprcInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrFlrOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.3
+   }
+  }
+ },
+ {
+  "case": "FAIL 강서 마곡그린필",
+  "pnu": "1150010900103230003",
+  "params": {
+   "sigunguCd": "11500",
+   "bjdongCd": "10900",
+   "platGbCd": "0",
+   "bun": "0323",
+   "ji": "0003"
+  },
+  "ops": {
+   "getBrTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrTitleInfo/ji없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrTitleInfo/platGb없이": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrRecapTitleInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrBasisOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   },
+   "getBrExposInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrExposInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrExposPubuseAreaInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   },
+   "getBrExposPubuseAreaInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 9.2
+   },
+   "getBrExposPubuseAreaInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.3
+   },
+   "getBrHsprcInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.5
+   },
+   "getBrHsprcInfo/hoNm": {
+    "error": "ConnectTimeout",
+    "sec": 8.2
+   },
+   "getBrHsprcInfo/hoNm숫자": {
+    "error": "ConnectTimeout",
+    "sec": 8.0
+   },
+   "getBrFlrOulnInfo/기본": {
+    "error": "ConnectTimeout",
+    "sec": 8.4
+   }
+  }
+ }
+]
