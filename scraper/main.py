@@ -1012,8 +1012,7 @@ def fetch_official_price(item: dict) -> None:
         if VWORLD_KEY:
             vb = {"key": VWORLD_KEY, **({"domain": VWORLD_DOMAIN} if VWORLD_DOMAIN else {})}
             sources.append(("price:vworld_apt", VWORLD_APT_PRICE_URL, vb, True))
-        if DATA_GO_KR_KEY:
-            sources.append(("price:nsdi_apt", NSDI_APT_PRICE_URL, {"serviceKey": DATA_GO_KR_KEY}, True))
+        # (공공데이터포털 경유 NSDI 공동주택가격 API 는 폐지되어 HTTP 400 만 반환 → 사용하지 않음)
     else:
         if VWORLD_KEY:
             vb = {"key": VWORLD_KEY, **({"domain": VWORLD_DOMAIN} if VWORLD_DOMAIN else {})}

@@ -90,6 +90,13 @@ jobs:
           restore-keys: |
             api-cache-
 
+      # (dev 가지 전용) 조사용 명령 — scraper/.dev_hook 파일이 있을 때만 실행. main 에 합치기 전에 삭제한다.
+      - name: 🔬 dev 조사 명령
+        if: (env.MODE == 'full' || steps.preflight.outputs.reachable == 'true') && hashFiles('scraper/.dev_hook') != ''
+        env:
+          DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+        run: bash scraper/dev_cmd.sh || true
+
       - name: 🚀 파이프라인 실행 (main.py)
         if: env.MODE == 'full' || steps.preflight.outputs.reachable == 'true'
         env:
@@ -122,6 +129,7 @@ jobs:
           fi
 
           git add docs/data/auctions.json docs/data/error_log.json
+          [ -d scraper/dev_out ] && git add -A scraper/dev_out || true
           COUNT=$(python -c "import json; print(len(json.load(open('docs/data/auctions.json')).get('auctions', [])))")
           git commit -m "🏠 경매 데이터 업데이트: $(date '+%Y-%m-%d %H:%M') KST (총 ${COUNT}건)"
 
@@ -167,7 +175,8 @@ jobs:
           )
           if [ -z "${NEXT}" ]; then echo "이어서 실행할 필요 없음"; exit 0; fi
           echo "➡ ${NEXT} 방식으로 다시 실행 (회차 $((ATTEMPT + 1))/${MAX_ATTEMPTS})"
-          gh workflow run update-data.yml --repo "${GITHUB_REPOSITORY}" --ref "${GITHUB_REF_NAME}" -f mode="${NEXT}" -f attempt="$((ATTEMPT + 1))"
+          gh workflow run update-data.yml --repo "${GITHUB_REPOSITORY}" --ref "${GITHUB_REF_NAME}" \
+            -f mode="${NEXT}" -f attempt="$((ATTEMPT + 1))" -f limit="${{ github.event.inputs.limit }}"
 
       # 실행 결과 로그는 커밋 여부와 관계없이 아티팩트로 보관 (Actions 실행 화면에서 다운로드)
       - name: 📝 오류 로그 업로드
