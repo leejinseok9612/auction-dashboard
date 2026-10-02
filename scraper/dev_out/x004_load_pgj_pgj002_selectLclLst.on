@@ -1,1 +1,0 @@
-{"status":200,"message":"대분류 목록 조회가 완료되었습니다.","timestamp":1790928046114,"errors":null,"data":{"usgLclLst":[{"name":"토지","code":"10000"},{"name":"건물","code":"20000"},{"name":"차량및운송장비","code":"30000"},{"name":"기타","code":"40000"}]},"token":null}

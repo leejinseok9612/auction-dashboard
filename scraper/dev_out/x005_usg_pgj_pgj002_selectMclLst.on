@@ -1,1 +1,0 @@
-{"status":200,"message":"중분류 목록 조회가 완료되었습니다.","timestamp":1790928047033,"errors":null,"data":{"usgMclLst":[{"name":"주거용건물","code":"20100"},{"name":"상업용및업무용","code":"21100"},{"name":"산업용및기타특수용","code":"22100"},{"name":"용도복합용","code":"23100"}]},"token":null}

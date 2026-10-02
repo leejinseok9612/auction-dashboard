@@ -1,1 +1,0 @@
-{"status":200,"message":"중분류 목록 조회가 완료되었습니다.","timestamp":1790928054739,"errors":null,"data":{"usgSclLst":[{"name":"주/상용건물","code":"23101"},{"name":"주/산용건물","code":"23102"},{"name":"기타복합용건물","code":"23103"}]},"token":null}

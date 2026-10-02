@@ -95,44 +95,26 @@ def main():
         today = date.today()
         d = lambda n: (today + timedelta(days=n)).strftime("%Y%m%d")
         tests = {}
-        tests["여주 base"] = total({"cortOfcCd": "B000252"})
-        tests["여주 +60"] = total({"cortOfcCd": "B000252", "bidEndYmd": d(60)})
-        for n in (14, 30, 45, 60, 90, 180, 365):
-            tests[f"중앙 end+{n}"] = total({"cortOfcCd": "B000210", "bidEndYmd": d(n)})
-        tests["중앙 begin-30 end+14"] = total({"cortOfcCd": "B000210", "bidBgngYmd": d(-30)})
-        tests["중앙 bidDvs='' end+60"] = total({"cortOfcCd": "B000210", "bidEndYmd": d(60), "bidDvsCd": ""})
-        tests["중앙 기간입찰 000332 end+60"] = total({"cortOfcCd": "B000210", "bidEndYmd": d(60), "bidDvsCd": "000332"})
-        tests["중앙 건물만(lcl=20000) end+60"] = total({"cortOfcCd": "B000210", "bidEndYmd": d(60), "lclDspslGdsLstUsgCd": "20000"})
-        tests["중앙 주거용(mcl=20100) end+60"] = total({"cortOfcCd": "B000210", "bidEndYmd": d(60), "lclDspslGdsLstUsgCd": "20000", "mclDspslGdsLstUsgCd": "20100"})
-        tests["전체법원 end+60"] = total({"cortOfcCd": "", "bidEndYmd": d(60)})
-        R["steps"]["tests"] = tests
-        for k, v in tests.items():
-            print("TEST", k, v)
-
-        # 유찰·특수조건이 다양한 표본 확보: 중앙 +60일, 40건 × 5페이지 원본 저장
-        raw = []
-        for pg in range(1, 6):
-            r = fetch({**CLEAR_SIDO, "cortOfcCd": "B000210", "bidEndYmd": d(60)},
-                      {"pageNo": pg, "bfPageNo": str(pg - 1), "totalCnt": "", "pageSize": 40}, full=True)
-            raw.extend(r.get("rows", []))
-        json.dump(raw, open(OUT / "raw_rows2.json", "w", encoding="utf-8"), ensure_ascii=False, indent=0)
-        R["steps"]["raw2"] = len(raw)
+        R['steps']['tests'] = tests
 
         # 상세 화면 열기: 결과 그리드에서 첫 사건번호 클릭 → 이후 호출되는 API 기록
         phase["name"] = "detail"
         try:
             first = page.evaluate("() => (window.__auction_captured[0]||{}).data.dlt_srchResult[0]")
             R["steps"]["detail_target"] = {k: first.get(k) for k in ("srnSaNo", "maemulSer", "docid", "printSt")}
-            cs = first["srnSaNo"]
-            loc = page.locator(f"a:has-text('{cs}'), td:has-text('{cs}') a, [id*='grd'] :text('{cs}')").first
-            loc.click(timeout=15000)
-            page.wait_for_timeout(12000)
+            # 주거용 + 특수조건 있는 물건을 찾아 그 행으로 상세 이동 (명세서 내용이 풍부한 표본)
+            r = fetch({**CLEAR_SIDO, "cortOfcCd": "B000210", "bidEndYmd": d(60), "lclDspslGdsLstUsgCd": "20000", "mclDspslGdsLstUsgCd": "20100"},
+                      {"pageNo": 1, "bfPageNo": "0", "totalCnt": "", "pageSize": 40}, full=True)
+            R["steps"]["res_rows"] = [{k: x.get(k) for k in ("srnSaNo", "maemulSer", "spJogCd", "mulBigo", "dspslUsgNm", "yuchalCnt")} for x in r.get("rows", [])]
+            page.wait_for_timeout(1000)
+            page.evaluate("() => moveDtlPage(0)")
+            page.wait_for_timeout(15000)
             R["steps"]["detail_url"] = page.url
-            R["steps"]["detail_text"] = page.locator("body").inner_text()[:6000]
+            R["steps"]["detail_text"] = page.locator("body").inner_text()[:12000]
             # 상세 화면의 버튼·탭 목록
             R["steps"]["detail_clickables"] = page.evaluate("""() => Array.from(document.querySelectorAll('a,button,input[type=button]'))
                 .map(e => ({id:e.id, t:((e.innerText||e.value||'')+'').trim().slice(0,30)}))
-                .filter(x => x.t && /명세서|현황|감정|기일|문건|사건|상세|임차|등기|물건/.test(x.t)).slice(0,80)""")
+                .filter(x => x.t).slice(0,150)""")
             for label in ["매각물건명세서", "현황조사서", "감정평가서", "사건상세조회", "기일내역", "문건/송달내역"]:
                 phase["name"] = "btn_" + label.replace("/", "")
                 try:
