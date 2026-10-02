@@ -1,243 +1,150 @@
 {
-  "run_at": "2026-10-02T20:18:51+09:00",
-  "duration_sec": 68.2,
+  "run_at": "2026-10-02T20:45:39+09:00",
+  "duration_sec": 1517.2,
   "summary": {
     "total": 7080,
     "scrape_ok": true,
     "with_bjdong_code": 7080,
-    "with_building_info": 5917,
+    "with_building_info": 4958,
     "with_official_price": 3,
-    "with_trade_price": 6506,
-    "rights_detail_checked": 0,
+    "with_trade_price": 6448,
+    "rights_detail_checked": 200,
     "rights_by_grade": {
-      "safe": 0,
-      "waiver": 1856,
-      "caution": 303,
-      "danger": 306,
-      "unknown": 4615
+      "safe": 10,
+      "waiver": 2022,
+      "caution": 300,
+      "danger": 326,
+      "unknown": 4422
     },
     "collect_courts_failed": [],
     "audit_list_vs_detail": {
-      "checked": 0,
+      "checked": 200,
       "mismatched": 0
     },
-    "tag_근생주의": 22,
+    "tag_근생주의": 18,
     "tag_위반건축물": 67,
-    "tag_안전마진": 533,
+    "tag_안전마진": 523,
     "pending_enrich": 1966,
-    "clean_default_count": 1843,
-    "api_calls": 69,
-    "api_retries": 48,
-    "api_failures": 16,
+    "clean_default_count": 2021,
+    "api_calls": 4,
+    "api_retries": 0,
+    "api_failures": 0,
     "blocked_endpoints": {
-      "bld:getBrTitleInfo": "연속 5회 실패 (마지막: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 )",
-      "bld:getBrHsprcInfo": "연속 5회 실패 (마지막: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 )"
+      "bld:getBrTitleInfo": "일일 트래픽 초과 (HTTP 429)"
     },
     "unreachable_hosts": {},
     "last_scrape_ok_date": "2026-10-02",
     "error_counts": {
       "juso:warn": 10,
-      "building:error": 8,
-      "api:error": 2,
-      "official_price:warn": 8
+      "api:error": 1,
+      "building:error": 4
     }
   },
   "errors": [
     {
-      "time": "2026-10-02T20:17:44+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B214807202501300624071",
-      "message": "주소 변환 실패: 경기도 고양시 일산서구 덕이동 일산서구덕이도시개발사업지구앤2-3 덕이동정연빌딩 1층101호"
-    },
-    {
-      "time": "2026-10-02T20:17:44+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B000250202501300570341",
-      "message": "주소 변환 실패: 경기도 화성시 새솔동 송산그린시티이에이에이4블록 송산신도시대방노블랜드리버스위트2차 205동 2층204호"
-    },
-    {
-      "time": "2026-10-02T20:17:44+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B000253202501300426671",
-      "message": "주소 변환 실패: 경기도 평택시 합정동 소사3지구4블록 평택뉴비전엘크루 110동 3층302호"
-    },
-    {
-      "time": "2026-10-02T20:17:44+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B000213202401301210431",
-      "message": "주소 변환 실패: 서울특별시 중랑구 면목동 재개발지구1369"
-    },
-    {
-      "time": "2026-10-02T20:17:44+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B000240202401300087391",
-      "message": "주소 변환 실패: 인천광역시 서구 경서동 경서3구역도시개발지구25블록2로트 청라로데오시티포레안 16층1612호"
-    },
-    {
-      "time": "2026-10-02T20:17:44+09:00",
+      "time": "2026-10-02T20:26:27+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300011921",
       "message": "주소 변환 실패: 경기도 화성시 새솔동 송산그린시티택지개발지구이에이에이3블록 송산그린시티요진와이시티 105동 12층1203호"
     },
     {
-      "time": "2026-10-02T20:17:44+09:00",
+      "time": "2026-10-02T20:26:27+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000253202501300426671",
+      "message": "주소 변환 실패: 경기도 평택시 합정동 소사3지구4블록 평택뉴비전엘크루 110동 3층302호"
+    },
+    {
+      "time": "2026-10-02T20:26:27+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000250202501300570341",
+      "message": "주소 변환 실패: 경기도 화성시 새솔동 송산그린시티이에이에이4블록 송산신도시대방노블랜드리버스위트2차 205동 2층204호"
+    },
+    {
+      "time": "2026-10-02T20:26:27+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000213202401301210431",
+      "message": "주소 변환 실패: 서울특별시 중랑구 면목동 재개발지구1369"
+    },
+    {
+      "time": "2026-10-02T20:26:27+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B214807202501300624071",
+      "message": "주소 변환 실패: 경기도 고양시 일산서구 덕이동 일산서구덕이도시개발사업지구앤2-3 덕이동정연빌딩 1층101호"
+    },
+    {
+      "time": "2026-10-02T20:26:27+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000240202401300087391",
+      "message": "주소 변환 실패: 인천광역시 서구 경서동 경서3구역도시개발지구25블록2로트 청라로데오시티포레안 16층1612호"
+    },
+    {
+      "time": "2026-10-02T20:26:27+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202501300014221",
       "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역12블록4로트 문학트리플타운 2층201호"
     },
     {
-      "time": "2026-10-02T20:17:44+09:00",
+      "time": "2026-10-02T20:26:27+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000241202501300348101",
       "message": "주소 변환 실패: 경기도 김포시 고촌읍 신곡리 김포신곡6지구에이2블럭 캐슬앤파밀리에시티2단지 225동 4층402호"
     },
     {
-      "time": "2026-10-02T20:18:00+09:00",
-      "stage": "building",
+      "time": "2026-10-02T20:26:28+09:00",
+      "stage": "api",
       "level": "error",
-      "id": "B214807202601300607541",
-      "message": "HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
+      "id": null,
+      "message": "엔드포인트 차단 [bld:getBrTitleInfo]: 일일 트래픽 초과 (HTTP 429)"
     },
     {
-      "time": "2026-10-02T20:18:00+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B214807202601300607551",
-      "message": "HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:00+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B214804202401300058101",
-      "message": "HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:00+09:00",
+      "time": "2026-10-02T20:26:28+09:00",
       "stage": "building",
       "level": "error",
       "id": "B214804202401300059712",
-      "message": "HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
+      "message": "일일 트래픽 초과 (HTTP 429)"
     },
     {
-      "time": "2026-10-02T20:18:16+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [bld:getBrTitleInfo]: 연속 5회 실패 (마지막: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 )"
-    },
-    {
-      "time": "2026-10-02T20:18:16+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B214804202401300059713",
-      "message": "HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:16+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B214804202401300059714",
-      "message": "HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:16+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B214804202401300059715",
-      "message": "HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:17+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B214804202401300814871",
-      "message": "HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:31+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "B214804202401300836361",
-      "message": "건축물대장 주택가격: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:31+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "B214804202401300852291",
-      "message": "건축물대장 주택가격: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:32+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "B214804202401300855881",
-      "message": "건축물대장 주택가격: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:32+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "B214804202501300011501",
-      "message": "건축물대장 주택가격: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:47+09:00",
-      "stage": "api",
-      "level": "error",
-      "id": null,
-      "message": "엔드포인트 차단 [bld:getBrHsprcInfo]: 연속 5회 실패 (마지막: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 )"
-    },
-    {
-      "time": "2026-10-02T20:18:47+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "B214804202501300037981",
-      "message": "건축물대장 주택가격: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:47+09:00",
+      "time": "2026-10-02T20:26:28+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B214804202501300728241",
       "message": "주소 변환 실패: 경기도 남양주시 다산동 진건지구비8블럭 다산한양수자인리버팰리스 1113동 12층1202호"
     },
     {
-      "time": "2026-10-02T20:18:47+09:00",
+      "time": "2026-10-02T20:26:28+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "B214807202601300607551",
+      "message": "일일 트래픽 초과 (HTTP 429)"
+    },
+    {
+      "time": "2026-10-02T20:26:28+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300012251",
       "message": "주소 변환 실패: 경기도 오산시 청학동 세교2지구알에이52-5"
     },
     {
-      "time": "2026-10-02T20:18:47+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "B214804202501300038971",
-      "message": "건축물대장 주택가격: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
+      "time": "2026-10-02T20:26:28+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "B214804202401300058101",
+      "message": "일일 트래픽 초과 (HTTP 429)"
     },
     {
-      "time": "2026-10-02T20:18:47+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "B214804202501300044591",
-      "message": "건축물대장 주택가격: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
-    },
-    {
-      "time": "2026-10-02T20:18:48+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "B214804202501300047391",
-      "message": "건축물대장 주택가격: HTTP 429 호출 제한: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR\",       \"returnAuthMsg\": \"일일 "
+      "time": "2026-10-02T20:26:28+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "B214807202601300607541",
+      "message": "일일 트래픽 초과 (HTTP 429)"
     }
   ]
 }
