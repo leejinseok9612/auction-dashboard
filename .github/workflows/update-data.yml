@@ -1,0 +1,104 @@
+name: 🏠 경매 데이터 수집·분석
+
+# 매일(평일) 08:30 KST 실행
+#   GitHub cron 은 UTC 기준 → 23:30 UTC (일~목) = 08:30 KST (월~금)
+on:
+  schedule:
+    - cron: '30 23 * * 0-4'
+  workflow_dispatch:            # Actions 탭에서 수동 실행
+    inputs:
+      skip_scrape:
+        description: '목록 수집 생략 (기존 데이터로 분석만)'
+        type: boolean
+        default: false
+      limit:
+        description: '신규 분석 최대 건수 (비우면 기본값 1000)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write               # 데이터 커밋·푸시용
+
+concurrency:                    # 동시에 두 번 돌지 않도록
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      TZ: Asia/Seoul
+      PYTHONUNBUFFERED: '1'
+
+    steps:
+      - name: 📥 레포 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 🐍 Python 3.11 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: scraper/requirements.txt
+
+      - name: 📦 의존성 설치
+        run: |
+          pip install -r scraper/requirements.txt
+          python -m playwright install chromium --with-deps
+
+      # 실거래가·주소·분석 캐시 복원 → API 호출량 절감 (커밋하지 않고 Actions 캐시에 보관)
+      - name: 🗂️ API 캐시 복원
+        uses: actions/cache@v4
+        with:
+          path: scraper/.cache
+          key: api-cache-${{ github.run_id }}
+          restore-keys: |
+            api-cache-
+
+      - name: 🚀 파이프라인 실행 (main.py)
+        env:
+          DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+          JUSO_CONFIRM_KEY: ${{ secrets.JUSO_CONFIRM_KEY }}
+          VWORLD_KEY: ${{ secrets.VWORLD_KEY }}          # 선택 (없으면 자동 생략)
+          VWORLD_DOMAIN: ${{ secrets.VWORLD_DOMAIN }}    # 선택
+        run: |
+          ARGS=""
+          if [ "${{ github.event.inputs.skip_scrape }}" = "true" ]; then ARGS="$ARGS --skip-scrape"; fi
+          if [ -n "${{ github.event.inputs.limit }}" ]; then ARGS="$ARGS --limit ${{ github.event.inputs.limit }}"; fi
+          python scraper/main.py $ARGS
+
+      - name: 📊 변경 확인 및 커밋
+        if: success()
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # auctions.json 이 바뀐 경우에만 커밋 (error_log.json 은 함께 커밋)
+          if git diff --quiet -- docs/data/auctions.json; then
+            echo "✅ auctions.json 변경 없음 — 커밋 스킵"
+            exit 0
+          fi
+
+          git add docs/data/auctions.json docs/data/error_log.json
+          COUNT=$(python -c "import json; print(len(json.load(open('docs/data/auctions.json')).get('auctions', [])))")
+          git commit -m "🏠 경매 데이터 업데이트: $(date '+%Y-%m-%d %H:%M') KST (총 ${COUNT}건)"
+
+          # 푸시 (충돌 시 rebase 후 최대 3회 재시도)
+          for i in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            echo "⚠ 푸시 실패 (${i}/3) — 재시도"
+            sleep $((i * 5))
+          done
+          echo "❌ 푸시 최종 실패"
+          exit 1
+
+      # 실행 결과 로그는 커밋 여부와 관계없이 아티팩트로 보관 (Actions 실행 화면에서 다운로드)
+      - name: 📝 오류 로그 업로드
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: error-log-${{ github.run_id }}
+          path: docs/data/error_log.json
+          if-no-files-found: ignore
+          retention-days: 14
