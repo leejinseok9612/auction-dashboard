@@ -1,0 +1,1606 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+        물건상세검색 화면 XML
+    ============= ============ ==========================
+     Date          Author       Description
+    ============= ============ ==========================
+     2025.12.26.   공태은       [25A-PGJ-0052] 기일별 검색 목록 화면에서 상세 화면에서 목록화면으로 이동시 스크롤바 유지되도록 개선
+     2025.12.26.   공태은       [25A-PGJ-0053] 나의경매 자주쓰는검색 화면에서 페이지 이동시 검색조건이 초기화되는 현상 수정
+     2026.08.28.   김기석       [26A-PGJ-0041] 자동차 매각물건명세서 조회 오류 개선
+    ============= ============ ==========================
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head meta_screenName="물건상세검색 결과_부동산">
+        <w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+            <xf:instance>
+                <data xmlns="" />
+            </xf:instance>
+            <w2:dataCollection baseNode="map">
+                <w2:dataMap baseNode="map" id="dma_srchGdsDtlSrchInfo">
+                    <w2:keyInfo>
+                        <w2:key id="rletDspslSpcCondCd" name="부동산매각특수조건" dataType="text"></w2:key>
+                        <w2:key id="bidDvsCd" name="입찰구분" dataType="text"></w2:key>
+                        <w2:key id="mvprpRletDvsCd" name="부동산동산구분코드" dataType="text"></w2:key>
+                        <w2:key id="cortAuctnSrchCondCd" name="법원경매검색조건" dataType="text"></w2:key>
+                        <w2:key id="rprsAdongSdCd" name="부동산지번시도코드" dataType="text"></w2:key>
+                        <w2:key id="rprsAdongSggCd" name="부동산지번시군구코드" dataType="text"></w2:key>
+                        <w2:key id="rprsAdongEmdCd" name="부동산지번읍면동코드" dataType="text"></w2:key>
+                        <w2:key id="rdnmSdCd" name="부동산도로명시도코드" dataType="text"></w2:key>
+                        <w2:key id="rdnmSggCd" name="부동산도로명시군구코드" dataType="text"></w2:key>
+                        <w2:key id="rdnmNo" name="부동산도로명" dataType="text"></w2:key>
+                        <w2:key id="mvprpDspslPlcAdongSdCd" name="동산지번시도코드" dataType="text"></w2:key>
+                        <w2:key id="mvprpDspslPlcAdongSggCd" name="동산지번시군구코드" dataType="text"></w2:key>
+                        <w2:key id="mvprpDspslPlcAdongEmdCd" name="동산지번읍면동코드" dataType="text"></w2:key>
+                        <w2:key id="rdDspslPlcAdongSdCd" name="동산도로명시도코드" dataType="text"></w2:key>
+                        <w2:key id="rdDspslPlcAdongSggCd" name="동산도로명시군구코드" dataType="text"></w2:key>
+                        <w2:key id="rdDspslPlcAdongEmdCd" name="동산도로명" dataType="text"></w2:key>
+                        <w2:key id="cortOfcCd" name="법원사무소코드" dataType="text"></w2:key>
+                        <w2:key id="jdbnCd" name="법원사무소부서코드" dataType="text"></w2:key>
+                        <w2:key id="execrOfcDvsCd" name="집행관사무소도구분코드" dataType="text"></w2:key>
+                        <w2:key id="lclDspslGdsLstUsgCd" name="용도대분류코드" dataType="text"></w2:key>
+                        <w2:key id="mclDspslGdsLstUsgCd" name="용도중분류코드" dataType="text"></w2:key>
+                        <w2:key id="sclDspslGdsLstUsgCd" name="용도소분류코드" dataType="text"></w2:key>
+                        <w2:key id="cortAuctnMbrsId" name="회원ID" dataType="text"></w2:key>
+                        <w2:key id="aeeEvlAmtMin" name="감정평가액MIN" dataType="text"></w2:key>
+                        <w2:key id="aeeEvlAmtMax" name="감정평가액MAX" dataType="text"></w2:key>
+                        <w2:key id="lwsDspslPrcRateMin" name="최저매각가율MIN" dataType="text"></w2:key>
+                        <w2:key id="lwsDspslPrcRateMax" name="최저매각가율MAX" dataType="text"></w2:key>
+                        <w2:key id="flbdNcntMin" name="유찰횟수MIN" dataType="text"></w2:key>
+                        <w2:key id="flbdNcntMax" name="유찰횟수MAX" dataType="text"></w2:key>
+                        <w2:key id="objctArDtsMin" name="면적MIN" dataType="text"></w2:key>
+                        <w2:key id="objctArDtsMax" name="면적MAX" dataType="text"></w2:key>
+                        <w2:key id="mvprpArtclKndCd" name="동산물품종류" dataType="text"></w2:key>
+                        <w2:key id="mvprpArtclNm" name="동산물품명" dataType="text"></w2:key>
+                        <w2:key id="mvprpAtchmPlcTypCd" name="압류장소" dataType="text"></w2:key>
+                        <w2:key id="notifyLoc" name="주소공고중여버" dataType="text"></w2:key>
+                        <w2:key id="lafjOrderBy" name="정렬" dataType="text"></w2:key>
+                        <w2:key id="pgmId" name="화면ID" dataType="text"></w2:key>
+                        <w2:key id="csNo" name="사건번호" dataType="text"></w2:key>
+                        <w2:key id="cortStDvs" name="법원/소재지구분코드" dataType="text"></w2:key>
+                        <w2:key id="statNum" name="익수주임님" dataType="text"></w2:key>
+                        <w2:key id="bidBgngYmd" name="입찰시작일자" dataType="text"></w2:key>
+                        <w2:key id="bidEndYmd" name="입찰종료일자" dataType="text"></w2:key>
+                        <w2:key id="dspslDxdyYmd" name="매각기일" dataType="text"></w2:key>
+                        <w2:key id="fstDspslHm" name="1차매각시분" dataType="text"></w2:key>
+                        <w2:key id="scndDspslHm" name="2차매각시분" dataType="text"></w2:key>
+                        <w2:key id="thrdDspslHm" name="3차매각시분" dataType="text"></w2:key>
+                        <w2:key id="fothDspslHm" name="4차매각시분" dataType="text"></w2:key>
+                        <w2:key id="dspslPlcNm" name="매각장소명" dataType="text"></w2:key>
+                        <w2:key id="lwsDspslPrcMin" name="최저매각각격MIN" dataType="text"></w2:key>
+                        <w2:key id="lwsDspslPrcMax" name="최저매각가격MAX" dataType="text"></w2:key>
+                        <w2:key id="grbxTypCd" name="변속기어" dataType="text"></w2:key>
+                        <w2:key id="gdsVendNm" name="제조사명" dataType="text"></w2:key>
+                        <w2:key id="fuelKndCd" name="연료" dataType="text"></w2:key>
+                        <w2:key id="carMdyrMax" name="차량 연식 Max" dataType="text"></w2:key>
+                        <w2:key id="carMdyrMin" name="차량 연식 Min" dataType="text"></w2:key>
+                        <w2:key id="carMdlNm" name="자동차명" dataType="text"></w2:key>
+                        <w2:key id="sideDvsCd" name="사이드구분코드" dataType="text"></w2:key>
+                    </w2:keyInfo>
+                </w2:dataMap>
+                <w2:dataMap baseNode="map" id="dma_pageInfo">
+                    <w2:keyInfo>
+                        <w2:key id="pageNo" name="페이지번호" dataType="text"></w2:key>
+                        <w2:key id="pageSize" name="페이지크기" dataType="text"></w2:key>
+                        <w2:key id="bfPageNo" name="이전 페이지 번호" dataType="text"></w2:key>
+                        <w2:key id="startRowNo" name="시작 행번호" dataType="text"></w2:key>
+                        <w2:key id="totalCnt" name="총건수" dataType="text"></w2:key>
+                        <w2:key id="totalYn" name="총건수조회여부" dataType="text"></w2:key>
+                        <w2:key id="groupTotalCount" name="물건수" dataType="text"></w2:key>
+                    </w2:keyInfo>
+                </w2:dataMap>
+                <w2:dataList baseNode="list" repeatNode="map" id="dlt_srchResult" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="checkBox" name="체크받스" dataType="text"></w2:column>
+                        <w2:column id="printCsNo" name="변환된사건번호" dataType="text"></w2:column>
+                        <w2:column id="maemulSer" name="물건순번" dataType="text"></w2:column>
+                        <w2:column id="printSt" name="변환된소재지" dataType="text"></w2:column>
+                        <w2:column id="mapBtn" name="지도버튼" dataType="text"></w2:column>
+                        <w2:column id="mulBigo" name="비고" dataType="text"></w2:column>
+                        <w2:column id="gamevalAmt" name="감정평가액" dataType="text"></w2:column>
+                        <w2:column id="jpDeptNm" name="부서명" dataType="text"></w2:column>
+                        <w2:column id="boCd" name="법원사무소코드" dataType="text"></w2:column>
+                        <w2:column id="docid" name="DOCId" dataType="text"></w2:column>
+                        <w2:column id="saNo" name="사건번호" dataType="text"></w2:column>
+                        <w2:column id="mokmulSer" name="목적물번호" dataType="text"></w2:column>
+                        <w2:column id="jpDeptCd" name="name7" dataType="text"></w2:column>
+                        <w2:column id="jinstatCd" name="진행상태코드" dataType="text"></w2:column>
+                        <w2:column id="mulStatcd" name="물건상태코드" dataType="text"></w2:column>
+                        <w2:column id="realSt" name="소재지" dataType="text"></w2:column>
+                        <w2:column id="mulJinYn" name="name10" dataType="text"></w2:column>
+                        <w2:column id="maemulUtilCd" name="name11" dataType="text"></w2:column>
+                        <w2:column id="minmaePrice" name="name14" dataType="text"></w2:column>
+                        <w2:column id="yuchalCnt" name="name15" dataType="text"></w2:column>
+                        <w2:column id="maeAmt" name="name16" dataType="text"></w2:column>
+                        <w2:column id="inqCnt" name="name17" dataType="text"></w2:column>
+                        <w2:column id="gwansMulRegCnt" name="name18" dataType="text"></w2:column>
+                        <w2:column id="remaeordDay" name="name19" dataType="text"></w2:column>
+                        <w2:column id="ipchalGbncd" name="name20" dataType="text"></w2:column>
+                        <w2:column id="maeGiil" name="name21" dataType="text"></w2:column>
+                        <w2:column id="maegyuljGiil" name="name22" dataType="text"></w2:column>
+                        <w2:column id="maeHh1" name="name23" dataType="text"></w2:column>
+                        <w2:column id="maeHh2" name="name24" dataType="text"></w2:column>
+                        <w2:column id="maeHh3" name="name25" dataType="text"></w2:column>
+                        <w2:column id="maeHh4" name="name26" dataType="text"></w2:column>
+                        <w2:column id="notifyMinmaePrice1" name="name27" dataType="text"></w2:column>
+                        <w2:column id="notifyMinmaePrice2" name="name28" dataType="text"></w2:column>
+                        <w2:column id="notifyMinmaePrice3" name="name29" dataType="text"></w2:column>
+                        <w2:column id="notifyMinmaePrice4" name="name30" dataType="text"></w2:column>
+                        <w2:column id="notifyMinmaePriceRate1" name="name31" dataType="text"></w2:column>
+                        <w2:column id="notifyMinmaePriceRate2" name="name32" dataType="text"></w2:column>
+                        <w2:column id="maeGiilCnt" name="name33" dataType="text"></w2:column>
+                        <w2:column id="ipgiganFday" name="name34" dataType="text"></w2:column>
+                        <w2:column id="ipgiganTday" name="name35" dataType="text"></w2:column>
+                        <w2:column id="maePlace" name="name36" dataType="text"></w2:column>
+                        <w2:column id="spJogCd" name="name37" dataType="text"></w2:column>
+                        <w2:column id="mokGbncd" name="name38" dataType="text"></w2:column>
+                        <w2:column id="jongCd" name="name39" dataType="text"></w2:column>
+                        <w2:column id="stopsaGbncd" name="name40" dataType="text"></w2:column>
+                        <w2:column id="daepyoSidoCd" name="name41" dataType="text"></w2:column>
+                        <w2:column id="daepyoSiguCd" name="name42" dataType="text"></w2:column>
+                        <w2:column id="daepyoDongCd" name="name43" dataType="text"></w2:column>
+                        <w2:column id="daepyoRdCd" name="name44" dataType="text"></w2:column>
+                        <w2:column id="hjguSido" name="name45" dataType="text"></w2:column>
+                        <w2:column id="hjguSigu" name="name46" dataType="text"></w2:column>
+                        <w2:column id="hjguDong" name="name47" dataType="text"></w2:column>
+                        <w2:column id="hjguRd" name="name48" dataType="text"></w2:column>
+                        <w2:column id="daepyoLotno" name="name49" dataType="text"></w2:column>
+                        <w2:column id="buldNm" name="name50" dataType="text"></w2:column>
+                        <w2:column id="buldList" name="name51" dataType="text"></w2:column>
+                        <w2:column id="areaList" name="name52" dataType="text"></w2:column>
+                        <w2:column id="jimokList" name="name53" dataType="text"></w2:column>
+                        <w2:column id="lclsUtilCd" name="name54" dataType="text"></w2:column>
+                        <w2:column id="mclsUtilCd" name="name55" dataType="text"></w2:column>
+                        <w2:column id="sclsUtilCd" name="name56" dataType="text"></w2:column>
+                        <w2:column id="jejosaNm" name="name57" dataType="text"></w2:column>
+                        <w2:column id="fuelKindcd" name="name58" dataType="text"></w2:column>
+                        <w2:column id="bsgFormCd" name="name59" dataType="text"></w2:column>
+                        <w2:column id="carNm" name="name60" dataType="text"></w2:column>
+                        <w2:column id="carYrtype" name="name61" dataType="text"></w2:column>
+                        <w2:column id="xCordi" name="name62" dataType="text"></w2:column>
+                        <w2:column id="yCordi" name="name63" dataType="text"></w2:column>
+                        <w2:column id="cordiLvl" name="name64" dataType="text"></w2:column>
+                        <w2:column id="bgPlaceSidoCd" name="name65" dataType="text"></w2:column>
+                        <w2:column id="bgPlaceSiguCd" name="name66" dataType="text"></w2:column>
+                        <w2:column id="bgPlaceDongCd" name="name67" dataType="text"></w2:column>
+                        <w2:column id="bgPlaceRdCd" name="name68" dataType="text"></w2:column>
+                        <w2:column id="bgPlaceLotno" name="name69" dataType="text"></w2:column>
+                        <w2:column id="bgPlaceSido" name="name70" dataType="text"></w2:column>
+                        <w2:column id="bgPlaceSigu" name="name71" dataType="text"></w2:column>
+                        <w2:column id="bgPlaceDong" name="name72" dataType="text"></w2:column>
+                        <w2:column id="bgPlaceRd" name="name73" dataType="text"></w2:column>
+                        <w2:column id="srchHjguBgFlg" name="name74" dataType="text"></w2:column>
+                        <w2:column id="pjbBuldList" name="name75" dataType="text"></w2:column>
+                        <w2:column id="minArea" name="name76" dataType="text"></w2:column>
+                        <w2:column id="maxArea" name="name77" dataType="text"></w2:column>
+                        <w2:column id="Group_maemul_ser" name="name78" dataType="text"></w2:column>
+                        <w2:column id="Bo_cd_sa_no" name="name79" dataType="text"></w2:column>
+                        <w2:column id="dupSaNo" name="name80" dataType="text"></w2:column>
+                        <w2:column id="byungSaNo" name="name81" dataType="text"></w2:column>
+                        <w2:column id="srchLclsUtilCd" name="name82" dataType="text"></w2:column>
+                        <w2:column id="srchMclsUtilCd" name="name83" dataType="text"></w2:column>
+                        <w2:column id="srchSclsUtilCd" name="name84" dataType="text"></w2:column>
+                        <w2:column id="srchHjguSidoCd" name="name85" dataType="text"></w2:column>
+                        <w2:column id="srchHjguSiguCd" name="name86" dataType="text"></w2:column>
+                        <w2:column id="srchHjguDongCd" name="name87" dataType="text"></w2:column>
+                        <w2:column id="srchHjguRdCd" name="name88" dataType="text"></w2:column>
+                        <w2:column id="srchHjguLotno" name="name89" dataType="text"></w2:column>
+                        <w2:column id="jiwonNm" name="name90" dataType="text"></w2:column>
+                        <w2:column id="TEL" name="name92" dataType="text"></w2:column>
+                        <w2:column id="MAEJIBUN" name="name93" dataType="text"></w2:column>
+                        <w2:column id="Alias" name="name94" dataType="text"></w2:column>
+                        <w2:column id="rd1Cd" name="name95" dataType="text"></w2:column>
+                        <w2:column id="rd2Cd" name="name96" dataType="text"></w2:column>
+                        <w2:column id="rd3Rd4Cd" name="name97" dataType="text"></w2:column>
+                        <w2:column id="rd1Nm" name="name98" dataType="text"></w2:column>
+                        <w2:column id="rd2Nm" name="name99" dataType="text"></w2:column>
+                        <w2:column id="rdEubMyun" name="name100" dataType="text"></w2:column>
+                        <w2:column id="rdNm" name="name101" dataType="text"></w2:column>
+                        <w2:column id="buldNo" name="name102" dataType="text"></w2:column>
+                        <w2:column id="rdAddrSub" name="name103" dataType="text"></w2:column>
+                        <w2:column id="addrGbncd" name="name104" dataType="text"></w2:column>
+                        <w2:column id="bgPlaceRdAllAddr" name="name105" dataType="text"></w2:column>
+                        <w2:column id="bgPlaceAddrGbncd" name="name106" dataType="text"></w2:column>
+                        <w2:column id="convAddr" name="변환된주소" dataType="text"></w2:column>
+                        <w2:column id="dspslUsgNm" name="매각용도명" dataType="text"></w2:column>
+                        <w2:column id="srnSaNo" name="사건번호" dataType="text"></w2:column>
+                        <w2:column id="userJpDeptNm" name="사용자용담당부서" dataType="text"></w2:column>
+                        <w2:column id="colMerge" name="기준값" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                    <w2:data use="false"></w2:data>
+                </w2:dataList>
+            </w2:dataCollection>
+            <w2:workflowCollection></w2:workflowCollection>
+            <xf:submission id="sbm_selectGdsDtlSrch" ref='data:json,["dma_pageInfo","dma_srchGdsDtlSrchInfo"]' target='data:json,[{"id":"dma_pageInfo","key":"data.dma_pageInfo"},{"id":"dlt_srchResult","key":"data.dlt_srchResult"}]' action="/pgj/pgjsearch/searchControllerMain.on"
+                method="post" mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler=""
+                mode="asynchronous" processMsg="조회중입니다." ev:submit="" ev:submitdone="scwin.sbm_selectGdsDtlSrch_submitdone" ev:submiterror="" abortTrigger="">
+            </xf:submission>
+        </xf:model>
+        <script type="text/javascript" lazy="false"><![CDATA[/* 프로그램ID */
+scwin.pgmId = '';
+
+/* 회원id */
+scwin.lgnMbr = ''
+
+/* 검색조건 */
+scwin.param;
+
+/* 페이즈 크기 */
+scwin.pageSize;
+
+/* 이전메뉴정보 */
+scwin.menuNm = '';
+scwin.prevPgmId = '';
+scwin.pageNum = '';
+
+/* 헤더정렬 */
+scwin.headers;
+scwin.sortOrder = 0;
+scwin.sortOrderId = "csNo";
+
+/* 순번 이미지 */
+const _IMG1 = `<img alt="1차" style="margin-top: 4px; margin-left: 2px;" src="/pgj/cm/images/contents/number_01.gif" />`;
+const _IMG2 = `<img alt="2차" style="margin-top: 4px; margin-left: 2px;" src="/pgj/cm/images/contents/number_02.gif" />`;
+const _IMG3 = `<img alt="3차" style="margin-top: 4px; margin-left: 2px;" src="/pgj/cm/images/contents/number_03.gif" />`;
+const _IMG4 = `<img alt="4차" style="margin-top: 4px; margin-left: 2px;" src="/pgj/cm/images/contents/number_04.gif" />`;
+
+/**
+ * onPageLoad시 검색조건 데이터로 상세조회
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.03.22.   나해준       [NELS]최초 생성
+ *  2025.12.26.   공태은       [25A-PGJ-0053] 나의경매 자주쓰는검색 화면에서 페이지 이동시 검색조건이 초기화되는 현상 수정
+ * ============= ============ ==========================
+ */
+scwin.onpageload = function () {
+    scwin.param = $p.getParameter("param");
+    scwin.pgmId = scwin.param.srchInfo.pgmId;
+    scwin.prevPgmId = scwin.param.srchInfo.pgmId;
+    scwin.pageNum = scwin.param?.prevInfo?.pageNum || 1
+    scwin.menuNm = scwin.param.srchInfo.menuNm;
+    var prevMenuNm = '';
+
+    //자주쓰는검색
+    // 나의경매로 접근한 경우 sideDvsCd = 3
+    const sideDvsCd = scwin.param.srchInfo ?. sideDvsCd;
+    if (sideDvsCd == "3"){
+        scwin.menuNm = "자주쓰는검색";
+        prevMenuNm = "나의경매";
+        wfm_side.setSrc("../common/sideMenu/side006.xml");
+    }else{
+        scwin.menuNm = "물건상세검색"
+        prevMenuNm = "경매물건";
+    }
+
+    /* 메뉴 */
+    if(!scutilo.isEmpty(scwin.pgmId)){
+        $p.main().wfm_mainFrame.scope.wfm_side.scope.scwin.menuFocus(scwin.pgmId.slice(0,6));
+    }
+
+    tbx_titleNm.setValue(scwin.menuNm);
+    tbx_prevTitleNm.setValue(prevMenuNm);
+    tbx_subTitleNm.setValue(scwin.menuNm);
+
+    if (scutilo.isEmpty(pgjUtil.getCookie('pageCnt'))) { //페이지 크기 설정 바꿔야함 TO-DO
+        scwin.pageSize = 10;
+        sbx_pageSize.setValue('10');
+    } else {
+        scwin.pageSize = Number(pgjUtil.getCookie('pageCnt'));
+        sbx_pageSize.setValue(pgjUtil.getCookie('pageCnt'));
+    }
+    dma_srchGdsDtlSrchInfo.setJSON(scwin.param.srchInfo);
+    scwin.gdsDtlSrchMain(true, scwin.pageSize);
+};
+
+scwin.onpageunload = function (isFirst, pagaSize) {
+
+};
+
+//웹접근성으로 인한 title제공 수정
+scwin.titleFormatter = function (e) {
+    return "";
+}
+
+/**
+ * 페이지 설정후 데이터 조회
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.03.22.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.gdsDtlSrchMain = function (isFirst, pagaSize) {
+    /* 최초 조회 여부 */
+    if (isFirst) {
+        dma_pageInfo.set("totalYn", "Y");
+    } else {
+        dma_pageInfo.set("totalYn", "N");
+    }
+
+    /* 페이지 사이즈 셋팅 */
+    dma_pageInfo.set("pageNo", scwin.pageNum);
+    dma_pageInfo.set("pageSize", pagaSize);
+
+    //비고 rowspan 초기화
+    megingRowSpan(false);
+
+    //그리드뷰 초기화(merging 처리시 필요)
+    if (dlt_srchResult.getTotalRow() > 0) {
+        let grid = document.getElementById($p.getComponentById('grd_gdsDtlSrchResult').id);
+        let tds = grid.querySelectorAll('td');
+        tds.forEach(function (td){
+            td.removeAttribute("style");
+        });
+    }
+
+    com.executeSubmission(sbm_selectGdsDtlSrch);
+}
+
+/**
+ * 페이지 번호 클릭시 조회
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.03.22.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.pgl_gdsDtlSrchPage_onviewchange = function (info) {
+    dma_pageInfo.set("pageNo", info.newSelectedIndex);
+    dma_pageInfo.set("bfPageNo", info.oldSelectedIndex);
+    scwin.pageNum = info.newSelectedIndex;
+    scwin.gdsDtlSrchMain(false, scwin.pageSize);//조회처리
+};
+
+/**
+ * 데이터 조회후 데이터 셋팅
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.03.22.   나해준       [NELS]최초 생성
+ *  2025.12.26.   공태은       [25A-PJG-0052] 기일별 검색 목록 화면에서 상세 화면에서 목록화면으로 이동시 스크롤바 유지되도록 개선
+ * ============= ============ ==========================
+ */
+scwin.sbm_selectGdsDtlSrch_submitdone = function (e) {
+
+    const topScroll = scwin.param.srchInfo.srchRowIndex;
+
+    // 스크롤 위치 정보가 없는 경우 최상단, 있으면 해당하는 위치로 이동
+    if(!scutilo.isEmpty(topScroll)){
+        document.body.scrollTop = topScroll;
+    }else{
+        document.body.scrollTop = 0;
+    }
+    const ipcheck = e.responseJSON.data.ipcheck; //로봇탐지
+    if(ipcheck){
+        /* 메인상단 검색조건 셋팅 시작 */
+        if (dma_pageInfo.get("totalYn") == "Y") {
+            let genCnt = 0;
+            let param = scwin.param.srchInfo;
+            let cortStDvs = param.cortStDvs;
+            if (!scutilo.isEmpty(cortStDvs) && "1" == cortStDvs) {
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("법원")
+                if (!scutilo.isEmpty(param.cortOfcCd)) {
+                    if (param.cortOfcCd.slice(0, 1) == "B") {
+                        gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(pgjUtil.getCortOfcNm("B", param.cortOfcCd))
+                    } else {
+                        gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(pgjUtil.getCortOfcNm("O", param.cortOfcCd))
+                    }
+                } else {
+                    gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue('전체')
+                }
+                genCnt++
+            } else if (!scutilo.isEmpty(cortStDvs) && "2" == cortStDvs) {
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("소재지(지번주소)")
+                if (scutilo.isEmpty(param.rprsAdongSdCd)) {
+                    gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue("전체")
+                } else {
+                    let stNm = ""
+                    stNm = pgjUtil.getSdNm(param.rprsAdongSdCd, "B");
+                    if (!scutilo.isEmpty(param.rprsAdongSggCd)) {
+                        stNm += ` ${pgjUtil.getSggNm(param.rprsAdongSdCd, param.rprsAdongSggCd, 'B')}`;
+                    }
+                    if (!scutilo.isEmpty(param.rprsAdongEmdCd)) {
+                        stNm += ` ${pgjUtil.getEmdNm(param.rprsAdongSdCd, param.rprsAdongSggCd, param.rprsAdongEmdCd, "B")}`
+                    }
+                    gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(stNm)
+                }
+                genCnt++
+            } else if (!scutilo.isEmpty(cortStDvs) && "3" == cortStDvs) {
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("소재지(새주소)")
+                if (scutilo.isEmpty(param.rdnmSdCd)) {
+                    gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue("전체")
+                } else {
+                    let stNm = ""
+                    stNm = pgjUtil.getSdNm(param.rdnmSdCd, "BR")
+                    if (!scutilo.isEmpty(param.rdnmSggCd)) {
+                        stNm += ` ${pgjUtil.getSggNm(param.rdnmSdCd, param.rdnmSggCd, "BR")}`
+                    }
+                    if (!scutilo.isEmpty(param.rdnmNo)) {
+                        stNm += ` ${pgjUtil.getNewAddrRdNm(param.rdnmSdCd, param.rdnmSggCd, param.rdnmNo, "BR")}`
+                    }
+                    gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(stNm)
+                }
+                genCnt++
+            }
+            //사건번호
+            if (!scutilo.isEmpty(param.csNo)) {
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("사건번호")
+                gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(param.csNo)
+                genCnt++
+            }
+            if (!scutilo.isEmpty(param.dspslDxdyYmd) || (!scutilo.isEmpty(param.bidBgngYmd) && param.bidBgngYmd.length == 8)) {
+                let printDxDy = "";
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(param.csNo)
+                if (param.bidDvsCd == "000332") {
+                    gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("입찰기간");
+                } else {
+                    gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("매각기일");
+                }
+                if (!scutilo.isEmpty(param.dspslDxdyYmd)) {
+                    printDxDy = scdateo.getFmtDate(param.dspslDxdyYmd, '.');
+                    if (!scutilo.isEmpty(param.fstDspslHm)) printDxDy += ` (${scwin.timeFormat(param.fstDspslHm)}`
+                    if (!scutilo.isEmpty(param.scndDspslHm)) printDxDy += `,${scwin.timeFormat(param.scndDspslHm)}`
+                    if (!scutilo.isEmpty(param.thrdDspslHm)) printDxDy += `,${scwin.timeFormat(param.thrdDspslHm)}`
+                    if (!scutilo.isEmpty(param.fothDspslHm)) printDxDy += `,${scwin.timeFormat(param.fothDspslHm)}`
+                    if (!scutilo.isEmpty(param.dspslPlcNm)) printDxDy += `${param.dspslPlcNm})`
+
+                } else {
+                    printDxDy = `${scdateo.getFmtDate(param.bidBgngYmd, ".")} ~ ${scdateo.getFmtDate(param.bidEndYmd, ".")}`
+                }
+                gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(printDxDy)
+                genCnt++
+            }
+            if (!scutilo.isEmpty(param.jdbnCd)) { //법원 사무소(담당계)
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("경매계")
+                if (scutilo.isEmpty(param.cortOfcCd) || param.cortOfcCd == "") {
+                    gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue("")
+                } else {
+                    gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(pgjUtil.getDeptNm(param.cortOfcCd, param.jdbnCd))
+                }
+                genCnt++
+            }
+            if (!scutilo.isEmpty(param.lclDspslGdsLstUsgCd)) { //용도(대분류,중분류,소분류)
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("용도")
+                let usgNm = pgjUtil.getUsgLclNm(param.lclDspslGdsLstUsgCd)
+                if (!scutilo.isEmpty(param.mclDspslGdsLstUsgCd)) {
+                    usgNm += " > " + pgjUtil.getUsgMclNm(param.lclDspslGdsLstUsgCd, param.mclDspslGdsLstUsgCd);
+                }
+                if (!scutilo.isEmpty(param.sclDspslGdsLstUsgCd)) {
+                    usgNm += " > " + pgjUtil.getUsgSclNm(param.mclDspslGdsLstUsgCd, param.sclDspslGdsLstUsgCd);
+                }
+                gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(usgNm)
+                genCnt++
+            }
+            if (!scutilo.isEmpty(param.aeeEvlAmtMin) || !scutilo.isEmpty(param.aeeEvlAmtMax)) { //감정평가액 시작
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("감정평가액")
+                let aeeEvlAmt = ""
+                if (param.aeeEvlAmtMin == param.aeeEvlAmtMax) {
+                    if (param.aeeEvlAmtMin.length == 8) {
+                        aeeEvlAmt = `${param.aeeEvlAmtMin.substring(0, 1)}천만원`
+                    } else if (param.aeeEvlAmtMin.length == 9) {
+                        aeeEvlAmt = `${param.aeeEvlAmtMin.substring(0, 1)}억`
+                        if (param.aeeEvlAmtMin.substring(1, 2) == "5") {
+                            aeeEvlAmt += `${param.aeeEvlAmtMin.substring(1, 2)}천만원`
+                        } else {
+                            aeeEvlAmt += "원";
+                        }
+                    } else if (param.aeeEvlAmtMin.length() == 10) {
+                        aeeEvlAmt = `${param.aeeEvlAmtMin.substring(0, 2)}억원`
+                    }
+                } else {//앞 뒤 금액 값이 다른 경우
+                    if (!scutilo.isEmpty(param.aeeEvlAmtMin) && param.aeeEvlAmtMin.length == 8) {
+                        aeeEvlAmt = `${param.aeeEvlAmtMin.substring(0, 1)}천만원 이상`
+                        if (param.aeeEvlAmtMax != "1000000001") aeeEvlAmt += "~"
+                    } else if (!scutilo.isEmpty(param.aeeEvlAmtMin) && param.aeeEvlAmtMin.length == 9) {
+                        aeeEvlAmt = `${param.aeeEvlAmtMin.substring(0, 1)}억`
+                        if (param.aeeEvlAmtMin.substring(1, 2) == "5") {
+                            aeeEvlAmt += `${param.aeeEvlAmtMin.substring(1, 2)}천만원 이상`
+                        } else {
+                            aeeEvlAmt += "원 이상";
+                        }
+                        if (param.aeeEvlAmtMax != "1000000001") aeeEvlAmt += "~"
+                    } else if (!scutilo.isEmpty(param.aeeEvlAmtMin) && param.aeeEvlAmtMin.length == 10) {
+                        aeeEvlAmt = `${param.aeeEvlAmtMin.substring(0, 2)}억원 이상`
+                    }
+                    if (!scutilo.isEmpty(param.aeeEvlAmtMax) && param.aeeEvlAmtMax.length == 8) {
+                        aeeEvlAmt += `${param.aeeEvlAmtMax.substring(0, 1)}천만원 이하`
+                    } else if (!scutilo.isEmpty(param.aeeEvlAmtMax) && param.aeeEvlAmtMax.length == 9) {
+                        aeeEvlAmt += `${param.aeeEvlAmtMax.substring(0, 1)}억`;
+                        if (param.aeeEvlAmtMax.substring(1, 2) == "5") {
+                            aeeEvlAmt += `${param.aeeEvlAmtMax.substring(1, 2)}천만원 이하`
+                        } else {
+                            aeeEvlAmt += "원 이하";
+                        }
+                    } else if (!scutilo.isEmpty(param.aeeEvlAmtMax) && param.aeeEvlAmtMax.length == 10) {
+                        aeeEvlAmt += `${param.aeeEvlAmtMax.substring(0, 2)}억원 이하`
+                    }
+                }
+                gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(aeeEvlAmt);
+                genCnt++
+            }
+
+            if (!scutilo.isEmpty(param.lwsDspslPrcMin) || !scutilo.isEmpty(param.lwsDspslPrcMax)) {//최저 매가각가격
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("최저매각가격")
+                let lwsPrc = ""
+                if (param.lwsDspslPrcMin == param.lwsDspslPrcMax) {
+                    if (param.lwsDspslPrcMin.length == 8) {
+                        lwsPrc = `${param.lwsDspslPrcMin.substring(0, 1)}천만원`
+                    } else if (param.lwsDspslPrcMin.length == 9) {
+                        lwsPrc = `${param.lwsDspslPrcMin.substring(0, 1)}억`;
+                        if (param.lwsDspslPrcMin.substring(1, 2) == "5") {
+                            lwsPrc += `${param.lwsDspslPrcMin.substring(1, 2)}천만원`
+                        } else {
+                            lwsPrc += "원";
+                        }
+                    } else if (param.lwsDspslPrcMin.length == 10) {
+                        lwsPrc = `${param.lwsDspslPrcMin.substring(0, 2)}억원`
+                    }
+                } else {//앞 뒤 금액 값이 다른 경우
+                    if (!scutilo.isEmpty(param.lwsDspslPrcMin) && param.lwsDspslPrcMin.length == 8) {
+                        lwsPrc = `${param.lwsDspslPrcMin.substring(0, 1)}천만원 이상`
+                        if (param.lwsDspslPrcMax == "1000000001") lwsPrc += "~"
+                    } else if (!scutilo.isEmpty(param.lwsDspslPrcMin) && param.lwsDspslPrcMin.length == 9) {
+                        lwsPrc = `${param.lwsDspslPrcMin.substring(0, 1)}억`
+                        if (param.lwsDspslPrcMin.substring(1, 2) == "5") {
+                            lwsPrc += `${param.lwsDspslPrcMin.substring(1, 2)}천만원 이상`;
+                        } else {
+                            lwsPrc += "원 이상";
+                        }
+                        if (param.lwsDspslPrcMax == "1000000001") lwsPrc += "~"
+                    } else if (!scutilo.isEmpty(param.lwsDspslPrcMin) && param.lwsDspslPrcMin.length == 10) {
+                        lwsPrc = `${param.lwsDspslPrcMin.substring(0, 2)}억원 이상`;
+                    }
+                    if (!scutilo.isEmpty(param.lwsDspslPrcMax) && param.lwsDspslPrcMax.length == 8) {
+                        lwsPrc += `${param.lwsDspslPrcMax.substring(0, 1)}천만원 이하`;
+                    } else if (!scutilo.isEmpty(param.lwsDspslPrcMax) && param.lwsDspslPrcMax.length == 9) {
+                        lwsPrc += `${param.lwsDspslPrcMax.substring(0, 1)}억`
+                        if (param.lwsDspslPrcMax.substring(1, 2) == "5") {
+                            lwsPrc += `${param.lwsDspslPrcMax.substring(1, 2)}천만원 이하`;
+                        } else {
+                            lwsPrc += "원 이하";
+                        }
+                    } else if (!scutilo.isEmpty(param.lwsDspslPrcMax) && param.lwsDspslPrcMax.length == 10) {
+                        lwsPrc += `${param.lwsDspslPrcMax.substring(0, 2)}억원 이하`;
+                    }
+                }
+                gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(lwsPrc);
+                genCnt++
+            }
+            if (!scutilo.isEmpty(param.objctArDtsMin) && !scutilo.isEmpty(param.objctArDtsMax)) { //면적
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("면적")
+                gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(`${param.objctArDtsMin}㎡ ~ ${param.objctArDtsMax}㎡`);
+                genCnt++
+            }
+            if (!scutilo.isEmpty(param.flbdNcntMin) || (!scutilo.isEmpty(param.flbdNcntMax) && param.flbdNcntMax == '11')) { //유찰 횟수
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("유찰횟수")
+                let flbdNcnt = ""
+                if (param.flbdNcntMin == param.flbdNcntMax) {
+                    flbdNcnt = `${param.flbdNcntMin}회`
+                } else {//앞 뒤값이 다른 경우
+                    if (!scutilo.isEmpty(param.flbdNcntMin)) {
+                        flbdNcnt = `${param.flbdNcntMin}회 이상`
+                        if (!scutilo.isEmpty(param.flbdNcntMax) && param.flbdNcntMax == "11") flbdNcnt += " ~ "
+                    }
+                    if (!scutilo.isEmpty(param.flbdNcntMax)) {
+                        flbdNcnt += `${param.flbdNcntMax}회 이하`;
+                    }
+                }
+                gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(flbdNcnt);
+                genCnt++
+            }
+            if (!scutilo.isEmpty(param.lwsDspslPrcRateMin) || !scutilo.isEmpty(param.lwsDspslPrcRateMax)) { //최저매각가율
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("최저매각가율")
+                let lwsDspslPrcRate = ""
+                if (!scutilo.isEmpty(param.lwsDspslPrcRateMin) && param.lwsDspslPrcRateMin == "49") {
+                    lwsDspslPrcRate = `50% 이하`
+                } else if (!scutilo.isEmpty(param.lwsDspslPrcRateMin) && param.lwsDspslPrcRateMin == "100") {
+                    lwsDspslPrcRate = `100%`
+                } else if (param.lwsDspslPrcRateMin == param.lwsDspslPrcRateMax) {
+                    lwsDspslPrcRate = `${param.lwsDspslPrcRateMin}%`
+                } else {
+                    if (!scutilo.isEmpty(param.lwsDspslPrcRateMin)) {
+                        lwsDspslPrcRate = `${param.lwsDspslPrcRateMin}%이상`
+                        if (!scutilo.isEmpty(param.lwsDspslPrcRateMax)) lwsDspslPrcRate += ` ~ `
+                    }
+                    if (!scutilo.isEmpty(param.lwsDspslPrcRateMax)) {
+                        lwsDspslPrcRate += `${param.lwsDspslPrcRateMax}%이하`
+                    }
+                }
+                gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(lwsDspslPrcRate);
+                genCnt++
+            }
+            //특수조건
+            if (!scutilo.isEmpty(param.rletDspslSpcCondCd)) {
+                gna_srhcTitle.insertChild(genCnt)
+                gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue("특이사항")
+                const condLst = param.rletDspslSpcCondCd.split(",");
+                sccdo.setSystm(scglblo.SYSTM.PGJ);
+                sccdo.loadIntgCdLst(scglblo.SYSTM.PGJ + scglblo.DELIMITER.HYPHEN + 'RLET_DSPSL_SPC_COND_CD');
+                const rletDspslSpcCondCdLst = sccdo.getIntgCdLst('RLET_DSPSL_SPC_COND_CD');
+                let condResult = ""
+                for (let i = 0; i < condLst.length; i++) {
+                    for (let j = 0; j < rletDspslSpcCondCdLst.length; j++) {
+                        if (condLst[i] === rletDspslSpcCondCdLst[j].intgCd) condResult += `${rletDspslSpcCondCdLst[j].intgCdNm},`
+                    }
+                }
+                let temp = condResult.slice(0, condResult.length - 1)
+                gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(temp);
+                genCnt++
+            }
+            if (!scutilo.isEmpty(dma_pageInfo.get("totalCnt"))) {
+                gna_srhcTitle.insertChild(genCnt)
+                if (scwin.pgmId == "PGJ153M01") {
+                    gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue(`총 사건수`);
+                } else {
+                    gna_srhcTitle.getChild(genCnt, "spn_srchTitle").setValue(`총 물건수`);
+                }
+                if (dma_pageInfo.get("groupTotalCount") !== 0) {
+                    gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(`${dma_pageInfo.get("groupTotalCount")}건`);
+                } else {
+                    gna_srhcTitle.getChild(genCnt, "spn_srchCtt").setValue(` 0건`);
+                }
+            }
+            gna_srhcTitle.getChild(genCnt, "spn_srchBar").setValue("");//검색조건 타이틀 끝
+        }
+
+        //헤더 정렬 아이콘 생성
+        scwin.headers = [
+            { id:"csNo", val:"사건번호"},
+            { id:"aeeEvlAmt", val:"감정평가액"},
+            { id:"pbancLwsDspslPrc", val:"최저매각가격"},
+            { id:"dspslDxdyYmd", val:"담당계<br>매각기일"},
+            { id:"flbdNcnt", val:"진행상태"}];
+        let sortImage = "";
+        scwin.headers.forEach(t=>{
+            sortImage = "<text>";
+            sortImage += t.val+"</text>";
+            sortImage += `<a href="#" onclick="headerSortSch('${t.id}')"><img src="/pgj/cm/images/contents/ic_sort_up.gif" style="width:12px;margin:5px;" alt="오름" /></a></div>`;
+            if(t.id == "pbancLwsDspslPrc"){
+               sortImage += "<br>(단위:원)";
+            } else if(t.id == "dspslDxdyYmd"){
+               sortImage += "<br>(입찰기간)";
+            }
+            //정렬인 경우
+            if(scwin.sortOrderId === t.id){
+                if(scwin.sortOrder === 1){
+                    sortImage = sortImage.replaceAll('ic_sort_up', 'ic_sort_up_s');
+                } else if(scwin.sortOrder === -1){
+                    sortImage = sortImage.replaceAll('ic_sort_up', 'ic_sort_down_s');
+                }
+            }
+            grd_gdsDtlSrchResult.setHeaderValue(t.id, sortImage, false);
+        });
+
+        //비고 내용이 길어지는 부분에 대해서 rowspan 처리
+        megingRowSpan(true);
+
+        if(String(dma_pageInfo.get("totalCnt")) !== '0') {
+            //페이징 처리
+            grp_rletPageInfo.show("");
+            scutilo.setPagingInfo(dma_pageInfo, pgl_gdsDtlSrchPage, grd_gdsDtlSrchResult);
+            pgl_gdsDtlSrchPage.setValue(scwin.pageNum);
+        } else {
+            grp_rletPageInfo.hide();
+        }
+     } else {
+        scutilo.showMsg(scglblo.MSG.ERROR,e.responseJSON.message,()=>{
+            $p.url("/pgj/ui/pgj100/PGJ111M01.xml");
+        });
+    }
+
+};
+
+/**
+ * 비고 rowspan 처리
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2025.01.14.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+function megingRowSpan(first) {
+    if(dlt_srchResult.getTotalRow() > 0) {
+        let colMerge = "";
+        let secColMerge = "";
+        let rowSpanCols = "";
+        let cnts = {};
+
+        if(first){
+            //merging grouping
+            for(var j=0; j<dlt_srchResult.getTotalRow();j++){
+                var cellVal = dlt_srchResult.getCellData(j, "colMerge");
+                if(cnts[cellVal]){
+                    cnts[cellVal]++;
+                } else {
+                    cnts[cellVal] = 1;
+                }
+            }
+        }
+        //rowspan
+        for(var i=0; i<dlt_srchResult.getTotalRow();i++){
+            var cellChk = document.getElementById($p.getComponentById("grd_gdsDtlSrchResult").id+"_cell_"+i+"_0");
+            var cellBigo = document.getElementById($p.getComponentById("grd_gdsDtlSrchResult").id+"_cell_"+i+"_5");
+
+            colMerge = dlt_srchResult.getCellData(i, "colMerge");
+            secColMerge = dlt_srchResult.getCellData(i+1, "colMerge");
+            if(secColMerge === colMerge && rowSpanCols !== colMerge){
+                if(first){
+                    cellChk.setAttribute("rowspan", Number(cnts[colMerge]) * 2);
+                    cellBigo.setAttribute("rowspan", Number(cnts[colMerge]) * 2);
+                    cellBigo.setAttribute("style", "vertical-align: top;");
+                } else {
+                    cellChk.setAttribute("rowspan", 2);
+                    cellBigo.setAttribute("rowspan", 2);
+                }
+                rowSpanCols = colMerge;
+            } else {
+                if(first){
+                    if(Number(cnts[colMerge])>1){
+                        cellChk.hidden = true;
+                        cellBigo.hidden = true;
+                    }
+                } else {
+                    cellChk.hidden = false;
+                    cellBigo.hidden = false;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * 헤더 정렬
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.12.09.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+function headerSortSch(id) {
+    let headerId = id;
+    let lafjOrderBy = "order by ";
+    let sortImage = "";
+
+    //초기화
+    scwin.headers.forEach(t=>{
+        sortImage = grd_gdsDtlSrchResult.getHeaderValue(t.id);
+        sortImage = sortImage.replaceAll('ic_sort_up_s', 'ic_sort_up');
+        sortImage = sortImage.replaceAll('ic_sort_down_s', 'ic_sort_up');
+        grd_gdsDtlSrchResult.setHeaderValue(t.id, sortImage, false);
+    });
+
+    //정렬셋팅
+    sortImage = grd_gdsDtlSrchResult.getHeaderValue(id);
+    if(scwin.sortOrderId === id){
+        if(scwin.sortOrder === 1){
+            lafjOrderBy += String(headerId + " desc");
+            sortImage = sortImage.replaceAll('ic_sort_up', 'ic_sort_down_s');
+            scwin.sortOrder = -1;
+        } else if(scwin.sortOrder === -1){
+            lafjOrderBy += String(headerId + " asc");
+            sortImage = sortImage.replaceAll('ic_sort_up', 'ic_sort_up_s');
+            scwin.sortOrder = 1;
+        } else { //0
+            lafjOrderBy += String(headerId + " asc");
+            sortImage = sortImage.replaceAll('ic_sort_up', 'ic_sort_up_s');
+            scwin.sortOrder = 1;
+        }
+    } else {
+        lafjOrderBy += String(headerId + " asc");
+        sortImage = sortImage.replaceAll('ic_sort_up', 'ic_sort_up_s');
+        scwin.sortOrder = 1;
+        scwin.sortOrderId = id;
+    }
+
+    grd_gdsDtlSrchResult.setHeaderValue(id, sortImage, false);
+    dma_srchGdsDtlSrchInfo.set("lafjOrderBy", lafjOrderBy);
+    scwin.pageNum = 1;
+    scwin.gdsDtlSrchMain(false, scwin.pageSize);//조회처리
+};
+
+/**
+ *
+ * 그리드 주소 Format 메서드
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.07.03.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.stFormat = function (data, formattedData, rowIndex, colIndex) {
+    return `<div><a href="#" onclick="moveDtlPage(${rowIndex})">${data}</a><br><text>${dlt_srchResult.getCellData(rowIndex, "convAddr")}</text></div>`
+}
+
+/**
+ *
+ * 그리드 유찰 Format 메서드
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.07.03.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.flbdCnt = function (data, formattedData, rowIndex, colIndex) {
+    return data == 0 ? `신건` : `유찰 ${data}회`
+}
+
+/**
+ *
+ * 그리드 최저매각가격 메서드
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.07.03.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.lwsPrcFormat = function (data, formattedData, rowIndex, colIndex) {
+    let result = '<div style="white-space:nowrap;">';
+    if (dlt_srchResult.getCellData(rowIndex, "notifyMinmaePrice2") != 0) {
+        result += `${_IMG1} ${scutilo.getCommaFmt(data)} <br>${_IMG2} ${scutilo.getCommaFmt(dlt_srchResult.getCellData(rowIndex, "notifyMinmaePrice2"))}`
+        if (dlt_srchResult.getCellData(rowIndex, "notifyMinmaePrice3") != 0) {
+            result += `<br>${_IMG3} ${scutilo.getCommaFmt(dlt_srchResult.getCellData(rowIndex, "notifyMinmaePrice3"))}`
+            if (dlt_srchResult.getCellData(rowIndex, "notifyMinmaePrice4") != 0) {
+                result += `<br>${_IMG4} ${scutilo.getCommaFmt(dlt_srchResult.getCellData(rowIndex, "notifyMinmaePrice4"))}`
+            }
+        }
+    } else {
+        result += scutilo.getCommaFmt(data);
+    }
+    result += `<br>(${Math.floor((Number(data) / Number(dlt_srchResult.getCellData(rowIndex, "gamevalAmt"))) * 100)}%)`;
+    result += '</div>';
+    return result;
+}
+
+/**
+ *
+ * 그리드 담당계 생성하기위한 customFormatter
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.09.04.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ *
+ */
+scwin.chargDept = function (data, formattedData, rowIndex, colIndex) {
+    //툴팁 id
+    let idNum = "toolText" + rowIndex;
+    let rtnVal = `<div><text id=${idNum}>${data}</text>`;
+    const dxdyYmd = `${scdateo.getFmtDate(dlt_srchResult.getCellData(rowIndex, "maeGiil"), ".")}`;
+    rtnVal += `<br>${dxdyYmd}</div>`;
+    return rtnVal;
+}
+
+/**
+ *
+ * 그리드 담당계 툴팁 생성하기위한 tooltipFormatter
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.09.04.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ *
+ */
+scwin.tooltipFormatter = function (rowIndex, colIndex, label, isOverflow) {
+    var txt = "";
+    var _colId = dlt_srchResult.getColumnID(colIndex);
+    if (_colId == "jpDeptNm") {
+        let time = "";
+        if (!scutilo.isEmpty(dlt_srchResult.getCellData(rowIndex, "maeHh2"))) time += `,${scwin.timeFormat(dlt_srchResult.getCellData(rowIndex, "maeHh2"))}`;
+        if (!scutilo.isEmpty(dlt_srchResult.getCellData(rowIndex, "maeHh3"))) time += `,${scwin.timeFormat(dlt_srchResult.getCellData(rowIndex, "maeHh3"))}`;
+        if (!scutilo.isEmpty(dlt_srchResult.getCellData(rowIndex, "maeHh4"))) time += `,${scwin.timeFormat(dlt_srchResult.getCellData(rowIndex, "maeHh4"))}`;
+        const dxdyYmd = `${scdateo.getFmtDate(dlt_srchResult.getCellData(rowIndex, "maeGiil"), ".")} ${scwin.timeFormat(dlt_srchResult.getCellData(rowIndex, "maeHh1"))} ${time}`;
+        const maePlace = dlt_srchResult.getCellData(rowIndex, "maePlace");
+        txt = `<div class="toolTipText">
+        <span><text class="mr5" style="color:#6798FD; width:16px;">매각기일</text>${dxdyYmd}</span><br/>
+        <span><text class="mr5" style="color:#6798FD; width:16px;">매각장소</text>${maePlace}</span></div>`;
+    }
+
+    return txt;
+}
+
+
+/**
+ *
+ * 주소 상세 페이지 이동
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.07.03.   나해준       [NELS]최초 생성
+ *  2025.12.26.   공태은       [25A-PGJ-0052] 기일별 검색 목록 화면에서 상세 화면에서 목록화면으로 이동시 스크롤바 유지되도록 개선
+ *  2025.12.26.   공태은       [25A-PGJ-0053] 나의경매 자주쓰는검색 화면에서 페이지 이동시 검색조건이 초기화되는 현상 수정
+ * ============= ============ ==========================
+ */
+function moveDtlPage(index) {
+    const csNo = dlt_srchResult.getCellData(index, 'srnSaNo');
+    const cortOfcCd = dlt_srchResult.getCellData(index, 'boCd');
+    const dspslGdsSeq = dlt_srchResult.getCellData(index, 'maemulSer');
+    const lclsUtilCd = dlt_srchResult.getCellData(index, 'lclsUtilCd');
+    const mclsUtilCd = dlt_srchResult.getCellData(index, 'mclsUtilCd');
+    const srchInfo = dma_srchGdsDtlSrchInfo.getJSON();
+
+    //상세 화면으로 이동시 목록화면의 스크롤 위치 정보를 저장
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+    srchInfo.srchRowIndex = scrollTop;
+
+    if(scutilo.isEmpty(srchInfo.sideDvsCd)){
+        srchInfo.sideDvsCd = '2';
+    }
+
+    srchInfo.menuNm = scwin.menuNm;
+    const pgmId = scwin.pgmId;
+
+    let obj = {
+        "dataObject": {
+            "type": "json",
+            "name": "param",
+            "data": {
+                csNo, cortOfcCd, dspslGdsSeq, pgmId, srchInfo
+                , prevInfo: { prevPgmId: 'PGJ151M01', pageNum: dma_pageInfo.get('pageNo') }
+            }
+        }
+    };
+
+    if (lclsUtilCd == "30000" && (mclsUtilCd == "30100" || mclsUtilCd == "31100")) {
+        $p.main().wfm_mainFrame.setSrc('/pgj/ui/pgj100/PGJ154M03.xml', obj);
+    } else {
+        $p.main().wfm_mainFrame.setSrc('/pgj/ui/pgj100/PGJ15BM01.xml', obj);
+    }
+
+}
+
+/**
+ * 시간 셋팅 메서드
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.03.22.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.timeFormat = function (time) {
+    return scutilo.isEmpty(time) ? "" : time.slice(0, 2).concat(":").concat(time.slice(2));
+}
+
+/**
+ * 그리드 목록 지도버튼 클릭시 이벤트
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.03.22.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.grd_gdsDtlSrchResult_oncellclick = function (row, col, colId) {
+
+    var _colId = grd_gdsDtlSrchResult.getFocusedColumnID();
+    if (_colId == "mapBtn") {
+
+        /********* Popup Settings *********/
+        const winW = window.innerWidth;
+        const winH = window.innerHeight;
+
+        /* default popup size */
+        const popupW = winW - 300;
+        const popupH = winH - 100;
+
+        const popupX = (winW / 2) - (popupW / 2);
+        const popupY = (winH / 2) - (popupH / 2);
+
+        const options = {
+            id: "gdsMap",
+            type: "browser",
+            popupName: "지도",
+            top: popupY,
+            left: popupX,
+            width: popupW,
+            height: popupH,
+            modal: false
+        };
+
+        paramObj = {};
+        paramObj.pgmId = "PGJ151M01";
+        paramObj.info = {
+            csNo: dlt_srchResult.getCellData(row, 'srnSaNo'),
+            cortOfcCd: dlt_srchResult.getCellData(row, 'boCd'),
+            dspslGdsSeq: dlt_srchResult.getCellData(row, 'maemulSer'),
+            objctSeq: dlt_srchResult.getCellData(row, 'mokmulSer'),
+            x: dlt_srchResult.getCellData(row, 'xCordi'),
+            y: dlt_srchResult.getCellData(row, 'yCordi')
+        };
+
+        com.win.openPopup("/pgj/ui/pgj100/PGJ152F00.xml", options, paramObj);
+    }
+};
+
+/**
+ * 이전버튼 클릭시 이동 이벤트
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.03.22.   나해준       [NELS]최초 생성
+ *  2026.08.28.   김기석       [26A-PGJ-0041] 자동차 매각물건명세서 조회 오류 개선
+ * ============= ============ ==========================
+ */
+scwin.btn_prevPage_onclick = function (e) {
+
+    const dtlSrchParam = {
+        prevInfo: {
+            prevPgmId: scwin.prevPgmId
+        },
+        srchInfo: scwin.param.srchInfo
+    }
+    if (scwin.pgmId === 'PGJ151F01') {
+        $w.local.setItem('dtlSrchParam', JSON.stringify(dtlSrchParam));
+        $p.url("/pgj/ui/pgj100/PGJ151F00.xml");
+    } else if (scwin.pgmId === 'PGJ153M01') {
+        $w.local.setItem('dtlSrchParam', encodeURI(JSON.stringify(dtlSrchParam)));
+        $p.url("/pgj/ui/pgj100/PGJ153F00.xml");
+    } else if (scwin.pgmId === 'PGJ195M02') {
+        $p.url("/pgj/ui/pgj100/PGJ195M00.xml");
+    } else if (scwin.pgmId === 'mainUsg') {
+        $p.url("/pgj/ui/pgj100/PGJ111M01.xml");
+    } else if (scwin.pgmId === 'PGJ151M01') { // [26A-PGJ-0041] 이전 페이지 추가
+        window.location.href = "/pgj/index.on";
+    }
+
+};
+
+/**
+ *  관심물건등록 버튼 클릭시 팝업창 오픈
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2022.10.11.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.btn_itrtGdsReg_onclick = function (e) {
+
+    pgjUtil.loginCheckMoveLoginPage().then(result => {
+        if (result) {
+            scwin.lgnMbr = WebSquare.cookie.getCookie('cortAuctnLgnMbr');
+            const checkArray = grd_gdsDtlSrchResult.getCheckedIndex('checkBox');
+            const checkLst = checkArray.map(idx => dlt_srchResult.getAllJSON()[idx]);
+            const popUpId = 'itrtGdsRegPopUp';
+            if (pgjUtil.popupDpcnChk(popUpId)) {
+                scwin.itrtGdsRegPopUp(checkLst)
+            } else {
+                return;
+            }
+        } else {
+            return;
+        }
+    });
+};
+
+
+/**
+ * 물건 비교 팝업창을 오픈하는 이벤트
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.06.27.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.gdsCmprsPopUpOpenEvent = function () {
+
+    let checkedData = grd_gdsDtlSrchResult.getCheckedJSON("checkBox");
+    var uniqueChkData = [];
+    var setVal = new Set();
+    checkedData.forEach(function(i){
+        if(!setVal.has(i.colMerge)){ //merging시 중복 제거
+            uniqueChkData.push(i);
+            setVal.add(i.colMerge);
+        }
+    });
+    checkedData = uniqueChkData;
+
+    if (checkedData.length === 0 || checkedData.length === 1) {
+        scutilo.showMsg(scglblo.MSG.WARN, scutilo.getMsg(pgjmsg.PGJ.W_0054))
+        return
+    } else if (checkedData.length > 3) {
+        scutilo.showMsg(scglblo.MSG.WARN, scutilo.getMsg(pgjmsg.PGJ.W_0054))
+        return;
+    } else {
+        const param = JSON.stringify(checkedData.map((data) => {
+            return {
+                cortOfcCd: data.boCd,
+                csNo: data.saNo,
+                dspslGdsSeq: data.maemulSer,
+                pgmId: scwin.pgmId,
+                prevPgmId : scwin.prevPgmId
+            }
+        }))
+        const popId = 'gdsCmprs'
+        if (pgjUtil.popupDpcnChk(popId)) {
+            scwin.gdsCmprsPopUp(param)
+        } else {
+            return;
+        }
+    }
+}
+
+
+
+/**
+ * 관심물건등록 팝업
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.03.22.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.itrtGdsRegPopUp = function (checkLst) {
+
+    /********* Popup Settings *********/
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+
+    /* small popup size */
+    const popupW = 700;
+    const popupH = 400;
+
+    const popupX = (winW / 2) - (popupW / 2);
+    const popupY = (winH / 2) - (popupH / 2);
+
+    /**
+     * openPopUp option설정
+     */
+    var options = {
+        id: "itrtGdsRegPopUp",
+        type: "wframePopup",
+        popupName: "관심물건등록",
+        top: popupY,
+        left: popupX,
+        width: popupW,
+        height: popupH,
+        modal: false
+    };
+    obj = {};
+    let baseInfo = {
+        cortDvsCd: "B",//동산,부동산 구분코드
+        cortAuctnMbrsId: scwin.lgnMbr || ''
+    }
+    paramObj = {};
+    paramObj.checkLst = checkLst;
+    paramObj.baseInfo = baseInfo;
+    obj.paramObj = paramObj;
+    /* 관심물건등록 팝업창 open  */
+    com.win.openPopup("/pgj/ui/pgj100/PGJ15BP07.xml", options, obj);
+};
+
+/**
+ * 물건 비교 팝업창
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.06.27.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.gdsCmprsPopUp = function (param) {
+
+    /********* Popup Settings *********/
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+
+    /* default popup size */
+    const popupW = 900;
+    const popupH = 700;
+
+    const popupX = (winW / 2) - (popupW / 2);
+    const popupY = (winH / 2) - (popupH / 2);
+
+    const options = {
+        id: "gdsCmprs",
+        type: "browser", // 팝업창에서 부모프레임 opener 하기 위에서 browser타입으로 오픈
+        popupName: "물건 비교",
+        top: popupY,
+        left: popupX,
+        width: popupW,
+        height: popupH,
+        modal: false
+    };
+    result = {};
+    result.paramObj = param;
+    com.win.openPopup("/pgj/ui/pgj100/PGJ15BP05.xml", options, result);
+};
+
+/**
+ * 페이지당 변경시 조회
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.11.13.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.sbx_pageSize_onviewchange = function(info) {
+
+    var cookieFlag = info.newValue;
+    if (cookieFlag == 10) {
+        pgjUtil.setCookie('pageCnt','10')
+    } else if (cookieFlag == 20) {
+        pgjUtil.setCookie('pageCnt','20')
+    } else if (cookieFlag == 30) {
+        pgjUtil.setCookie('pageCnt','30');
+    } else if (cookieFlag == 40) {
+        pgjUtil.setCookie('pageCnt','40');
+    }
+    scwin.pageNum = 1;
+    scwin.pageSize = info.newValue;
+    scwin.gdsDtlSrchMain(true, info.newValue);//조회처리
+};
+
+/**
+ * 프린트 이벤트
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.06.27.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.printBtnOnclick = function(e) {
+    let paramJSON = {};
+    paramJSON.html = document.getElementById($p.getComponentById('grp_contests').id).innerHTML;
+
+    var dataObject = {
+            type : "json",
+            data : paramJSON,
+            name : "paramObj"
+    };
+
+    /* default popup size */
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+    const popupW = 1200;
+    const popupH = 700;
+
+    const popupX = (winW / 2) - (popupW / 2);
+    const popupY = (winH / 2) - (popupH / 2);
+
+    // 팝업의 옵션
+    var options = {
+            id: 'print',					// 팝업ID
+            type: "browserPopup",			// 팝업 타입(wframePopup,browserPopup)
+            width: popupW,				// 팝업 가로사이즈
+            height: popupH,			// 팝업 세로사이즈
+            top: popupY,					// 팝업 top위치
+            left: popupX,				// 팝업 left위치
+            popupName: "프린트",				// 팝업 Name
+            modal: false,					// 부모창이 안움직임(true)/부모창이 움직임(false)
+            useIFrame: true,
+            dataObject : dataObject
+    };
+
+    $p.openPopup("/pgj/ui/pgj100/PGJPrintContainer.xml", options);
+};
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+        <xf:group class="sub_cotainer" id="sub_cotainer" style="">
+            <xf:group class="inr" id="" style="">
+                <w2:wframe class="sidebox" id="wfm_side" src="../common/sideMenu/side002.xml" style=""></w2:wframe>
+                <xf:group class="sub_contents" id="grp_contests" style="">
+                    <xf:group class="pgtbox" id="" style="">
+                        <w2:textbox class="pgt_tit" id="tbx_titleNm" label="물건상세검색" style="" tagname="h2"></w2:textbox>
+                        <xf:group class="clearfix" id="" style="">
+                            <xf:group class="pgt_location" id="" style="" tagname="ul">
+                                <xf:group id="" style="" tagname="li">
+                                    <w2:span id="" label="HOME" style=""></w2:span>
+                                </xf:group>
+
+                                <xf:group id="" style="" tagname="li">
+                                    <w2:span id="tbx_prevTitleNm" label="경매물건" style=""></w2:span>
+                                </xf:group>
+                                <xf:group id="" style="" tagname="li">
+                                    <w2:span id="tbx_subTitleNm" label="물건상세검색" style=""></w2:span>
+                                </xf:group>
+                            </xf:group>
+                        </xf:group>
+                    </xf:group>
+                    <xf:group class="shbox" id="" style="">
+                        <xf:group class="shbox_inner" id="" style="">
+                            <xf:group class="w2tb" id="" style="width:100%;" tagname="table">
+                                <w2:attributes>
+                                    <w2:summary></w2:summary>
+                                </w2:attributes>
+                                <xf:group tagname="caption"></xf:group>
+                                <xf:group tagname="colgroup">
+                                    <xf:group style="width:100px;" tagname="col"></xf:group>
+                                    <xf:group style="" tagname="col"></xf:group>
+                                    <xf:group style="width:100px;" tagname="col"></xf:group>
+                                    <xf:group style="" tagname="col"></xf:group>
+                                </xf:group>
+                                <xf:group tagname="tr">
+                                    <xf:group class="w2tb_th" style="" tagname="th">
+                                        <w2:attributes>
+                                            <w2:scope>row</w2:scope>
+                                        </w2:attributes>
+                                        <w2:textbox id="" label="검색조건" style=""></w2:textbox>
+                                    </xf:group>
+                                    <xf:group class="w2tb_td" style="" tagname="td">
+                                        <w2:attributes>
+                                            <w2:colspan>3</w2:colspan>
+                                            <w2:rowspan>1</w2:rowspan>
+                                        </w2:attributes>
+                                        <xf:group class="require_list" id="" style="">
+                                            <xf:group id="" style="">
+                                                <w2:generator style="" id="gna_srhcTitle">
+                                                    <w2:span class="tit" id="spn_srchTitle" label="" style=""></w2:span>
+                                                    <w2:span id="spn_srchCtt" label="" style=""></w2:span>
+                                                    <w2:span id="spn_srchBar" label="|" style=""></w2:span>
+                                                </w2:generator>
+                                            </xf:group>
+
+                                        </xf:group>
+                                    </xf:group>
+                                </xf:group>
+                            </xf:group>
+                        </xf:group>
+                    </xf:group>
+                    <xf:group class="stbox" id="info" style="margin: 0 0 0 0;">
+                        <w2:textbox class="frm_title" id="" label="소재지 및 내역을 클릭하면 물건상세 페이지로 이동합니다." style="" tagname="h1"></w2:textbox>
+                        <xf:trigger class="btn_cm bt_sch" ev:onclick="scwin.btn_search_onclick" id="btn_search" style="float: inline-end;margin: 10px 2px;display:none" title="검색" type="button">
+                            <xf:label><![CDATA[검색]]></xf:label>
+                        </xf:trigger>
+                        <xf:select1 allOption="" appearance="minimal" chooseOption="" class="sel" direction="down" disabledClass="w2selectbox_disabled" id="sbx_sort" ref=""
+                            renderType="select" style="max-width: 70px;float:inline-end;margin: 10px 2px;height: 30px;display:none;" submenuSize="auto"
+                            title="정렬순서">
+                            <xf:choices>
+                                <xf:item>
+                                    <xf:label><![CDATA[오름]]></xf:label>
+                                    <xf:value><![CDATA[asc]]></xf:value>
+                                </xf:item>
+                                <xf:item>
+                                    <xf:label><![CDATA[내림]]></xf:label>
+                                    <xf:value><![CDATA[desc]]></xf:value>
+                                </xf:item>
+                            </xf:choices>
+                        </xf:select1>
+                        <xf:select1 allOption="" appearance="minimal" chooseOption="" class="sel" direction="auto" disabledClass="w2selectbox_disabled" id="sbx_schCond" ref=""
+                            renderType="select" style="max-width: 100px;float: inline-end;margin: 10px 2px;height: 30px;display:none;" submenuSize="auto"
+                            title="검색조건">
+                            <xf:choices>
+                                <xf:item>
+                                    <xf:label><![CDATA[사건번호]]></xf:label>
+                                    <xf:value><![CDATA[csNo]]></xf:value>
+                                </xf:item>
+                                <xf:item>
+                                    <xf:label><![CDATA[감정평가액]]></xf:label>
+                                    <xf:value><![CDATA[aeeEvlAmt]]></xf:value>
+                                </xf:item>
+                                <xf:item>
+                                    <xf:label><![CDATA[최저매각가격]]></xf:label>
+                                    <xf:value><![CDATA[pbancLwsDspslPrc]]></xf:value>
+                                </xf:item>
+                                <xf:item>
+                                    <xf:label><![CDATA[담당계매각기일]]></xf:label>
+                                    <xf:value><![CDATA[dspslDxdyYmd]]></xf:value>
+                                </xf:item>
+                                <xf:item>
+                                    <xf:label><![CDATA[진행상태]]></xf:label>
+                                    <xf:value><![CDATA[flbdNcnt]]></xf:value>
+                                </xf:item>
+                            </xf:choices>
+                        </xf:select1>
+
+                    </xf:group>
+                    <xf:group id="" class="over_x3">
+                        <w2:gridView summary="부동산 물건 상세검색 목록" preventMultisort="" ev:oncellclick="scwin.grd_gdsDtlSrchResult_oncellclick"
+                            scrollByColumnAdaptive="false" noResultMessageVisibleAlways="true" readOnly="false" scrollByColumn="false"
+                            defaultCellHeight="20" noResultMessage="검색결과가 없습니다." tooltipDisplay="false" focusMode="none"
+                            dataList="data:dlt_srchResult" style="" tengeMask="" autoFit="allColumn" id="grd_gdsDtlSrchResult"
+                            visibleRowNum="all" class="grdcolor" sortHeaderDiv="false"
+                            noResultMessageStyle="display: block; position: relative; color: rgb(56, 61, 65);font-size: 12px;text-align: center;"
+                            tooltipShowAlways="false" titleAuto="false" titleFormatter="scwin.titleFormatter" rowMouseOverColor="#FFFFFF">
+                            <w2:caption style="" id="caption1" value="this is a grid caption."></w2:caption>
+                            <w2:header style="" id="header1">
+                                <w2:row style="" id="row1">
+                                    <w2:column rowSpan="2" removeBorderStyle="false" width="40" inputType="checkbox" id="column7"
+                                        sortable="false" value="chk" blockSelect="false" displayMode="label" checkboxLabel="전체">
+                                    </w2:column>
+                                    <w2:column rowSpan="2" removeBorderStyle="false" width="115" inputType="custom" id="csNo" value="사건번호"
+                                        blockSelect="false" displayMode="label">
+                                    </w2:column>
+                                    <w2:column removeBorderStyle="false" width="70" inputType="text" id="column5" value="물건번호"
+                                        blockSelect="false" displayMode="label">
+                                    </w2:column>
+                                    <w2:column rowSpan="2" colSpan="2" removeBorderStyle="false" width="270" inputType="text" id="column4"
+                                        value="소재지 및 내역" blockSelect="false" displayMode="label" style="height:0px;">
+                                    </w2:column>
+                                    <w2:column rowSpan="2" removeBorderStyle="false" width="200" inputType="text" id="column2" value="비고"
+                                        blockSelect="false" displayMode="label">
+                                    </w2:column>
+                                    <w2:column removeBorderStyle="false" width="110" inputType="custom" id="aeeEvlAmt" value="감정평가액"
+                                        blockSelect="false" displayMode="label">
+                                    </w2:column>
+                                    <w2:column width="100" id="dspslDxdyYmd" sortable="false" value="담당계" inputType="custom"
+                                        blockSelect="false" displayMode="label">
+                                    </w2:column>
+                                </w2:row>
+                                <w2:row style="" id="row3">
+                                    <w2:column removeBorderStyle="false" width="70" inputType="text" id="column36" value="용도"
+                                        blockSelect="false" displayMode="label">
+                                    </w2:column>
+                                    <w2:column removeBorderStyle="false" width="110" inputType="custom" id="pbancLwsDspslPrc"
+                                        sortable="false" value="최저매각가격&lt;br&gt;(단위:원)" blockSelect="false" displayMode="label">
+                                    </w2:column>
+                                    <w2:column removeBorderStyle="false" width="100" inputType="custom" id="flbdNcnt" sortable="false"
+                                        value="진행상태" blockSelect="false" displayMode="label">
+                                    </w2:column>
+                                </w2:row>
+                            </w2:header>
+                            <w2:gBody style="" id="gBody1">
+                                <w2:row style="" id="row2">
+                                    <w2:column rowSpan="2" upperColumn="colMerge" removeBorderStyle="false" inputType="checkbox"
+                                        id="checkBox" displayMode="label" checkboxLabelColumn="printCsNo" class="" value="" colMerge="true" blockSelect="false">
+                                    </w2:column>
+                                    <w2:column rowSpan="2" removeBorderStyle="false" inputType="text" id="printCsNo"
+                                        escape="false" blockSelect="false" displayMode="label" colMerge="true" class=""
+                                        upperColumn="colMerge">
+                                    </w2:column>
+                                    <w2:column removeBorderStyle="false" inputType="text" readOnly="true" id="maemulSer"
+                                        blockSelect="false" displayMode="label" colMerge="true" upperColumn="colMerge">
+                                    </w2:column>
+                                    <w2:column rowSpan="2" removeBorderStyle="false" readOnly="true" blockSelect="false" displayMode="label"
+                                        customFormatter="scwin.stFormat" width="200" inputType="text" style="height:0px;" id="printSt" class="al"
+                                        escape="false" colSpan="" upperColumn="colMerge">
+                                    </w2:column>
+                                    <w2:column rowSpan="2" removeBorderStyle="false" width="70" inputType="button" id="mapBtn"
+                                        class="bt_map" value="지도" blockSelect="false" displayMode="label" title="새 창 열림" readOnly="false">
+                                    </w2:column>
+                                    <w2:column removeBorderStyle="false" inputType="text" readOnly="true" id="mulBigo"
+                                        class="al" escape="false" blockSelect="false" displayMode="label" colMerge="true" upperColumn="colMerge"
+                                        style="" rowSpan="2">
+                                    </w2:column>
+                                    <w2:column removeBorderStyle="false" colMerge="true"
+                                        displayFormat="##,###,###,###,###,###,###,###,###" inputType="text" readOnly="true" id="gamevalAmt"
+                                        value="91,500,000" class="ar" blockSelect="false" displayMode="label" upperColumn="colMerge">
+                                    </w2:column>
+                                    <w2:column colMerge="true" readOnly="true" id="jpDeptNm" escape="false"
+                                        upperColumn="colMerge" customFormatter="scwin.chargDept">
+                                    </w2:column>
+                                </w2:row>
+                                <w2:row style="" id="row4">
+                                    <w2:column removeBorderStyle="false" inputType="text" readOnly="true" id="dspslUsgNm"
+                                        value="다세대" blockSelect="false" displayMode="label" colMerge="true" upperColumn="colMerge">
+                                    </w2:column>
+                                    <w2:column removeBorderStyle="false" inputType="custom" readOnly="true"
+                                        id="notifyMinmaePrice1" value="7,860,000(8%)" class="ar" blockSelect="false" displayMode="label"
+                                        displayFormat="##,###,###,###,###,###,###,###,###" customFormatter="scwin.lwsPrcFormat" style="height:20px;"
+                                        colMerge="true" upperColumn="colMerge">
+                                    </w2:column>
+                                    <w2:column customFormatter="scwin.flbdCnt" removeBorderStyle="false" colMerge="true"
+                                        inputType="custom" readOnly="true" id="yuchalCnt" value="유찰 10회" blockSelect="false" displayMode="label"
+                                        upperColumn="colMerge">
+                                    </w2:column>
+                                </w2:row>
+                            </w2:gBody>
+                        </w2:gridView>
+                    </xf:group>
+                    <xf:group class="count_page" id="grp_rletPageInfo" style="">
+                        <xf:group class="gvw_count_group" id="" style=""></xf:group>
+                        <w2:pageList class="wq_pglist" displayButtonType="display" displayFormat="#" id="pgl_gdsDtlSrchPage" pageSize="10"
+                            style="" buttonShowType="3" title="선택됨" ev:onviewchange="scwin.pgl_gdsDtlSrchPage_onviewchange">
+                        </w2:pageList>
+                        <xf:group class="count_view" id="" style="">
+                            <w2:span class="txt" dataType="" id="" label="페이지당" style=""></w2:span>
+                            <xf:select1 allOption="" appearance="minimal" chooseOption="" class="sel" direction="auto" disabled="false"
+                                disabledClass="w2selectbox_disabled" id="sbx_pageSize" ref="" renderType="select" style="max-width:80px;"
+                                submenuSize="auto" title="페이지당 수 선택" ev:onviewchange="scwin.sbx_pageSize_onviewchange">
+                                <xf:choices>
+                                    <xf:item>
+                                        <xf:label><![CDATA[10]]></xf:label>
+                                        <xf:value><![CDATA[10]]></xf:value>
+                                    </xf:item>
+                                    <xf:item>
+                                        <xf:label><![CDATA[20]]></xf:label>
+                                        <xf:value><![CDATA[20]]></xf:value>
+                                    </xf:item>
+                                    <xf:item>
+                                        <xf:label><![CDATA[30]]></xf:label>
+                                        <xf:value><![CDATA[30]]></xf:value>
+                                    </xf:item>
+                                    <xf:item>
+                                        <xf:label><![CDATA[40]]></xf:label>
+                                        <xf:value><![CDATA[40]]></xf:value>
+                                    </xf:item>
+                                </xf:choices>
+                            </xf:select1>
+                        </xf:group>
+
+                    </xf:group>
+                    <xf:group class="btn_group_w ty1" id="grp_buttonInfo" style="">
+                        <xf:group class="btn_group r_line dsInb " id="" style="">
+                            <xf:trigger class="btn_cm lg bt_print" id="" style="" type="button" title="인쇄하기 버튼" ev:onclick="scwin.printBtnOnclick">
+                                <xf:label><![CDATA[인쇄하기]]></xf:label>
+                            </xf:trigger>
+                        </xf:group>
+                        <xf:group class="btn_group r_line dsInb " id="" style="">
+                            <xf:trigger class="btn_cm lg bg4" id="" style="" type="button" title="물건비교 버튼"
+                                ev:onclick="scwin.gdsCmprsPopUpOpenEvent">
+                                <xf:label><![CDATA[물건비교]]></xf:label>
+                            </xf:trigger>
+                            <xf:trigger class="btn_cm lg bg3" id="btn_itrtGdsReg" style="" type="button"
+                                ev:onclick="scwin.btn_itrtGdsReg_onclick" title="관심물건등록버튼">
+                                <xf:label><![CDATA[관심물건등록]]></xf:label>
+                            </xf:trigger>
+                        </xf:group>
+                        <xf:group class="btn_group dsInb " id="" style="">
+                            <xf:trigger class="btn_cm lg" id="btn_prevPage" style="" type="button" ev:onclick="scwin.btn_prevPage_onclick"
+                                title="이전버튼">
+                                <xf:label><![CDATA[이전]]></xf:label>
+                            </xf:trigger>
+                        </xf:group>
+
+                    </xf:group>
+                    <xf:group class="infobox ty_2" id="grp_noticeInfo" style="">
+                        <w2:textbox class="tit" id="" label="유의사항" style=""></w2:textbox>
+                        <xf:group class="info_list" id="" style="" tagname="ul">
+                            <xf:group id="" style="" tagname="li">
+                                <w2:textbox id=""
+                                    label="제공된 정보가 실제 매각물건의 정보와 일치하지 않거나 정보의 제공 이후 중요한 변동사항이 생길 수 있으므로, 매각물건의 내용을 법원에 비치된 물건명세서, 현황조사서 또는 감정평가서를 열람하는 등 반드시 재확인한 후 입찰에 참가하시기 바랍니다."
+                                    style="">
+                                </w2:textbox>
+                            </xf:group>
+                            <xf:group id="" style="" tagname="li">
+                                <w2:textbox id="" label="매수에 영향을 줄 수 있는 중요한 권리관계의 변동사항이 있을 수 있으므로 입찰참가 전 등기사항전부증명서를 확인하시기 바랍니다." style="">
+                                </w2:textbox>
+                            </xf:group>
+                            <xf:group id="" style="" tagname="li">
+                                <w2:textbox id="" label="법원경매정보 홈페이지에서 서비스하는 정보만으로 참여한 입찰과 관련하여 발생하는 문제에 대해서 법원은 책임을 지지 않습니다." style="">
+                                </w2:textbox>
+                            </xf:group>
+                            <xf:group id="" style="" tagname="li">
+                                <w2:textbox id="" label="조회된 물건번호 및 그 정보는 해당 법원 담당 경매계에서 처리하고 있는 실제 물건의 정보와 일치하지 않을 수 있습니다." style="">
+                                </w2:textbox>
+                            </xf:group>
+                            <xf:group id="" style="" tagname="li">
+                                <w2:textbox id="" label="매각물건의 정확한 내용은 담당경매계를 방문하거나 법원에 비치된 물건명세서를 열람하여 반드시 재확인하기 바랍니다." style="">
+                                </w2:textbox>
+                            </xf:group>
+                            <xf:group id="" style="" tagname="li">
+                                <w2:textbox id="" label="매수에 영향을 줄 수 있는 중요한 권리관계의 변동사항이 있을 수 있으므로 매수 전 등기사항전부증명서를 확인하기 바랍니다." style="">
+                                </w2:textbox>
+                            </xf:group>
+                            <xf:group id="" style="" tagname="li">
+                                <w2:textbox id="" label="인터넷으로 서비스하는 정보만으로 참여한 입찰과 관련하여 발생하는 문제에 대해서 법원은 법적 책임을 지지않습니다." style=""></w2:textbox>
+                            </xf:group>
+                        </xf:group>
+                    </xf:group>
+                </xf:group>
+            </xf:group>
+        </xf:group>
+
+    </body>
+</html>

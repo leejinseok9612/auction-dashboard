@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    ============= ============ ==========================
+     Date          Author       Description
+    ============= ============ ==========================
+    2026.04.02.   강은숙                    [26A-PGJ-0014] 현황조사서, 감정평가서 로봇차단솔루션 적용되게 개선
+    ============= ============ ==========================
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head meta_screenName="현황조사서">
+        <w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+            <xf:instance>
+                <data xmlns="" />
+            </xf:instance>
+            <w2:dataCollection baseNode="map">
+                <w2:dataMap baseNode="map" id="dma_curstExmnMngInf">
+                    <w2:keyInfo>
+                        <w2:key id="cortOfcCd" name="법원사무소코드" dataType="text"></w2:key>
+                        <w2:key id="csNo" name="사건번호" dataType="text"></w2:key>
+                        <w2:key id="ordTsCnt" name="명령회차" dataType="text"></w2:key>
+                        <w2:key id="auctnCurstExmnTrsmStatCd" name="경매현황조사전송상태코드" dataType="text"></w2:key>
+                        <w2:key id="execIntgCsNmCd" name="집행통합사건명코드" dataType="text"></w2:key>
+                        <w2:key id="lesDts" name="임차내역" dataType="text"></w2:key>
+                        <w2:key id="exmndcRtrcnYmd" name="조사서취소일자" dataType="text"></w2:key>
+                        <w2:key id="exmndcSndngYmd" name="조사서발송일자" dataType="text"></w2:key>
+                        <w2:key id="exmndcRcptnYmd" name="조사서수신일자" dataType="text"></w2:key>
+                        <w2:key id="lstPossRltnDts" name="목록점유관계내역" dataType="text"></w2:key>
+                        <w2:key id="fstmLstPossRltnDts" name="첫번째목록점유관계내역" dataType="text"></w2:key>
+                        <w2:key id="scntmLstPossRltnDts" name="두번째목록점유관계내역" dataType="text"></w2:key>
+                        <w2:key id="exmnDtDts" name="조사일시내역" dataType="text"></w2:key>
+                        <w2:key id="lwstDvsCd" name="소송구분코드" dataType="text"></w2:key>
+                        <w2:key id="userCsNo" name="사용자용 사건번호" dataType="text"></w2:key>
+                        <w2:key id="printRltnDts" name=" 사용자용부동산현황" dataType="text"></w2:key>
+                    </w2:keyInfo>
+                </w2:dataMap>
+                <w2:dataList baseNode="list" repeatNode="map" id="dlt_spotExmnOrdCntLst" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="ordTsCnt" name="명령회차수" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList baseNode="list" repeatNode="map" id="dlt_curstExmnDpcnMrg" saveRemovedData="true">
+                	<w2:columnInfo>
+                		<w2:column id="reltCsCortOfcCd" name="관련사건법원사무소코드" dataType="text"></w2:column>
+                		<w2:column id="reltCsNo" name="관련사건" dataType="text"></w2:column>
+                		<w2:column id="reltCsDvsCd" name="관련사건구분코드" dataType="text"></w2:column>
+                		<w2:column id="auctnCurstExmnTrsmStatCnt" name="경매현황조사전송상태횟수" dataType="text"></w2:column>
+                		<w2:column id="userCsNo" name="사용자용사건번호" dataType="text"></w2:column>
+                		<w2:column id="userRletCsNo" name="name6" dataType="text"></w2:column>
+                	</w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList baseNode="list" repeatNode="map" id="dlt_ordTsRlet" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="objctSeq" name="물건순번" dataType="text"></w2:column>
+                        <w2:column id="printSt" name="사용자용주소" dataType="text"></w2:column>
+                        <w2:column id="lesCnt" name="임차명수" dataType="text"></w2:column>
+                        <w2:column id="cortOfcCd" name="법원사무소코드" dataType="text"></w2:column>
+                        <w2:column id="csNo" name="사건번호" dataType="text"></w2:column>
+                        <w2:column id="ordTsCnt" name="명령회차수" dataType="text"></w2:column>
+
+                        <w2:column id="adongSdNm" name="행정동시도명" dataType="text"></w2:column>
+                        <w2:column id="adongSggNm" name="행정동시군구명" dataType="text"></w2:column>
+                        <w2:column id="adongEmdNm" name="행정동읍면동명" dataType="text"></w2:column>
+                        <w2:column id="adongRiNm" name="행정동리명" dataType="text"></w2:column>
+                        <w2:column id="rprsLtnoAddr" name="대표지번주소" dataType="text"></w2:column>
+                        <w2:column id="auctnPossRltnCd" name="경매점유관계코드" dataType="text"></w2:column>
+                        <w2:column id="gdsPossCtt" name="물건점유내용" dataType="text"></w2:column>
+                        <w2:column id="rletLstRmk" name="부동산목록비고" dataType="text"></w2:column>
+                        <w2:column id="rdnmSdNm" name="도로명시도명" dataType="text"></w2:column>
+                        <w2:column id="rdnmSggNm" name="도로명시군구명" dataType="text"></w2:column>
+                        <w2:column id="rdnmEmdNm" name="도로명읍면동명" dataType="text"></w2:column>
+                        <w2:column id="rdnm" name="도로명" dataType="text"></w2:column>
+                        <w2:column id="rdnmBldNo" name="도로명건물번호" dataType="text"></w2:column>
+                        <w2:column id="rdnmRefcAddr" name="도로명참조주소" dataType="text"></w2:column>
+                        <w2:column id="addrTypCd" name="주소유형코드" dataType="text"></w2:column>
+                        <w2:column id="bldNm" name="건물명" dataType="text"></w2:column>
+                        <w2:column id="ldcgDts" name="지목내역" dataType="text"></w2:column>
+                        <w2:column id="objctArDts" name="목적물면적내역" dataType="text"></w2:column>
+                        <w2:column id="auctnLstDvsCd" name="경매목록구분코드" dataType="text"></w2:column>
+                        <w2:column id="dspslStkCtt" name="매각지분내용" dataType="text"></w2:column>
+
+
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList baseNode="list" repeatNode="map" id="dlt_ordTsPicDvs" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="cortAuctnPicDvsCd" name=" 법원경매사진구분코드" dataType="text"></w2:column>
+                        <w2:column id="cortAuctnDvsPicCnt" name="법원경매사진구분별건수" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList baseNode="list" repeatNode="map" id="dlt_ordTsLserLtn" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="cortOfcCd" name="법원사무소코드" dataType="text"></w2:column>
+                        <w2:column id="csNo" name="사건번호" dataType="text"></w2:column>
+                        <w2:column id="ordTsCnt" name="명령회차수" dataType="text"></w2:column>
+                        <w2:column id="intrpsSeq" name="이해관계인순번" dataType="text"></w2:column>
+                        <w2:column id="objctSeq" name="물건순번" dataType="text"></w2:column>
+                        <w2:column id="btprtPrsnlDvsCd" name="이해관계인당사자인격구분코드" dataType="text"></w2:column>
+                        <w2:column id="ENRRNO" name="암호화주민등록번호" dataType="text"></w2:column>
+                        <w2:column id="ZPCD" name="우편번호" dataType="text"></w2:column>
+                        <w2:column id="basAddr" name="기본주소" dataType="text"></w2:column>
+                        <w2:column id="objctDtlAddr" name="목적물상세주소" dataType="text"></w2:column>
+                        <w2:column id="auctnLesUsgCd" name="경매임차용도코드" dataType="text"></w2:column>
+                        <w2:column id="lesUsgDts" name="임차용도내역" dataType="text"></w2:column>
+                        <w2:column id="lesDposDts" name="임차보증금내역" dataType="text"></w2:column>
+                        <w2:column id="mmrntAmtDts" name="월세금액내역" dataType="text"></w2:column>
+                        <w2:column id="gdsPossCtt" name="물건점유내용" dataType="text"></w2:column>
+                        <w2:column id="mvinDtlCtt" name="전입상세내용" dataType="text"></w2:column>
+                        <w2:column id="rgstryCrtcpCfmtnCtt" name="등기부등본확정내용" dataType="text"></w2:column>
+                        <w2:column id="lesPartCtt" name="임차부부내용" dataType="text"></w2:column>
+                        <w2:column id="lesDtsRmk" name="임차내역비고" dataType="text"></w2:column>
+                        <w2:column id="adongSdNm" name="행정동시도명" dataType="text"></w2:column>
+                        <w2:column id="adongSggNm" name="행정동시군구명" dataType="text"></w2:column>
+                        <w2:column id="adongEmdNm" name="행정동읍면동명" dataType="text"></w2:column>
+                        <w2:column id="adongRiNm" name="행정동리명" dataType="text"></w2:column>
+                        <w2:column id="rprsLtnoAddr" name="대표지번주소" dataType="text"></w2:column>
+                        <w2:column id="rdnmSdNm" name="도로명시도명" dataType="text"></w2:column>
+                        <w2:column id="rdnmSggNm" name="도로명시군구명" dataType="text"></w2:column>
+                        <w2:column id="rdnmEmdNm" name="도로명읍면동명" dataType="text"></w2:column>
+                        <w2:column id="RDNM" name="도로명" dataType="text"></w2:column>
+                        <w2:column id="rdnmBldNo" name="도로명건물번호" dataType="text"></w2:column>
+                        <w2:column id="rdnmRefcAddr" name="도로명참조주소" dataType="text"></w2:column>
+                        <w2:column id="addrTypCd" name="주소유형코드" dataType="text"></w2:column>
+                        <w2:column id="bldNm" name="건물명" dataType="text"></w2:column>
+                        <w2:column id="bldDtlDts" name="건물상세내역" dataType="text"></w2:column>
+                        <w2:column id="auctnLstDvsCd" name="경매목록구분코드" dataType="text"></w2:column>
+                        <w2:column id="auctnIntrpsDvsCd" name="경매이해관계인구분코드" dataType="text"></w2:column>
+                        <w2:column id="intrpsNm" name="이해관계인명" dataType="text"></w2:column>
+                        <w2:column id="printSt" name="사용자용소재지" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataMap baseNode="map" id="dma_srchCurstExmn">
+                	<w2:keyInfo>
+                		<w2:key id="cortOfcCd" name="법원사무소코드" dataType="text"></w2:key>
+                		<w2:key id="csNo" name="사건번호" dataType="text"></w2:key>
+                		<w2:key id="auctnInfOriginDvsCd" name="경매정보출처구분코드" dataType="text"></w2:key>
+                		<w2:key id="ordTsCnt" name="명령회차" dataType="text"></w2:key>
+                	</w2:keyInfo>
+                </w2:dataMap>
+            </w2:dataCollection>
+            <w2:workflowCollection></w2:workflowCollection>
+            <xf:submission id="sbm_selectCurstExmn" ref="data:json,dma_srchCurstExmn" target='data:json,[{"id":"dlt_spotExmnOrdCntLst","key":"data.dlt_spotExmnOrdCntLst"},{"id":"dlt_ordTsPicDvs","key":"data.dlt_ordTsPicDvs"},{"id":"dlt_ordTsLserLtn","key":"data.dlt_ordTsLserLtn"},{"id":"dlt_ordTsRlet","key":"data.dlt_ordTsRlet"},{"id":"dma_curstExmnMngInf","key":"data.dma_curstExmnMngInf"},{"id":"dlt_curstExmnDpcnMrg","key":"data.dlt_curstExmnDpcnMrg"}]' action="/pgj/pgj15B/selectCurstExmndc.on" method="post"
+                mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
+                processMsg="" ev:submit="" ev:submitdone="scwin.sbm_selectCurstExmn_submitdone" ev:submiterror="" abortTrigger="">
+            </xf:submission>
+        </xf:model>
+        <script type="text/javascript" lazy="false"><![CDATA[// /* 프로그램ID */
+scwin.pgmId = 'PGJ15BP01';
+
+scwin.baseCsInfo ="";
+
+/* 파라미터 */
+scwin.schYn = "N";
+
+/**
+ *
+ * onpageLoad시 법원사무소코드,사건번호로 현황조사서 조회
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.07.27.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.onpageload = function() {
+
+    //중복병합사건
+    th_curstExmnDpcnMrgCs.hide();
+    td_curstExmnDpcnMrgCs.hide();
+    grp_rletCurstCtt.hide();
+    grp_exmnDt.hide();
+    const param = com.data.getParameter('paramObj');
+    setTimeout(function(){
+        pgjUtil.setPopUpCloseNextTabEvent($p.getFrame());
+    }, 500);
+    let srchCsNo = param.csNo;
+    let srchCortOfcCd = param.cortOfcCd;
+    if (!scutilo.isEmpty(srchCsNo) && !scutilo.isEmpty(srchCortOfcCd)) {
+        dma_srchCurstExmn.set("csNo", srchCsNo)
+        dma_srchCurstExmn.set("cortOfcCd", srchCortOfcCd);
+        //경매 정보출처 구분코드 삽입 (현황조사서서 코드 "2")
+        dma_srchCurstExmn.set("auctnInfOriginDvsCd", "2");
+        com.executeSubmission(sbm_selectCurstExmn);
+    }
+};
+
+scwin.onpageunload = function() {
+
+};
+
+//웹접근성으로 인한 title제공 수정
+scwin.titleFormatter = function(){
+    return "";
+}
+
+/**
+ *
+ * 현황조사서 조회후 화면에 맞게 데이터 셋팅
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.07.27.   나해준             [NELS]최초 생성
+ *  2026.04.02.   강은숙             [26A-PGJ-0014] 현황조사서, 감정평가서 로봇차단솔루션 적용되게 개선
+ * ============= ============ ==========================
+ */
+scwin.sbm_selectCurstExmn_submitdone = function(e) {
+
+    //20260402 강은숙 [26A-PGJ-0014] 현황조사서, 감정평가서 로봇차단솔루션 적용되게 개선
+    const ipcheck = e.responseJSON.data.ipcheck; //로봇탐지 결과 처리
+    if(ipcheck){
+        scwin.baseCsInfo = dma_curstExmnMngInf.getJSON();
+        console.log("dlt_spotExmnOrdCntLst ==> ",dlt_spotExmnOrdCntLst.getAllJSON())
+        // 부동산 사무소명 (타이틀)
+        if (!scutilo.isEmpty(dma_curstExmnMngInf.get("cortOfcCd"))) {
+            spn_curstExmnCortOfcTitle.setValue(pgjUtil.getCortOfcNm('B',dma_curstExmnMngInf.get("cortOfcCd")));
+        }
+        // 명령회차수 바인딩
+        if (dlt_spotExmnOrdCntLst.getTotalRow()>0) {
+            const spotExmnOrdCntLst = dlt_spotExmnOrdCntLst.getAllJSON();
+            sbx_curstExmnOrdTs.removeAll(true)
+            let ordTsCnt = scwin.baseCsInfo.ordTsCnt;
+            let idx1 = 0;
+            spotExmnOrdCntLst.forEach((data,i) => {
+                sbx_curstExmnOrdTs.addItem(data.ordTsCnt, data.ordTsCnt, i);
+                if(data.ordTsCnt == ordTsCnt){
+                    idx1 = i;
+                }
+            });
+            sbx_curstExmnOrdTs.setSelectedIndex(idx1);
+
+            //중복,병합 사건 존재시
+            if (dlt_curstExmnDpcnMrg.getTotalRow()>0) {
+                th_curstExmnDpcnMrgCs.show(""); // 중복병합사건 타이틀
+                td_curstExmnDpcnMrgCs.show(""); // 중복병합사건 내용
+                sbx_curstExmnDpcnMrgCs.removeAll();
+                let csNo = dma_curstExmnMngInf.get("csNo");
+                let idx2 = 0;
+
+                dlt_curstExmnDpcnMrg.getAllJSON().forEach( (r,i) =>{
+                    sbx_curstExmnDpcnMrgCs.addItem(r.reltCsNo+'_'+r.auctnCurstExmnTrsmStatCnt, r.userRletCsNo, i);
+                    if(r.reltCsNo == csNo){
+                        idx2 = i;
+                    }
+                });
+                sbx_curstExmnDpcnMrgCs.setSelectedIndex(idx2);
+            }
+
+            // 사건명
+            const csNmDvsCd = !scutilo.isEmpty(dma_curstExmnMngInf.get("execIntgCsNmCd")) ? pgjUtil.getSTGcodeTaskNm('LJH','JH','AUCTN_CS_NM_CD',dma_curstExmnMngInf.get("execIntgCsNmCd")) : "";
+            sbx_curstExmnBaseCsNo.setValue(`${dma_curstExmnMngInf.get("userCsNo")} ${csNmDvsCd}`);
+            if (!scutilo.isEmpty(dma_curstExmnMngInf.get("exmnDtDts"))) {
+                grp_exmnDt.show("");
+                let tempExmnDt;
+                let exmnDt = "";
+                if (!scutilo.isEmpty(dma_curstExmnMngInf.get("exmnDtDts"))) {
+                    tempExmnDt = dma_curstExmnMngInf.get("exmnDtDts").split("^");
+                    tempExmnDt.forEach(data => {
+                        exmnDt +=`${data}&nbsp;&nbsp;&nbsp`
+                    })
+                }
+                spn_exmnDt.setValue(exmnDt);
+            }
+            //사진 리스트
+            let picTitle = ""
+            if (dlt_ordTsPicDvs.getTotalRow()>0) {
+                for (let i=0; i<dlt_ordTsPicDvs.getTotalRow(); i++) {
+                    if (i !== 0) {
+                        picTitle +=`, `
+                    }
+                    let picCnt = !scutilo.isEmpty(dlt_ordTsPicDvs.getCellData(i,"cortAuctnDvsPicCnt")) ? dlt_ordTsPicDvs.getCellData(i,"cortAuctnDvsPicCnt") : 0
+                    picTitle += `${pgjUtil.getSTGcodeSystemNm('PGJ','CORT_AUCTN_PIC_DVS_CD',dlt_ordTsPicDvs.getCellData(i,"cortAuctnPicDvsCd"))} ${picCnt}건`
+                }
+            }
+            spn_picCnt.setValue(picTitle)
+            // 부동산 점유관계 조사서
+            if (dlt_ordTsRlet.getTotalRow()>0) {
+                gen_possMng.removeAll();
+                for (let i=0; i<dlt_ordTsRlet.getTotalRow(); i++) {
+                    let stTitle = ""
+                    let gdsCtt = dlt_ordTsRlet.getCellData(i, 'gdsPossCtt').split("\n");
+                    let gdsCttTemp = "";
+                    gen_possMng.insertChild(i);
+                    stTitle = `${dlt_ordTsRlet.getCellData(i, 'objctSeq')}. ${dlt_ordTsRlet.getCellData(i, 'printSt')}`
+                    gen_possMng.getChild(i, 'spn_possMngSt').setValue(stTitle);
+                    gen_possMng.getChild(i, 'spn_possMngRltn').setValue(scwin.possRltnCdNm(dlt_ordTsRlet.getCellData(i, 'auctnPossRltnCd')));
+                    if (gdsCtt.length > 0) {
+                        gdsCtt.forEach(data => gdsCttTemp += `${data}<br />`)
+                    }
+                    gen_possMng.getChild(i, 'spn_possMngEtc').setValue(gdsCttTemp);
+                }
+
+            }
+
+            //부동산의 현황
+            if (!scutilo.isEmpty(scwin.baseCsInfo.printRltnDts)) {
+                grp_rletCurstCtt.show("");
+                let rletCurst = scwin.baseCsInfo.printRltnDts.split("\n")
+                let tempCurst = ""
+                if (rletCurst.length > 0) {
+                    rletCurst.forEach(data => tempCurst += `${data}<br />`);
+                }
+                tbx_rletCurstCtt.setValue(tempCurst);
+            }
+            // TODO 웹접근성
+            // tbx_rletCurstCtt.setValue("부동산 현황 테스트")
+
+            //임차목적물의 용도 및 임대창 계약등의 내용
+            if (dlt_ordTsLserLtn.getTotalRow() > 0) {
+                let tempObjectSer = "";
+                let cnt = 1;
+                gen_tmprDbcdCtrtCtt.removeAll();
+                for (let i=0; i<dlt_ordTsLserLtn.getTotalRow(); i++) {
+                    let usgTemp ="";
+                    gen_tmprDbcdCtrtCtt.insertChild(i);
+                    //소재지별로 생성
+                    if (tempObjectSer !== dlt_ordTsLserLtn.getCellData(i, 'objctSeq')) {
+                        cnt = 1;
+                        gen_tmprDbcdCtrtCtt.getChild(i, 'spn_tmprDbcdTitle').setValue(`[소재지] ${dlt_ordTsLserLtn.getCellData(i, 'objctSeq')}. ${dlt_ordTsLserLtn.getCellData(i, 'printSt')}`)
+                    } else {
+                        // gen_tmprDbcdCtrtCtt.getChild(i, 'grp_tmprDbcdTitle').setSize(null, 20);
+                        gen_tmprDbcdCtrtCtt.getChild(i, 'grp_tmprDbcdTitle').hide();
+                        // grp_tmprDbcdTitle.setSize(null, '20px')
+                    }
+                    /* 순번 */
+                    gen_tmprDbcdCtrtCtt.getChild(i, 'spn_possSeq').setValue(cnt);
+                    /* 점유인 */
+                    gen_tmprDbcdCtrtCtt.getChild(i, 'spn_possPerson').setValue(dlt_ordTsLserLtn.getCellData(i, 'intrpsNm'));
+                    /* 당사자 구분*/
+                    gen_tmprDbcdCtrtCtt.getChild(i,'spn_btprtDvs').setValue(pgjUtil.getSTGcodeSystemNm('PGJ','AUCTN_INTRPS_DVS_CD',dlt_ordTsLserLtn.getCellData(i,'auctnIntrpsDvsCd')));
+                    /* 점유부분 */
+                    gen_tmprDbcdCtrtCtt.getChild(i,'spn_possPart').setValue(dlt_ordTsLserLtn.getCellData(i, 'lesPartCtt'))
+                    /* 용도 */
+                    usgTemp = pgjUtil.getSTGcodeSystemNm('PGJ','AUCTN_LES_USG_CD',dlt_ordTsLserLtn.getCellData(i,'auctnLesUsgCd'));
+                    if (!scutilo.isEmpty(usgTemp) && dlt_ordTsLserLtn.getCellData(i,'auctnLesUsgCd') === '09') {
+                        if (!scutilo.isEmpty(dlt_ordTsLserLtn.getCellData(i,'lesUsgDts'))) {
+                            usgTemp += ` - ${dlt_ordTsLserLtn.getCellData(i,'lesUsgDts')}`
+                        }
+                    }
+                    gen_tmprDbcdCtrtCtt.getChild(i,'spn_possUsgNm').setValue(usgTemp);
+                    /* 점유기간 */
+                    if ( !scutilo.isEmpty(dlt_ordTsLserLtn.getCellData(i,'gdsPossCtt')) ) {
+                        gen_tmprDbcdCtrtCtt.getChild(i,'spn_possPerd').setValue(dlt_ordTsLserLtn.getCellData(i,'gdsPossCtt'));
+                    }
+                    /* 보증(전세)금*/
+                    if ( !scutilo.isEmpty(dlt_ordTsLserLtn.getCellData(i,'lesDposDts')) ) {
+                        gen_tmprDbcdCtrtCtt.getChild(i,'spn_dpos').setValue(dlt_ordTsLserLtn.getCellData(i,'lesDposDts'));
+                    }
+                    /* 차임 */
+                    if ( !scutilo.isEmpty(dlt_ordTsLserLtn.getCellData(i,'mmrntAmtDts'))) {
+                        gen_tmprDbcdCtrtCtt.getChild(i,'spn_mmrntAmt').setValue(dlt_ordTsLserLtn.getCellData(i,'mmrntAmtDts'));
+                    }
+                    /* 전입일자 */
+                    if (!scutilo.isEmpty(dlt_ordTsLserLtn.getCellData(i,'mvinDtlCtt'))) {
+                        gen_tmprDbcdCtrtCtt.getChild(i,'spn_mvinYmd').setValue(dlt_ordTsLserLtn.getCellData(i,'mvinDtlCtt'));
+                    }
+                    /* 확정일자 */
+                    if (!scutilo.isEmpty(dlt_ordTsLserLtn.getCellData(i,'rgstryCrtcpCfmtnCtt'))) {
+                        gen_tmprDbcdCtrtCtt.getChild(i,'spn_cfmtnYmd').setValue(dlt_ordTsLserLtn.getCellData(i,'rgstryCrtcpCfmtnCtt'));
+                    }
+                    tempObjectSer = dlt_ordTsLserLtn.getCellData(i, 'objctSeq');
+                    cnt++;
+                }
+            } else {
+                ordTsLserLtn1.hide();
+                ordTsLserLtn2.hide();
+            }
+
+
+            /* 기타 */
+            if (!scutilo.isEmpty(scwin.baseCsInfo.lesDts)) {
+                let tempLes = scwin.baseCsInfo.lesDts.split("\n");
+                let lesDts = ""
+                if (tempLes.length > 0) {
+                    tempLes.forEach(data=> lesDts += `${data}<br />`)
+                }
+                tbx_posEtcCtt.setValue(lesDts);
+            } else {
+                ordTsLserLtn3.hide();
+                ordTsLserLtn4.hide();
+            }
+
+            scwin.schYn = "Y";
+        } else {
+            scutilo.showMsg(scglblo.MSG.WARN,"현황조사서가 존재하지 않습니다.",()=>{
+                com.win.closePopup("");
+            })
+        }
+    } else {
+        scutilo.showMsg(scglblo.MSG.ERROR,e.responseJSON.message,()=>{
+			com.win.closePopup("");
+		});
+    }
+};
+
+scwin.btn_showPicPopUp_onclick = function(e) {
+    let popUpNm = "showPicOpenPopUp"
+    if (!pgjUtil.popupDpcnChk(popUpNm)) {
+        return;
+    } else {
+        scwin.showPicOpenPopUp();
+    }
+};
+
+/**
+ * 사진보기 팝업
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.03.09.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.showPicOpenPopUp = function() {
+    /********* Popup Settings *********/
+    var winW = window.innerWidth;
+    var winH = window.innerHeight;
+
+    /* small popup size */
+    var popupW = 907;
+    var popupH = 700;
+
+    var popupX = (winW/3) - (popupW/3);
+    var popupY = (winH/3) - (popupH/2.5);
+
+    /**
+     * openPopUp option설정
+     */
+    var options = {
+        id: "showPicOpenPopUp",
+        type: "wframePopup",
+        popupName: "사진보기",
+        top:popupY,
+        left:popupX,
+        width:popupW,
+        height:popupH,
+        modal: false
+    };
+
+    /* 팝업창이 오픈될때 같이 가져갈 paramether 변수 선언 */
+    obj = {};
+    paramObj = {};
+    paramObj.cortOfcCd = scwin.baseCsInfo.cortOfcCd;
+    paramObj.csNo = scwin.baseCsInfo.csNo;
+    paramObj.ordTsCnt = scwin.baseCsInfo.ordTsCnt;
+    paramObj.auctnInfOriginDvsCd = 2;
+    paramObj.pgmId = scwin.pgmId;
+    obj.paramObj = paramObj;
+    /* 공지사항 팝업창 open  */
+    com.win.openPopup("/pgj/ui/pgj100/PGJ15BP06.xml",options,obj);
+};
+
+
+/**
+ * 이해관계인명 반환하는 메서드
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.07.27.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.possRltnCdNm = function(possRltnCd){
+    const rltnCd = possRltnCd;
+    let result = "";
+    switch(rltnCd){
+        case('01') : result = '채무자(소유자)점유'
+            break;
+        case('02') : result = '임차인(별지)점유'
+            break;
+        case('03') : result = '제 3 자점유'
+            break;
+        case('04') : result = '채무자(소유자)점유, 임차인(별지)점유, 제 3 자점유'
+            break;
+        case('05') : result = '채무자(소유자)점유, 임차인(별지)점유'
+            break;
+        case('06') : result = '임차인(별지)점유, 제 3 자점유'
+            break;
+        case('07') : result = '채무자(소유자)점유, 제 3 자점유'
+            break;
+        case('09') : result = '미상'
+            break;
+        case('10') : result = '기타점유'
+            break;
+        case('11') : result = '채무자(소유자)점유, 임차인(별지)점유, 기타점유'
+            break;
+        case('12') : result = '채무자(소유자)점유, 기타점유'
+            break;
+        case('13') : result = '임차인(별지)점유, 기타점유'
+            break;
+        default : result = ""
+            break;
+    }
+
+    return result;
+}
+
+/**
+ * 부동산표시목록 탭 클릭시 부동산표시목록을 조회
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.07.27.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.tac_curstExmnRletIndct_onchange = function(tabID,idx,userTabID) {
+    if (idx === 1) {
+        let obj = {
+        "dataObject": {"type" : "json",
+                "name" : "param",
+                "data" : {
+                    pgmId : scwin.pgmId,
+                    cortOfcCd : scwin.baseCsInfo.cortOfcCd,
+                    csNo : scwin.baseCsInfo.csNo,
+                    ordTsCnt : scwin.baseCsInfo.ordTsCnt,
+                }
+            }
+        };
+    wfm_rletIndctLst.setSrc('/pgj/ui/pgj100/PGJ15BP02.xml',obj)
+    }
+};
+
+/**
+ * 인쇄하기 버튼 클릭시 해당 화면 프린트
+ *
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.07.27.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+  scwin.printEvent = function(e) {
+    document.body.scrollTop = 0;
+    let paramJSON = {};
+    paramJSON.html = document.getElementById($p.getComponentById('grp_contests').id).innerHTML;
+
+	var dataObject = {
+			type : "json",
+			data : paramJSON,
+			name : "paramObj"
+	};
+
+    /* default popup size */
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+    const popupW = 1200;
+    const popupH = 700;
+
+    const popupX = (winW / 2) - (popupW / 2);
+    const popupY = (winH / 2) - (popupH / 2);
+
+	// 팝업의 옵션
+	var options = {
+			id: 'print',					// 팝업ID
+			type: "browserPopup",			// 팝업 타입(wframePopup,browserPopup)
+			width: popupW,				// 팝업 가로사이즈
+			height: popupH,			// 팝업 세로사이즈
+			top: popupY,					// 팝업 top위치
+			left: popupX,				// 팝업 left위치
+			popupName: "프린트",				// 팝업 Name
+			modal: false,					// 부모창이 안움직임(true)/부모창이 움직임(false)
+			useIFrame: true,
+			dataObject : dataObject
+	};
+
+	$p.openPopup("/pgj/ui/pgj100/PGJPrintContainer.xml", options);
+};
+
+/**
+ * 중복병합사건 select콤보박스 선택시 해당 사건번호 현황조사서 조회
+ *
+ *  (명령회차수가 0일경우 경고창 띄움)
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2023.07.27.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.sbx_curstExmnDpcnMrgCs_onchange = function(info) {
+
+    const value = info.newValue.split('_');
+    /*
+     * value[0] -> 사건번호
+     * value[1] -> 명령회차수
+     */
+    console.log("value ==>",value);
+
+    const chk = scwin.baseCsInfo.csNo;
+    console.log("chk ==>",chk)
+
+    if(chk == value[0]) return;
+    const csNo = value[0];
+    if (value[1]>0) {
+        dma_srchCurstExmn.set("csNo", csNo);
+        com.executeSubmission(sbm_selectCurstExmn);
+    } else {
+        scutilo.showMsg(scglblo.MSG.WARN,scutilo.getMsg(pgjmsg.PGJ.W_0059,'현황조사서'));
+    }
+};
+
+/**
+ * 명령최차수 콤보박스 변경시 조회
+ *
+ *  (명령회차수가 0일경우 경고창 띄움)
+ * ============= ============ ==========================
+ *  Date          Author       Description
+ * ============= ============ ==========================
+ *  2024.10.15.   나해준       [NELS]최초 생성
+ * ============= ============ ==========================
+ */
+scwin.sbx_curstExmnOrdTs_onchange = function(info) {
+    if(scwin.schYn == "Y"){
+        const value = info.newValue;
+        if (value > 0) {
+            dma_srchCurstExmn.setJSON({
+                cortOfcCd : scwin.baseCsInfo.cortOfcCd,
+                csNo : scwin.baseCsInfo.userCsNo,
+                auctnInfOriginDvsCd :'2',
+                ordTsCnt : value
+            })
+            com.executeSubmission(sbm_selectCurstExmn);
+        } else {
+            scutilo.showMsg(scglblo.MSG.WARN,scutilo.getMsg(pgjmsg.PGJ.W_0059,'현황조사서'));
+        }
+    }
+};
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+        <xf:group class="pop_contents user" id="grp_contests" style="">
+            <xf:group class="shbox" id="" style="">
+                <xf:group class="shbox_inner" id="" style="">
+                    <xf:group class="w2tb" id="" style="width:100%;" tagname="table">
+                    	<w2:attributes>
+                    		<w2:summary></w2:summary>
+                    	</w2:attributes>
+                    	<xf:group tagname="caption"></xf:group>
+                    	<xf:group tagname="colgroup">
+                    		<xf:group style="width:100px;" tagname="col"></xf:group>
+                    		<xf:group style="" tagname="col"></xf:group>
+                    		<xf:group style="width:100px;" tagname="col"></xf:group>
+                    		<xf:group style="" tagname="col"></xf:group>
+                    	</xf:group>
+                    	<xf:group tagname="tr" style="display:flex !important;">
+                    		<xf:group class="w2tb_th" style="" tagname="th">
+                    			<w2:attributes>
+                    				<w2:scope>row</w2:scope>
+                    			</w2:attributes>
+                    			<w2:textbox id="" label="법원" style=""></w2:textbox>
+                    		</xf:group>
+                    		<xf:group class="w2tb_td" style="" tagname="td">
+                    			<w2:span class="txt" id="spn_curstExmnCortOfcTitle" label="서울중앙지방법원" style=""></w2:span>
+                    		</xf:group>
+                    		<xf:group class="w2tb_th" style="" tagname="th">
+                    			<w2:attributes>
+                    				<w2:scope>row</w2:scope>
+                    			</w2:attributes>
+                    			<w2:textbox id="" label="명령회차" style=""></w2:textbox>
+                    		</xf:group>
+                    		<xf:group class="w2tb_td" style="" tagname="td">
+                    			<xf:select1 allOption="" appearance="minimal" chooseOption="" class="sel" direction="auto" disabled="false"
+                    				disabledClass="w2selectbox_disabled" id="sbx_curstExmnOrdTs" ref="" renderType="select"
+                    				style="width:100%;max-width:80px;" submenuSize="auto" title="명령회차 선택"
+                    				ev:onchange="scwin.sbx_curstExmnOrdTs_onchange">
+                    				<xf:choices></xf:choices>
+                    			</xf:select1>
+                    			<w2:span class="txt" id="" label="회" style=""></w2:span>
+                    		</xf:group>
+                    		<xf:group class="w2tb_th" style="" tagname="th" id="th_curstExmnDpcnMrgCs">
+                    			<w2:attributes>
+                    				<w2:scope>row</w2:scope>
+                    			</w2:attributes>
+                    			<w2:textbox id="" label="중복병합사건" style=""></w2:textbox>
+                    		</xf:group>
+                    		<xf:group class="w2tb_td" style="" tagname="td" id="td_curstExmnDpcnMrgCs">
+                    			<w2:attributes>
+                    				<w2:scope>row</w2:scope>
+                    			</w2:attributes>
+                    			<xf:select1 allOption="" appearance="minimal" chooseOption="" class="sel" direction="auto" disabled="false"
+                    				disabledClass="w2selectbox_disabled" id="sbx_curstExmnDpcnMrgCs" ref=""
+                    				renderType="select" style="width:100%;max-width:270px;" submenuSize="auto" title="중복병합사건 선택" ev:onviewchange="scwin.sbx_curstExmnDpcnMrgCs_onchange">
+                    				<xf:choices></xf:choices>
+                    			</xf:select1>
+                    		</xf:group>
+                    	</xf:group>
+                    </xf:group>
+                </xf:group>
+            </xf:group>
+            <w2:tabControl useTabKeyOnly="false" id="tac_curstExmnRletIndct" useMoveNextTabFocus="false" useConfirmMessage="false" confirmTrueAction="exist"
+                confirmFalseAction="new" alwaysDraw="false" style="" class="inner_tab_type2" ev:onchange="scwin.tac_curstExmnRletIndct_onchange">
+                <w2:tabs disabled="false" style="" id="tabs1" label="현황조사내역" title="선택됨"></w2:tabs>
+                <w2:tabs disabled="false" style="" id="tabs2" label="부동산표시목록" title="선택됨"></w2:tabs>
+                <w2:content alwaysDraw="false" style="" id="content1">
+                    <xf:group class="stbox" id="" style="">
+                        <w2:textbox class="frm_title" id="" label="기본정보" style="" tagname="h3"></w2:textbox>
+                    </xf:group>
+                    <xf:group adaptive="layout" class="w2tb tb_ty1 mb30" id="" style="width:100%;" tagname="table">
+                        <w2:attributes>
+                            <w2:summary>기본정보(사건번호, 조사일시)</w2:summary>
+                        </w2:attributes>
+                        <xf:group tagname="caption"></xf:group>
+                        <xf:group tagname="colgroup">
+                            <xf:group style="width:150px;" tagname="col"></xf:group>
+                            <xf:group style="" tagname="col"></xf:group>
+                            <xf:group style="width:150px;" tagname="col"></xf:group>
+                            <xf:group style="" tagname="col"></xf:group>
+                        </xf:group>
+                        <xf:group tagname="tr">
+                            <xf:group class="w2tb_th" style="" tagname="th">
+                                <w2:attributes>
+                                    <w2:scope>row</w2:scope>
+                                </w2:attributes>
+                                <w2:textbox id="" label="사건번호" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_td" style="" tagname="td">
+                                <w2:attributes>
+                                    <w2:colspan>3</w2:colspan>
+                                    <w2:rowspan>1</w2:rowspan>
+                                </w2:attributes>
+                                <w2:span class="txt" id="sbx_curstExmnBaseCsNo" label="" style=""></w2:span>
+                            </xf:group>
+                        </xf:group>
+                        <xf:group style="" tagname="tr" id="grp_exmnDt">
+                            <xf:group class="w2tb_th" style="" tagname="th">
+                                <w2:attributes>
+                                    <w2:scope>row</w2:scope>
+                                </w2:attributes>
+                                <w2:textbox id="" label="조사일시" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_td" style="" tagname="td">
+                                <w2:attributes>
+                                    <w2:colspan>3</w2:colspan>
+                                    <w2:rowspan>1</w2:rowspan>
+                                </w2:attributes>
+                                <w2:span class="txt" id="spn_exmnDt" label="" style=""
+                                    escape="false">
+                                </w2:span>
+                            </xf:group>
+                        </xf:group>
+                    </xf:group>
+                    <xf:group class="stbox" id="" style="">
+                        <w2:textbox label="부동산임대차정보" style="" id="" tagname="h4" class="sub_title"></w2:textbox>
+                    </xf:group>
+                    <w2:gridView autoFit="allColumn" class="grid mb30" dataList="data:dlt_ordTsRlet" defaultCellHeight="20" id=""
+                        readOnly="true" scrollByColumn="false" scrollByColumnAdaptive="false" style="min-height:150px;" summary="부동산 임대차 정보" tengeMask=""
+                        tooltipDisplay="true" visibleRowNum="all" noResultMessage="검색결과가 없습니다" noResultMessageVisibleAlways="true" titleAuto="false" titleFormatter="scwin.titleFormatter">
+                        <w2:caption style="" id="caption1" value="this is a grid caption."></w2:caption>
+                        <w2:header style="" id="header1">
+                            <w2:row style="" id="row1">
+                                <w2:column removeBorderStyle="false" width="50" inputType="text" style="height:20px" id="column3" value="번호"
+                                    blockSelect="false" displayMode="label">
+                                </w2:column>
+                                <w2:column removeBorderStyle="false" width="250" inputType="text" style="height:20px" id="column2"
+                                    value="소재지" blockSelect="false" displayMode="label">
+                                </w2:column>
+                                <w2:column removeBorderStyle="false" width="100" inputType="text" style="height:20px" id="column1"
+                                    value="임대차관계" blockSelect="false" displayMode="label">
+                                </w2:column>
+                            </w2:row>
+                        </w2:header>
+                        <w2:gBody style="" id="gBody1">
+                            <w2:row style="" id="row2">
+                                <w2:column removeBorderStyle="false" width="50" inputType="text" style="height:20px" id="objctSeq" value=""
+                                    blockSelect="false" displayMode="label">
+                                </w2:column>
+                                <w2:column removeBorderStyle="false" width="250" inputType="text" style="height:20px" id="printSt" value=""
+                                    blockSelect="false" displayMode="label" class="al">
+                                </w2:column>
+                                <w2:column removeBorderStyle="false" width="100" inputType="text" style="height:20px" id="lesCnt" value=""
+                                    blockSelect="false" displayMode="label" displayFormat="명">
+                                </w2:column>
+                            </w2:row>
+                        </w2:gBody>
+                    </w2:gridView>
+                    <xf:group class="stbox mb50" id="" style="">
+
+                        <w2:textbox class="sub_title" id="" label="사진정보" style="" tagname="h4"></w2:textbox>
+                        <xf:group style="display:inline-block;vertical-align:top;" id="" class="ml10">
+                            <w2:span label="" style="" id="spn_picCnt" class="txt"></w2:span>
+                            <xf:trigger type="button" style="" id="btn_showPicPopUp" class="btn_cm bt_brow ml15"
+                                ev:onclick="scwin.btn_showPicPopUp_onclick">
+                                <xf:label><![CDATA[사진보기]]></xf:label>
+                            </xf:trigger>
+                        </xf:group>
+
+                    </xf:group>
+                    <xf:group class="stbox" id="" style="">
+                        <w2:textbox class="frm_title" id="" label="부동산의 현황 및 점유관계 조사서" style="" tagname="h3"></w2:textbox>
+                    </xf:group>
+                    <xf:group class="stbox" id="" style="">
+                        <w2:textbox class="sub_title" id="" label="1. 부동산의 점유관계" style="" tagname="h4"></w2:textbox>
+                    </xf:group>
+                    <w2:generator style="" id="gen_possMng" class="w2tb tb_ty1 mb30" tagname="div">
+                    	<xf:group class="w2tb tb_ty1 mb30" id="" style="width:100%;" tagname="table"><xf:group tagname="caption">부동산 점유관계(소재지, 점유관계, 기타)</xf:group><xf:group tagname="colgroup">
+                    		<xf:group style="width:150px;" tagname="col"></xf:group>
+                    		<xf:group style="" tagname="col"></xf:group>
+                    	</xf:group><xf:group tagname="tr">
+                    		<xf:group class="w2tb_th" style="" tagname="th">
+                    			<w2:attributes>
+                    				<w2:scope>row</w2:scope>
+                    			</w2:attributes>
+                    			<w2:textbox id="" label="소재지" style=""></w2:textbox>
+                    		</xf:group>
+                    		<xf:group class="w2tb_td" style="" tagname="td">
+                    			<w2:span class="txt" id="spn_possMngSt" label="" style=""></w2:span>
+                    		</xf:group>
+                    	</xf:group><xf:group tagname="tr" style="">
+                    		<xf:group class="w2tb_th" style="" tagname="th">
+                    			<w2:attributes>
+                    				<w2:scope>row</w2:scope>
+                    			</w2:attributes>
+                    			<w2:textbox id="" label="점유관계" style=""></w2:textbox>
+                    		</xf:group>
+                    		<xf:group class="w2tb_td" style="" tagname="td">
+                    			<w2:span class="txt" id="spn_possMngRltn" label="" style=""></w2:span>
+                    		</xf:group>
+                    	</xf:group><xf:group tagname="tr" style="">
+                    		<xf:group class="w2tb_th" style="" tagname="th">
+                    			<w2:attributes>
+                    				<w2:scope>row</w2:scope>
+                    			</w2:attributes>
+                    			<w2:textbox id="" label="기타" style=""></w2:textbox>
+                    		</xf:group>
+                    		<xf:group class="w2tb_td" style="" tagname="td">
+                    			<w2:textbox label="" style="" id="spn_possMngEtc" class="txt" escape="false">
+                    			</w2:textbox>
+                    		</xf:group>
+                    	</xf:group></xf:group>
+
+
+
+
+
+
+                    </w2:generator>
+                    <xf:group id="grp_rletCurstCtt"><xf:group style="" id="" class="stbox">
+                        <w2:textbox tagname="h4" style="" id="" label="2. 부동산의 현황" class="sub_title"></w2:textbox>
+                    </xf:group><xf:group style="" id="" class="sumbox mb50">
+                        <xf:group tagname="ul" style="" id="" class="sum_list">
+                            <xf:group tagname="li" style="" id="">
+                                <w2:textbox style="" id="tbx_rletCurstCtt" label="" class="" escape="false"></w2:textbox>
+                            </xf:group>
+                        </xf:group>
+                    </xf:group></xf:group><xf:group class="stbox" id="ordTsLserLtn1" style="">
+                        <w2:textbox class="frm_title" id="" label="임대차관계 조사서" style="" tagname="h3"></w2:textbox>
+                    </xf:group>
+                    <xf:group class="stbox" id="ordTsLserLtn2" style="">
+                        <w2:textbox class="sub_title" id="" label="1. 임차 목적물의 용도 및 임대차 계약 등의 내용" style="" tagname="h4"></w2:textbox>
+                    </xf:group>
+
+                    <w2:generator style="" id="gen_tmprDbcdCtrtCtt" class="over_x" tagname="div">
+                        <xf:group style="width:100%;" id="" class="w2tb tb_ty1 mb30" tagname="table"><xf:group tagname="caption">
+                            임차 목적물의 용도 및 임대차 계약 등의 내용 목록(소재지, 번호, 점유인, 당사자구분, 점유부분, 용도, 점유기간, 보증(전세)금, 차임, 전입일자, 확정일자)
+                        </xf:group><xf:group tagname="colgroup">
+                            <xf:group tagname="col" style="width:120px;"></xf:group>
+                            <xf:group tagname="col" style="width:160px;"></xf:group>
+                            <xf:group tagname="col" style=""></xf:group>
+                            <xf:group tagname="col" style="width:160px;"></xf:group>
+                            <xf:group tagname="col" style=""></xf:group>
+                        </xf:group><xf:group tagname="tr" id="grp_tmprDbcdTitle">
+                            <xf:group tagname="td" style="" class="w2tb_td">
+                                <w2:attributes>
+                                    <w2:scope>row</w2:scope>
+                                    <w2:colspan>5</w2:colspan>
+                                    <w2:rowspan>1</w2:rowspan>
+                                </w2:attributes>
+                                <w2:span class="txt" id="spn_tmprDbcdTitle" label="" style=""></w2:span>
+                            </xf:group>
+                        </xf:group><xf:group tagname="tr" style="">
+                            <xf:group class="w2tb_th ac" style="" tagname="th">
+                                <w2:attributes>
+                                    <w2:scope>row</w2:scope>
+                                    <w2:colspan>1</w2:colspan>
+                                    <w2:rowspan>5</w2:rowspan>
+                                </w2:attributes>
+                                <w2:textbox id="spn_possSeq" label="" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_th" style="" tagname="th">
+                                <w2:textbox id="" label="점유인" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_td" style="" tagname="td">
+                                <w2:attributes>
+                                    <w2:scope>row</w2:scope>
+                                </w2:attributes>
+                                <w2:span class="txt" id="spn_possPerson" label="" style=""></w2:span>
+                            </xf:group>
+                            <xf:group class="w2tb_th" style="" tagname="th">
+                                <w2:textbox id="" label="당사자구분" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_td" style="" tagname="td">
+                                <w2:attributes>
+                                    <w2:scope>col</w2:scope>
+                                </w2:attributes>
+                                <w2:span class="txt" id="spn_btprtDvs" label="" style=""></w2:span>
+                            </xf:group>
+                        </xf:group><xf:group style="" tagname="tr">
+                            <xf:group class="w2tb_th" style="" tagname="th">
+                                <w2:textbox id="" label="점유부분" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_td" style="" tagname="td">
+                                <w2:attributes>
+                                    <w2:scope>row</w2:scope>
+                                </w2:attributes>
+                                <w2:span class="txt" id="spn_possPart" label="" style=""></w2:span>
+                            </xf:group>
+                            <xf:group class="w2tb_th" style="" tagname="th">
+                                <w2:textbox id="" label="용도" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_td" style="" tagname="td">
+                                <w2:attributes>
+                                    <w2:scope>col</w2:scope>
+                                </w2:attributes>
+                                <w2:span class="txt" id="spn_possUsgNm" label="" style=""></w2:span>
+                            </xf:group>
+                        </xf:group><xf:group style="" tagname="tr">
+                            <xf:group class="w2tb_th" style="" tagname="th">
+                                <w2:textbox id="" label="점유기간" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_td" style="" tagname="td">
+                                <w2:attributes>
+                                    <w2:scope>row</w2:scope>
+                                    <w2:colspan>3</w2:colspan>
+                                    <w2:rowspan>1</w2:rowspan>
+                                </w2:attributes>
+                                <w2:span class="txt" id="spn_possPerd" label="" style=""></w2:span>
+                            </xf:group>
+                        </xf:group><xf:group style="" tagname="tr">
+                            <xf:group class="w2tb_th" style="" tagname="th">
+                                <w2:textbox id="" label="보증(전세)금" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_td" style="" tagname="td">
+                                <w2:attributes>
+                                    <w2:scope>row</w2:scope>
+                                </w2:attributes>
+                                <w2:span class="txt" id="spn_dpos" label="" style=""></w2:span>
+                            </xf:group>
+                            <xf:group class="w2tb_th" style="" tagname="th">
+                                <w2:textbox id="" label="차임" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_td" style="" tagname="td">
+                                <w2:attributes>
+                                    <w2:scope>col</w2:scope>
+                                </w2:attributes>
+                                <w2:span class="txt" id="spn_mmrntAmt" label="" style=""></w2:span>
+                            </xf:group>
+                        </xf:group><xf:group style="" tagname="tr">
+                            <xf:group class="w2tb_th" style="" tagname="th">
+                                <w2:textbox id="" label="전입일자" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_td" style="" tagname="td">
+                                <w2:attributes>
+                                    <w2:scope>row</w2:scope>
+                                </w2:attributes>
+                                <w2:span class="txt" id="spn_mvinYmd" label="" style=""></w2:span>
+                            </xf:group>
+                            <xf:group class="w2tb_th" style="" tagname="th">
+                                <w2:textbox id="" label="확정일자" style=""></w2:textbox>
+                            </xf:group>
+                            <xf:group class="w2tb_td" style="" tagname="td">
+                                <w2:attributes>
+                                    <w2:scope>col</w2:scope>
+                                </w2:attributes>
+                                <w2:span class="txt" id="spn_cfmtnYmd" label="" style=""></w2:span>
+                            </xf:group>
+                        </xf:group></xf:group>
+
+
+
+
+
+
+
+                    </w2:generator>
+                    <xf:group class="stbox" id="ordTsLserLtn3" style="">
+                        <w2:textbox class="sub_title" id="" label="2. 기타" style="" tagname="h4"></w2:textbox>
+                    </xf:group>
+                    <xf:group class="sumbox" id="ordTsLserLtn4" style="">
+                        <xf:group class="sum_list" id="" style="" tagname="ul">
+                            <xf:group id="" style="" tagname="li">
+                                <w2:textbox class="" id="tbx_posEtcCtt" label="" style="" escape="false"></w2:textbox>
+                            </xf:group>
+                        </xf:group>
+                    </xf:group>
+                </w2:content>
+                <w2:content alwaysDraw="false" style="" id="content2">
+                    <w2:wframe style="" id="wfm_rletIndctLst"></w2:wframe>
+                </w2:content>
+            </w2:tabControl>
+            </xf:group>
+        <xf:group class="btn_group" id="" style="">
+            <xf:trigger class="btn_cm lg bt_print" disabled="" id="trigger1" style="" title="인쇄하기" type="button" ev:onclick="scwin.printEvent">
+                <xf:label><![CDATA[인쇄하기]]></xf:label>
+            </xf:trigger>
+            <xf:trigger anchorWithGroupClass="" class="btn_cm lg w2window_close" disabled="" id="" style="" title="팝업창 닫기" type="button">
+                <xf:label><![CDATA[닫기]]></xf:label>
+            </xf:trigger>
+            <xf:image id="" src="/pgj/cm/images/contents/logo.png" alt="대한민국 법원 법원경매정보제공 로고" style="width:135px;height:30px;margin-top: 8px;float:left;"></xf:image>
+        </xf:group>
+    </body>
+</html>

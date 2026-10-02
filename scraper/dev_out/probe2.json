@@ -1,5 +1,5 @@
 {
- "started": "2026-10-02 16:59:54",
+ "started": "2026-10-02 17:03:52",
  "steps": {
   "mcl_options": [
    "중분류",
@@ -61,106 +61,969 @@
    ]
   },
   "has_req": true,
-  "tests": {
-   "여주 base": {
-    "total": "0",
-    "group": 0,
-    "ok": true,
-    "reason": null
-   },
-   "여주 +60": {
-    "total": "411",
-    "group": 164,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 end+14": {
-    "total": "616",
-    "group": 552,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 end+30": {
-    "total": "775",
-    "group": 680,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 end+45": {
-    "total": "775",
-    "group": 680,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 end+60": {
-    "total": "775",
-    "group": 680,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 end+90": {
-    "total": "775",
-    "group": 680,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 end+180": {
-    "total": "775",
-    "group": 680,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 end+365": {
-    "total": "775",
-    "group": 680,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 begin-30 end+14": {
-    "total": "616",
-    "group": 552,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 bidDvs='' end+60": {
-    "total": "775",
-    "group": 680,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 기간입찰 000332 end+60": {
-    "total": "0",
-    "group": 0,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 건물만(lcl=20000) end+60": {
-    "total": "746",
-    "group": 652,
-    "ok": true,
-    "reason": null
-   },
-   "중앙 주거용(mcl=20100) end+60": {
-    "total": "576",
-    "group": 511,
-    "ok": true,
-    "reason": null
-   },
-   "전체법원 end+60": {
-    "total": "39165",
-    "group": 23511,
-    "ok": true,
-    "reason": null
-   }
-  },
-  "raw2": 200,
+  "tests": {},
   "detail_target": {
    "srnSaNo": "2008타경25092",
    "maemulSer": "1",
    "docid": "B0002102008013002509213",
    "printSt": "서울특별시 성북구 정릉동 508-123 1층102호"
   },
-  "detail_error": "gdsDtlSrchResult_cell_0_0\" class=\"gridBodyDefault gridBodyDefault_data mf_wfm_mainFrame_grd_gdsDtlSrchResult_columnstyle_0_ gridNative\">…</td> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <td rowspan=\"2\" data-tdindex=\"0\" data-colindex=\"0\" data-colmerged=\"0\" data-or_bgcolor=\"\" data-colmerge=\"true\" data-readonly=\"false\" data-col_id=\"checkBox\" data-inputtype=\"checkbox\" data-style_bak=\"text-align:center\" id=\"mf_wfm_mainFrame_grd_gdsDtlSrchResult_cell_0_0\" class=\"gridBodyDefault gridBodyDefault_data mf_wfm_mainFrame_grd_gdsDtlSrchResult_columnstyle_0_ gridNative\">…</td> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    29 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <td rowspan=\"2\" data-tdindex=\"0\" data-colindex=\"0\" data-colmerged=\"0\" data-or_bgcolor=\"\" data-colmerge=\"true\" data-readonly=\"false\" data-col_id=\"checkBox\" data-inputtype=\"checkbox\" data-style_bak=\"text-align:center\" id=\"mf_wfm_mainFrame_grd_gdsDtlSrchResult_cell_0_0\" class=\"gridBodyDefault gridBodyDefault_data mf_wfm_mainFrame_grd_gdsDtlSrchResult_columnstyle_0_ gridNative\">…</td> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n\n",
+  "res_rows": [
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "1",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "2",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "3",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "4",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "5",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "6",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "7",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "8",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "9",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "10",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "11",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "12",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "13",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "14",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2008타경25092",
+    "maemulSer": "15",
+    "spJogCd": "0004302,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "4"
+   },
+   {
+    "srnSaNo": "2011타경28497",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "2"
+   },
+   {
+    "srnSaNo": "2021타경103946",
+    "maemulSer": "3",
+    "spJogCd": "0004301,0004303",
+    "mulBigo": "",
+    "dspslUsgNm": "연립주택,다세대,빌라",
+    "yuchalCnt": "0"
+   },
+   {
+    "srnSaNo": "2023타경106314",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각",
+    "dspslUsgNm": "단독주택다가구",
+    "yuchalCnt": "1"
+   },
+   {
+    "srnSaNo": "2023타경106314",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각",
+    "dspslUsgNm": "단독주택다가구",
+    "yuchalCnt": "1"
+   },
+   {
+    "srnSaNo": "2023타경111613",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각. 제시외 건물 포함",
+    "dspslUsgNm": "다가구주택",
+    "yuchalCnt": "2"
+   },
+   {
+    "srnSaNo": "2023타경111613",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각. 제시외 건물 포함",
+    "dspslUsgNm": "다가구주택",
+    "yuchalCnt": "2"
+   },
+   {
+    "srnSaNo": "2023타경113350",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "1"
+   },
+   {
+    "srnSaNo": "2023타경116182",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각",
+    "dspslUsgNm": "단독주택다가구",
+    "yuchalCnt": "1"
+   },
+   {
+    "srnSaNo": "2023타경116182",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각",
+    "dspslUsgNm": "단독주택다가구",
+    "yuchalCnt": "1"
+   },
+   {
+    "srnSaNo": "2024타경3597",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각. 제시외 건물 포함",
+    "dspslUsgNm": "상가,오피스텔,근린시설",
+    "yuchalCnt": "2"
+   },
+   {
+    "srnSaNo": "2024타경3597",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각. 제시외 건물 포함",
+    "dspslUsgNm": "상가,오피스텔,근린시설",
+    "yuchalCnt": "2"
+   },
+   {
+    "srnSaNo": "2024타경5319",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "",
+    "dspslUsgNm": "상가,오피스텔,근린시설",
+    "yuchalCnt": "1"
+   },
+   {
+    "srnSaNo": "2024타경5531",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "",
+    "dspslUsgNm": "아파트",
+    "yuchalCnt": "0"
+   },
+   {
+    "srnSaNo": "2024타경6169",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각. 제시외 건물 포함",
+    "dspslUsgNm": "단독주택",
+    "yuchalCnt": "1"
+   },
+   {
+    "srnSaNo": "2024타경6169",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각. 제시외 건물 포함",
+    "dspslUsgNm": "단독주택",
+    "yuchalCnt": "1"
+   },
+   {
+    "srnSaNo": "2024타경100474",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "",
+    "dspslUsgNm": "다세대",
+    "yuchalCnt": "0"
+   },
+   {
+    "srnSaNo": "2024타경100474",
+    "maemulSer": "2",
+    "spJogCd": "",
+    "mulBigo": "일괄매각, 지분매각",
+    "dspslUsgNm": "연립주택",
+    "yuchalCnt": "0"
+   },
+   {
+    "srnSaNo": "2024타경100474",
+    "maemulSer": "2",
+    "spJogCd": "",
+    "mulBigo": "일괄매각, 지분매각",
+    "dspslUsgNm": "연립주택",
+    "yuchalCnt": "0"
+   },
+   {
+    "srnSaNo": "2024타경100474",
+    "maemulSer": "2",
+    "spJogCd": "",
+    "mulBigo": "일괄매각, 지분매각",
+    "dspslUsgNm": "연립주택",
+    "yuchalCnt": "0"
+   },
+   {
+    "srnSaNo": "2024타경100474",
+    "maemulSer": "2",
+    "spJogCd": "",
+    "mulBigo": "일괄매각, 지분매각",
+    "dspslUsgNm": "연립주택",
+    "yuchalCnt": "0"
+   },
+   {
+    "srnSaNo": "2024타경100474",
+    "maemulSer": "2",
+    "spJogCd": "",
+    "mulBigo": "일괄매각, 지분매각",
+    "dspslUsgNm": "연립주택",
+    "yuchalCnt": "0"
+   },
+   {
+    "srnSaNo": "2024타경101026",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각",
+    "dspslUsgNm": "단독주택다가구",
+    "yuchalCnt": "2"
+   },
+   {
+    "srnSaNo": "2024타경101026",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "일괄매각",
+    "dspslUsgNm": "단독주택다가구",
+    "yuchalCnt": "2"
+   },
+   {
+    "srnSaNo": "2024타경102999",
+    "maemulSer": "1",
+    "spJogCd": "",
+    "mulBigo": "",
+    "dspslUsgNm": "다세대",
+    "yuchalCnt": "1"
+   },
+   {
+    "srnSaNo": "2024타경105561",
+    "maemulSer": "4",
+    "spJogCd": "",
+    "mulBigo": "매수신청보증금은 최저매각가격의 20%",
+    "dspslUsgNm": "다세대",
+    "yuchalCnt": "4"
+   }
+  ],
+  "detail_url": "https://www.courtauction.go.kr/pgj/index.on?w2xPath=/pgj/ui/pgj100/PGJ151F00.xml",
+  "detail_text": "본문 바로가기\n주메뉴로 바로가기\n대한민국 법원 경매정보\n로그인\n회원가입\n아이디/비밀번호 찾기\n사이트맵\n경매공고\n공지사항\n배당요구종기공고\n부동산매각공고\n동산매각공고\n최고공고\n경매물건\n물건상세검색\n지도검색\n기일별검색\n자동차·중기검색\n다수조회물건\n다수관심물건\n매각예정물건\n매각결과검색\n경매사건검색\n매각통계\n연도별매각통계\n법원별매각통계\n지역별매각통계\n용도별매각통계\n경매지식\n경매절차\n부동산경매\n동산경매\n임차인(주택/상가)\n경매용어\n경매서식\n입찰안내\n매수신청대리안내\n경매비용\n관련법률\n주택임대차\n상가임대차\n종합법률정보\n이용안내\n제공서비스\n집행기관\n경매법원\n집행관사무소\n등기소\n사이트이용안내\nFAQ\n사이트맵\n나의경매\n회원정보관리\n회원정보수정\n회원탈퇴\n일정관리\n관심물건\n관심사건\n자주쓰는검색\n나의설정\n관심분류\n자주쓰는메뉴\n나의동산집행정보\n나의경매정보이관\n경매물건\n물건상세검색\n지도검색\n기일별검색\n자동차·중기검색\n다수조회물건\n다수관심물건\n매각예정물건\n매각결과검색\n경매사건검색\n물건상세검색\nHOME\n경매물건\n물건상세검색\n검색조건 을(를) 나타낸 표\n검색조건\n법원서울중앙지방법원\n사건번호2008타경25092\n물건기본정보\n사건번호,물건번호,물건종류,감정평가액,최저매각가격 (매수신청보증금),입찰방법,매각기일,물건비고,담당 을(를) 나타낸 표\n사건번호\n\t2008타경25092\t\n물건번호\n\t1\t\n물건종류\n\t아파트\n\n감정평가액\n\t194,000,000원\t\n최저매각가격\n(매수신청보증금)\n\t99,328,000원\n(9,932,800원)\t\n입찰방법\n\t기일입찰\n\n매각기일\n\t2026.10.15 10:00 경매법정(제4별관211호)\n\n물건비고\n\t\n\n\n목록3 소재지\n\t(아파트) 서울특별시 성북구 정릉동 508-123 1층102호\n\n\n담당\n\t서울중앙지방법원| 경매2계\n사건접수,경매개시일,배당요구종기,청구금액 을(를) 나타낸 표\n사건접수\n\t2008.08.26\t\n경매개시일\n\t2008.08.27\n\n배당요구종기\n\t2008.11.28\t\n청구금액\n\t827,912,378원\n\n\t\n\n등기기록 열람 아이콘(아이콘모양)이 나오지 않는 소재지번은 부동산목록 입력 시 등기고유번호가 입력되지 않은 경우입니다.(등기기록 열람은 인터넷등기소와 연계한 유료서비스 입니다)\n\n전자지도 보기 정보는 입찰자를 위해 제공되는 참고자료로서 지도제공업체의 사정에 따라 부정확한 정보가 제공될 수 있습니다. 입찰시에는 반드시 현장조사 등으로 물건소재를 확인하신 후 응찰하시기 바랍니다.\n\n씨:리얼(토지이용계획) 정보는 현행 행정구역을 기준으로 제공되는 정보이므로 물건의 등기사항전부증명서 상의 소재지가 과거의 것인 경우 제공되지 않을 수 있습니다.\n\n기일내역\n기일,기일종류,기일장소,최저매각가격,기일결과 을(를) 나타낸 표\n기일\t기일종류\t기일장소\t최저매각가격\t기일결과\n2015.12.22 (10:00)\t매각기일\t4별관 211호 경매법정\t169,000,000원\t유찰\n2026.06.25 (10:00)\t매각기일\t경매법정(제4별관211호)\t194,000,000원\t유찰\n2026.07.30 (10:00)\t매각기일\t경매법정(제4별관211호)\t155,200,000원\t유찰\n2026.09.03 (10:00)\t매각기일\t경매법정(제4별관211호)\t124,160,000원\t유찰\n2026.10.15 (10:00)\t매각기일\t경매법정(제4별관211호)\t99,328,000원\t\n2026.10.22 (14:00)\t매각결정기일\t배당법정(제4별관 3층 7호)\t\t\n\t\n\t\n목록내역\n목록번호,목록구분,상세내역 을(를) 나타낸 표\n목록번호\t목록구분\t상세내역\n3\t집합건물\t1동의 건물의 표시\n    서울특별시 성북구 정릉동 508-123\n    서울특별시 성북구 정릉동 508-124\n    철근콘크리트조 평스라브지붕 5층 아파트\n    지하1층 509.58㎡\n        1층 315.68㎡\n        2층 315.68㎡\n        3층 315.68㎡\n        4층 315.68㎡\n        5층 238.13㎡\n    옥탑1층  27.60㎡\n    옥탑2층   7.68㎡\n\n\n전유부분의 건물의 표시 \n    건물의 번호 : 1층102호\n    구          조 : 철근콘크리트조\n    면          적 : 67.87㎡\n\n대지권의 목적인 토지의 표시\n    토 지 의  표시 : 3. 서울특별시성북구정릉동508-123\n                            대 254㎡\n                         4. 서울특별시성북구정릉동508-124\n                            대 298㎡\n    대지권의 종류:3. 소유권\n                         4. 소유권\n    대지권의 비율:3. 1362.83 분의 67.87\n                         4. 1362.83 분의 67.87\n\n\t\n\t\n\n목록구분이 집합건물 혹은 건물이고 도로명주소가 부여된 목록의 경우 상세내역 주소표기는 지번주소와 도로명주소 병기표기를 원칙으로 하며, 이는 부동산등기기록의 표기형식을 준용한 것입니다.\n\n감정평가요항표 요약\n1. 토지감정요항표\n1) 위치 및 주위환경\n본건은 서울특별시 성북구 정릉동 소재 \"스카이단지\" 내에 위치하며,\n주변은 일반주택지대로서, 단독주택, 공동주택, 임야등이 소재함.\n2) 교통상황\n본건까지 차량 접근 가능하고 도보로 인근에 마을버스정류장이 소재하며, 운행상태 등으로\n보아 대중교통사정은 보통시됨.\n3) 형태 및 이용상태\n본건은 완경사 부정형 토지로서, 현황 주거용(아파트) 대지임. 일부 약 28㎡은 현황도로임.\n\n4) 인접 도로상태\n본건은 세각(가)로서 북측으로 로폭 약 4 미터, 남서측으로 로폭 약 6미터의 도로 등에\n접함.\n5) 토지이용계획 및 제한상태\n도시지역, 제1종일반주거지역, 대공방어협조구역, 제한보호구역, 토지거래계약에관한허가구역\n6) 제시목록 외의 물건\n-.\n7) 공부와의 차이\n기호(1) ,(2) 지상에 건물등기부 등본 및 일반건축물대장상 건축물이 등재되어있으나 현황은 철거되어 멸실후 구분건물신축상태임.\n기호(2)는 지적도상 전체가 대지이나, 약 28㎡은 현황 도로임.(지적도 참조)\n8) 기타참고사항(임대관례 및 기타)\n기호(1), (2)는 현재 구분건물이 위치해있으나 현재 멸실된 구건물의 건물등기부등본 및\n일반건축물대장이 아직 정리되지 않았기에 경매진행시 이를 참고바람니다.\n임대관계 미상임.\n2. 구분건물감정평가요항표\n1) 위치 및 주위환경\n본건은 서울특별시 성북구 정릉동 소재 &quot;성북참요양병원&quot; 북서측 인근에 위치하며, 주변은 단독 및 다세대연립주택, 공원, 근린생활시설 등이 혼재하는 지역으로 제반 주위환경은 보통임.\n2) 위치 및 주위환경\n본건은 서울특별시 성북구 정릉동 소재 \"스카이단지\" 내에 위치하며,\n주변은 일반주택지대로서, 단독주택, 공동주택, 임야등이 소재함.\n3) 교통상황\n본건까지 차량 진출입이 가능하고, 인근에 노선버스 정류장이 소재하는 등 제반 교통상황은 보통임.\n4) 교통상황\n본건까지 차량 접근 가능하고 인근에 마을버스정류장이 소재하며, 운행상태 등으로\n보아 대중교통사정은 보통시됨.\n\n5) 건물의 구조\n본건은 철근콘크리트조 평스라브지붕 5층 건물중 제1층 제102호외 로서\n외벽은 변색벽돌 치장쌓기 및 후면 드라이비트 마감\n내벽은 벽지마감 및 일부 타일붙임\n바닥은 장판 마감 및 일부 타일깔기\n창호는 하이샷시등 임.\n6) 건물의 구조\n본건은 철근콘크리트조 5층 건물 내, 제1층 제102호 외 14개호로서 외벽 : 치장벽돌붙임 마감 등, 창호 : 샷시 창호 등임.\n7) 이용상태\n본건은 등기사항전부증명서에 아파트로 기재되어 있음.\n8) 이용상태\n제1층 제102호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제1층 제103호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제1층 제104호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제2층 제202호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제2층 제203호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제2층 제204호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제3층 제302호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제3층 제303호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제3층 제304호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제4층 제401호 아파트(방3, 거실1, 주방1, 욕실1, 발코니3, 다용도실1)\n제4층 제402호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제4층 제403호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제4층 제404호 아파트(방3, 거실1, 주방1, 욕실2, 발코니2)\n제5층 제501호 아파트(방3, 거실1, 주방1, 욕실1, 발코니2, 다용도실1)\n제5층 제502호 아파트(방3, 거실1, 주방1, 욕실1, 발코니2, 다용도실1)\n제5층 제503호 아파트(방2, 거실1, 주방1, 욕실2, 발코니3)\n등으로 각각 이용중임.\n9) 설비내역\n기본적인 위생 및 급배수설비, 소방설비, 난방설비, 지하주차장설비 등이 구비되어 있음.\n10) 설비내역\n위생설비 갖추었으며, 도시가스보일러에 의한 개별난방임.\n1-2호라인에 엘레베이터 시설 갖추었으나 운행가능한지는 미확인됨.\n\n11) 토지의 형상 및 이용상태\n-.\n12) 토지의 형상 및 이용상태\n인접지 및 인접도로 대비 완경사지내 평탄하게 조성된 2필지 일단의 가장형 토지로서, 주거용 건부지로 이용중임.\n13) 인접 도로상태등\n-.\n\n14) 인접 도로상태등\n본건 남서측으로 7미터, 2미터 내외의 포장도로에 각각 접함.\n15) 토지이용계획 및 제한상태\n도시지역, 제1종일반주거지역, 대공방어협조구역, 제한보호구역,\n토지거래계약에관한허가구역\n\n16) 토지이용계획 및 제한상태\n기호 1),2) 각각 : 도시지역, 제1종일반주거지역, 가축사육제한구역<가축분뇨의 관리 및 이용에 관한 법률>, 대공방어협조구역(위탁고도:77-257m)<군사기지 및 군사시설 보호법>, 제한보호구역(후방지역:500m)<군사기지 및 군사시설 보호법>, 역사문화환경보존지역(2008-12-10)(자세한사항별도확인:문화체육과)<문화유산의 보존 및 활용에 관한 법률>, 과밀억제권역<수도권정비계획법>, 토지거래계약에관한허가구역(2025-08-21)(대상자: 외국인 등. 용도: 단독 다가구 아파트 연립 다세대. 지정기간: 2025.8.26.~2026.8.25.),토지거래계약에관한허가구역(2025-10-15)(허가대상 용도: 아파트. 지정기간: 2025.10.20.~2026.12.31.)임.\n17) 공부와의 차이\n1)기호(18) 제5층 제503호로 되어 있으나 현황 제504호로 표기되어 있음.\n2)본건 아파트의 집합건축물대장 없음.\n3)양지상에 현재 멸실된 구건물의 건물등기와 일반건축물관리대장 존재함.\n\n18) 공부와의 차이\n본건은 장기미준공 건물로서 집합건축물대장이 없음.\n19) 기타참고사항(임대관례 및 기타)\n임대관계 미상임.\n20) 기타참고사항(임대관례 및 기타)\n임대미상임.\n인근매각물건사례\n유의사항\n검색 결과 내의 물건관련 서류중에 매각물건명세서는 매각기일(입찰기간)이 열리기 1주 전부터, 현황조사서와 감정평가서는 2주 전부터 매각기일(입찰기간)까지 조회가 가능합니다.\n현황조사서는 지목, 건물 용도와 선박에 대해서만 작성됩니다.\n제공된 정보가 실제 매각물건의 정보와 일치하지 않거나 정보의 제공 이후 중요한 변동사항이 생길 수 있으므로, 매각물건의 내용을 법원에 비치된 물건명세서, 현황조사서 또는 감정평가서를 열람하는 등 반드시 재확인한 후 입찰에 참가하시기 바랍니다.\n매수에 영향을 줄 수 있는 중요한 권리관계의 변동사항이 있을 수 있으므로 입찰참가 전 등기사항전부증명서를 확인하시기 바랍니다.\n법원경매정보 홈페이지에서 서비스하는 정보만으로 참여한 입찰과 관련하여 발생하는 문제에 대해서 법원은 책임을 지지 않습니다.\n이용약관개인정보 처리방침저작권 보호정책이용시 유의사항법원경매정보 링크\n홈페이지 이용·장애 문의02-3480-1715[평일 9시~18시]COPYRIGHT(C) SUPREME COURT OF KOREA, ALL RIGHTS RESERVED\n물건상세검색\n지도검색\n사이트 이용안내\nFAQ\n종합법률정보\n등기정보광장\n입찰참가전 유의사항\n맨 위로가기",
+  "detail_clickables": [
+   {
+    "id": "",
+    "t": "본문 바로가기"
+   },
+   {
+    "id": "mf_wfm_header_btnGoMenu",
+    "t": "주메뉴로 바로가기"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_19",
+    "t": "대한민국 법원 경매정보"
+   },
+   {
+    "id": "mf_wfm_header_btn_extTime",
+    "t": "연장"
+   },
+   {
+    "id": "mf_wfm_header_anc_userId",
+    "t": "아이디"
+   },
+   {
+    "id": "mf_wfm_header_btnLogin",
+    "t": "로그인"
+   },
+   {
+    "id": "mf_wfm_header_btnLogout",
+    "t": "로그아웃"
+   },
+   {
+    "id": "mf_wfm_header_btnJoinMember",
+    "t": "회원가입"
+   },
+   {
+    "id": "mf_wfm_header_btnFindMember",
+    "t": "아이디/비밀번호 찾기"
+   },
+   {
+    "id": "mf_wfm_header_btnEditMember",
+    "t": "회원정보수정"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_31",
+    "t": "사이트맵"
+   },
+   {
+    "id": "mf_wfm_header_anc_firstFocus",
+    "t": "경매공고"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_44",
+    "t": "공지사항"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_46",
+    "t": "배당요구종기공고"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_48",
+    "t": "부동산매각공고"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_50",
+    "t": "동산매각공고"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_52",
+    "t": "최고공고"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_54",
+    "t": "경매물건"
+   },
+   {
+    "id": "mf_wfm_header_anc_auctnGdsMain",
+    "t": "물건상세검색"
+   },
+   {
+    "id": "mf_wfm_header_btnMapInfo",
+    "t": "지도검색"
+   },
+   {
+    "id": "mf_wfm_header_anc_dxdySrch",
+    "t": "기일별검색"
+   },
+   {
+    "id": "mf_wfm_header_anc_carTmidSrch",
+    "t": "자동차·중기검색"
+   },
+   {
+    "id": "mf_wfm_header_anc_mjrtyInqSrch",
+    "t": "다수조회물건"
+   },
+   {
+    "id": "mf_wfm_header_anc_mjrtyItrtSrch",
+    "t": "다수관심물건"
+   },
+   {
+    "id": "mf_wfm_header_anc_dspslSchdGdsSrch",
+    "t": "매각예정물건"
+   },
+   {
+    "id": "mf_wfm_header_anc_dspslRsltSrch",
+    "t": "매각결과검색"
+   },
+   {
+    "id": "mf_wfm_header_anc_auctnCsSrch",
+    "t": "경매사건검색"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_76",
+    "t": "매각통계"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_79",
+    "t": "연도별매각통계"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_81",
+    "t": "법원별매각통계"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_83",
+    "t": "지역별매각통계"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_85",
+    "t": "용도별매각통계"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_87",
+    "t": "경매지식"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_90",
+    "t": "경매절차"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_94",
+    "t": "부동산경매"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_96",
+    "t": "동산경매"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_98",
+    "t": "임차인(주택/상가)"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_100",
+    "t": "경매용어"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_102",
+    "t": "경매서식"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_104",
+    "t": "입찰안내"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_106",
+    "t": "매수신청대리안내"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_108",
+    "t": "경매비용"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_110",
+    "t": "관련법률"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_114",
+    "t": "주택임대차"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_116",
+    "t": "상가임대차"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_118",
+    "t": "종합법률정보"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_120",
+    "t": "이용안내"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_123",
+    "t": "제공서비스"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_125",
+    "t": "집행기관"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_129",
+    "t": "경매법원"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_131",
+    "t": "집행관사무소"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_133",
+    "t": "등기소"
+   },
+   {
+    "id": "mf_wfm_header_btn_siteUtilGdnc",
+    "t": "사이트이용안내"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_137",
+    "t": "FAQ"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_139",
+    "t": "사이트맵"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_141",
+    "t": "나의경매"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_144",
+    "t": "회원정보관리"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_148",
+    "t": "회원정보수정"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_150",
+    "t": "회원탈퇴"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_152",
+    "t": "일정관리"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_154",
+    "t": "관심물건"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_156",
+    "t": "관심사건"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_158",
+    "t": "자주쓰는검색"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_160",
+    "t": "나의설정"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_163",
+    "t": "관심분류"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_165",
+    "t": "자주쓰는메뉴"
+   },
+   {
+    "id": "mf_wfm_header_wq_uuid_167",
+    "t": "나의동산집행정보"
+   },
+   {
+    "id": "mf_wfm_header_anc_myAuctionInfoTrnsf",
+    "t": "나의경매정보이관"
+   },
+   {
+    "id": "mf_wfm_mainFrame_wfm_sideMenu_spn_gdsDtlSrch",
+    "t": "물건상세검색"
+   },
+   {
+    "id": "mf_wfm_mainFrame_wfm_sideMenu_btnMapInfo",
+    "t": "지도검색"
+   },
+   {
+    "id": "mf_wfm_mainFrame_wfm_sideMenu_spn_dxdySrch",
+    "t": "기일별검색"
+   },
+   {
+    "id": "mf_wfm_mainFrame_wfm_sideMenu_spn_carTmidSrch",
+    "t": "자동차·중기검색"
+   },
+   {
+    "id": "mf_wfm_mainFrame_wfm_sideMenu_spn_mjrtyInqSrch",
+    "t": "다수조회물건"
+   },
+   {
+    "id": "mf_wfm_mainFrame_wfm_sideMenu_spn_mjrtyItrtSrch",
+    "t": "다수관심물건"
+   },
+   {
+    "id": "mf_wfm_mainFrame_wfm_sideMenu_spn_dspslSchdGdsSrch",
+    "t": "매각예정물건"
+   },
+   {
+    "id": "mf_wfm_mainFrame_wfm_sideMenu_spn_dspslRsltSrch",
+    "t": "매각결과검색"
+   },
+   {
+    "id": "mf_wfm_mainFrame_wfm_sideMenu_spn_auctnCsSrch",
+    "t": "경매사건검색"
+   },
+   {
+    "id": "mf_wfm_mainFrame_gen_lstSt_0_btn_gdsDtlSrchRgstRdngBtn",
+    "t": "등기기록 열람"
+   },
+   {
+    "id": "mf_wfm_mainFrame_gen_lstSt_0_btn_map",
+    "t": "전자지도 보기"
+   },
+   {
+    "id": "mf_wfm_mainFrame_gen_lstSt_0_btn_landUtilPlan",
+    "t": "씨리얼(토지이용계획)"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_prev",
+    "t": "이전으로"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_next",
+    "t": "다음으로"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_dspslGdsSpcfc1",
+    "t": "매각물건명세서"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_curstExmndcTop",
+    "t": "현황조사서"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_aeeWevl1",
+    "t": "감정평가서"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_moveCsDtl",
+    "t": "사건상세조회"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_itrtGdsReg",
+    "t": "관심물건등록"
+   },
+   {
+    "id": "mf_wfm_mainFrame_trigger1",
+    "t": "이전"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_lstDtsMaxPopUp",
+    "t": "목록내역"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_srchNearHist",
+    "t": "검색"
+   },
+   {
+    "id": "mf_wfm_mainFrame_tac_aroundGdsExm_tab_tabs1_tabHTML",
+    "t": "인근매각통계"
+   },
+   {
+    "id": "mf_wfm_mainFrame_tac_aroundGdsExm_tab_tabs2_tabHTML",
+    "t": "인근매각물건"
+   },
+   {
+    "id": "mf_wfm_mainFrame_tac_aroundGdsExm_tab_tabs3_tabHTML",
+    "t": "인근진행물건"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_dspslGdsSpcfc2",
+    "t": "매각물건명세서"
+   },
+   {
+    "id": "mf_wfm_mainFrame_wq_uuid_1023",
+    "t": "현황조사서"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_aeeWevl2",
+    "t": "감정평가서"
+   },
+   {
+    "id": "mf_wfm_mainFrame_wq_uuid_1025",
+    "t": "사건상세조회"
+   },
+   {
+    "id": "mf_wfm_mainFrame_trigger2",
+    "t": "인쇄하기"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_itrtGdsReg2",
+    "t": "관심물건등록"
+   },
+   {
+    "id": "mf_wfm_mainFrame_btn_prevBtn",
+    "t": "이전"
+   },
+   {
+    "id": "mf_wq_uuid_173_btnTerms",
+    "t": "이용약관"
+   },
+   {
+    "id": "mf_wq_uuid_173_btnPolicy",
+    "t": "개인정보 처리방침"
+   },
+   {
+    "id": "mf_wq_uuid_173_btnPrivate",
+    "t": "저작권 보호정책"
+   },
+   {
+    "id": "mf_wq_uuid_173_btnNote",
+    "t": "이용시 유의사항"
+   },
+   {
+    "id": "mf_wq_uuid_173_btnLink",
+    "t": "법원경매정보 링크"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_187",
+    "t": "전국법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_190",
+    "t": "대한민국 법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_192",
+    "t": "대법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_194",
+    "t": "서울고등법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_196",
+    "t": "대전고등법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_198",
+    "t": "대구고등법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_200",
+    "t": "부산고등법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_202",
+    "t": "광주고등법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_204",
+    "t": "특허법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_206",
+    "t": "서울중앙지법"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_208",
+    "t": "서울동부지법"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_210",
+    "t": "서울남부지법"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_212",
+    "t": "서울북부지법"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_214",
+    "t": "서울서부지법"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_216",
+    "t": "서울가정법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_218",
+    "t": "서울행정법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_220",
+    "t": "의정부지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_222",
+    "t": "인천지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_224",
+    "t": "수원지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_226",
+    "t": "춘천지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_228",
+    "t": "대전지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_230",
+    "t": "청주지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_232",
+    "t": "대구지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_234",
+    "t": "부산지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_236",
+    "t": "울산지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_238",
+    "t": "창원지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_240",
+    "t": "광주지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_242",
+    "t": "전주지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_244",
+    "t": "제주지방법원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_246",
+    "t": "대법원 관련"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_249",
+    "t": "법원도서관"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_251",
+    "t": "사법연수원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_253",
+    "t": "법원공무원교육원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_255",
+    "t": "인터넷등기서비스"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_257",
+    "t": "전자공탁홈페이지"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_259",
+    "t": "등기정보광장"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_261",
+    "t": "공공기관 관련"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_264",
+    "t": "국세청"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_266",
+    "t": "한국감정원"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_268",
+    "t": "한국감정평가사협회"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_270",
+    "t": "온비드"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_272",
+    "t": "토지이용규제정보 서비스"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_274",
+    "t": "국토교통부"
+   },
+   {
+    "id": "mf_wq_uuid_173_wq_uuid_183_wq_uuid_276",
+    "t": "예보공매정보"
+   },
+   {
+    "id": "mf_wq_uuid_283_wq_uuid_286",
+    "t": "물건상세검색"
+   }
+  ],
+  "buttons": {
+   "매각물건명세서": {
+    "clicked": false,
+    "err": "Locator.click: Timeout 6000ms exceeded.\nCall log:\n  - waiting for locator(\"a:has-text('매각물건명세서'), button:has-text('매각물건명세서'), input[value='매각물건명세서']\").first\n    - locator resolved to <input tabindex=\""
+   },
+   "현황조사서": {
+    "clicked": true,
+    "url": "https://www.courtauction.go.kr/pgj/index.on?w2xPath=/pgj/ui/pgj100/PGJ151F00.xml",
+    "popups": 0,
+    "text": "본문 바로가기\n주메뉴로 바로가기\n대한민국 법원 경매정보\n로그인\n회원가입\n아이디/비밀번호 찾기\n사이트맵\n경매공고\n공지사항\n배당요구종기공고\n부동산매각공고\n동산매각공고\n최고공고\n경매물건\n물건상세검색\n지도검색\n기일별검색\n자동차·중기검색\n다수조회물건\n다수관심물건\n매각예정물건\n매각결과검색\n경매사건검색\n매각통계\n연도별매각통계\n법원별매각통계\n지역별매각통계\n용도별매각통계\n경매지식\n경매절차\n부동산경매\n동산경매\n임차인(주택/상가)\n경매용어\n경매서식\n입찰안내\n매수신청대리안내\n경매비용\n관련법률\n주택임대차\n상가임대차\n종합법률정보\n이용안내\n제공서비스\n집행기관\n경매법원\n집행관사무소\n등기소\n사이트이용안내\nFAQ\n사이트맵\n나의경매\n회원정보관리\n회원정보수정\n회원탈퇴\n일정관리\n관심물건\n관심사건\n자주쓰는검색\n나의설정\n관심분류\n자주쓰는메뉴\n나의동산집행정보\n나의경매정보이관\n경매물건\n물건상세검색\n지도검색\n기일별검색\n자동차·중기검색\n다수조회물건\n다수관심물건\n매각예정물건\n매각결과검색\n경매사건검색\n물건상세검색\nHOME\n경매물건\n물건상세검색\n검색조건 을(를) 나타낸 표\n검색조건\n법원서울중앙지방법원\n사건번호2008타경25092\n물건기본정보\n사건번호,물건번호,물건종류,감정평가액,최저매각가격 (매수신청보증금),입찰방법,매각기일,물건비고,담당 을(를) 나타낸 표\n사건번호\n\t2008타경25092\t\n물건번호\n\t1\t\n물건종류\n\t아파트\n\n감정평가액\n\t194,000,000원\t\n최저매각가격\n(매수신청보증금)\n\t99,328,000원\n(9,932,800원)\t\n입찰방법\n\t기일입찰\n\n매각기일\n\t2026.10.15 10:00 경매법정(제4별관211호)\n\n물건비고\n\t\n\n\n목록3 소재지\n\t(아파트) 서울특별시 성북구 정릉동 508-123 1층102호\n\n\n담당\n\t서울중앙지방법원| 경매2계\n사건접수,경매개시일,배당요구종기,청구금액 을(를) 나타낸 표\n사건접수\n\t2008.08.26\t\n경매개시일\n\t2008.08.27\n\n배당요구종기\n\t2008.11.28\t\n청구금액\n\t827,912,378원\n\n\t\n\n등기기록 열람 아이콘(아이콘모양)이 나오지 않는 소재지번은 부동산목록 입력 시 등기고유번호가 입력되지 않은 경우입니다.(등기기록 열람은 인터넷등기소와 연계한 유료서비스 입니다)\n\n전자지도 보기 정보는 입찰자를 위해 제공되는 참고자료로서 지도제공업체의 사정에 따라 부정확한 정보가 제공될 수 있습니다. 입찰시에는 반드시 현장조사 등으로 물건소재를 확인하신 후 응찰하시기 바랍니다.\n\n씨:리얼(토지이용계획) 정보는 현행 행정구역을 기준으로 제공되는 정보이므로 물건의 등기사항전부증명서 상의 소재지가 과거의 것인 경우 제공되지 않을 수 있습니다.\n\n기일내역\n기일,기일종류,기일장소,최저매각가격,기일결과 을(를) 나타낸 표\n기일\t기일종류\t기일장소\t최저매각가격\t기일결과\n2015.12.22 (10:00)\t매각기일\t4별관 211호 경매법정\t169,000,000원\t유찰\n2026.06.25 (10:00)\t매각기일\t경매법정(제4별관211호)\t194,000,000원\t유찰\n2026.07.30 (10:00)\t매각기일\t경매법정(제4별관211호)\t155,200,000원\t유찰\n2026.09.03 (10:00)\t매각기일\t경매법정(제4별관211호)\t124,160,000원\t유찰\n2026.10.15 (10:00)\t매각기일\t경매법정(제4별관211호)\t99,328,000원\t\n2026.10.22 (14:00)\t매각결정기일\t배당법정(제4별관 3층 7호)\t\t\n\t\n\t\n목록내역\n목록번호,목록구분,상세내역 을(를) 나타낸 표\n목록번호\t목록구분\t상세내역\n3\t집합건물\t1동의 건물의 표시\n    서울특별시 성북구 정릉동 508-123\n    서울특별시 성북구 정릉동 508-124\n    철근콘크리트조 평스라브지붕 5층 아파트\n    지하1층 509.58㎡\n        1층 315.68㎡\n        2층 315.68㎡\n        3층 315.68㎡\n        4층 315.68㎡\n        5층 238.13㎡\n    옥탑1층  27.60㎡\n    옥탑2층   7.68㎡\n\n\n전유부분의 건물의 표시 \n    건물의 번호 : 1층102호\n    구          조 : 철근콘크리트조\n    면          적 : 67.87㎡\n\n대지권의 목적인 토지의 표시\n    토 지 의  표시 : 3. 서울특별시성북구정릉동508-123\n                            대 254㎡\n                         4. 서울특별시성북구정릉동508-124\n                            대 298㎡\n    대지권의 종류:3. 소유권\n                         4. 소유권\n    대지권의 비율:3. 1362.83 분의 67.87\n                         4. 1362.83 분의 67.87\n\n\t\n\t\n\n목록구분이 집합건물 혹은 건물이고 도로명주소가 부여된 목록의 경우 상세내역 주소표기는 지번주소와 도로명주소 병기표기를 원칙으로 하며, 이는 부동산등기기록의 표기형식을 준용한 것입니다.\n\n감정평가요항표 요약\n1. 토지감정요항표\n1) 위치 및 주위환경\n본건은 서울특별시 성북구 정릉동"
+   },
+   "감정평가서": {
+    "clicked": true,
+    "url": "https://www.courtauction.go.kr/pgj/index.on?w2xPath=/pgj/ui/pgj100/PGJ151F00.xml",
+    "popups": 0,
+    "text": "본문 바로가기\n주메뉴로 바로가기\n대한민국 법원 경매정보\n로그인\n회원가입\n아이디/비밀번호 찾기\n사이트맵\n경매공고\n공지사항\n배당요구종기공고\n부동산매각공고\n동산매각공고\n최고공고\n경매물건\n물건상세검색\n지도검색\n기일별검색\n자동차·중기검색\n다수조회물건\n다수관심물건\n매각예정물건\n매각결과검색\n경매사건검색\n매각통계\n연도별매각통계\n법원별매각통계\n지역별매각통계\n용도별매각통계\n경매지식\n경매절차\n부동산경매\n동산경매\n임차인(주택/상가)\n경매용어\n경매서식\n입찰안내\n매수신청대리안내\n경매비용\n관련법률\n주택임대차\n상가임대차\n종합법률정보\n이용안내\n제공서비스\n집행기관\n경매법원\n집행관사무소\n등기소\n사이트이용안내\nFAQ\n사이트맵\n나의경매\n회원정보관리\n회원정보수정\n회원탈퇴\n일정관리\n관심물건\n관심사건\n자주쓰는검색\n나의설정\n관심분류\n자주쓰는메뉴\n나의동산집행정보\n나의경매정보이관\n경매물건\n물건상세검색\n지도검색\n기일별검색\n자동차·중기검색\n다수조회물건\n다수관심물건\n매각예정물건\n매각결과검색\n경매사건검색\n물건상세검색\nHOME\n경매물건\n물건상세검색\n검색조건 을(를) 나타낸 표\n검색조건\n법원서울중앙지방법원\n사건번호2008타경25092\n물건기본정보\n사건번호,물건번호,물건종류,감정평가액,최저매각가격 (매수신청보증금),입찰방법,매각기일,물건비고,담당 을(를) 나타낸 표\n사건번호\n\t2008타경25092\t\n물건번호\n\t1\t\n물건종류\n\t아파트\n\n감정평가액\n\t194,000,000원\t\n최저매각가격\n(매수신청보증금)\n\t99,328,000원\n(9,932,800원)\t\n입찰방법\n\t기일입찰\n\n매각기일\n\t2026.10.15 10:00 경매법정(제4별관211호)\n\n물건비고\n\t\n\n\n목록3 소재지\n\t(아파트) 서울특별시 성북구 정릉동 508-123 1층102호\n\n\n담당\n\t서울중앙지방법원| 경매2계\n사건접수,경매개시일,배당요구종기,청구금액 을(를) 나타낸 표\n사건접수\n\t2008.08.26\t\n경매개시일\n\t2008.08.27\n\n배당요구종기\n\t2008.11.28\t\n청구금액\n\t827,912,378원\n\n\t\n\n등기기록 열람 아이콘(아이콘모양)이 나오지 않는 소재지번은 부동산목록 입력 시 등기고유번호가 입력되지 않은 경우입니다.(등기기록 열람은 인터넷등기소와 연계한 유료서비스 입니다)\n\n전자지도 보기 정보는 입찰자를 위해 제공되는 참고자료로서 지도제공업체의 사정에 따라 부정확한 정보가 제공될 수 있습니다. 입찰시에는 반드시 현장조사 등으로 물건소재를 확인하신 후 응찰하시기 바랍니다.\n\n씨:리얼(토지이용계획) 정보는 현행 행정구역을 기준으로 제공되는 정보이므로 물건의 등기사항전부증명서 상의 소재지가 과거의 것인 경우 제공되지 않을 수 있습니다.\n\n기일내역\n기일,기일종류,기일장소,최저매각가격,기일결과 을(를) 나타낸 표\n기일\t기일종류\t기일장소\t최저매각가격\t기일결과\n2015.12.22 (10:00)\t매각기일\t4별관 211호 경매법정\t169,000,000원\t유찰\n2026.06.25 (10:00)\t매각기일\t경매법정(제4별관211호)\t194,000,000원\t유찰\n2026.07.30 (10:00)\t매각기일\t경매법정(제4별관211호)\t155,200,000원\t유찰\n2026.09.03 (10:00)\t매각기일\t경매법정(제4별관211호)\t124,160,000원\t유찰\n2026.10.15 (10:00)\t매각기일\t경매법정(제4별관211호)\t99,328,000원\t\n2026.10.22 (14:00)\t매각결정기일\t배당법정(제4별관 3층 7호)\t\t\n\t\n\t\n목록내역\n목록번호,목록구분,상세내역 을(를) 나타낸 표\n목록번호\t목록구분\t상세내역\n3\t집합건물\t1동의 건물의 표시\n    서울특별시 성북구 정릉동 508-123\n    서울특별시 성북구 정릉동 508-124\n    철근콘크리트조 평스라브지붕 5층 아파트\n    지하1층 509.58㎡\n        1층 315.68㎡\n        2층 315.68㎡\n        3층 315.68㎡\n        4층 315.68㎡\n        5층 238.13㎡\n    옥탑1층  27.60㎡\n    옥탑2층   7.68㎡\n\n\n전유부분의 건물의 표시 \n    건물의 번호 : 1층102호\n    구          조 : 철근콘크리트조\n    면          적 : 67.87㎡\n\n대지권의 목적인 토지의 표시\n    토 지 의  표시 : 3. 서울특별시성북구정릉동508-123\n                            대 254㎡\n                         4. 서울특별시성북구정릉동508-124\n                            대 298㎡\n    대지권의 종류:3. 소유권\n                         4. 소유권\n    대지권의 비율:3. 1362.83 분의 67.87\n                         4. 1362.83 분의 67.87\n\n\t\n\t\n\n목록구분이 집합건물 혹은 건물이고 도로명주소가 부여된 목록의 경우 상세내역 주소표기는 지번주소와 도로명주소 병기표기를 원칙으로 하며, 이는 부동산등기기록의 표기형식을 준용한 것입니다.\n\n감정평가요항표 요약\n1. 토지감정요항표\n1) 위치 및 주위환경\n본건은 서울특별시 성북구 정릉동"
+   },
+   "사건상세조회": {
+    "clicked": false,
+    "err": "Locator.click: Timeout 6000ms exceeded.\nCall log:\n  - waiting for locator(\"a:has-text('사건상세조회'), button:has-text('사건상세조회'), input[value='사건상세조회']\").first\n    - locator resolved to <input tabindex=\"0\" "
+   },
+   "기일내역": {
+    "clicked": false,
+    "err": "Locator.click: Timeout 6000ms exceeded.\nCall log:\n  - waiting for locator(\"a:has-text('기일내역'), button:has-text('기일내역'), input[value='기일내역']\").first\n"
+   },
+   "문건/송달내역": {
+    "clicked": false,
+    "err": "Locator.click: Timeout 6000ms exceeded.\nCall log:\n  - waiting for locator(\"a:has-text('문건/송달내역'), button:has-text('문건/송달내역'), input[value='문건/송달내역']\").first\n"
+   }
+  },
   "xhrs": [
    {
     "phase": "usg",
@@ -253,126 +1116,180 @@
     "saved": "x016_search_pgj_pgj002_selectCortOfcLst.on"
    },
    {
-    "phase": "search",
+    "phase": "detail",
     "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 260,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000252\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "len": 97521,
+    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":40,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"20000\",\"mc"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 26193,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000252\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "detail",
+    "url": "/pgj/ui/pgj100/PGJ15BM01.xml",
+    "len": 161533,
+    "post": "",
+    "saved": "x017_detail_pgj_ui_pgj100_PGJ15BM01.xml"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24050,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "detail",
+    "url": "/pgj/ui/common/sideMenu/side002.xml",
+    "len": 5521,
+    "post": "",
+    "saved": "x018_detail_pgj_ui_common_sideMenu_side002.xml"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24050,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "detail",
+    "url": "/pgj/ui/common/sideMenu/side002.xml",
+    "len": 5521,
+    "post": "",
+    "saved": "x019_detail_pgj_ui_common_sideMenu_side002.xml"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24050,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "detail",
+    "url": "/pgj/pgj002/selectCortOfcLst.on",
+    "len": 2163,
+    "post": "{\"cortExecrOfcDvsCd\":\"00079B\"}",
+    "saved": "x020_detail_pgj_pgj002_selectCortOfcLst.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24050,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "detail",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 4184,
+    "post": "{\"intgGrpCdLst\":\"PGJ-AUCTN_GDS_USG_CD\"}",
+    "saved": "x021_detail_pgj_scframe_lib_sccd_list.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24050,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "detail",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 21993,
+    "post": "{\"intgGrpCdLst\":\"PGJ-DSPSL_GDS_LST_USG_CD\"}",
+    "saved": "x022_detail_pgj_scframe_lib_sccd_list.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24050,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "detail",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 1808,
+    "post": "{\"intgGrpCdLst\":\"PGJ-CORT_AUCTN_PIC_DVS_CD\"}",
+    "saved": "x023_detail_pgj_scframe_lib_sccd_list.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24050,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "detail",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 4052,
+    "post": "{\"intgGrpCdLst\":\"LJH-AUCTN_DXDY_RSLT_CD\"}",
+    "saved": "x024_detail_pgj_scframe_lib_sccd_list.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24050,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "detail",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 2170,
+    "post": "{\"intgGrpCdLst\":\"PGJ-AUCTN_DXDY_KND_CD\"}",
+    "saved": "x025_detail_pgj_scframe_lib_sccd_list.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24050,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDspslGdsLs"
+    "phase": "detail",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 2758,
+    "post": "{\"intgGrpCdLst\":\"LJH-AUCTN_LST_DVS_CD\"}",
+    "saved": "x026_detail_pgj_scframe_lib_sccd_list.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 260,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000332\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "detail",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 1144,
+    "post": "{\"intgGrpCdLst\":\"LJH-AUCTN_RGLT_KND_CD\"}",
+    "saved": "x027_detail_pgj_scframe_lib_sccd_list.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24050,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"20000\",\"mc"
+    "phase": "detail",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 1683,
+    "post": "{\"intgGrpCdLst\":\"PGJ-AEE_WEVL_MNPNT_TBLT_DVS_CD\"}",
+    "saved": "x028_detail_pgj_scframe_lib_sccd_list.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24050,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"20000\",\"mc"
+    "phase": "detail",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 7955,
+    "post": "{\"intgGrpCdLst\":\"PGJ-AEE_WEVL_MNPNT_ITM_CD\"}",
+    "saved": "x029_detail_pgj_scframe_lib_sccd_list.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 24054,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":10,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDspslGdsLst"
+    "phase": "detail",
+    "url": "/pgj/pgj15B/selectAuctnCsSrchRslt.on",
+    "len": 6994717,
+    "post": "{\"dma_srchGdsDtlSrch\":{\"csNo\":\"2008타경25092\",\"cortOfcCd\":\"B000210\",\"dspslGdsSeq\":\"1\",\"pgmId\":\"PGJ151F01\",\"srchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDspslGdsLstUsgCd\":\"\",\"sclDspslGdsLstU",
+    "saved": "x030_detail_pgj_pgj15B_selectAuctnCsSrchRslt.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 95845,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":1,\"pageSize\":40,\"bfPageNo\":\"0\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "btn_현황조사서",
+    "url": "/pgj/ui/pgj100/PGJ15BP01.xml",
+    "len": 53289,
+    "post": "",
+    "saved": "x031_btn_현황조사서_pgj_ui_pgj100_PGJ15BP01.xml"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 96793,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":2,\"pageSize\":40,\"bfPageNo\":\"1\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "btn_현황조사서",
+    "url": "/pgj/pgj002/selectCortOfcLst.on",
+    "len": 2163,
+    "post": "{\"cortExecrOfcDvsCd\":\"00079B\"}",
+    "saved": "x032_btn_현황조사서_pgj_pgj002_selectCortOfcLst.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 99996,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":3,\"pageSize\":40,\"bfPageNo\":\"2\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "btn_현황조사서",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 5373,
+    "post": "{\"intgGrpCdLst\":\"STG-JDCPC_OFCWK_TASK_TYP_CD\"}",
+    "saved": "x033_btn_현황조사서_pgj_scframe_lib_sccd_list.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 97668,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":4,\"pageSize\":40,\"bfPageNo\":\"3\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "btn_현황조사서",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 4558,
+    "post": "{\"intgGrpCdLst\":\"LJH-JH-AUCTN_CS_NM_CD\"}",
+    "saved": "x034_btn_현황조사서_pgj_scframe_lib_sccd_list.on"
    },
    {
-    "phase": "search",
-    "url": "/pgj/pgjsearch/searchControllerMain.on",
-    "len": 100431,
-    "post": "{\"dma_pageInfo\":{\"pageNo\":5,\"pageSize\":40,\"bfPageNo\":\"4\",\"startRowNo\":\"\",\"totalCnt\":\"\",\"totalYn\":\"Y\",\"groupTotalCount\":\"\"},\"dma_srchGdsDtlSrchInfo\":{\"rletDspslSpcCondCd\":\"\",\"bidDvsCd\":\"000331\",\"mvprpRletDvsCd\":\"00031R\",\"cortAuctnSrchCondCd\":\"0004601\",\"rprsAdongSdCd\":\"\",\"rprsAdongSggCd\":\"\",\"rprsAdongEmdCd\":\"\",\"rdnmSdCd\":\"\",\"rdnmSggCd\":\"\",\"rdnmNo\":\"\",\"mvprpDspslPlcAdongSdCd\":\"\",\"mvprpDspslPlcAdongSggCd\":\"\",\"mvprpDspslPlcAdongEmdCd\":\"\",\"rdDspslPlcAdongSdCd\":\"\",\"rdDspslPlcAdongSggCd\":\"\",\"rdDspslPlcAdongEmdCd\":\"\",\"cortOfcCd\":\"B000210\",\"jdbnCd\":\"\",\"execrOfcDvsCd\":\"\",\"lclDspslGdsLstUsgCd\":\"\",\"mclDsps"
+    "phase": "btn_현황조사서",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 20505,
+    "post": "{\"intgGrpCdLst\":\"PGJ-AUCTN_INTRPS_DVS_CD\"}",
+    "saved": "x035_btn_현황조사서_pgj_scframe_lib_sccd_list.on"
+   },
+   {
+    "phase": "btn_현황조사서",
+    "url": "/pgj/pgj15B/selectCurstExmndc.on",
+    "len": 24755,
+    "post": "{\"dma_srchCurstExmn\":{\"cortOfcCd\":\"B000210\",\"csNo\":\"2008타경25092\",\"auctnInfOriginDvsCd\":\"2\",\"ordTsCnt\":\"\"}}",
+    "saved": "x036_btn_현황조사서_pgj_pgj15B_selectCurstExmndc.on"
+   },
+   {
+    "phase": "btn_현황조사서",
+    "url": "/pgj/scframe/lib/sccd/list.on",
+    "len": 1328,
+    "post": "{\"intgGrpCdLst\":\"PGJ-AUCTN_LES_USG_CD\"}",
+    "saved": "x037_btn_현황조사서_pgj_scframe_lib_sccd_list.on"
+   },
+   {
+    "phase": "btn_감정평가서",
+    "url": "/pgj/pgj002/selectCortOfcLst.on",
+    "len": 2163,
+    "post": "{\"cortExecrOfcDvsCd\":\"00079B\"}",
+    "saved": "x038_btn_감정평가서_pgj_pgj002_selectCortOfcLst.on"
+   },
+   {
+    "phase": "btn_감정평가서",
+    "url": "/pgj/ui/pgj100/PGJ15BP03.xml",
+    "len": 15758,
+    "post": "",
+    "saved": "x039_btn_감정평가서_pgj_ui_pgj100_PGJ15BP03.xml"
+   },
+   {
+    "phase": "btn_감정평가서",
+    "url": "/pgj/pgj15B/selectAeeWevlInfo.on",
+    "len": 945,
+    "post": "{\"dma_srchAeeWevl\":{\"cortOfcCd\":\"B000210\",\"cortSptNm\":\"서울중앙지방법원\",\"csNo\":\"2008타경25092\",\"auctnInfOriginDvsCd\":\"4\",\"dspslDxdyYmd\":\"20261015\",\"pgmId\":\"PGJ15BP03\",\"ordTsCnt\":\"\"}}",
+    "saved": "x040_btn_감정평가서_pgj_pgj15B_selectAeeWevlInfo.on"
    }
   ]
  },
- "finished": "2026-10-02 17:01:48"
+ "finished": "2026-10-02 17:06:09"
 }

@@ -1,0 +1,1 @@
+{"status":200,"message":"중분류 목록 조회가 완료되었습니다.","timestamp":1790928294212,"errors":null,"data":{"usgSclLst":[{"name":"공장","code":"22101"},{"name":"창고시설","code":"22102"},{"name":"위험물저장및처리시설","code":"22103"},{"name":"자동차관련시설","code":"22104"},{"name":"동물및식물관련시설","code":"22105"},{"name":"분뇨및쓰레기처리시설","code":"22106"}]},"token":null}
