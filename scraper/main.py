@@ -108,7 +108,8 @@ SCRAPE_TIMEOUT_MIN = _env_int("SCRAPE_TIMEOUT_MIN", 45)
 
 MAX_RETRIES = 3            # 재시도 최대 3회 (최초 1회 + 재시도 3회)
 BACKOFF_BASE = 1.0         # 지수 백오프 기본 대기(초): 1 → 2 → 4
-HTTP_TIMEOUT = 20          # 요청 타임아웃(초)
+HTTP_TIMEOUT = 20          # 응답 대기 타임아웃(초)
+CONNECT_TIMEOUT = 7        # 연결 타임아웃(초) — 해외 IP 차단 시 오래 기다리지 않도록
 BREAKER_THRESHOLD = 5      # 엔드포인트 연속 실패 N회 → 이번 실행 동안 차단
 BACKUP_KEEP = 7            # 백업 보관 개수
 ERROR_LOG_MAX = 500        # error_log.json 최대 기록 수
@@ -238,6 +239,18 @@ def days_since(iso: str | None) -> float:
         return float("inf")
 
 
+_SECRET_PARAM_RE = re.compile(r"(?i)\b(confmKey|serviceKey|key)=[^&\s'\")]+")
+
+
+def scrub(msg) -> str:
+    """오류 메시지에서 인증키 제거 — error_log.json 은 공개 저장소에 커밋되므로 필수"""
+    out = _SECRET_PARAM_RE.sub(lambda m: m.group(1) + "=***", str(msg))
+    for secret in (DATA_GO_KR_KEY, JUSO_CONFIRM_KEY, VWORLD_KEY):
+        if secret and len(secret) >= 8:
+            out = out.replace(secret, "***")
+    return out
+
+
 # ════════════════════════════════════════════════════════════
 # 오류 수집기 → error_log.json
 # ════════════════════════════════════════════════════════════
@@ -257,7 +270,7 @@ class ErrorCollector:
                     "stage": stage,
                     "level": level,
                     "id": item_id,
-                    "message": str(message)[:500],
+                    "message": scrub(message)[:500],
                 })
         if level == "error" and (ARGS and ARGS.verbose):
             log(f"  ! [{stage}] {item_id or ''} {message}")
@@ -317,6 +330,7 @@ class HttpClient:
         return key in self._blocked
 
     def _block(self, key: str, reason: str) -> None:
+        reason = scrub(reason)[:300]
         with self._breaker_lock:
             if key not in self._blocked:
                 self._blocked[key] = reason
@@ -343,9 +357,10 @@ class HttpClient:
             self._throttle(url)
             self.stats["calls"] += 1
             try:
-                resp = self.session.get(url, params=params, timeout=HTTP_TIMEOUT)
+                resp = self.session.get(url, params=params, timeout=(CONNECT_TIMEOUT, HTTP_TIMEOUT))
             except requests.RequestException as e:
-                last_err = ApiError(f"네트워크 오류: {type(e).__name__}: {e}", retryable=True)
+                # 예외 원문에는 인증키가 포함된 URL 이 들어 있으므로 종류와 호스트만 기록
+                last_err = ApiError(f"네트워크 오류: {type(e).__name__} ({urlparse(url).hostname})", retryable=True)
             else:
                 last_err = self._check_status(resp)
                 if last_err is None:
@@ -641,6 +656,47 @@ def parse_address(addr: str) -> dict:
     return {"base": base, "building_dong": bldg_dong, "unit_ho": ho, "hint": hint}
 
 
+_BJDONG_TABLE: dict[str, str] | None = None
+_LOCAL_JIBUN_RE = re.compile(r"^(산\s*)?(\d+)(?:-(\d+))?$")
+
+
+def bjdong_table() -> dict[str, str]:
+    """scraper/bjdong_codes.json 로드 — {'서울특별시 관악구 신림동': '1162010200', ...}"""
+    global _BJDONG_TABLE
+    if _BJDONG_TABLE is None:
+        _BJDONG_TABLE = (read_json(SCRAPER_DIR / "bjdong_codes.json", {}) or {}).get("codes", {})
+    return _BJDONG_TABLE
+
+
+def resolve_local(item: dict, parsed: dict) -> bool:
+    """
+    지번 주소('시도 시군구 읍면동(리) 번지')를 내장 코드표로 변환 — 네트워크·인증키 불필요.
+    도로명 주소는 번지를 알 수 없으므로 False (→ 주소 API 로 넘어감)
+    """
+    table = bjdong_table()
+    tokens = parsed["base"].split()
+    # 뒤에서부터 번지 토큰 찾기: '... 신림동 520-27' / '... 수영리 산 12-3'
+    for n in range(min(len(tokens) - 1, 6), 1, -1):
+        name = " ".join(tokens[:n])
+        code = table.get(name)
+        if not code:
+            continue
+        m = _LOCAL_JIBUN_RE.match("".join(tokens[n:n + 2]) if tokens[n:n + 1] == ["산"] else (tokens[n] if len(tokens) > n else ""))
+        if not m:
+            return False
+        bun, ji = m.group(2).zfill(4), (m.group(3) or "0").zfill(4)
+        if len(bun) > 4 or len(ji) > 4:
+            return False
+        item["bjdong_code"] = code
+        item["pnu"] = f"{code}{'2' if m.group(1) else '1'}{bun}{ji}"
+        item["road_address"] = None
+        item["jibun_address"] = parsed["base"]
+        # 읍면동(+리): '봉담읍 수영리' / '신림동'
+        item["umd_name"] = " ".join(tokens[n - 2:n]) if (tokens[n - 1].endswith("리") and tokens[n - 2][-1] in "읍면") else tokens[n - 1]
+        return True
+    return False
+
+
 def _juso_keywords(addr: str, parsed: dict) -> list[str]:
     """검색어 후보 (앞에서부터 시도)"""
     cands = [parsed["base"]]
@@ -667,10 +723,12 @@ def juso_search(keyword: str, cache: DiskCache) -> dict | None:
         "currentPage": 1, "countPerPage": 5, "resultType": "json",
     }
     last = None
+    tried = False
     for url in JUSO_URLS:
         key = f"juso:{urlparse(url).hostname}"
         if HTTP.is_blocked(key):
             continue
+        tried = True
         try:
             rows = HTTP.get(key, url, params, parse_juso)
             hit = rows[0] if rows else {}
@@ -685,6 +743,8 @@ def juso_search(keyword: str, cache: DiskCache) -> dict | None:
                 return None
     if last:
         raise last
+    if not tried:   # 모든 주소 API 가 차단된 상태 — '주소 없음'이 아니라 '조회 불가'
+        raise EndpointBlocked("주소 API 사용 불가")
     return None
 
 
@@ -693,6 +753,13 @@ def resolve_address(item: dict, cache: DiskCache) -> bool:
     parsed = parse_address(item.get("address", ""))
     item["building_dong"] = parsed["building_dong"]
     item["unit_ho"] = parsed["unit_ho"]
+    # ① 지번 주소는 내장 코드표로 즉시 변환 (전체의 약 90%)
+    if resolve_local(item, parsed):
+        vlog(f"{item['id']} 주소 OK (내장 코드표) → PNU {item['pnu']}")
+        return True
+    # ② 도로명 주소 등은 주소 API 로 조회
+    if not JUSO_CONFIRM_KEY:
+        raise EndpointBlocked("JUSO_CONFIRM_KEY 없음")
     for kw in _juso_keywords(item.get("address", ""), parsed):
         hit = juso_search(kw, cache)
         if not hit:
@@ -1344,15 +1411,15 @@ def carry_over_enrichment(items: list[dict], prev_by_id: dict, enrich_cache: Dis
 
 
 def needs_enrich(it: dict) -> bool:
-    """분석 이력이 없거나 TTL 경과 시 재분석 (주소 변환 실패 건도 TTL 후 재시도)"""
+    """분석 이력이 없거나 TTL 경과 시 재분석. 주소 변환 실패 건은 매번 재시도 (검색 결과는 캐시돼 호출 부담 없음)"""
+    if it.get("enrich_status") != "ok":
+        return True
     return days_since(it.get("enriched_at")) > ENRICH_TTL_DAYS
 
 
 def enrich_one(it: dict, juso_cache: DiskCache) -> None:
     """2단계 + 3단계①② (물건 1건)"""
     if not it.get("pnu") or not it.get("bjdong_code"):
-        if not JUSO_CONFIRM_KEY:
-            return
         try:
             if not resolve_address(it, juso_cache):
                 it["enrich_status"] = "no_address"
@@ -1385,7 +1452,7 @@ def enrich_one(it: dict, juso_cache: DiskCache) -> None:
 def stage_enrich(items: list[dict], juso_cache: DiskCache) -> None:
     """2단계·3단계①② — 분석이 필요한 물건만 (경매일 임박 순, 최대 MAX_ENRICH_PER_RUN 건)"""
     if not JUSO_CONFIRM_KEY:
-        log("  ⚠ JUSO_CONFIRM_KEY 없음 — 주소 변환 생략 (기존 법정동코드가 있는 물건만 진행)")
+        log("  ⚠ JUSO_CONFIRM_KEY 없음 — 지번 주소만 변환 (도로명 주소 물건은 대기)")
     if not DATA_GO_KR_KEY:
         log("  ⚠ DATA_GO_KR_KEY 없음 — 공공데이터 API 생략")
     todo = [it for it in items if needs_enrich(it)]
@@ -1394,7 +1461,7 @@ def stage_enrich(items: list[dict], juso_cache: DiskCache) -> None:
     skipped = max(0, len(todo) - limit)
     todo = todo[:limit]
     log(f"  분석 대상 {len(todo)}건 (캐시 재사용 {len(items) - len(todo) - skipped}건, 다음 실행으로 이월 {skipped}건)")
-    if not todo or (not JUSO_CONFIRM_KEY and not DATA_GO_KR_KEY):
+    if not todo:
         return
     done = 0
     with ThreadPoolExecutor(max_workers=WORKERS) as ex:
