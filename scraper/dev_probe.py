@@ -81,21 +81,32 @@ def main():
                     body = resp.text()
                     rec = {"url": resp.url.split("courtauction.go.kr")[-1], "len": len(body),
                            "post": (resp.request.post_data or "")[:300]}
-                    if "지방법원" in body and "B000" in body:
+                    if "/websquare/" in resp.url or resp.url.split("?")[0].endswith(".js"):
+                        return
+                    if "selectCortOfcLst" in resp.url:
                         rec["court_body"] = body[:6000]
+                    if resp.url.split("?")[0].endswith(".xml") and "yuchalCnt" in body:
+                        name = resp.url.split("?")[0].split("/")[-1]
+                        open(OUT / ("screen_" + name), "w", encoding="utf-8").write(body)
+                        rec["saved"] = name
                     xhrs.append(rec)
             except Exception:
                 pass
         page.on("response", on_resp)
 
         page.goto(SA.BASE + "/pgj/index.on", wait_until="networkidle", timeout=60000)
-        page.wait_for_timeout(8000)
+        page.wait_for_timeout(10000)
         page.click("#mf_wfm_header_anc_auctnGdsMain")
-        page.wait_for_timeout(15000)
+        page.wait_for_timeout(20000)
+        try:
+            page.wait_for_selector("input[value='검색']", timeout=30000)
+        except Exception as e:
+            R["steps"]["wait_search_btn"] = str(e)[:200]
+        R["steps"]["page_url"] = page.url
         # 검색 폼의 입력 요소 목록 (날짜·법원 선택 요소 파악용)
         R["steps"]["form_elems"] = page.evaluate("""() => Array.from(document.querySelectorAll('[id^="mf_wfm_mainFrame"]'))
             .filter(e => /sbx|cal|ibx|rad|chk|btn/.test(e.id) && e.id.length < 70)
-            .map(e => ({id:e.id, tag:e.tagName, val:(e.value||'').slice(0,30), txt:(e.innerText||'').slice(0,40).replace(/\\n/g,' ')})).slice(0,150)""")
+            .map(e => ({id:e.id, tag:e.tagName, val:(e.value||'').slice(0,30), txt:(e.innerText||'').slice(0,40).replace(/\\n/g,' ')})).slice(0,200)""")
         page.evaluate("() => { window.__auction_captured = []; window.__auction_last_req = null; }")
         SA.try_trigger_search(page, page)
         page.wait_for_timeout(6000)
@@ -103,7 +114,7 @@ def main():
         R["steps"]["request"] = {"url": last_req and last_req["url"], "headers": last_req and last_req["headers"],
                                  "body": last_req and json.loads(last_req["body"])}
         print("REQ BODY", json.dumps(R["steps"]["request"]["body"], ensure_ascii=False))
-        R["steps"]["xhrs"] = xhrs[:80]
+        R["steps"]["xhrs"] = xhrs[:200]
 
         def fetch(si=None, pi=None, keep=0, full=False):
             r = page.evaluate(JS_FETCH, {"si": si or {}, "pi": pi or {}, "keep": keep, "full": full})
