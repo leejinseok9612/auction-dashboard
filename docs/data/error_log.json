@@ -1,11 +1,11 @@
 {
-  "run_at": "2026-10-02T18:45:29+09:00",
-  "duration_sec": 20.6,
+  "run_at": "2026-10-02T18:47:49+09:00",
+  "duration_sec": 20.8,
   "summary": {
     "total": 7080,
     "scrape_ok": true,
     "with_bjdong_code": 7074,
-    "with_building_info": 538,
+    "with_building_info": 584,
     "with_official_price": 0,
     "with_trade_price": 5370,
     "rights_detail_checked": 80,
@@ -19,74 +19,116 @@
     "collect_courts_failed": [],
     "tag_근생주의": 1,
     "tag_위반건축물": 67,
-    "tag_안전마진": 1879,
-    "pending_enrich": 6360,
+    "tag_안전마진": 1880,
+    "pending_enrich": 6300,
     "clean_default_count": 1851,
-    "api_calls": 257,
+    "api_calls": 237,
     "api_retries": 0,
     "api_failures": 0,
     "blocked_endpoints": {},
     "unreachable_hosts": {},
     "last_scrape_ok_date": "2026-10-02",
     "error_counts": {
-      "building:warn": 8
+      "building:warn": 14
     }
   },
   "errors": [
     {
-      "time": "2026-10-02T18:45:13+09:00",
+      "time": "2026-10-02T18:47:31+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300137601",
+      "id": "B000212202601300031031",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:45:17+09:00",
+      "time": "2026-10-02T18:47:32+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300138651",
+      "id": "B000212202601300031301",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:45:17+09:00",
+      "time": "2026-10-02T18:47:33+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300138731",
+      "id": "B000212202601300031411",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:45:19+09:00",
+      "time": "2026-10-02T18:47:33+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300139571",
+      "id": "B000212202601300031501",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:45:23+09:00",
+      "time": "2026-10-02T18:47:34+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300140791",
+      "id": "B000212202601300031811",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:45:26+09:00",
+      "time": "2026-10-02T18:47:35+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300142221",
+      "id": "B000212202601300032381",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:45:26+09:00",
+      "time": "2026-10-02T18:47:36+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202501300142371",
+      "id": "B000212202601300032601",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-10-02T18:45:27+09:00",
+      "time": "2026-10-02T18:47:36+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000212202601300030031",
+      "id": "B000212202601300032691",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T18:47:37+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000212202601300033001",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T18:47:38+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000212202601300033581",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T18:47:39+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000212202601300034231",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T18:47:42+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000212202601300036001",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T18:47:42+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000212202601300036191",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-02T18:47:45+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000212202601300037161",
       "message": "건축물대장 표제부 없음"
     }
   ]
