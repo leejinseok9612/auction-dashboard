@@ -1210,6 +1210,7 @@ def compute_nearby_trade(item: dict, trades: list[dict]) -> None:
       비교 순서: 같은 단지(같은 지번)·유사 면적 → 같은 법정동·유사 면적 → ㎡단가 환산
       같은 법정동 비교는 건축연도가 ±5년인 거래가 3건 이상이면 그것만 사용 (신축·구축 가격 차 반영)
       confidence(신뢰도): high = 같은 단지·유사 면적 / medium = 같은 법정동·유사 면적·유사 연식 3건 이상 / low = 그 외
+      추정가가 감정가의 0.6~1.3배를 벗어나면 비교 대상이 부적절한 것으로 보고 low 로 낮춘다
     """
     for k in ("nearby_trade_price", "nearby_trade_count", "nearby_trade_date", "nearby_trade_basis", "nearby_trade_confidence"):
         item[k] = None
@@ -1273,6 +1274,12 @@ def compute_nearby_trade(item: dict, trades: list[dict]) -> None:
         conf = "medium"          # 아파트는 단지별 가격 차가 커서 다른 단지 비교는 신뢰도 낮음
     else:
         conf = "low"
+    # 감정가 검산: 감정가는 감정평가사가 매긴 시세 근사치다. 비교 거래로 추정한 가격이 감정가와 크게 다르면
+    # (0.6배 미만 또는 1.3배 초과) 비교 대상이 이 물건과 성격이 다른 것이므로 신뢰도를 낮춘다.
+    appraisal = item.get("appraisal")
+    if appraisal and not (0.6 <= price / appraisal <= 1.3):
+        conf = "low"
+        item["nearby_trade_basis"] = basis + "·감정가와 차이 큼"
     item["nearby_trade_confidence"] = conf
 
 
