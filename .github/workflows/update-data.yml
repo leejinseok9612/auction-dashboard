@@ -1,15 +1,22 @@
 name: 🏠 경매 데이터 수집·분석
 
-# 매일(평일) 08:30 KST 실행
-#   GitHub cron 은 UTC 기준 → 23:30 UTC (일~목) = 08:30 KST (월~금)
-# 정부 사이트(공공데이터포털·주소·법원경매)는 GitHub 서버(해외 IP)에서 접속이 될 때도 있고 안 될 때도 있어,
-# 같은 날 10:30 / 13:30 / 16:30 KST 에 다시 시도한다. 이미 처리된 물건은 건너뛰므로 중복 작업은 없다.
+# 평일 08:30 KST 실행 (GitHub cron 은 UTC → 23:30 UTC 일~목 = 08:30 KST 월~금)
+#   ※ GitHub 예약 실행은 정시에 시작되지 않고 몇 시간 늦어질 수 있어 10:30 / 13:30 / 16:30 KST 에도 걸어 둔다.
+#     이미 처리된 물건은 건너뛰므로 여러 번 돌아도 중복 작업은 없다.
+#
+# 정부 사이트(공공데이터포털·법원경매)는 GitHub 서버(해외 IP)에서 접속이 될 때도 있고 안 될 때도 있다.
+# 서버마다 IP 가 달라 "다른 서버에서 다시 시도"하면 대개 연결되므로, 실패하면 이 워크플로가 자신을 다시 실행한다 (최대 10회).
 on:
   schedule:
     - cron: '30 23 * * 0-4'
     - cron: '30 1,4,7 * * 1-5'
-  workflow_dispatch:            # Actions 탭에서 수동 실행
+  workflow_dispatch:
     inputs:
+      mode:
+        description: '실행 방식 (full = 수집+분석 / enrich = 공공데이터 분석만)'
+        type: choice
+        options: [full, enrich]
+        default: full
       skip_scrape:
         description: '목록 수집 생략 (기존 데이터로 분석만)'
         type: boolean
@@ -18,21 +25,30 @@ on:
         description: '신규 분석 최대 건수 (비우면 기본값 1000)'
         required: false
         default: ''
+      attempt:
+        description: '자동 재시도 회차 (직접 실행할 때는 그대로 두세요)'
+        required: false
+        default: '1'
 
 permissions:
-  contents: write               # 데이터 커밋·푸시용
+  contents: write               # 데이터 커밋·푸시
+  actions: write                # 접속 실패 시 자기 자신을 다시 실행
 
 concurrency:                    # 동시에 두 번 돌지 않도록
-  group: update-data
+  group: update-data-${{ github.ref_name }}
   cancel-in-progress: false
+
+env:
+  TZ: Asia/Seoul
+  PYTHONUNBUFFERED: '1'
+  MODE: ${{ github.event.inputs.mode || 'full' }}
+  ATTEMPT: ${{ github.event.inputs.attempt || '1' }}
+  MAX_ATTEMPTS: '10'
 
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 150
-    env:
-      TZ: Asia/Seoul
-      PYTHONUNBUFFERED: '1'
+    timeout-minutes: 120
 
     steps:
       # 항상 브랜치의 최신 상태를 받음 → "Re-run jobs" 로 다시 돌려도 예전 스냅샷과 충돌하지 않음
@@ -41,7 +57,16 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
 
+      # enrich 방식: 공공데이터포털에 연결되는 서버인지 먼저 확인 — 안 되면 바로 다른 서버로 넘김 (20초 안에 끝남)
+      - name: 🔌 공공데이터포털 접속 확인
+        id: preflight
+        run: |
+          CODE=$(curl -s -o /dev/null -m 8 -w '%{http_code}' https://apis.data.go.kr/1613000/BldRgstHubService/getBrTitleInfo || true)
+          echo "data.go.kr 응답 코드: ${CODE}"
+          if [ "${CODE}" = "000" ]; then echo "reachable=false" >> "$GITHUB_OUTPUT"; else echo "reachable=true" >> "$GITHUB_OUTPUT"; fi
+
       - name: 🐍 Python 3.11 설정
+        if: env.MODE == 'full' || steps.preflight.outputs.reachable == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -49,12 +74,15 @@ jobs:
           cache-dependency-path: scraper/requirements.txt
 
       - name: 📦 의존성 설치
+        if: env.MODE == 'full' || steps.preflight.outputs.reachable == 'true'
         run: |
           pip install -r scraper/requirements.txt
-          python -m playwright install chromium --with-deps
+          # 브라우저는 법원경매 수집·권리분석(full)에만 필요
+          if [ "${MODE}" = "full" ]; then python -m playwright install chromium --with-deps; fi
 
       # 실거래가·주소·분석 캐시 복원 → API 호출량 절감 (커밋하지 않고 Actions 캐시에 보관)
       - name: 🗂️ API 캐시 복원
+        if: env.MODE == 'full' || steps.preflight.outputs.reachable == 'true'
         uses: actions/cache@v4
         with:
           path: scraper/.cache
@@ -63,6 +91,7 @@ jobs:
             api-cache-
 
       - name: 🚀 파이프라인 실행 (main.py)
+        if: env.MODE == 'full' || steps.preflight.outputs.reachable == 'true'
         env:
           DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
           JUSO_CONFIRM_KEY: ${{ secrets.JUSO_CONFIRM_KEY }}
@@ -70,14 +99,18 @@ jobs:
           VWORLD_DOMAIN: ${{ secrets.VWORLD_DOMAIN }}    # 선택
         run: |
           ARGS=""
-          # 예약 실행: 오늘 이미 목록 수집에 성공했으면 수집은 건너뛰고 분석만 이어서 진행
-          if [ "${{ github.event_name }}" = "schedule" ]; then ARGS="$ARGS --scrape-if-needed"; fi
-          if [ "${{ github.event.inputs.skip_scrape }}" = "true" ]; then ARGS="$ARGS --skip-scrape"; fi
+          if [ "${MODE}" = "enrich" ]; then
+            ARGS="--skip-scrape --no-rights"             # 공공데이터 분석만
+          else
+            # 예약 실행: 오늘 이미 목록 수집에 성공했으면 수집은 건너뛰고 분석만 이어서 진행
+            if [ "${{ github.event_name }}" = "schedule" ]; then ARGS="$ARGS --scrape-if-needed"; fi
+            if [ "${{ github.event.inputs.skip_scrape }}" = "true" ]; then ARGS="$ARGS --skip-scrape"; fi
+          fi
           if [ -n "${{ github.event.inputs.limit }}" ]; then ARGS="$ARGS --limit ${{ github.event.inputs.limit }}"; fi
           python scraper/main.py $ARGS
 
       - name: 📊 변경 확인 및 커밋
-        if: success()
+        if: success() && (env.MODE == 'full' || steps.preflight.outputs.reachable == 'true')
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -94,13 +127,47 @@ jobs:
 
           # 푸시 (충돌 시 rebase 후 최대 3회 재시도)
           for i in 1 2 3; do
-            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
             git rebase --abort 2>/dev/null || true
             echo "⚠ 푸시 실패 (${i}/3) — 재시도"
             sleep $((i * 5))
           done
           echo "❌ 푸시 최종 실패"
           exit 1
+
+      # 접속이 안 됐거나 분석할 물건이 남았으면 다른 서버에서 이어서 실행
+      - name: 🔁 이어서 실행 (다른 서버에서 재시도)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REACHABLE: ${{ steps.preflight.outputs.reachable }}
+        run: |
+          NEXT=$(python3 - <<'PY'
+          import json, os
+          mode, attempt, mx = os.environ["MODE"], int(os.environ["ATTEMPT"]), int(os.environ["MAX_ATTEMPTS"])
+          reach = os.environ.get("REACHABLE") == "true"
+          nxt = ""
+          if attempt < mx:
+              if mode == "enrich" and not reach:
+                  nxt = "enrich"                       # 이 서버는 접속 불가 → 다른 서버로
+              else:
+                  try:
+                      s = json.load(open("docs/data/error_log.json")).get("summary", {})
+                  except Exception:
+                      s = {}
+                  dead = "apis.data.go.kr" in (s.get("unreachable_hosts") or {})
+                  quota = any("트래픽 초과" in str(v) for v in (s.get("blocked_endpoints") or {}).values())
+                  pending = int(s.get("pending_enrich") or 0)
+                  if mode == "full" and s.get("scrape_ok") is False and attempt < 4:
+                      nxt = "full"                     # 법원 사이트 접속 실패 → 수집부터 다시
+                  elif dead or (pending > 0 and not quota):
+                      nxt = "enrich"                   # 공공데이터 접속 실패 또는 남은 물건 있음
+          print(nxt)
+          PY
+          )
+          if [ -z "${NEXT}" ]; then echo "이어서 실행할 필요 없음"; exit 0; fi
+          echo "➡ ${NEXT} 방식으로 다시 실행 (회차 $((ATTEMPT + 1))/${MAX_ATTEMPTS})"
+          gh workflow run update-data.yml --repo "${GITHUB_REPOSITORY}" --ref "${GITHUB_REF_NAME}" -f mode="${NEXT}" -f attempt="$((ATTEMPT + 1))"
 
       # 실행 결과 로그는 커밋 여부와 관계없이 아티팩트로 보관 (Actions 실행 화면에서 다운로드)
       - name: 📝 오류 로그 업로드
