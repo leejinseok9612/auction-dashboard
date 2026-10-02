@@ -32,8 +32,11 @@ jobs:
       PYTHONUNBUFFERED: '1'
 
     steps:
+      # 항상 브랜치의 최신 상태를 받음 → "Re-run jobs" 로 다시 돌려도 예전 스냅샷과 충돌하지 않음
       - name: 📥 레포 체크아웃
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
 
       - name: 🐍 Python 3.11 설정
         uses: actions/setup-python@v5
@@ -87,6 +90,7 @@ jobs:
           # 푸시 (충돌 시 rebase 후 최대 3회 재시도)
           for i in 1 2 3; do
             git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            git rebase --abort 2>/dev/null || true
             echo "⚠ 푸시 실패 (${i}/3) — 재시도"
             sleep $((i * 5))
           done
