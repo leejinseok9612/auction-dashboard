@@ -66,6 +66,7 @@ import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from filters import DEFAULT_CRITERIA, derive, filter_items   # 검색·필터 정의 (화면과 동일한 기준)  # noqa: E402
+from filters import rights_grade as RT_grade                  # noqa: E402
 import rights as RT                                           # 권리분석 (목록 특수조건 + 상세·현황조사서)  # noqa: E402
 
 # ════════════════════════════════════════════════════════════
@@ -152,13 +153,13 @@ TRADE_TYPE_LABEL = {"apt": "아파트", "rh": "연립다세대", "offi": "오피
 ENRICH_FIELDS = [
     "bjdong_code", "pnu", "road_address", "jibun_address", "umd_name",
     "building_dong", "unit_ho",
-    "is_illegal_building", "actual_use", "actual_use_level", "approval_date",
+    "is_illegal_building", "actual_use", "actual_use_level", "approval_date", "building_status", "building_lot_note", "bjdong_code_alt",
     "exclusive_area", "building_area",
     "official_price", "official_price_year",
-    "nearby_trade_price", "nearby_trade_count", "nearby_trade_date", "nearby_trade_basis",
+    "nearby_trade_price", "nearby_trade_count", "nearby_trade_date", "nearby_trade_basis", "nearby_trade_confidence",
     "safe_jeonse", "safety_margin_pct", "is_under_100m", "risk_tags",
     "rights_risk", "rights_keywords", "rights_checked_at", "rights_has_spec", "rights_basis", "bid_history",
-    "enriched_at", "enrich_status",
+    "enriched_at", "enrich_status", "enriched_pnu",
 ]
 
 RESIDENTIAL_KW = ["아파트", "다세대", "연립", "빌라", "단독", "다가구", "오피스텔"]
@@ -888,12 +889,61 @@ def _use_str(row: dict, with_etc: bool) -> str | None:
     return main or etc or None
 
 
-def fetch_building(item: dict) -> None:
-    """건축물대장 표제부 + 전유공용면적 → 용도·사용승인일·위반여부·면적"""
+def _norm_name(s) -> str:
+    """건물명 비교용: 공백·괄호·'아파트' 등 제거"""
+    return re.sub(r"[\s()\[\],.·\-]|아파트|오피스텔|빌라|맨션", "", str(s or "")).lower()
+
+
+def _find_titles(item: dict, juso_cache: "DiskCache | None") -> tuple[list[dict], dict]:
+    """
+    표제부 조회 → (표제부 목록, 실제로 맞은 조회 파라미터)
+      1) PNU 그대로
+      2) 같은 본번 전체에서 건물명이 같은 대장 찾기 (법원의 대표지번과 건축물대장 지번이 다른 경우)
+      3) 주소 API 로 현재 법정동코드를 다시 구해 재조회 (행정구역 개편 지역)
+    """
     pp = pnu_parts(item["pnu"])
     titles = _bld_call("getBrTitleInfo", pp, item["id"])
+    if titles:
+        return titles, pp
+    want = _norm_name(item.get("building_name"))
+    if want and len(want) >= 2:
+        wide = {k: v for k, v in pp.items() if k != "ji"}
+        rows = _bld_call("getBrTitleInfo", wide, item["id"])
+        hit = [r for r in rows if _norm_name(r.get("bldNm")) and (_norm_name(r.get("bldNm")) == want
+                                                                   or want in _norm_name(r.get("bldNm"))
+                                                                   or _norm_name(r.get("bldNm")) in want)]
+        if hit:
+            pp2 = {**pp, "ji": str(hit[0].get("ji") or "0000").zfill(4)}
+            same = [r for r in hit if str(r.get("ji") or "").zfill(4) == pp2["ji"]]
+            item["building_lot_note"] = f"건축물대장 지번 {int(pp2['bun'])}-{int(pp2['ji'])} (건물명 일치)"
+            return same, pp2
+    if JUSO_CONFIRM_KEY and juso_cache is not None and not item.get("_juso_tried"):
+        item["_juso_tried"] = True
+        try:
+            hit = juso_search(item.get("jibun_address") or item.get("address", ""), juso_cache)
+        except ApiError:
+            hit = None
+        adm = str((hit or {}).get("admCd") or "")
+        if len(adm) == 10 and adm != item["pnu"][:10]:
+            new_pnu = adm + item["pnu"][10:]
+            pp3 = pnu_parts(new_pnu)
+            titles = _bld_call("getBrTitleInfo", pp3, item["id"])
+            if titles:
+                item["bjdong_code_alt"] = item["pnu"][:10]     # 개편 전 코드 (실거래가 과거 월 조회용)
+                item["pnu"], item["bjdong_code"] = new_pnu, adm
+                return titles, pp3
+    return [], pp
+
+
+def fetch_building(item: dict, juso_cache: "DiskCache | None" = None) -> None:
+    """건축물대장 표제부 + 전유공용면적 → 용도·사용승인일·위반여부·면적"""
+    titles, pp = _find_titles(item, juso_cache)
+    item.pop("_juso_tried", None)
     if not titles:
+        item["building_status"] = "not_found"       # 대장을 찾지 못함 (지번 불일치·미등재 등)
         ERRORS.add("building", "건축물대장 표제부 없음", item["id"], level="warn")
+    else:
+        item["building_status"] = "ok"
     # 표제부 선택: 건물 동이 있으면 동 일치, 없으면 주건축물 중 연면적 최대
     title = None
     mains = [t for t in titles if "부속" not in str(t.get("mainAtchGbCdNm", ""))] or titles
@@ -915,21 +965,17 @@ def fetch_building(item: dict) -> None:
         item["building_area"] = to_float(title.get("totArea"))
 
     # 전유부(호 단위) — 집합건물이고 호수를 알 때만
-    if item.get("unit_ho"):
+    if titles and item.get("unit_ho"):
         want_ho = digits(item["unit_ho"])
         want_dong = digits(item.get("building_dong")) if item.get("building_dong") else None
-        params = dict(pp)
-        params["hoNm"] = f"{item['unit_ho'].lstrip('B')}호"
-        if item.get("building_dong"):
-            params["dongNm"] = f"{item['building_dong']}동"
-        try:
-            rows = _bld_call("getBrExposPubuseAreaInfo", params, item["id"])
+        try:   # hoNm 은 '호' 없이 숫자만 넣어야 필터가 동작한다 (예: 301)
+            rows = _bld_call("getBrExposPubuseAreaInfo", {**pp, "hoNm": item["unit_ho"].lstrip("B")}, item["id"])
         except EndpointBlocked:
             raise
         except ApiError as e:
-            vlog(f"{item['id']} 전유부 동/호 필터 조회 실패 → 필터 없이 재조회 ({e})")
+            vlog(f"{item['id']} 전유부 호 필터 조회 실패 → 필터 없이 재조회 ({e})")
             rows = []
-        if not rows:  # 동/호 필터 형식이 안 맞을 수 있어 필터 없이 1회 더
+        if not rows:  # 호 표기가 다를 수 있어 필터 없이 1회 더
             try:
                 rows = _bld_call("getBrExposPubuseAreaInfo", pp, item["id"])
             except EndpointBlocked:
@@ -940,15 +986,20 @@ def fetch_building(item: dict) -> None:
         unit = [r for r in rows
                 if digits(r.get("hoNm")) == want_ho
                 and (want_dong is None or not digits(r.get("dongNm")) or digits(r.get("dongNm")) == want_dong)]
+        # 지하 호수(B01)와 지상 호수(01) 구분
+        if item["unit_ho"].startswith("B"):
+            unit = [r for r in unit if "지하" in str(r.get("flrGbCdNm", ""))] or unit
+        else:
+            unit = [r for r in unit if "지하" not in str(r.get("flrGbCdNm", ""))] or unit
         excl = [r for r in unit if "전유" in str(r.get("exposPubuseGbCdNm", ""))]
         if excl:
             area = sum(to_float(r.get("area")) or 0 for r in excl)
-            item["exclusive_area"] = round(area, 2) if area else None
+            item["exclusive_area"] = round(area, 2) if area else item.get("exclusive_area")
             item["actual_use"] = _use_str(excl[0], with_etc=True)
             item["actual_use_level"] = "호"
         rows_for_violation += unit
 
-    item["is_illegal_building"] = _detect_violation(rows_for_violation)
+    item["is_illegal_building"] = _detect_violation(rows_for_violation) or bool(item.get("is_illegal_building"))
 
 
 # ════════════════════════════════════════════════════════════
@@ -1100,6 +1151,7 @@ def _norm_trade(raw: dict) -> dict | None:
         "jibun": g("jibun", "지번"),
         "area": to_float(g("excluUseAr", "전용면적", "totalFloorAr", "연면적", "buildingAr", "건물면적")),
         "name": g("aptNm", "offiNm", "mhouseNm", "아파트", "단지", "연립다세대"),
+        "year": to_int(g("buildYear", "건축년도")),
     }
 
 
@@ -1136,17 +1188,24 @@ def _norm_jibun(j: str) -> str | None:
 
 
 def compute_nearby_trade(item: dict, trades: list[dict]) -> None:
-    """유사 거래 선정 → nearby_trade_price/count/date/basis"""
-    for k in ("nearby_trade_price", "nearby_trade_count", "nearby_trade_date", "nearby_trade_basis"):
+    """
+    유사 거래 선정 → nearby_trade_price / count / date / basis / confidence
+      비교 순서: 같은 단지(같은 지번)·유사 면적 → 같은 법정동·유사 면적 → ㎡단가 환산
+      같은 법정동 비교는 건축연도가 ±5년인 거래가 3건 이상이면 그것만 사용 (신축·구축 가격 차 반영)
+      confidence(신뢰도): high = 같은 단지·유사 면적 / medium = 같은 법정동·유사 면적·유사 연식 3건 이상 / low = 그 외
+    """
+    for k in ("nearby_trade_price", "nearby_trade_count", "nearby_trade_date", "nearby_trade_basis", "nearby_trade_confidence"):
         item[k] = None
     umd = item.get("umd_name")
     if not trades or not umd:
         item["nearby_trade_count"] = 0
         return
     my_jibun = pnu_jibun(item["pnu"]) if item.get("pnu") else None
+    ttype = trade_type_of(item)
     area = item.get("exclusive_area")
-    if not area and trade_type_of(item) in ("sh", "nrg"):
+    if not area and ttype in ("sh", "nrg"):
         area = item.get("building_area")
+    year = to_int(str(item.get("approval_date") or "")[:4])
 
     # 법정동 비교: 마지막 토큰(동 또는 리) 기준 → '봉담읍 수영리' vs '수영리' 표기 차이 흡수
     umd_last = umd.split()[-1]
@@ -1156,15 +1215,24 @@ def compute_nearby_trade(item: dict, trades: list[dict]) -> None:
     def similar(pool):
         return [t for t in pool if area and t["area"] and abs(t["area"] - area) / area <= 0.15]
 
-    chosen, basis, per_area = [], None, False
+    def same_age(pool):
+        """건축연도 ±5년 거래가 3건 이상이면 그것만 사용 → (pool, 적용 여부)"""
+        if not year:
+            return pool, False
+        sub = [t for t in pool if t.get("year") and abs(t["year"] - year) <= 5]
+        return (sub, True) if len(sub) >= 3 else (pool, False)
+
+    chosen, basis, per_area, aged = [], None, False, False
     if area:
-        for pool, label in ((similar(same_bldg), "동일단지·유사면적"),
-                            (similar(same_umd), "동일법정동·유사면적"),
-                            (same_bldg, "동일단지·㎡단가환산"),
-                            (same_umd, "동일법정동·㎡단가환산")):
+        for pool, label, same in ((similar(same_bldg), "동일단지·유사면적", True),
+                                  (similar(same_umd), "동일법정동·유사면적", False),
+                                  (same_bldg, "동일단지·㎡단가환산", True),
+                                  (same_umd, "동일법정동·㎡단가환산", False)):
             pool = [t for t in pool if t["area"]]
             if pool:
-                chosen, basis, per_area = pool, label, True
+                if not same:
+                    pool, aged = same_age(pool)
+                chosen, basis, per_area = pool, label + ("·유사연식" if aged else ""), True
                 break
     else:
         for pool, label in ((same_bldg, "동일단지"), (same_umd, "동일법정동(면적미확인)")):
@@ -1182,6 +1250,13 @@ def compute_nearby_trade(item: dict, trades: list[dict]) -> None:
     item["nearby_trade_count"] = len(chosen)
     item["nearby_trade_date"] = max(t["date"] for t in chosen)
     item["nearby_trade_basis"] = basis
+    if basis.startswith("동일단지·유사면적"):
+        conf = "high"
+    elif basis.startswith("동일법정동·유사면적") and aged and ttype != "apt":
+        conf = "medium"          # 아파트는 단지별 가격 차가 커서 다른 단지 비교는 신뢰도 낮음
+    else:
+        conf = "low"
+    item["nearby_trade_confidence"] = conf
 
 
 # ════════════════════════════════════════════════════════════
@@ -1208,8 +1283,14 @@ def analyze_investment(item: dict) -> None:
         tags.append("🚨 근생주의")
     if item.get("is_illegal_building"):
         tags.append("🚨 위반건축물")
+    # 안전마진 확보: 마진이 기준 이상이고, 비교 거래의 신뢰도가 보통 이상이며, 권리상 위험이 없을 때만 붙인다.
+    #   유찰이 여러 번 된 물건은 대개 '낙찰자가 인수하는 보증금·권리'가 있어 최저가만 낮은 것이므로,
+    #   권리 등급이 안전/대항력 포기로 확인됐거나, 미확인이라도 유찰 2회 이하일 때만 인정한다.
     sm = item.get("safety_margin_pct")
-    if sm is not None and sm >= SAFETY_MARGIN_PCT and (item.get("nearby_trade_count") or 0) >= 2:
+    grade = RT_grade(item.get("rights_risk"), item.get("rights_keywords"))
+    rights_ok = grade in ("safe", "waiver") or (grade == "unknown" and (item.get("failed_bids") or 0) <= 2)
+    if (sm is not None and sm >= SAFETY_MARGIN_PCT and rights_ok
+            and item.get("nearby_trade_confidence") in ("high", "medium")):
         tags.append("✨ 안전마진 확보")
     item["risk_tags"] = tags
 
@@ -1231,17 +1312,36 @@ def load_previous() -> tuple[dict, dict]:
     return (d if isinstance(d, dict) else {"auctions": items}), {i.get("id"): i for i in items if i.get("id")}
 
 
+RIGHTS_FIELDS = ("rights_risk", "rights_keywords", "rights_checked_at", "rights_has_spec", "rights_basis", "bid_history")
+COMPUTED_FIELDS = ("safe_jeonse", "safety_margin_pct", "is_under_100m", "risk_tags")
+
+
 def carry_over_enrichment(items: list[dict], prev_by_id: dict, enrich_cache: DiskCache) -> int:
-    """스크래퍼가 기본 필드로 덮어쓴 항목에 이전 분석 결과 복원 (주소가 같을 때만)"""
+    """
+    수집기가 새로 쓴 물건에 이전 분석 결과 복원
+      · 권리분석 결과: 주소가 같으면 복원
+      · 건축물대장·공시가격·실거래가: 분석 당시의 PNU(enriched_pnu)가 지금 수집된 PNU 와 같을 때만 복원
+        (PNU 가 바뀌었으면 다른 필지를 조회했던 것이므로 버리고 다시 분석)
+    """
     n = 0
     for it in items:
         prev = prev_by_id.get(it["id"])
         if not prev or not (prev.get("enriched_at") or prev.get("rights_checked_at")):
             prev = (enrich_cache.data.get(it["id"]) or {}).get("v")
-        if prev and prev.get("address") == it.get("address") and (prev.get("enriched_at") or prev.get("rights_checked_at")):
+        if not prev or prev.get("address") != it.get("address"):
+            continue
+        for k in RIGHTS_FIELDS:
+            if k in prev:
+                it.setdefault(k, prev[k])
+        if prev.get("enriched_at") and prev.get("enriched_pnu") == it.get("pnu"):
             for k in ENRICH_FIELDS:
-                if k in prev and k not in ("safe_jeonse", "safety_margin_pct", "is_under_100m", "risk_tags"):
-                    it.setdefault(k, prev[k])
+                if k in prev and k not in COMPUTED_FIELDS and k not in RIGHTS_FIELDS:
+                    if k in ("pnu", "bjdong_code", "bjdong_code_alt"):
+                        if prev.get(k):
+                            it[k] = prev[k]          # 주소 API 로 보정된 코드 유지
+                    else:
+                        it.setdefault(k, prev[k])
+        if prev.get("enriched_at") or prev.get("rights_checked_at"):
             n += 1
     return n
 
@@ -1250,11 +1350,14 @@ def needs_enrich(it: dict) -> bool:
     """분석 이력이 없거나 TTL 경과 시 재분석. 주소 변환 실패 건은 매번 재시도 (검색 결과는 캐시돼 호출 부담 없음)"""
     if it.get("enrich_status") != "ok":
         return True
+    if it.get("building_status") == "not_found":
+        return days_since(it.get("enriched_at")) > 7      # 대장을 못 찾은 물건은 1주 뒤 다시 시도
     return days_since(it.get("enriched_at")) > ENRICH_TTL_DAYS
 
 
 def enrich_one(it: dict, juso_cache: DiskCache) -> None:
     """2단계 + 3단계①② (물건 1건)"""
+    it["enriched_pnu"] = it.get("pnu")       # 수집 시점 PNU (다음 실행에서 복원 여부 판단용)
     # 건물 동·호 (건축물대장 전유부·공시가격 조회용) — 법원이 준 PNU 를 쓰는 경우에도 필요
     if it.get("unit_ho") is None and it.get("building_dong") is None:
         parsed = parse_address(" ".join(x for x in [it.get("jibun_address") or it.get("address", ""), it.get("unit") or ""] if x))
@@ -1277,7 +1380,7 @@ def enrich_one(it: dict, juso_cache: DiskCache) -> None:
     ok = True
     if DATA_GO_KR_KEY:
         try:
-            fetch_building(it)
+            fetch_building(it, juso_cache)
         except EndpointBlocked:
             ok = False
         except ApiError as e:
@@ -1325,32 +1428,51 @@ def stage_trades(items: list[dict], trade_cache: DiskCache) -> None:
         return
     months = _recent_months(TRADE_MONTHS)
     groups: dict[tuple[str, str], list[dict]] = {}
+    lawds: dict[tuple[str, str], set[str]] = {}       # 그룹별 조회할 시군구 코드 (행정구역 개편 지역은 옛 코드 포함)
     for it in items:
         tt = trade_type_of(it)
         if tt and it.get("bjdong_code") and it.get("pnu"):
-            groups.setdefault((tt, it["bjdong_code"][:5]), []).append(it)
-    jobs = [(tt, lawd, ym) for (tt, lawd) in groups for ym in months]
+            key = (tt, it["bjdong_code"][:5])
+            groups.setdefault(key, []).append(it)
+            lawds.setdefault(key, {key[1]})
+            if it.get("bjdong_code_alt"):
+                lawds[key].add(it["bjdong_code_alt"][:5])
+    jobs = sorted({(tt, lawd, ym) for (tt, _), codes in lawds.items() for lawd in codes for ym in months})
     log(f"  실거래 조회 단위 {len(jobs)}개 ({len(groups)}개 유형·시군구 × {len(months)}개월)")
-    fetched: dict[tuple[str, str, str], list[dict]] = {}
+    fetched: dict[tuple[str, str, str], list[dict] | None] = {}
 
     def job(tt, lawd, ym):
         try:
             return fetch_trades(tt, lawd, ym, trade_cache)
         except EndpointBlocked:
-            return []
+            return None
         except ApiError as e:
             ERRORS.add("trade", f"{TRADE_TYPE_LABEL[tt]} {lawd} {ym}: {e}")
-            return []
+            return None
 
     with ThreadPoolExecutor(max_workers=WORKERS) as ex:
         futs = {ex.submit(job, *j): j for j in jobs}
         for f in as_completed(futs):
-            fetched[futs[f]] = f.result() or []
+            fetched[futs[f]] = f.result()
 
-    for (tt, lawd), its in groups.items():
-        pool = [t for ym in months for t in fetched.get((tt, lawd, ym), [])]
+    skipped = 0
+    for key, its in groups.items():
+        tt = key[0]
+        parts = [fetched.get((tt, lawd, ym)) for lawd in lawds[key] for ym in months]
+        if sum(1 for p in parts if p is not None) < len(months) / 2:
+            skipped += len(its)       # 절반 이상 조회 실패 → 이전 값을 그대로 둠 (불완전한 자료로 덮어쓰지 않음)
+            continue
+        seen, pool = set(), []
+        for p in parts:
+            for t in p or []:
+                k = (t["date"], t["umd"], t["jibun"], t["area"], t["amount"])
+                if k not in seen:
+                    seen.add(k)
+                    pool.append(t)
         for it in its:
             compute_nearby_trade(it, pool)
+    if skipped:
+        log(f"  실거래 조회 실패로 기존 값 유지 {skipped}건")
 
 
 def apply_court_defaults(it: dict) -> None:

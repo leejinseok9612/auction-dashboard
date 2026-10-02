@@ -134,6 +134,30 @@ def make_pnu(bjdong: str, lotno: str) -> str | None:
     return f"{bjdong}{'2' if m.group(1) else '1'}{m.group(2).zfill(4)}{(m.group(3) or '0').zfill(4)}"
 
 
+_BJDONG: dict[str, str] | None = None
+SIGUNGU_ALIAS = {"인천광역시 남구": "인천광역시 미추홀구"}      # 옛 이름으로 적힌 주소
+
+
+def std_bjdong(sido: str, sigu: str, dong: str, ri: str) -> str | None:
+    """
+    행정표준 법정동코드(10자리) 조회 — scraper/bjdong_codes.json (지역명 → 코드)
+    법원 사이트의 지역 코드는 일부 시군구에서 표준 코드와 다르다 (예: 금천구 11540 ↔ 표준 11545).
+    건축물대장·실거래가 API 는 표준 코드를 쓰므로 지역명으로 표준 코드를 찾는다.
+    """
+    global _BJDONG
+    if _BJDONG is None:
+        try:
+            _BJDONG = json.load(open(Path(__file__).resolve().parent / "bjdong_codes.json", encoding="utf-8")).get("codes", {})
+        except (OSError, ValueError):
+            _BJDONG = {}
+    head = SIGUNGU_ALIAS.get(f"{sido} {sigu}", f"{sido} {sigu}")
+    for name in (" ".join(x for x in [head, dong, ri] if x), " ".join(x for x in [head, dong] if x)):
+        code = _BJDONG.get(name)
+        if code:
+            return code
+    return None
+
+
 def parse_areas(text: str) -> list[float]:
     """'철근콘크리트조 67.87㎡' → [67.87]"""
     return [float(x.replace(",", "")) for x in re.findall(r"(\d[\d,]*(?:\.\d+)?)\s*㎡", text or "")]
@@ -166,7 +190,9 @@ def build_item(rows: list[dict], today: str) -> dict | None:
             addresses.append({"kind": LOT_KIND.get(x.get("mokGbncd"), "기타"), "address": a,
                               "detail": clean(x.get("pjbBuldList")) or None})
     lot = clean(r.get("daepyoLotno"))
-    bjdong = clean(r.get("srchHjguRdCd"))
+    court_code = clean(r.get("srchHjguRdCd"))
+    # 표준 법정동코드: 지역명으로 코드표 조회, 없으면(개편된 새 구 이름 등) 법원 코드 사용
+    bjdong = std_bjdong(sido, clean(r.get("hjguSigu")), clean(r.get("hjguDong")), clean(r.get("hjguRd"))) or court_code
     jibun_addr = " ".join(x for x in [sido, clean(r.get("hjguSigu")), clean(r.get("hjguDong")), clean(r.get("hjguRd")), lot] if x)
     unit = clean(r.get("buldList")) or None
     bname = clean(r.get("buldNm")) or None
@@ -215,6 +241,7 @@ def build_item(rows: list[dict], today: str) -> dict | None:
         "jibun_address": jibun_addr,
         "umd_name": " ".join(x for x in [clean(r.get("hjguDong")), clean(r.get("hjguRd"))] if x) or None,
         "bjdong_code": bjdong if len(bjdong) == 10 else None,
+        "bjdong_code_court": court_code if (court_code and court_code != bjdong) else None,   # 법원 내부 코드 (표준과 다를 때만)
         "pnu": make_pnu(bjdong, lot),
         "view_count": to_int(r.get("inqCnt")),
         "related_case": clean(r.get("dupSaNo")) or None,

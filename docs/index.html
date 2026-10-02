@@ -1838,6 +1838,8 @@ function publicDataBlock(a){
   if(a.nearby_trade_price){
     row(`인근 실거래가 (${a.nearby_trade_count||0}건)`, fmt(a.nearby_trade_price));
     if(a.nearby_trade_basis) row('비교 기준', esc(a.nearby_trade_basis)+(a.nearby_trade_date?' · 최근 '+esc(a.nearby_trade_date):''));
+    const cf={high:['높음 (같은 단지)','c-green'],medium:['보통 (같은 동·유사 면적·연식)','c-yellow'],low:['낮음 (참고만)','c-red']}[a.nearby_trade_confidence];
+    if(cf) row('비교 신뢰도', cf[0], cf[1]);
   }
   if(a.safety_margin_pct!=null) row('실거래가 대비 안전마진', (a.safety_margin_pct>0?'+':'')+a.safety_margin_pct+'%', a.safety_margin_pct>=20?'c-green':a.safety_margin_pct>=0?'c-yellow':'c-red');
   if(!rows.length) return '';
