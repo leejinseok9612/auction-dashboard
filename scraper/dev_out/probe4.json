@@ -1515,8 +1515,13 @@
     "rows": []
    },
    "getBrExposPubuseAreaInfo/hoNm": {
-    "error": "ReadTimeout",
-    "sec": 8.8
+    "http": 200,
+    "header": {
+     "resultCode": "00",
+     "resultMsg": "NORMAL SERVICE"
+    },
+    "total": "0",
+    "rows": []
    },
    "getBrExposPubuseAreaInfo/hoNm숫자": {
     "http": 200,
