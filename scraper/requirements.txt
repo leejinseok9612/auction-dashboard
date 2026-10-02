@@ -1,3 +1,8 @@
-requests>=2.31.0
-beautifulsoup4>=4.12.0
-lxml>=5.0.0
+# ── 경매 대시보드 스크래퍼 의존성 ──
+# 설치: pip install -r scraper/requirements.txt
+#       python -m playwright install chromium --with-deps   (브라우저 바이너리 별도 설치 필요)
+
+requests>=2.31.0        # 공공데이터·주소 API 호출
+beautifulsoup4>=4.12.0  # HTML 파싱 (기존 스크래퍼)
+lxml>=5.0.0             # HTML/XML 파서
+playwright>=1.44.0      # 법원경매정보 사이트 수집 · 매각물건명세서 조회 (헤드리스 Chromium)

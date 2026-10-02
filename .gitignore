@@ -9,3 +9,7 @@ __pycache__/
 *.pyc
 .env
 scraper/debug_page.html
+
+# 파이프라인 캐시·백업 (main.py)
+scraper/.cache/
+scraper/backup/

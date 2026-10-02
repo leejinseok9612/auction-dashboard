@@ -211,6 +211,14 @@
     .card-link { display:block; margin-top:14px; padding:10px; background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:10px; text-align:center; font-size:12px; font-weight:700; color:var(--black); text-decoration:none; transition:all 0.2s; }
     .card-link:hover { background:var(--black); color:white; border-color:var(--black); }
 
+    /* ── 공공데이터 분석 태그 (main.py 파이프라인 결과) ── */
+    .acard-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+    .atag { font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; border:1px solid transparent; white-space:nowrap; }
+    .atag-danger { background:#FEE2E2; color:#B91C1C; border-color:#FECACA; }
+    .atag-warn { background:#FEF3C7; color:#92400E; border-color:#FDE68A; }
+    .atag-good { background:#DCFCE7; color:#166534; border-color:#BBF7D0; }
+    .atag-info { background:var(--gray-100); color:var(--gray-600); border-color:var(--gray-200); }
+
     /* ── PROFIT INDICATOR ── */
     .profit-badge { position:absolute; top:12px; right:12px; font-size:11px; font-weight:800; padding:4px 11px; border-radius:20px; z-index:12; letter-spacing:0.3px; }
     .pb-great { background:rgba(22,163,74,0.92); color:white; }
@@ -1264,6 +1272,7 @@ function renderCards(){
         <div class="acard-addr">${am||a.address||'-'}</div>
         ${as2?`<div class="acard-addr2">${as2}</div>`:''}
         ${unitStr?`<span class="acard-unit">🏢 ${unitStr}</span>`:''}
+        ${tagChips(a)}
         <div class="acard-metrics">
           <div class="metric"><div class="metric-lbl">감정가</div><div class="metric-val c-black">${fmt(a.appraisal)}</div></div>
           <div class="metric"><div class="metric-lbl">최저입찰가</div><div class="metric-val c-green">${fmt(a.min_bid)}</div></div>
@@ -1455,6 +1464,8 @@ function openM(idx){
           }).join('')}
         </div>
 
+        ${publicDataBlock(a)}
+
         <div class="iblock">
           <div class="iblock-ttl">⚠️ 리스크 체크리스트</div>
           <ul class="risk-list">
@@ -1534,12 +1545,57 @@ function getInfra(addr){
 }
 function getRisks(a){
   return[
+    ...enrichRisks(a),
     {i:a.failed_bids>=5?'🔴':a.failed_bids>=3?'🟠':'🟢',t:`유찰 ${a.failed_bids||0}회`,d:a.failed_bids>=5?'5회+ — 권리 하자·시세 괴리 강력 의심, 원인 미해소 시 입찰 금지':a.failed_bids>=3?'3회+ — 유찰 원인 반드시 확인 필요':'신건 — 경쟁 입찰 예상'},
     {i:'🟡',t:'명도 리스크',d:'점유자·임차인 현황 현장 확인, 인도명령 가능 여부 체크'},
     {i:'🟡',t:'미납 관리비',d:'관리사무소 직접 확인 — 장기 유찰 시 수백만 원 누적 가능'},
     {i:'🟠',t:'선순위 권리',d:'등기부등본 전체 열람 — 가처분·가등기·유치권 신고 여부'},
     {i:'🔵',t:'대출 LTV 규제',d:'규제지역 여부 확인 필수 — 투기과열지구 LTV 40~50% 제한'},
   ];
+}
+
+/* ── 공공데이터 분석 결과 표시 (신규 필드가 없으면 아무것도 그리지 않음 → 하위 호환) ── */
+function esc(v){ return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function tagChips(a){
+  const chips=[];
+  (a.risk_tags||[]).forEach(t=>{
+    chips.push(`<span class="atag ${t.includes('✨')?'atag-good':'atag-danger'}">${esc(t)}</span>`);
+  });
+  if(a.rights_risk==='위험') chips.push('<span class="atag atag-danger">⚖️ 권리 위험</span>');
+  else if(a.rights_risk==='주의') chips.push('<span class="atag atag-warn">⚖️ 권리 주의</span>');
+  else if(a.rights_risk==='안전') chips.push('<span class="atag atag-good">⚖️ 권리 특이사항 없음</span>');
+  if(a.is_under_100m===true) chips.push('<span class="atag atag-info">공시가 1억 이하</span>');
+  return chips.length?`<div class="acard-tags">${chips.join('')}</div>`:'';
+}
+function enrichRisks(a){
+  const out=[];
+  const kws=(a.rights_keywords||[]).map(esc).join(', ');
+  if(a.rights_risk==='위험') out.push({i:'🔴',t:'권리분석: 위험',d:`매각물건명세서 키워드 — ${kws||'확인 필요'}. 인수되는 권리가 있을 수 있음`});
+  else if(a.rights_risk==='주의') out.push({i:'🟠',t:'권리분석: 주의',d:`매각물건명세서 키워드 — ${kws||'확인 필요'}`});
+  else if(a.rights_risk==='안전') out.push({i:'🟢',t:'권리분석: 특이 키워드 없음',d:'명세서 키워드 자동 스캔 결과 — 등기부등본 직접 확인은 여전히 필수'});
+  if(a.is_illegal_building) out.push({i:'🔴',t:'위반건축물',d:'건축물대장 또는 명세서에 위반건축물 표기 — 이행강제금·대출 제한 가능'});
+  if((a.risk_tags||[]).some(t=>t.includes('근생'))) out.push({i:'🔴',t:'근생 주의',d:`대장상 용도: ${esc(a.actual_use||'근린생활시설')} — 주택 아님, 전세대출·보증보험 불가 가능`});
+  return out;
+}
+function publicDataBlock(a){
+  const rows=[];
+  const row=(k,val,cls)=>rows.push(`<div class="irow"><span class="ik">${k}</span><span class="iv ${cls||''}">${val}</span></div>`);
+  if(a.actual_use) row('대장상 용도', esc(a.actual_use));
+  if(a.approval_date) row('사용승인일', esc(a.approval_date));
+  if(a.exclusive_area) row('전용면적', a.exclusive_area+'㎡');
+  if(a.official_price) row(`공시가격${a.official_price_year?' ('+a.official_price_year+')':''}`, fmt(a.official_price));
+  if(a.safe_jeonse) row('안전 전세가 (공시가×126%)', fmt(a.safe_jeonse));
+  if(a.nearby_trade_price){
+    row(`인근 실거래가 (${a.nearby_trade_count||0}건)`, fmt(a.nearby_trade_price));
+    if(a.nearby_trade_basis) row('비교 기준', esc(a.nearby_trade_basis)+(a.nearby_trade_date?' · 최근 '+esc(a.nearby_trade_date):''));
+  }
+  if(a.safety_margin_pct!=null) row('실거래가 대비 안전마진', (a.safety_margin_pct>0?'+':'')+a.safety_margin_pct+'%', a.safety_margin_pct>=20?'c-green':a.safety_margin_pct>=0?'c-yellow':'c-red');
+  if(!rows.length) return '';
+  return `<div class="iblock">
+          <div class="iblock-ttl">🏛️ 공공데이터 분석</div>
+          ${rows.join('')}
+          <div style="font-size:11px;color:var(--gray-400);margin-top:10px">※ 건축물대장·공시가격·실거래가 API 자동 조회 결과 (참고용)</div>
+        </div>`;
 }
 function getOpinion(a,roi){
   const f=a.failed_bids||0, r=roi.rate;
