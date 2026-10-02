@@ -1990,8 +1990,13 @@
     "rows": []
    },
    "getBrHsprcInfo/기본": {
-    "error": "ReadTimeout",
-    "sec": 8.2
+    "http": 200,
+    "header": {
+     "resultCode": "00",
+     "resultMsg": "NORMAL SERVICE"
+    },
+    "total": "0",
+    "rows": []
    },
    "getBrHsprcInfo/hoNm": {
     "http": 200,
