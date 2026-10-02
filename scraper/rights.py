@@ -33,6 +33,7 @@ import re
 from datetime import datetime, timedelta, timezone
 
 KST = timezone(timedelta(hours=9))
+VERSION = 2          # 판정 규칙 버전 — 올리면 이미 확인한 물건도 다시 조회·판정한다
 
 # ════════════════════════════════════════════════════════════
 # 키워드 규칙
@@ -50,7 +51,8 @@ RIGHTS_RULES = [
     ("위험", "지분 매각", r"지분\s*매각|공유\s*지분|지분\s*일괄"),
     # 대항력 포기 확약 (HUG 등이 우선변제권만 행사) — 등급 판정은 filters.rights_grade 에서
     ("포기", "대항력 포기", r"대항력[^.\n]{0,15}포기|우선변제권만\s*(?:을\s*)?(?:주장|행사)|인수\s*조건\s*변경"
-                          r"|보증금\s*반환\s*청구권[^.\n]{0,10}포기|잔액[^.\n]{0,40}포기[^.\n]{0,30}임차권\s*등기\s*(?:를\s*)?말소"),
+                          r"|보증금\s*반환\s*청구권[^.\n]{0,10}포기|잔액[^.\n]{0,40}포기[^.\n]{0,30}임차권\s*등기\s*(?:를\s*)?말소"
+                          r"|말소\s*동의\s*(?:의\s*)?확약서"),
     ("주의", "토지별도등기", r"(?:토지\s*)?별도\s*등기"),
     ("주의", "위반건축물", r"위반\s*건축물"),
     ("주의", "선순위 전세권", r"(?:선순위|최선순위)\s*전세권"),
@@ -189,8 +191,17 @@ def analyze(item: dict, detail: dict | None = None, curst: dict | None = None) -
         assumed = info.get("ndstrcRghCtt")
         if assumed and not _EMPTY_TEXT.match(str(assumed)):
             basis["assumed_rights"] = re.sub(r"\s+", " ", str(assumed))[:400]   # 매각으로 소멸되지 않는 권리
-            found.setdefault("인수되는 권리", "위험")
-            found.update({k: v for k, v in scan_text(assumed).items() if k not in found})
+            # 항목별로 나눠 판정: '임차권등기(다만 HUG 의 말소동의 확약서가 제출됨)' 은 대항력 포기 조건,
+            # 그 밖의 항목(대항할 수 있는 임차권·전세권·가처분 등)은 낙찰자가 인수하는 권리
+            parts = [x.strip() for x in re.split(r"\n+|(?:^|\s)-\s+|(?:^|\s)\d+\.\s+", str(assumed)) if x and x.strip()]
+            for part in parts or [str(assumed)]:
+                f = scan_text(part)
+                if "대항력 포기" in f:
+                    found.setdefault("대항력 포기", "포기")
+                    f = {k: v for k, v in f.items() if k in ("대항력 포기", "HUG 관련 조건")}
+                else:
+                    found.setdefault("인수되는 권리", "위험")
+                found.update({k: v for k, v in f.items() if k not in found})
         surface = info.get("sprfcExstcDts")
         if surface and not _EMPTY_TEXT.match(str(surface)):
             basis["surface_rights"] = re.sub(r"\s+", " ", str(surface))[:300]   # 지상권 개요
@@ -245,6 +256,7 @@ def analyze(item: dict, detail: dict | None = None, curst: dict | None = None) -
 
     checked = has_spec and curst is not None
     return {
+        "rights_version": VERSION,
         "rights_risk": _risk_of(found, checked),
         "rights_keywords": _sorted(found),
         "rights_has_spec": has_spec,

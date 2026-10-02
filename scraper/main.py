@@ -162,7 +162,7 @@ ENRICH_FIELDS = [
     "official_price", "official_price_year",
     "nearby_trade_price", "nearby_trade_count", "nearby_trade_date", "nearby_trade_basis", "nearby_trade_confidence",
     "safe_jeonse", "safety_margin_pct", "is_under_100m", "risk_tags",
-    "rights_risk", "rights_keywords", "rights_checked_at", "rights_has_spec", "rights_basis", "bid_history",
+    "rights_risk", "rights_keywords", "rights_checked_at", "rights_has_spec", "rights_basis", "bid_history", "rights_version",
     "enriched_at", "enrich_status", "enriched_pnu",
 ]
 
@@ -924,9 +924,18 @@ def _find_titles(item: dict, juso_cache: "DiskCache | None") -> tuple[list[dict]
             return same, pp2
     if JUSO_CONFIRM_KEY and juso_cache is not None and not item.get("_juso_tried"):
         item["_juso_tried"] = True
-        try:
-            hit = juso_search(item.get("jibun_address") or item.get("address", ""), juso_cache)
-        except ApiError:
+        ja = (item.get("jibun_address") or "").split()
+        keywords = [item.get("jibun_address") or item.get("address", "")]
+        if len(ja) >= 4:      # 구 이름이 바뀐 지역: '인천광역시 왕길동 273-5' 처럼 시군구를 빼고 검색
+            keywords.append(" ".join([ja[0]] + ja[-2:]))
+        hit = None
+        for kw in keywords:
+            try:
+                hit = juso_search(kw, juso_cache)
+            except ApiError:
+                hit = None
+            if hit and (hit.get("emdNm") or "") in (item.get("umd_name") or "") + " " + (item.get("jibun_address") or ""):
+                break
             hit = None
         adm = str((hit or {}).get("admCd") or "")
         if len(adm) == 10 and adm != item["pnu"][:10]:
@@ -1317,7 +1326,7 @@ def load_previous() -> tuple[dict, dict]:
     return (d if isinstance(d, dict) else {"auctions": items}), {i.get("id"): i for i in items if i.get("id")}
 
 
-RIGHTS_FIELDS = ("rights_risk", "rights_keywords", "rights_checked_at", "rights_has_spec", "rights_basis", "bid_history")
+RIGHTS_FIELDS = ("rights_risk", "rights_keywords", "rights_checked_at", "rights_has_spec", "rights_basis", "bid_history", "rights_version")
 COMPUTED_FIELDS = ("safe_jeonse", "safety_margin_pct", "is_under_100m", "risk_tags")
 
 
@@ -1498,6 +1507,8 @@ def stage_rights(items: list[dict]) -> None:
     # ① 목록 정보(특수조건·물건비고)만으로 1차 판정 — 상세 확인 결과가 있으면 그 근거를 유지
     for it in items:
         r = RT.analyze(it)
+        if it.get("rights_checked_at") and it.get("rights_version") != RT.VERSION:
+            it["rights_checked_at"] = None   # 판정 규칙이 바뀜 → 예전 상세 판정은 버리고 다시 조회
         if not it.get("rights_checked_at"):
             it.update(r)
         else:   # 이전에 상세 확인한 물건: 목록 키워드만 합치고 판정은 더 나쁜 쪽으로
