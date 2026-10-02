@@ -1,0 +1,73 @@
+{
+ "status": 200,
+ "message": "현황조사서가 조회되었습니다.",
+ "timestamp": 1790929087827,
+ "errors": null,
+ "data": {
+  "dma_curstExmnMngInf": {
+   "cortOfcCd": "B000210",
+   "csNo": "20250130101061",
+   "ordTsCnt": 1,
+   "auctnCurstExmnTrsmStatCd": "06",
+   "execIntgCsNmCd": "01",
+   "lesDts": null,
+   "exmndcRtrcnYmd": null,
+   "exmndcSndngYmd": "20250124",
+   "exmndcRcptnYmd": "20250124",
+   "fstmLstPossRltnDts": null,
+   "scntmLstPossRltnDts": null,
+   "exmnDtDts": "2025년01월21일17시25분 2025년11월22일11시19분 ",
+   "lwstDvsCd": "2",
+   "lstPossRltnDts": null,
+   "userCsNo": "2025타경101061",
+   "printRltnDts": ""
+  },
+  "dlt_spotExmnOrdCntLst": [
+   {
+    "ordTsCnt": 1
+   }
+  ],
+  "dlt_curstExmnDpcnMrg": [],
+  "dlt_ordTsRlet": [
+   {
+    "cortOfcCd": "B000210",
+    "csNo": "20250130101061",
+    "ordTsCnt": 1,
+    "objctSeq": 1,
+    "dspslObjctSeq": 1,
+    "adongSdNm": "서울특별시",
+    "adongSggNm": "강남구",
+    "adongEmdNm": "논현동",
+    "adongRiNm": null,
+    "rprsLtnoAddr": "222-30",
+    "auctnPossRltnCd": "09",
+    "gdsPossCtt": "1) 이건 부동산의 전입세대열람 내역에 등재된 자 없으며\r<br />2) 이건 부동산의 점유자를 만나지 못해 연락처가 기재된 안내문을 부착해 두었으나 점유자 등으로부터 아무 연락이 없어 일응 점유미상으로 보고함.<br />",
+    "rletLstRmk": null,
+    "rdnmSdNm": "서울특별시",
+    "rdnmSggNm": "강남구",
+    "rdnmEmdNm": null,
+    "rdnm": "논현로118길",
+    "rdnmBldNo": "11",
+    "rdnmRefcAddr": null,
+    "addrTypCd": "R",
+    "bldNm": null,
+    "ldcgDts": null,
+    "objctArDts": null,
+    "auctnLstDvsCd": "03",
+    "dspslStkCtt": null,
+    "bldDtlDts": "4층401호",
+    "lesCnt": 0,
+    "printSt": "서울특별시 강남구 논현로118길 11, 4층401호"
+   }
+  ],
+  "dlt_ordTsPicDvs": [
+   {
+    "cortAuctnPicDvsCd": "000241",
+    "cortAuctnDvsPicCnt": 3
+   }
+  ],
+  "dlt_ordTsLserLtn": [],
+  "ipcheck": true
+ },
+ "token": null
+}

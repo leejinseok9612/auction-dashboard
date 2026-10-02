@@ -1,0 +1,621 @@
+{
+ "status": 200,
+ "message": "물건상세검색 정보가  조회되었습니다.",
+ "timestamp": 1790929052887,
+ "errors": null,
+ "data": {
+  "dma_result": {
+   "csBaseInfo": {
+    "cortOfcCd": "B000250",
+    "cortOfcNm": "수원지방법원",
+    "cortSptNm": "수원지방법원",
+    "csNo": "20240130092540",
+    "csNm": "부동산강제경매",
+    "csRcptYmd": "20241008",
+    "csCmdcYmd": "20241010",
+    "clmAmt": 350533910,
+    "rletApalYn": "N",
+    "auctnSuspStatCd": "00",
+    "ultmtDvsCd": "000",
+    "csUltmtYmd": null,
+    "csProgStatCd": "0002100001",
+    "jdgeAojAsstnNm": null,
+    "auctnDpcnMrgDvsCd": "0",
+    "csProgSuspRsn": null,
+    "mvprpCsNo": null,
+    "mvprpRletDvsCd": "00031R",
+    "jdbnCd": "1005",
+    "cortAuctnJdbnNm": "경매5계",
+    "jdbnTelno": "(031)210-1265",
+    "execrCsTelno": "031-213-4500",
+    "cortTypCd": "40",
+    "expCsNo": null,
+    "lwstDvsCd": "2",
+    "userCsNo": "2024타경92540"
+   },
+   "dstrtDemnInfo": [
+    {
+     "orddcsDvsCd": "021",
+     "dstrtDemnLstprdYmd": "20250106"
+    }
+   ],
+   "dspslGdsDxdyInfo": {
+    "cortOfcCd": "B000250",
+    "csNo": "20240130092540",
+    "dspslGdsSeq": 1,
+    "auctnGdsStatCd": "01",
+    "gdsSpcfcWrtYmd": "20260707",
+    "ndstrcRghCtt": null,
+    "sprfcExstcDts": null,
+    "gdsSpcfcRmk": "주택도시보증공사(양도전:임차인 조인서)로부터 2026.06.09.자에 ‘임차보증금에 대하여 우선변제권만 주장하고 대항력은 포기하며, 전액을 변제받지 못하더라도 임차권등기를 말소해 주겠다.’는 내용의 확약서가 제출됨\n\n\n\n",
+    "tprtyRnkHypthcStngDts": "2022.12.05. 압류",
+    "dspslGdsRmk": "주택도시보증공사(양도전:임차인 조인서)로부터 2026.06.09.자에 ‘임차보증금에 대하여 우선변제권만 주장하고 대항력은 포기하며, 전액을 변제받지 못하더라도 임차권등기를 말소해 주겠다.’는 내용의 확약서가 제출됨\n\n\n\n",
+    "auctnGdsUsgCd": "03",
+    "flbdNcnt": 9,
+    "aeeEvlAmt": 386000000,
+    "fstPbancLwsDspslPrc": 189140000,
+    "scndPbancLwsDspslPrc": null,
+    "thrdPbancLwsDspslPrc": null,
+    "fothPbancLwsDspslPrc": null,
+    "bidDvsCd": "000331",
+    "dspslDxdyYmd": "20261027",
+    "fstDspslHm": "1000",
+    "scndDspslHm": null,
+    "thrdDspslHm": null,
+    "fothDspslHm": null,
+    "dspslDcsnDxdyYmd": "20261103",
+    "dspslGdsSpcfcEcdocId": "3A764A14AC19061E5152CE0E88385F2F",
+    "prchDposRate": 10,
+    "auctnDxdyGdsStatCd": "00",
+    "dspslPlcNm": "광교 신청사 제101호 법정",
+    "dspslDcsnHm": "1600",
+    "dspslDcsnPlcNm": "광교 신청사   제102호 법정",
+    "bidBgngYmd": null,
+    "bidEndYmd": null,
+    "cortOfcNm": "수원지방법원",
+    "cortSptNm": "수원지방법원",
+    "realMulKind": "2",
+    "orvParam": "EpNCFG7MI105L73H4pfTrTj+ThegCgYqlmuKBGcHiqIVF60QDzJE7oDeCap524rYjX0owZ8MVbyeWGa81NoigH/lO7zQRTb+zOWeLQ7JkgMz6lE4+QSnQgIHrS3YktgpAAkA"
+   },
+   "picDvsIndvdCnt": [
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "cortAuctnPicDvsCd": "000245",
+     "photoGubunCnt": 6
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "cortAuctnPicDvsCd": "000244",
+     "photoGubunCnt": 2
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "cortAuctnPicDvsCd": "000241",
+     "photoGubunCnt": 6
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "cortAuctnPicDvsCd": "000247",
+     "photoGubunCnt": 1
+    }
+   ],
+   "csPicLst": [
+    {
+     "picFileUrl": "/nas_e_image_pgj/kj/2024/1113/",
+     "picTitlNm": "B0002502024013009254010.jpg",
+     "cortAuctnPicDvsCd": "000241",
+     "cortAuctnPicSeq": "10",
+     "pageSeq": "1",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<328804 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kj/2024/1113/",
+     "picTitlNm": "B0002502024013009254011.jpg",
+     "cortAuctnPicDvsCd": "000241",
+     "cortAuctnPicSeq": "11",
+     "pageSeq": "2",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<279564 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kj/2024/1113/",
+     "picTitlNm": "B0002502024013009254012.jpg",
+     "cortAuctnPicDvsCd": "000241",
+     "cortAuctnPicSeq": "12",
+     "pageSeq": "3",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<288616 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kj/2024/1113/",
+     "picTitlNm": "B0002502024013009254013.jpg",
+     "cortAuctnPicDvsCd": "000241",
+     "cortAuctnPicSeq": "13",
+     "pageSeq": "4",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<290984 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kj/2024/1113/",
+     "picTitlNm": "B0002502024013009254014.jpg",
+     "cortAuctnPicDvsCd": "000241",
+     "cortAuctnPicSeq": "14",
+     "pageSeq": "5",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<243960 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kj/2024/1113/",
+     "picTitlNm": "B0002502024013009254015.jpg",
+     "cortAuctnPicDvsCd": "000241",
+     "cortAuctnPicSeq": "15",
+     "pageSeq": "6",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<238276 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kp/2024/1107/",
+     "picTitlNm": "B000250202401300925401.jpg",
+     "cortAuctnPicDvsCd": "000244",
+     "cortAuctnPicSeq": "1",
+     "pageSeq": "7",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<411120 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kp/2024/1107/",
+     "picTitlNm": "B000250202401300925402.jpg",
+     "cortAuctnPicDvsCd": "000244",
+     "cortAuctnPicSeq": "2",
+     "pageSeq": "8",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<458244 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kp/2024/1107/",
+     "picTitlNm": "B000250202401300925403.jpg",
+     "cortAuctnPicDvsCd": "000245",
+     "cortAuctnPicSeq": "3",
+     "pageSeq": "9",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<294564 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kp/2024/1107/",
+     "picTitlNm": "B000250202401300925404.jpg",
+     "cortAuctnPicDvsCd": "000245",
+     "cortAuctnPicSeq": "4",
+     "pageSeq": "10",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<570804 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kp/2024/1107/",
+     "picTitlNm": "B000250202401300925405.jpg",
+     "cortAuctnPicDvsCd": "000245",
+     "cortAuctnPicSeq": "5",
+     "pageSeq": "11",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<559112 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kp/2024/1107/",
+     "picTitlNm": "B000250202401300925406.jpg",
+     "cortAuctnPicDvsCd": "000245",
+     "cortAuctnPicSeq": "6",
+     "pageSeq": "12",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<534728 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kp/2024/1107/",
+     "picTitlNm": "B000250202401300925407.jpg",
+     "cortAuctnPicDvsCd": "000245",
+     "cortAuctnPicSeq": "7",
+     "pageSeq": "13",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<383920 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kp/2024/1107/",
+     "picTitlNm": "B000250202401300925408.jpg",
+     "cortAuctnPicDvsCd": "000245",
+     "cortAuctnPicSeq": "8",
+     "pageSeq": "14",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<531756 bytes>"
+    },
+    {
+     "picFileUrl": "/nas_e_image_pgj/kp/2024/1107/",
+     "picTitlNm": "B000250202401300925409.jpg",
+     "cortAuctnPicDvsCd": "000247",
+     "cortAuctnPicSeq": "9",
+     "pageSeq": "15",
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "picFile": "<115756 bytes>"
+    }
+   ],
+   "gdsDspslDxdyLst": [
+    {
+     "dxdyYmd": "20251028",
+     "dxdyHm": "1000",
+     "bidBgngYmd": null,
+     "bidEndYmd": null,
+     "dxdyPlcNm": "광교 신청사 제101호 법정",
+     "auctnDxdyKndCd": "01",
+     "auctnDxdyRsltCd": "002",
+     "auctnDxdyGdsStatCd": "01",
+     "tsLwsDspslPrc": 386000000,
+     "dspslAmt": null
+    },
+    {
+     "dxdyYmd": "20251128",
+     "dxdyHm": "1000",
+     "bidBgngYmd": null,
+     "bidEndYmd": null,
+     "dxdyPlcNm": "광교 신청사 제101호 법정",
+     "auctnDxdyKndCd": "01",
+     "auctnDxdyRsltCd": "002",
+     "auctnDxdyGdsStatCd": "01",
+     "tsLwsDspslPrc": 270200000,
+     "dspslAmt": null
+    },
+    {
+     "dxdyYmd": "20260107",
+     "dxdyHm": "1000",
+     "bidBgngYmd": null,
+     "bidEndYmd": null,
+     "dxdyPlcNm": "광교 신청사 제101호 법정",
+     "auctnDxdyKndCd": "01",
+     "auctnDxdyRsltCd": "002",
+     "auctnDxdyGdsStatCd": "01",
+     "tsLwsDspslPrc": 189140000,
+     "dspslAmt": null
+    },
+    {
+     "dxdyYmd": "20260209",
+     "dxdyHm": "1000",
+     "bidBgngYmd": null,
+     "bidEndYmd": null,
+     "dxdyPlcNm": "광교 신청사 제101호 법정",
+     "auctnDxdyKndCd": "01",
+     "auctnDxdyRsltCd": "002",
+     "auctnDxdyGdsStatCd": "01",
+     "tsLwsDspslPrc": 132398000,
+     "dspslAmt": null
+    },
+    {
+     "dxdyYmd": "20260320",
+     "dxdyHm": "1000",
+     "bidBgngYmd": null,
+     "bidEndYmd": null,
+     "dxdyPlcNm": "광교 신청사 제101호 법정",
+     "auctnDxdyKndCd": "01",
+     "auctnDxdyRsltCd": "002",
+     "auctnDxdyGdsStatCd": "01",
+     "tsLwsDspslPrc": 92679000,
+     "dspslAmt": null
+    },
+    {
+     "dxdyYmd": "20260421",
+     "dxdyHm": "1000",
+     "bidBgngYmd": null,
+     "bidEndYmd": null,
+     "dxdyPlcNm": "광교 신청사 제101호 법정",
+     "auctnDxdyKndCd": "01",
+     "auctnDxdyRsltCd": "002",
+     "auctnDxdyGdsStatCd": "01",
+     "tsLwsDspslPrc": 64875000,
+     "dspslAmt": null
+    },
+    {
+     "dxdyYmd": "20260527",
+     "dxdyHm": "1000",
+     "bidBgngYmd": null,
+     "bidEndYmd": null,
+     "dxdyPlcNm": "광교 신청사 제101호 법정",
+     "auctnDxdyKndCd": "01",
+     "auctnDxdyRsltCd": "002",
+     "auctnDxdyGdsStatCd": "01",
+     "tsLwsDspslPrc": 45413000,
+     "dspslAmt": null
+    },
+    {
+     "dxdyYmd": "20260814",
+     "dxdyHm": "1000",
+     "bidBgngYmd": null,
+     "bidEndYmd": null,
+     "dxdyPlcNm": "광교 신청사 제101호 법정",
+     "auctnDxdyKndCd": "01",
+     "auctnDxdyRsltCd": "002",
+     "auctnDxdyGdsStatCd": "01",
+     "tsLwsDspslPrc": 386000000,
+     "dspslAmt": null
+    },
+    {
+     "dxdyYmd": "20260916",
+     "dxdyHm": "1000",
+     "bidBgngYmd": null,
+     "bidEndYmd": null,
+     "dxdyPlcNm": "광교 신청사 제101호 법정",
+     "auctnDxdyKndCd": "01",
+     "auctnDxdyRsltCd": "002",
+     "auctnDxdyGdsStatCd": "01",
+     "tsLwsDspslPrc": 270200000,
+     "dspslAmt": null
+    },
+    {
+     "dxdyYmd": "20261027",
+     "dxdyHm": "1000",
+     "bidBgngYmd": null,
+     "bidEndYmd": null,
+     "dxdyPlcNm": "광교 신청사 제101호 법정",
+     "auctnDxdyKndCd": "01",
+     "auctnDxdyRsltCd": null,
+     "auctnDxdyGdsStatCd": "00",
+     "tsLwsDspslPrc": 189140000,
+     "dspslAmt": 0
+    },
+    {
+     "dxdyYmd": "20261103",
+     "dxdyHm": "1600",
+     "bidBgngYmd": null,
+     "bidEndYmd": null,
+     "dxdyPlcNm": "광교 신청사   제102호 법정",
+     "auctnDxdyKndCd": "02",
+     "auctnDxdyRsltCd": null,
+     "auctnDxdyGdsStatCd": null,
+     "tsLwsDspslPrc": 0,
+     "dspslAmt": 0
+    }
+   ],
+   "gdsDspslObjctLst": [
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "dspslGdsSeq": 1,
+     "dspslObjctSeq": 1,
+     "rletDvsDts": "전유",
+     "pjbBuldList": "철근콘크리트구조 54.915㎡",
+     "aeeEvlAmt": 386000000,
+     "lclDspslGdsLstUsgCd": "20000",
+     "mclDspslGdsLstUsgCd": "20100",
+     "sclDspslGdsLstUsgCd": "20106",
+     "rprsAdongSdCd": "41",
+     "rprsAdongSggCd": "465",
+     "rprsAdongEmdCd": "105",
+     "rprsAdongRiCd": "00",
+     "stXcrd": 316155,
+     "stYcrd": 526190,
+     "adongSdNm": "경기도",
+     "adongSggNm": "용인시 수지구",
+     "adongEmdNm": "신봉동",
+     "adongRiNm": null,
+     "rprsLtnoAddr": "642-8",
+     "bldNm": "광교산 포레스타",
+     "objctArDts": null,
+     "ldcgDts": null,
+     "dspslStkNmrtVal": 0,
+     "dspslStkDnmnVal": 0,
+     "dspslStkCtt": null,
+     "gdsVendNm": null,
+     "fuelKndCd": null,
+     "grbxTypCd": null,
+     "motrFmtDts": null,
+     "carMdlNm": null,
+     "carDsplcCtt": null,
+     "objctRegNo": null,
+     "carDelvYr": null,
+     "carVidCtt": null,
+     "objctAprvNo": null,
+     "drvnDistIndctCtt": null,
+     "auctnLstDvsCd": "03",
+     "storgPlcAdongSdCd": null,
+     "storgPlcAdongSggCd": null,
+     "storgPlcAdongEmdCd": null,
+     "storgPlcAdongRiCd": null,
+     "storgPlcAllLtnoAddr": null,
+     "objctRletCarUnqNo": "13452018027332",
+     "pnuNoCtt": "4146510500106420008",
+     "storgPlcAdongSd": null,
+     "storgPlcAdongSgg": null,
+     "storgPlcAdongEmd": null,
+     "storgPlcAdongRi": null,
+     "rdnmSdNm": "경기도",
+     "rdnmSggNm": "용인시 수지구",
+     "rdEubMyun": null,
+     "rdnm": "신봉1로344번길",
+     "rdnmBldNo": "7",
+     "rdnmRefcAddr": "(신봉동,광교산 포레스타)",
+     "addrTypCd": "R",
+     "storgPlcRdnmAddr": "경기도 용인시 수지구 신봉1로344번길 00007-00000",
+     "storgPlcAddrTypCd": "R",
+     "bldDtlDts": "101동 3층302호",
+     "userPrintSt": "경기도 용인시 수지구 신봉1로344번길 7, 101동 3층302호 (신봉동,광교산 포레스타)",
+     "rgstRdngYn": "Y"
+    }
+   ],
+   "rgltLandLstAll": [
+    [
+     {
+      "cortOfcCd": "B000250",
+      "csNo": "20240130092540",
+      "dspslObjctSeq": 1,
+      "rgltLandSeq": 1,
+      "rletCarUnqNo": "13452018027332",
+      "rletDvsDts": "전유",
+      "landArDts": "1565㎡",
+      "landLdcgDts": "대",
+      "auctnRgltKndCd": "12401",
+      "rgltRateDnmnVal": "1565",
+      "rgltRateNmrtVal": "66.664",
+      "rletIndctDts": "경기도용인시 수지구신봉동642-8",
+      "rgltLandSdNm": "경기도",
+      "rgltLandSggNm": "용인시 수지구",
+      "rgltLandEmdNm": "신봉동",
+      "rgltLandRiNm": null,
+      "rgltLandLtnoAddr": "642-8",
+      "rgltLandNo": 1
+     }
+    ]
+   ],
+   "bldSdtrDtlLstAll": [
+    [
+     {
+      "cortOfcCd": "B000250",
+      "csNo": "20240130092540",
+      "dspslObjctSeq": 1,
+      "bldSdtrSeq": 1,
+      "rletCarUnqNo": "13452018027332",
+      "rletDvsDts": "1동",
+      "bldSdtrDtlDts": "철근콘크리트구조 (철근)콘크리트지붕 지하1층지상4층 \n공동주택(단지형 다세대주택)\n지1층 378.081㎡\n  1층 132.05㎡\n  2층 132.049㎡\n  3층 132.049㎡\n  4층 132.049㎡"
+     },
+     {
+      "cortOfcCd": "B000250",
+      "csNo": "20240130092540",
+      "dspslObjctSeq": 1,
+      "bldSdtrSeq": 2,
+      "rletCarUnqNo": "13452018027332",
+      "rletDvsDts": "전유",
+      "bldSdtrDtlDts": "철근콘크리트구조 54.915㎡"
+     }
+    ]
+   ],
+   "gdsNotSugtBldLsstAll": [
+    []
+   ],
+   "gdsRletStLtnoLstAll": [
+    [
+     {
+      "cortOfcCd": "B000250",
+      "csNo": "20240130092540",
+      "dspslObjctSeq": 1,
+      "rletStSeq": 1,
+      "adongSdCd": "41",
+      "adongSggCd": "465",
+      "adongEmdCd": "105",
+      "adongRiCd": "00",
+      "rletStLtnoAddr": "642-8",
+      "adongSdNm": "경기도",
+      "adongSggNm": "용인시 수지구",
+      "adongEmdNm": "신봉동",
+      "adongRiNm": null,
+      "auctnLstDvsCd": "03",
+      "mclDspslGdsLstUsgCd": "20100",
+      "rdnmSdNm": "경기도",
+      "rdnmSggNm": "용인시 수지구",
+      "rdEubMyun": null,
+      "rdnm": "신봉1로344번길",
+      "rdnmBldNo": "7",
+      "rdnmRefcAddr": "(신봉동,광교산 포레스타)",
+      "addrTypCd": "R"
+     }
+    ]
+   ],
+   "aeeWevlMnpntLst": [
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "aeeWevlMnpntDtlSeq": 1,
+     "aeeWevlMnpntTbltDvsCd": "00082003",
+     "aeeWevlMnpntItmCd": "00083001",
+     "aeeWevlMnpntCtt": "본건은 경기도 용인시 수지구 신봉동 소재 \"신봉고등학교\" 북서측 인근에 위치하며, 주위는\n단독주택 및 공동주택, 식당, 근린생활시설 등이 혼재하는 지대임."
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "aeeWevlMnpntDtlSeq": 2,
+     "aeeWevlMnpntTbltDvsCd": "00082003",
+     "aeeWevlMnpntItmCd": "00083003",
+     "aeeWevlMnpntCtt": "본 건까지 차량출입 자유로우며, 인근에 버스정류장이 소재하고 남동측 근거리에 서수지IC가\n소재하여 제반 교통환경은 보통시됨."
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "aeeWevlMnpntDtlSeq": 3,
+     "aeeWevlMnpntTbltDvsCd": "00082003",
+     "aeeWevlMnpntItmCd": "00083015",
+     "aeeWevlMnpntCtt": "철근콘크리트구조 (철근)콘크리트지붕 지하1층 지상4층 중 3층 302호로서,\n(사용승인일자: 2018. 09. 19)\n외벽: 벽돌형 타일 등 마감,\n내벽: 벽지마감 및 일부 타일마감,\n창호: 샷시 이중창호임."
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "aeeWevlMnpntDtlSeq": 4,
+     "aeeWevlMnpntTbltDvsCd": "00082003",
+     "aeeWevlMnpntItmCd": "00083006",
+     "aeeWevlMnpntCtt": "다세대주택으로 이용 중임."
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "aeeWevlMnpntDtlSeq": 5,
+     "aeeWevlMnpntTbltDvsCd": "00082003",
+     "aeeWevlMnpntItmCd": "00083017",
+     "aeeWevlMnpntCtt": "위생 및 급배수설비, 난방설비, 엘리베이터, 소방설비 등 되어있음."
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "aeeWevlMnpntDtlSeq": 6,
+     "aeeWevlMnpntTbltDvsCd": "00082003",
+     "aeeWevlMnpntItmCd": "00083009",
+     "aeeWevlMnpntCtt": "사다리형의 토지로서 공동주택(다세대주택)의 부지로 이용중임."
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "aeeWevlMnpntDtlSeq": 7,
+     "aeeWevlMnpntTbltDvsCd": "00082003",
+     "aeeWevlMnpntItmCd": "00083005",
+     "aeeWevlMnpntCtt": "본건 동측으로 노폭 약 6미터 내외의 포장도로와 접함."
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "aeeWevlMnpntDtlSeq": 8,
+     "aeeWevlMnpntTbltDvsCd": "00082003",
+     "aeeWevlMnpntItmCd": "00083011",
+     "aeeWevlMnpntCtt": "도시지역, 자연녹지지역, 자연취락지구, 성장관리계획구역(주거형) 가축사육제한구역<가축분뇨의 관리 및 이용에 관한 법률>, 상대보호구역<교육환경 보호에 관한 법률>, 성장관리권역<수도권정비계획법> 중점경관관리구역"
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "aeeWevlMnpntDtlSeq": 9,
+     "aeeWevlMnpntTbltDvsCd": "00082003",
+     "aeeWevlMnpntItmCd": "00083014",
+     "aeeWevlMnpntCtt": "없음."
+    },
+    {
+     "cortOfcCd": "B000250",
+     "csNo": "20240130092540",
+     "aeeWevlMnpntDtlSeq": 10,
+     "aeeWevlMnpntTbltDvsCd": "00082003",
+     "aeeWevlMnpntItmCd": "00083026",
+     "aeeWevlMnpntCtt": "임대관계는 미상임."
+    }
+   ]
+  },
+  "ipcheck": true
+ },
+ "token": null
+}

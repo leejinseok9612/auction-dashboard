@@ -1,0 +1,16 @@
+{
+ "status": 200,
+ "message": "현황조사서가 조회되었습니다.",
+ "timestamp": 1790929062947,
+ "errors": null,
+ "data": {
+  "dma_curstExmnMngInf": {},
+  "dlt_spotExmnOrdCntLst": [],
+  "dlt_curstExmnDpcnMrg": [],
+  "dlt_ordTsRlet": [],
+  "dlt_ordTsPicDvs": [],
+  "dlt_ordTsLserLtn": [],
+  "ipcheck": true
+ },
+ "token": null
+}

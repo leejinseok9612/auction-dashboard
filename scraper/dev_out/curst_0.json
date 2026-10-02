@@ -1,0 +1,73 @@
+{
+ "status": 200,
+ "message": "현황조사서가 조회되었습니다.",
+ "timestamp": 1790929059569,
+ "errors": null,
+ "data": {
+  "dma_curstExmnMngInf": {
+   "cortOfcCd": "B000250",
+   "csNo": "20240130092540",
+   "ordTsCnt": 1,
+   "auctnCurstExmnTrsmStatCd": "06",
+   "execIntgCsNmCd": "01",
+   "lesDts": null,
+   "exmndcRtrcnYmd": null,
+   "exmndcSndngYmd": "20241111",
+   "exmndcRcptnYmd": "20241112",
+   "fstmLstPossRltnDts": "관상 공부의 내용과 일치하",
+   "scntmLstPossRltnDts": "는 것으로 보임.",
+   "exmnDtDts": "2024년11월06일10시39분 ",
+   "lwstDvsCd": "2",
+   "lstPossRltnDts": "본건 부동산의 현황은 외",
+   "userCsNo": "2024타경92540",
+   "printRltnDts": "본건 부동산의 현황은 외관상 공부의 내용과 일치하는 것으로 보임."
+  },
+  "dlt_spotExmnOrdCntLst": [
+   {
+    "ordTsCnt": 1
+   }
+  ],
+  "dlt_curstExmnDpcnMrg": [],
+  "dlt_ordTsRlet": [
+   {
+    "cortOfcCd": "B000250",
+    "csNo": "20240130092540",
+    "ordTsCnt": 1,
+    "objctSeq": 1,
+    "dspslObjctSeq": 1,
+    "adongSdNm": "경기도",
+    "adongSggNm": "용인시 수지구",
+    "adongEmdNm": "신봉동",
+    "adongRiNm": null,
+    "rprsLtnoAddr": "642-8",
+    "auctnPossRltnCd": "09",
+    "gdsPossCtt": "- 현장 방문 시 아무도 만나지 못하여 점유관계를 확인하지 못하고 호실 출입문에 안내문을 붙여 놓았음.\r<br />- 전입세대확인서, 외국인체류확인서에 의하면 전입세대, 거주하는 외국인은 없음\r<br />- 정확한 점유관계, 임대차 등 권리관계는 추가 확인이 필요함<br />",
+    "rletLstRmk": null,
+    "rdnmSdNm": "경기도",
+    "rdnmSggNm": "용인시 수지구",
+    "rdnmEmdNm": null,
+    "rdnm": "신봉1로344번길",
+    "rdnmBldNo": "7",
+    "rdnmRefcAddr": "(신봉동,광교산 포레스타)",
+    "addrTypCd": "R",
+    "bldNm": "광교산 포레스타",
+    "ldcgDts": null,
+    "objctArDts": null,
+    "auctnLstDvsCd": "03",
+    "dspslStkCtt": null,
+    "bldDtlDts": "101동 3층302호",
+    "lesCnt": 0,
+    "printSt": "경기도 용인시 수지구 신봉1로344번길 7, 101동 3층302호 (신봉동,광교산 포레스타)"
+   }
+  ],
+  "dlt_ordTsPicDvs": [
+   {
+    "cortAuctnPicDvsCd": "000241",
+    "cortAuctnDvsPicCnt": 6
+   }
+  ],
+  "dlt_ordTsLserLtn": [],
+  "ipcheck": true
+ },
+ "token": null
+}

@@ -1,0 +1,11 @@
+{
+ "status": 200,
+ "message": "물건상세검색 정보가  조회되었습니다.",
+ "timestamp": 1790929061270,
+ "errors": null,
+ "data": {
+  "dma_result": {},
+  "ipcheck": true
+ },
+ "token": null
+}
