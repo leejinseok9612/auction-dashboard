@@ -1117,7 +1117,7 @@ function applyF(){
       else { if(fb>=fv) return false; }                        // 미만: X회 미만
     }
     if(dateF==='today'&&a.scraped_date!==today)return false;
-    if(q&&!(a.id+a.court+a.address).toLowerCase().includes(q))return false;
+    if(q&&!((a.case_no||a.id)+a.court+a.address+(a.building_name||'')).toLowerCase().includes(q))return false;
     if(bmOnly&&!BM.has(a.id))return false;
     if(profitOnly){ const roi=calcROI(a); if(roi.rate<=0) return false; }
     // 최저매각가격 범위 (구간 선택 또는 직접 입력, 억 단위)
@@ -1162,9 +1162,10 @@ function goAll()  { set('fc-date',''); showAllListings(); scroll2(); }
    · 권리 등급은 '미확인'을 안전으로 취급하지 않음
 ───────────────────────────────────────────── */
 const SIDO_SHORT={'서울특별시':'서울','서울시':'서울','경기도':'경기','인천광역시':'인천','인천시':'인천'};
-const SPECIAL_KW=['유치권','법정지상권','분묘기지권','지분 매각','특별매각조건','선순위 가처분','예고등기','대지권 미등기','제시외 건물','농지취득자격증명'];
-const TENANT_KW=['대항력 있는 임차인','보증금 인수','대항력 여지','HUG 관련 조건','대항력 포기','점유관계 미상','선순위 전세권'];
-const DANGER_KW=['유치권','법정지상권','분묘기지권','선순위 가처분','예고등기','대지권 미등기','보증금 인수','대항력 있는 임차인','지분 매각'];
+const SPECIAL_KW=['유치권','법정지상권','분묘기지권','지분 매각','선순위 가처분','선순위 권리','예고등기','대지권 미등기','제시외 건물 매각제외','농지취득자격증명','맹지'];
+const TENANT_KW=['대항력 있는 임차인','보증금 인수','대항력 여지','HUG 관련 조건','대항력 포기','임차인 전입일 미상','선순위 전세권','인수되는 권리','특별매각조건'];
+const DANGER_KW=['유치권','법정지상권','분묘기지권','선순위 가처분','선순위 권리','예고등기','대지권 미등기','보증금 인수','대항력 있는 임차인','지분 매각','인수되는 권리'];
+const GRADE_LABEL={safe:'🟢 안전',waiver:'🟡 대항력 포기',caution:'🟠 주의',danger:'🔴 위험',unknown:'⚪ 미확인'};
 const PRICE_PRESETS={'~1':[null,1],'1~3':[1,3],'3~5':[3,5],'5~7':[5,7],'7~10':[7,10],'10~':[10,null]};
 const _derCache=new Map();
 
@@ -1181,17 +1182,17 @@ function deriveA(a){
   const cat=pt.includes('아파트')?'apt':['다세대','연립','빌라'].some(k=>pt.includes(k))?'villa':pt.includes('오피스텔')?'offi':['단독','다가구'].some(k=>pt.includes(k))?'house':'other';
   const kws=a.rights_keywords||[];
   let grade;
-  if(!a.rights_risk||a.rights_risk==='미확인') grade='unknown';
-  else if(kws.includes('대항력 포기')) grade=kws.some(k=>!TENANT_KW.includes(k)&&(DANGER_KW.includes(k)||SPECIAL_KW.includes(k)))?'danger':'waiver';
-  else if(a.rights_risk==='안전') grade='safe';
+  if(kws.includes('대항력 포기')) grade=kws.some(k=>!TENANT_KW.includes(k)&&(DANGER_KW.includes(k)||SPECIAL_KW.includes(k)))?'danger':'waiver';
   else if(a.rights_risk==='위험'||kws.some(k=>DANGER_KW.includes(k))) grade='danger';
-  else grade='caution';
+  else if(a.rights_risk==='주의') grade='caution';
+  else if(a.rights_risk==='안전') grade='safe';
+  else grade='unknown';
   const d={
     sido:a.sido||sido, sigungu:a.sigungu||sgg, cat:a.type_category||cat,
     geun:a.is_geunsaeng!=null?a.is_geunsaeng:(a.actual_use?a.actual_use.includes('근린생활'):null),
     gap:a.expected_gap!=null?a.expected_gap:((a.official_price&&a.min_bid)?a.min_bid-Math.round(a.official_price*1.26):null),
     grade:a.rights_grade||grade,
-    special:a.is_special_case!=null?a.is_special_case:(grade==='unknown'?null:kws.some(k=>SPECIAL_KW.includes(k))),
+    special:a.is_special_case!=null?a.is_special_case:kws.some(k=>SPECIAL_KW.includes(k)),
   };
   _derCache.set(a,d); return d;
 }
@@ -1470,7 +1471,7 @@ function renderCards(){
       ${hdrHtml}
       <div class="acard-body">
         <div class="acard-court-row">
-          <div class="acard-court">${court}</div>
+          <div class="acard-court">${court} · ${esc(caseLabel(a))}</div>
           <button class="btn-heart-sm ${isSaved?'saved':''}" onclick="toggleBM('${a.id}',event)" title="${isSaved?'즐겨찾기 해제':'즐겨찾기 추가'}">${isSaved?'❤':'♡'}</button>
         </div>
         <div class="acard-addr">${am||a.address||'-'}</div>
@@ -1618,7 +1619,7 @@ function openM(idx){
 
         <div class="iblock">
           <div class="iblock-ttl">📋 경매 기본 정보</div>
-          <div class="irow"><span class="ik">사건번호</span><span class="iv">${a.id||'-'}</span></div>
+          <div class="irow"><span class="ik">사건번호</span><span class="iv">${esc(caseLabel(a))}</span></div>
           <div class="irow"><span class="ik">경매기일</span><span class="iv">${a.auction_date||'-'}${daysTo(a.auction_date)!==null?' · D-'+daysTo(a.auction_date):''}</span></div>
           <div class="irow"><span class="ik">유찰 횟수</span><span class="iv ${a.failed_bids>=5?'c-red':a.failed_bids>=3?'c-yellow':'c-green'}">${a.failed_bids||0}회</span></div>
           <div class="irow"><span class="ik">감정가</span><span class="iv">${fmt(a.appraisal)}</span></div>
@@ -1631,12 +1632,27 @@ function openM(idx){
           <div class="irow"><span class="ik">취득 총비용</span><span class="iv">${fmt(roi.cost)}</span></div>
           <div class="irow"><span class="ik">취득세 (추정)</span><span class="iv">${fmt(roi.tax)}</span></div>
           <div class="irow"><span class="ik">기타비용 (명도·수리)</span><span class="iv">${fmt(roi.etc)}</span></div>
-          <div class="irow"><span class="ik">예상 시세</span><span class="iv">${fmt(roi.est)}</span></div>
+          <div class="irow"><span class="ik">예상 시세 <small style="color:var(--gray-400);font-weight:400">${roi.real?'(인근 실거래가)':'(감정가 기준 추정)'}</small></span><span class="iv">${fmt(roi.est)}</span></div>
           <div class="irow"><span class="ik">안전마진</span><span class="iv ${roi.margin>0?'c-green':'c-red'}">${roi.margin>0?'+':''}${fmt(roi.margin)}</span></div>
           <div class="irow"><span class="ik">실질 수익률</span><span class="iv ${roi.rate>15?'c-green':roi.rate>5?'c-yellow':'c-red'}">${roi.rate}%</span></div>
         </div>
 
-        ${a.failed_bids>0?`
+        ${(a.bid_history||[]).length?`
+        <div class="iblock">
+          <div class="iblock-ttl">📉 기일 내역 (법원 기록)</div>
+          <div class="bid-hist-timeline">
+            ${a.bid_history.map((h,i)=>`
+            <div class="bid-hist-row ${h.result==='예정'?'current':'failed'}">
+              <div class="bid-hist-dot ${h.result==='예정'?'dot-curr':'dot-fail'}">${i+1}</div>
+              <div class="bid-hist-info">
+                <div class="bid-hist-label">${esc(h.date||'')} · ${esc(h.result||'')}</div>
+                <div class="bid-hist-amount">${fmt(h.min_bid)}</div>
+              </div>
+              ${a.appraisal&&h.min_bid?`<div class="bid-hist-drop">감정가의<br>${Math.round(h.min_bid/a.appraisal*100)}%</div>`:''}
+            </div>`).join('')}
+          </div>
+        </div>`:''}
+        ${(!(a.bid_history||[]).length&&a.failed_bids>0)?`
         <div class="iblock">
           <div class="iblock-ttl">📉 유찰 이력 (추정)</div>
           <div class="bid-hist-timeline">
@@ -1669,6 +1685,8 @@ function openM(idx){
         </div>
 
         ${publicDataBlock(a)}
+
+        ${courtInfoBlock(a)}
 
         <div class="iblock">
           <div class="iblock-ttl">⚠️ 리스크 체크리스트</div>
@@ -1715,7 +1733,7 @@ function showToast(caseId){
 }
 function openCourt(idx){
   const a=ALL[idx]; if(!a)return;
-  const caseId=a.id||'';
+  const caseId=a.case_no||a.id||'';
   navigator.clipboard.writeText(caseId).catch(()=>{
     const tmp=document.createElement('textarea');
     tmp.value=caseId; tmp.style.position='fixed'; tmp.style.opacity='0';
@@ -1731,10 +1749,12 @@ function calcROI(a){
   const etc=20000000;
   const cost=Math.round(bid+tax+etc);
   const ff=Math.max(0.55,0.85-(a.failed_bids||0)*0.05);
-  const est=Math.round(app*ff);
+  // 예상 시세: 인근 실거래가(국토부)가 있으면 그 값을, 없으면 감정가 기준 추정치
+  const real=!!a.nearby_trade_price;
+  const est=real?a.nearby_trade_price:Math.round(app*ff);
   const margin=est-cost;
   const rate=cost>0?Math.round(margin/cost*100):0;
-  return{tax:Math.round(tax),etc,cost,est,margin,rate};
+  return{tax:Math.round(tax),etc,cost,est,margin,rate,real};
 }
 function getInfra(addr){
   const a=addr||'';
@@ -1759,27 +1779,53 @@ function getRisks(a){
 }
 
 /* ── 공공데이터 분석 결과 표시 (신규 필드가 없으면 아무것도 그리지 않음 → 하위 호환) ── */
+function caseLabel(a){ const c=a.case_no||a.id||'-'; return a.item_no&&a.item_no>1?`${c} (물건 ${a.item_no})`:c; }
 function esc(v){ return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function tagChips(a){
   const chips=[];
   (a.risk_tags||[]).forEach(t=>{
     chips.push(`<span class="atag ${t.includes('✨')?'atag-good':'atag-danger'}">${esc(t)}</span>`);
   });
-  if(a.rights_risk==='위험') chips.push('<span class="atag atag-danger">⚖️ 권리 위험</span>');
-  else if(a.rights_risk==='주의') chips.push('<span class="atag atag-warn">⚖️ 권리 주의</span>');
-  else if(a.rights_risk==='안전') chips.push('<span class="atag atag-good">⚖️ 권리 특이사항 없음</span>');
+  const g=deriveA(a).grade;
+  if(g==='danger') chips.push('<span class="atag atag-danger">⚖️ 권리 위험</span>');
+  else if(g==='caution') chips.push('<span class="atag atag-warn">⚖️ 권리 주의</span>');
+  else if(g==='waiver') chips.push('<span class="atag atag-warn">🟡 대항력 포기 조건</span>');
+  else if(g==='safe') chips.push('<span class="atag atag-good">🟢 권리 안전</span>');
+  if(a.is_share_sale) chips.push('<span class="atag atag-danger">지분매각</span>');
   if(a.is_under_100m===true) chips.push('<span class="atag atag-info">공시가 1억 이하</span>');
   return chips.length?`<div class="acard-tags">${chips.join('')}</div>`:'';
 }
 function enrichRisks(a){
-  const out=[];
+  const out=[], g=deriveA(a).grade;
   const kws=(a.rights_keywords||[]).map(esc).join(', ');
-  if(a.rights_risk==='위험') out.push({i:'🔴',t:'권리분석: 위험',d:`매각물건명세서 키워드 — ${kws||'확인 필요'}. 인수되는 권리가 있을 수 있음`});
-  else if(a.rights_risk==='주의') out.push({i:'🟠',t:'권리분석: 주의',d:`매각물건명세서 키워드 — ${kws||'확인 필요'}`});
-  else if(a.rights_risk==='안전') out.push({i:'🟢',t:'권리분석: 특이 키워드 없음',d:'명세서 키워드 자동 스캔 결과 — 등기부등본 직접 확인은 여전히 필수'});
-  if(a.is_illegal_building) out.push({i:'🔴',t:'위반건축물',d:'건축물대장 또는 명세서에 위반건축물 표기 — 이행강제금·대출 제한 가능'});
+  if(g==='danger') out.push({i:'🔴',t:'권리분석: 위험',d:`${kws||'확인 필요'} — 낙찰자가 인수하는 권리·보증금이 있을 수 있음`});
+  else if(g==='caution') out.push({i:'🟠',t:'권리분석: 주의',d:kws||'확인 필요'});
+  else if(g==='waiver') out.push({i:'🟡',t:'권리분석: 대항력 포기 조건',d:'법원 공고에 임차인(HUG 등)의 대항력 포기·임차권등기 말소 조건이 기재됨 — 원문 문구를 반드시 확인'});
+  else if(g==='safe') out.push({i:'🟢',t:'권리분석: 특이사항 없음',d:'명세서 요약·현황조사서 자동 판정 결과 — 등기부등본 직접 확인은 여전히 필수'});
+  else out.push({i:'⚪',t:'권리분석: 미확인',d:'매각물건명세서가 아직 작성되지 않았거나(통상 매각기일 7일 전) 조회 전입니다'});
+  if(a.is_illegal_building) out.push({i:'🔴',t:'위반건축물',d:'건축물대장 또는 법원 물건비고에 위반건축물 표기 — 이행강제금·대출 제한 가능'});
   if((a.risk_tags||[]).some(t=>t.includes('근생'))) out.push({i:'🔴',t:'근생 주의',d:`대장상 용도: ${esc(a.actual_use||'근린생활시설')} — 주택 아님, 전세대출·보증보험 불가 가능`});
   return out;
+}
+// 법원 원본 정보 + 권리분석 근거
+function courtInfoBlock(a){
+  const rows=[], b=a.rights_basis||{};
+  const row=(k,val,cls)=>rows.push(`<div class="irow"><span class="ik">${k}</span><span class="iv ${cls||''}" style="text-align:right;max-width:68%">${val}</span></div>`);
+  row('권리 등급', GRADE_LABEL[deriveA(a).grade]);
+  if((a.special_conditions||[]).length) row('법원 특수조건', esc(a.special_conditions.join(', ')));
+  if((a.rights_keywords||[]).length) row('발견 키워드', esc(a.rights_keywords.join(', ')));
+  if(b.base_right) row('최선순위 설정 (말소기준)', esc(b.base_right));
+  if(b.tenant_count!=null) row('임차인 (현황조사서)', b.tenant_count?`${b.tenant_count}명${b.senior_tenant_count?` · 선순위 ${b.senior_tenant_count}명`:''}${(b.tenant_move_in||[]).length?' · 전입 '+esc(b.tenant_move_in.join(', ')):''}`:'전입세대 없음', b.senior_tenant_count?'c-red':'');
+  if(b.assumed_rights) row('소멸되지 않는 권리', esc(b.assumed_rights), 'c-red');
+  if(b.surface_rights) row('지상권 개요', esc(b.surface_rights), 'c-red');
+  if(b.spec_date) row('명세서 작성일', esc(b.spec_date));
+  const note=a.remarks||b.spec_remarks;
+  return `<div class="iblock full">
+          <div class="iblock-ttl">⚖️ 권리분석 (법원 공고 기준)</div>
+          ${rows.join('')}
+          ${note?`<div style="font-size:12px;line-height:1.6;color:var(--gray-600);background:white;border:1px solid var(--gray-200);border-radius:10px;padding:10px 12px;margin-top:10px"><b>물건비고</b> · ${esc(note)}</div>`:''}
+          <div style="font-size:11px;color:var(--gray-400);margin-top:10px">※ 임차인의 배당요구 여부는 반영되지 않습니다. 선순위 임차인이 있으면 배당요구를 했더라도 '위험'으로 표시합니다. 입찰 전 매각물건명세서 원문을 확인하세요.</div>
+        </div>`;
 }
 function publicDataBlock(a){
   const rows=[];

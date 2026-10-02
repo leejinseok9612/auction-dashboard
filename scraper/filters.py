@@ -42,14 +42,15 @@ TYPE_LABELS = {"apt": "아파트", "villa": "연립/다세대(빌라)", "offi": 
 # 권리 등급
 GRADE_LABELS = {"safe": "🟢 안전", "waiver": "🟡 대항력 포기", "caution": "🟠 주의", "danger": "🔴 위험", "unknown": "⚪ 미확인"}
 
-# '특수물건'으로 보는 명세서 키워드 (법정지상권/유치권 등)
-SPECIAL_KEYWORDS = {"유치권", "법정지상권", "분묘기지권", "지분 매각", "특별매각조건",
-                    "선순위 가처분", "예고등기", "대지권 미등기", "제시외 건물", "농지취득자격증명"}
+# '특수물건'으로 보는 키워드 (법정지상권/유치권 등 — 권리관계가 복잡한 물건)
+#   특별매각조건은 대부분 '대항력 포기 조건'·'재매각 보증금 20%' 라서 특수물건으로 치지 않는다.
+SPECIAL_KEYWORDS = {"유치권", "법정지상권", "분묘기지권", "지분 매각", "선순위 가처분", "선순위 권리", "예고등기",
+                    "대지권 미등기", "제시외 건물 매각제외", "농지취득자격증명", "맹지"}
 # 대항력 포기 확약이 있으면 해소되는(임차인 관련) 키워드
 TENANT_KEYWORDS = {"대항력 있는 임차인", "보증금 인수", "대항력 여지", "HUG 관련 조건", "대항력 포기",
-                   "점유관계 미상", "선순위 전세권"}
-DANGER_KEYWORDS = {"유치권", "법정지상권", "분묘기지권", "선순위 가처분", "예고등기", "대지권 미등기",
-                   "보증금 인수", "대항력 있는 임차인", "지분 매각"}
+                   "임차인 전입일 미상", "선순위 전세권", "인수되는 권리", "특별매각조건"}
+DANGER_KEYWORDS = {"유치권", "법정지상권", "분묘기지권", "선순위 가처분", "선순위 권리", "예고등기", "대지권 미등기",
+                   "보증금 인수", "대항력 있는 임차인", "지분 매각", "인수되는 권리"}
 
 # 최저매각가격 구간 (억 원) — (최소 이상, 최대 미만)
 PRICE_PRESETS = {"~1": (None, 1), "1~3": (1, 3), "3~5": (3, 5), "5~7": (5, 7), "7~10": (7, 10), "10~": (10, None)}
@@ -92,22 +93,22 @@ def type_category(property_type: str) -> str:
 def rights_grade(rights_risk: str | None, keywords: list[str] | None) -> str:
     """
     권리 등급
-      safe    명세서에서 위험·주의 키워드가 하나도 발견되지 않음
-      waiver  선순위 임차인이 있으나 '대항력 포기(우선변제권만 행사)' 확약이 기재됨 (HUG 등)
-              — 임차인 관련 외 다른 위험 키워드가 없을 때만
-      caution / danger / unknown(명세서를 아직 읽지 못함)
+      waiver  법원이 '대항력 포기(우선변제권만 행사)' 조건을 공고함 (HUG 등) — 임차인 관련 외 다른 위험이 없을 때만.
+              법원 공고(물건비고)에 근거하므로 명세서 확인 전이라도 부여한다.
+      safe    매각물건명세서가 작성돼 있고 위험·주의 키워드와 선순위 임차인이 없음
+      caution / danger / unknown(명세서 미작성 또는 아직 조회 전)
     """
     kws = set(keywords or [])
-    if not rights_risk or rights_risk == "미확인":
-        return "unknown"
     if "대항력 포기" in kws:
         others = (kws - TENANT_KEYWORDS) & (DANGER_KEYWORDS | SPECIAL_KEYWORDS)
         return "danger" if others else "waiver"
-    if rights_risk == "안전":
-        return "safe"
     if rights_risk == "위험" or (kws & DANGER_KEYWORDS):
         return "danger"
-    return "caution"
+    if rights_risk == "주의":
+        return "caution"
+    if rights_risk == "안전":
+        return "safe"
+    return "unknown"
 
 
 def derive(item: dict) -> dict:
@@ -126,8 +127,8 @@ def derive(item: dict) -> dict:
         # 예상 실투금(갭) = 최저가 - 공시가 × 1.26 (공시가 미확인이면 None, 음수 = 전세가가 최저가보다 높음)
         "expected_gap": int(mb - round(op * 1.26)) if (op and mb) else None,
         "rights_grade": grade,
-        # 특수물건 여부 (명세서 미확인이면 None)
-        "is_special_case": None if grade == "unknown" else bool(set(kws) & SPECIAL_KEYWORDS),
+        # 특수물건 여부 — 법원 특수조건·물건비고 기준이라 명세서 확인 전에도 판정 가능
+        "is_special_case": bool(set(kws) & SPECIAL_KEYWORDS),
     }
 
 

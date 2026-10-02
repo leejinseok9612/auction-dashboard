@@ -171,13 +171,9 @@ def build_item(rows: list[dict], today: str) -> dict | None:
     unit = clean(r.get("buldList")) or None
     bname = clean(r.get("buldNm")) or None
 
-    # 면적: 집합건물은 전유부분 면적(대개 1개), 그 외는 건물 목록 면적 합계
+    # 면적: 대표 목록(집합건물 전유부분 또는 건물)에 적힌 면적 합계 (복층·여러 층이면 합산)
     areas = parse_areas(r.get("pjbBuldList"))
-    court_area = None
-    if r.get("mokGbncd") == "03" and areas:
-        court_area = areas[0]
-    elif areas:
-        court_area = round(sum(areas), 2)
+    court_area = round(sum(areas), 2) if areas else None
 
     specials = [SPECIAL_CODES.get(c, c) for c in str(r.get("spJogCd") or "").split(",") if c.strip()]
     remarks = clean(r.get("mulBigo")) or None
