@@ -2,9 +2,12 @@ name: 🏠 경매 데이터 수집·분석
 
 # 매일(평일) 08:30 KST 실행
 #   GitHub cron 은 UTC 기준 → 23:30 UTC (일~목) = 08:30 KST (월~금)
+# 정부 사이트(공공데이터포털·주소·법원경매)는 GitHub 서버(해외 IP)에서 접속이 될 때도 있고 안 될 때도 있어,
+# 같은 날 10:30 / 13:30 / 16:30 KST 에 다시 시도한다. 이미 처리된 물건은 건너뛰므로 중복 작업은 없다.
 on:
   schedule:
     - cron: '30 23 * * 0-4'
+    - cron: '30 1,4,7 * * 1-5'
   workflow_dispatch:            # Actions 탭에서 수동 실행
     inputs:
       skip_scrape:
@@ -67,6 +70,8 @@ jobs:
           VWORLD_DOMAIN: ${{ secrets.VWORLD_DOMAIN }}    # 선택
         run: |
           ARGS=""
+          # 예약 실행: 오늘 이미 목록 수집에 성공했으면 수집은 건너뛰고 분석만 이어서 진행
+          if [ "${{ github.event_name }}" = "schedule" ]; then ARGS="$ARGS --scrape-if-needed"; fi
           if [ "${{ github.event.inputs.skip_scrape }}" = "true" ]; then ARGS="$ARGS --skip-scrape"; fi
           if [ -n "${{ github.event.inputs.limit }}" ]; then ARGS="$ARGS --limit ${{ github.event.inputs.limit }}"; fi
           python scraper/main.py $ARGS

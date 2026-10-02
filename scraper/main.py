@@ -111,6 +111,7 @@ BACKOFF_BASE = 1.0         # 지수 백오프 기본 대기(초): 1 → 2 → 4
 HTTP_TIMEOUT = 20          # 응답 대기 타임아웃(초)
 CONNECT_TIMEOUT = 7        # 연결 타임아웃(초) — 해외 IP 차단 시 오래 기다리지 않도록
 BREAKER_THRESHOLD = 5      # 엔드포인트 연속 실패 N회 → 이번 실행 동안 차단
+HOST_DEAD_THRESHOLD = 3    # 호스트 연결 실패 N회 연속 → 이번 실행 동안 해당 호스트 포기
 BACKUP_KEEP = 7            # 백업 보관 개수
 ERROR_LOG_MAX = 500        # error_log.json 최대 기록 수
 
@@ -278,6 +279,7 @@ class ErrorCollector:
 
 ERRORS = ErrorCollector()
 ARGS: argparse.Namespace | None = None
+LAST_SCRAPE_OK_DATE: str | None = None    # 목록 수집이 마지막으로 성공한 날짜 (하루 여러 번 실행 시 중복 수집 방지)
 
 
 # ════════════════════════════════════════════════════════════
@@ -311,6 +313,8 @@ class HttpClient:
         self._breaker_lock = threading.Lock()
         self._fail_count: dict[str, int] = {}
         self._blocked: dict[str, str] = {}
+        self._host_fail: dict[str, int] = {}     # 호스트별 연속 연결 실패 횟수
+        self.dead_hosts: dict[str, str] = {}     # 이번 실행에서 접속 불가로 판정된 호스트
         self.stats = {"calls": 0, "retries": 0, "failures": 0}
 
     # ── Rate limit: 호스트별 최소 호출 간격 ─────────────────
@@ -347,11 +351,27 @@ class HttpClient:
         if n >= BREAKER_THRESHOLD:
             self._block(key, f"연속 {n}회 실패 (마지막: {reason})")
 
+    def _mark_host_failure(self, host: str, reason: str) -> bool:
+        """연결 실패 기록. 연속 HOST_DEAD_THRESHOLD 회면 이번 실행 동안 해당 호스트 포기 → True"""
+        with self._breaker_lock:
+            if host in self.dead_hosts:
+                return True
+            self._host_fail[host] = self._host_fail.get(host, 0) + 1
+            if self._host_fail[host] < HOST_DEAD_THRESHOLD:
+                return False
+            self.dead_hosts[host] = f"연결 실패 {self._host_fail[host]}회 연속 ({reason})"
+        log(f"  ⛔ [{host}] 접속 불가 — 이번 실행에서는 건너뜀 (다음 실행에서 자동 재시도)")
+        ERRORS.add("api", f"호스트 접속 불가 [{host}]: {reason} — 실행 서버 IP 에서 연결이 안 됨", level="error")
+        return True
+
     # ── GET + 재시도 ────────────────────────────────────
     def get(self, key: str, url: str, params: dict, parser):
         """parser(resp) 로 파싱한 결과 반환. 실패 시 ApiError"""
         if self.is_blocked(key):
             raise EndpointBlocked(f"차단된 엔드포인트: {key}")
+        host = urlparse(url).hostname or ""
+        if host in self.dead_hosts:
+            raise EndpointBlocked(f"접속 불가 호스트: {host}")
         last_err: ApiError | None = None
         for attempt in range(MAX_RETRIES + 1):
             self._throttle(url)
@@ -360,8 +380,14 @@ class HttpClient:
                 resp = self.session.get(url, params=params, timeout=(CONNECT_TIMEOUT, HTTP_TIMEOUT))
             except requests.RequestException as e:
                 # 예외 원문에는 인증키가 포함된 URL 이 들어 있으므로 종류와 호스트만 기록
-                last_err = ApiError(f"네트워크 오류: {type(e).__name__} ({urlparse(url).hostname})", retryable=True)
+                last_err = ApiError(f"네트워크 오류: {type(e).__name__} ({host})", retryable=True)
+                if isinstance(e, (requests.ConnectTimeout, requests.ConnectionError)):
+                    # 연결 자체가 안 되는 경우(해외 IP 차단 등) — 호스트 단위로 빠르게 포기
+                    if self._mark_host_failure(host, type(e).__name__):
+                        raise EndpointBlocked(f"접속 불가 호스트: {host}")
             else:
+                with self._breaker_lock:
+                    self._host_fail[host] = 0
                 last_err = self._check_status(resp)
                 if last_err is None:
                     try:
@@ -1429,6 +1455,8 @@ def enrich_one(it: dict, juso_cache: DiskCache) -> None:
             if not isinstance(e, EndpointBlocked):
                 ERRORS.add("juso", str(e), it["id"])
             return   # enriched_at 미기록 → 다음 실행에서 재시도
+    if it.get("enrich_status") != "ok":
+        it["enrich_status"] = "pending"      # 주소는 확보, 공공데이터 조회 대기
     if not DATA_GO_KR_KEY and not VWORLD_KEY:
         return
     ok = True
@@ -1598,6 +1626,8 @@ def save_outputs(items: list[dict], prev_doc: dict, started: float, scrape_ok: b
         "api_retries": HTTP.stats["retries"],
         "api_failures": HTTP.stats["failures"],
         "blocked_endpoints": HTTP._blocked,
+        "unreachable_hosts": HTTP.dead_hosts,
+        "last_scrape_ok_date": LAST_SCRAPE_OK_DATE,
         "error_counts": ERRORS.counts,
     }
     write_json_atomic(ERROR_LOG_PATH, {
@@ -1616,6 +1646,8 @@ def main() -> int:
     global ARGS
     ap = argparse.ArgumentParser(description="경매 데이터 수집·분석 파이프라인")
     ap.add_argument("--skip-scrape", action="store_true", help="1단계(목록 수집) 생략")
+    ap.add_argument("--scrape-if-needed", action="store_true",
+                    help="오늘 이미 목록 수집에 성공했으면 1단계 생략 (하루 여러 번 실행용)")
     ap.add_argument("--no-rights", action="store_true", help="5단계 명세서 조회 생략")
     ap.add_argument("--limit", type=int, default=None, help="이번 실행 신규 분석 최대 건수")
     ap.add_argument("-v", "--verbose", action="store_true", help="상세 로그")
@@ -1636,11 +1668,18 @@ def main() -> int:
 
     # ── 1단계 ──
     log("[1단계] 경매 목록 수집 (scrape_auctions.py)")
+    global LAST_SCRAPE_OK_DATE
+    today = now_kst().date().isoformat()
+    LAST_SCRAPE_OK_DATE = ((read_json(ERROR_LOG_PATH, {}) or {}).get("summary") or {}).get("last_scrape_ok_date")
     scrape_ok = True
     if ARGS.skip_scrape:
         log("  생략 (--skip-scrape)")
+    elif ARGS.scrape_if_needed and LAST_SCRAPE_OK_DATE == today:
+        log("  생략 — 오늘 이미 수집 완료")
     else:
         scrape_ok = run_scraper()
+        if scrape_ok:
+            LAST_SCRAPE_OK_DATE = today
         log(f"  {'✅ 완료' if scrape_ok else '⚠ 실패 — 기존 데이터로 계속'}")
 
     cur_doc, _ = load_previous()
