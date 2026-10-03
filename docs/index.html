@@ -793,7 +793,7 @@
 <!-- 청약 HERO -->
 <section class="hero" id="cy-hero-section" style="display:none">
   <div class="hero-inner">
-    <div class="hero-chip" style="background:#EFF6FF;color:var(--blue)">✦ <span id="cy-hero-date">-</span> 청약홈 실시간 연동</div>
+    <div class="hero-chip" style="background:#EFF6FF;color:var(--blue)">✦ <span id="cy-hero-date">-</span> 기준 · 한국부동산원 청약홈 자료</div>
     <h1 class="hero-h1">내 가점으로<br><span class="light" style="color:#94A3B8">당첨될 수 있을까요?</span></h1>
     <p class="hero-sub">청약 일정·경쟁률·당첨 가점까지 한눈에<br><strong>가점 계산기</strong>로 내 점수 확인하고 노려볼 단지를 찾아보세요</p>
     <div class="hero-kpi">
@@ -823,7 +823,7 @@
       </optgroup>
       <optgroup label="도">
         <option>강원특별자치도</option><option>충청북도</option><option>충청남도</option>
-        <option>전라북도</option><option>전라남도</option><option>경상북도</option>
+        <option>전북특별자치도</option><option>전라남도</option><option>경상북도</option>
         <option>경상남도</option><option>제주특별자치도</option>
       </optgroup>
     </select>
@@ -1981,7 +1981,7 @@ function switchMode(m){
 /* ─────────────────────────────────────────────
    청약 DATA
 ───────────────────────────────────────────── */
-let CY_ALL=[],CY_FILT=[];
+let CY_ALL=[],CY_FILT=[],CY_UPDATED='';
 let cy_pg=1; const CY_PG=12;
 
 async function initCy(){
@@ -1989,8 +1989,15 @@ async function initCy(){
     const r=await fetch('./data/cheongyak.json?t='+Date.now());
     const d=await r.json();
     CY_ALL=d.subscriptions||[];
-  }catch(e){ CY_ALL=cyDemo(); }
-  document.getElementById('cy-hero-date').textContent=tstr();
+    CY_UPDATED=d.updated||'';
+  }catch(e){ CY_ALL=[]; }      // 불러오기 실패 시 가짜 예시를 보여주지 않고 비워 둠
+  // 상태는 수집 시점이 아니라 오늘 날짜 기준으로 다시 계산
+  const t0=tstr();
+  CY_ALL.forEach(a=>{
+    if(!a.start_date||!a.end_date) return;
+    a.status = t0<a.start_date?'청약예정' : t0<=a.end_date?'청약중' : (a.win_date&&t0<=a.win_date)?'발표대기' : '마감';
+  });
+  document.getElementById('cy-hero-date').textContent=CY_UPDATED||tstr();
   applyCyF(); // KPI는 applyCyF 내부에서 CY_FILT 확정 후 계산
 }
 
@@ -2041,7 +2048,9 @@ function applyCyF(){
     if(cyBmOnly&&!CY_BM.has(a.id)) return false;
     return true;
   });
-  CY_FILT.sort((a,b)=>(a.start_date||'').localeCompare(b.start_date||''));
+  // 청약중 → 청약예정 → 발표대기 순, 같은 상태 안에서는 접수 시작일 순
+  const _ord={'청약중':0,'청약예정':1,'발표대기':2};
+  CY_FILT.sort((a,b)=>((_ord[a.status]??9)-(_ord[b.status]??9))||(a.start_date||'').localeCompare(b.start_date||''));
   cy_pg=1;
   set('cy-cnt', CY_FILT.length+'건');
   set('cy-sub', `총 ${CY_FILT.length}건`);

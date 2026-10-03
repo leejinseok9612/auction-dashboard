@@ -230,7 +230,7 @@ def attach_units(items: dict, rows: list) -> None:
         price = num(g(r, "LTTOT_TOP_AMOUNT", "SUPLY_AMOUNT"))
         unit = {
             "type": g(r, "HOUSE_TY", "TP").strip(),
-            "area": num(g(r, "SUPLY_AR", "EXCLUSE_AR")),
+            "area": num(g(r, "SUPLY_AR", "EXCLUSE_AR")) or num(re.match(r"[\d.]+", g(r, "HOUSE_TY", "TP").strip() or "0").group(0)) or None,
             "supply": num(g(r, "SUPLY_HSHLDCO")) or 0,
             "special": num(g(r, "SPSPLY_HSHLDCO")) or 0,
             "price": int(price) if price else None,
