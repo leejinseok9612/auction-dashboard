@@ -10,10 +10,14 @@ on:
   schedule:
     - cron: '30 23 * * 0-4'
     - cron: '30 1,4,7 * * 1-5'
+  # 공시가격 표를 올리면(내 PC 에서 price_local.py 실행 후 업로드) 곧바로 사이트 데이터에 반영
+  push:
+    branches: [main]
+    paths: ['docs/data/official_prices.json']
   workflow_dispatch:
     inputs:
       mode:
-        description: '실행 방식 (full = 수집+분석 / enrich = 공공데이터 분석만 / price = 공시가격만)'
+        description: '실행 방식 (full = 수집+분석 / enrich = 공공데이터 분석만 / price = 공시가격 표 반영만)'
         type: choice
         options: [full, enrich, price]
         default: full
@@ -41,7 +45,7 @@ concurrency:                    # 동시에 두 번 돌지 않도록
 env:
   TZ: Asia/Seoul
   PYTHONUNBUFFERED: '1'
-  MODE: ${{ github.event.inputs.mode || 'full' }}
+  MODE: ${{ github.event.inputs.mode || (github.event_name == 'push' && 'price') || 'full' }}
   ATTEMPT: ${{ github.event.inputs.attempt || '1' }}
   MAX_ATTEMPTS: '10'
 
@@ -64,16 +68,6 @@ jobs:
           CODE=$(curl -s -o /dev/null -m 8 -w '%{http_code}' https://apis.data.go.kr/1613000/BldRgstHubService/getBrTitleInfo || true)
           echo "data.go.kr 응답 코드: ${CODE}"
           if [ "${CODE}" = "000" ]; then echo "reachable=false" >> "$GITHUB_OUTPUT"; else echo "reachable=true" >> "$GITHUB_OUTPUT"; fi
-
-      # 브이월드(공시가격) 접속 확인 — 결과만 기록 (인증키는 보내지 않음)
-      - name: 🔌 브이월드 접속 확인
-        id: vworld
-        run: |
-          for U in https://api.vworld.kr/ned/data/getApartHousingPriceAttr http://api.vworld.kr/ned/data/getApartHousingPriceAttr; do
-            echo "── ${U}"
-            curl -sS -o /tmp/vw.txt -m 10 -w 'code=%{http_code} ip=%{remote_ip} t=%{time_total}\n' "${U}" 2>&1 | tail -3 || true
-            head -c 300 /tmp/vw.txt 2>/dev/null || true; echo
-          done
 
       - name: 🐍 Python 3.11 설정
         if: env.MODE != 'enrich' || steps.preflight.outputs.reachable == 'true'
@@ -112,7 +106,7 @@ jobs:
           if [ "${MODE}" = "enrich" ]; then
             ARGS="--skip-scrape --no-rights"             # 공공데이터 분석만
           elif [ "${MODE}" = "price" ]; then
-            ARGS="--skip-scrape --no-rights --price-only"   # 공시가격만
+            ARGS="--skip-scrape --no-rights --price-only"   # 공시가격 표 반영만
           else
             # 예약 실행: 오늘 이미 목록 수집에 성공했으면 수집은 건너뛰고 분석만 이어서 진행
             if [ "${{ github.event_name }}" = "schedule" ]; then ARGS="$ARGS --scrape-if-needed"; fi
@@ -170,12 +164,8 @@ jobs:
                   dead = "apis.data.go.kr" in (s.get("unreachable_hosts") or {})
                   quota = any(("트래픽 초과" in str(v) or "EXCEEDS" in str(v)) for v in (s.get("blocked_endpoints") or {}).values())
                   pending = int(s.get("pending_enrich") or 0)
-                  vw_dead = "api.vworld.kr" in (s.get("unreachable_hosts") or {})
-                  vw_blocked = any(str(k).startswith("price:vworld") and ("브이월드 오류" in str(v) or "인증" in str(v))
-                                   for k, v in (s.get("blocked_endpoints") or {}).items())   # 키·한도 문제 (서버를 바꿔도 소용없음)
-                  pending_price = int(s.get("pending_price") or 0)
                   if mode == "price":
-                      pass                             # 브이월드는 해외 서버 접속을 일관되게 거부 → 서버를 바꿔도 소용없어 재시도하지 않음
+                      pass                             # 공시가격 표 반영만 — 이어서 실행할 것 없음
                   elif mode == "full" and s.get("scrape_ok") is False and attempt < 4:
                       nxt = "full"                     # 법원 사이트 접속 실패 → 수집부터 다시
                   elif dead or (pending > 0 and not quota):

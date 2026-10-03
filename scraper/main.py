@@ -8,7 +8,7 @@
   2단계  PNU 확정 — 수집된 법정동코드+지번 사용, 없을 때만 주소 변환 (내장 코드표 → 도로명주소 API)
   3단계  공공데이터 API (DATA_GO_KR_KEY)
            ① 건축물대장(건축HUB)  → is_illegal_building, actual_use, approval_date, 면적
-           ② 주택 공시가격         → official_price, official_price_year  (브이월드 키 VWORLD_KEY 필요)
+           ② 주택 공시가격         → official_price, official_price_year  (공시가격 표 official_prices.json — 국내 PC 에서 price_local.py 로 생성)
            ③ 실거래가(물건유형별)   → nearby_trade_price / count / date / basis / confidence
   4단계  투자분석 (safe_jeonse, safety_margin_pct, is_under_100m, risk_tags)
   5단계  권리분석 (rights.py) — 법원 특수조건·물건비고 + 명세서 요약(상세 API) + 현황조사서(임차인)
@@ -71,6 +71,7 @@ import requests
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from filters import DEFAULT_CRITERIA, derive, filter_items   # 검색·필터 정의 (화면과 동일한 기준)  # noqa: E402
 from filters import rights_grade as RT_grade                  # noqa: E402
+from price_local import pick_price_row, price_kind             # 공시가격 동·호 대조 규칙 (내 PC 실행 프로그램과 공용)  # noqa: E402
 import rights as RT                                           # 권리분석 (목록 특수조건 + 상세·현황조사서)  # noqa: E402
 
 # ════════════════════════════════════════════════════════════
@@ -82,6 +83,7 @@ SCRAPER_DIR = ROOT / "scraper"
 DATA_DIR = ROOT / "docs" / "data"
 AUCTIONS_PATH = DATA_DIR / "auctions.json"
 ERROR_LOG_PATH = DATA_DIR / "error_log.json"
+PRICE_TABLE_PATH = DATA_DIR / "official_prices.json"     # 공시가격 표 (국내 PC 에서 price_local.py 로 생성)
 CACHE_DIR = SCRAPER_DIR / ".cache"          # 실거래가·주소·분석 캐시 (git 커밋 X, Actions cache 로 보존)
 BACKUP_DIR = SCRAPER_DIR / "backup"         # auctions.json 백업 (최근 N개 보관)
 SCRAPER_SCRIPT = SCRAPER_DIR / "collect_court.py"     # 법원경매 수집기
@@ -113,9 +115,6 @@ RIGHTS_WINDOW_DAYS = _env_int("RIGHTS_WINDOW_DAYS", 8)     # 매각기일이 이
 RIGHTS_TTL_DAYS = _env_int("RIGHTS_TTL_DAYS", 3)
 SAFETY_MARGIN_PCT = _env_int("SAFETY_MARGIN_PCT", 20)
 TRADE_MONTHS = _env_int("TRADE_MONTHS", 6)
-PRICE_MAX_PER_RUN = _env_int("PRICE_MAX_PER_RUN", 8000)   # 공시가격 조회 최대 건수 (실행당)
-PRICE_TTL_DAYS = _env_int("PRICE_TTL_DAYS", 120)          # 공시가격은 연 1회 공시 → 드물게만 재조회
-PRICE_RETRY_DAYS = _env_int("PRICE_RETRY_DAYS", 14)       # 값을 못 찾은 물건 재조회 간격
 WORKERS = max(1, _env_int("WORKERS", 4))
 SCRAPE_TIMEOUT_MIN = _env_int("SCRAPE_TIMEOUT_MIN", 45)
 
@@ -1025,196 +1024,14 @@ def fetch_building(item: dict, juso_cache: "DiskCache | None" = None) -> None:
 # ════════════════════════════════════════════════════════════
 # 3단계-②: 공시가격 (공동주택가격 / 개별주택가격)
 # ════════════════════════════════════════════════════════════
-_PRICE_KEYS = ("pblntfPc", "housePc", "hsprc", "hsprcAmt")
-_PRICE_DEBUG_LEFT = [3]                      # 실행당 처음 몇 건은 응답 모양을 로그에 남김 (형식 변경 감지용)
-_PRICE_ROWS: dict[tuple, list[dict]] = {}    # (출처, PNU, 연도) → 레코드 (같은 단지 물건끼리 재사용)
-_PRICE_ROWS_LOCK = threading.Lock()
-VWORLD_PAGE_SIZE = 1000
-VWORLD_MAX_PAGES = 12
-
-
-def _row_price(r: dict) -> int | None:
-    for k in _PRICE_KEYS:
-        v = to_int(r.get(k))
-        if v:
-            return v
-    return None
-
-
-def _norm_dong(s) -> str:
-    """동 이름 비교용: '제101동' → '101', '가동' → '가', 'A동' → 'A'"""
-    t = re.sub(r"\s+", "", str(s or ""))
-    t = re.sub(r"^제", "", t)
-    t = re.sub(r"동$", "", t)
-    return t.upper().lstrip("0") if t not in ("-", "0") else ""
-
-
-def _norm_ho(s) -> tuple[bool, str] | None:
-    """호 비교용: ('지하여부', '숫자') — '제비01호'·'B01'·'지하1' → (True, '1')"""
-    t = re.sub(r"\s+", "", str(s or "")).upper()
-    d = digits(t)
-    if not d:
-        return None
-    return (bool(re.search(r"지하|^제?B|^제?비", t)), d.lstrip("0") or "0")
-
-
-def _pick_price_row(rows: list[dict], item: dict, unit_required: bool) -> tuple[int, int] | None:
-    """
-    공시가격 레코드 중 이 물건(동·호)에 해당하는 값 → (가격, 연도)
-    동·호가 같은 후보가 여럿이고 가격이 서로 다르면 전용면적으로 가려내고, 그래도 못 가리면 채택하지 않는다 (틀린 값보다 빈 값).
-    """
-    cands = []
-    want_ho = _norm_ho(item.get("unit_ho")) if item.get("unit_ho") else None
-    want_dong = _norm_dong(item.get("building_dong"))
-    for r in rows:
-        price = _row_price(r)
-        if not price:
-            continue
-        if unit_required:
-            ho = _norm_ho(r.get("hoNm"))
-            if not want_ho or not ho or ho[1] != want_ho[1]:
-                continue
-            if want_ho[0] != ho[0] and (want_ho[0] or ho[0]):
-                # 지하 표기는 출처마다 달라(층 정보로 대체되는 경우) 층으로 한 번 더 확인
-                fl = str(r.get("floorNm") or "")
-                row_base = ho[0] or "지" in fl or fl.strip().startswith(("-", "B"))
-                if row_base != want_ho[0]:
-                    continue
-            dong = _norm_dong(r.get("dongNm"))
-            if want_dong and dong and dong != want_dong:
-                continue
-        year = to_int(str(r.get("stdrYear") or r.get("crtnDay") or r.get("stdDay") or "")[:4]) or 0
-        cands.append((price, year, to_float(r.get("prvuseAr")), _norm_dong(r.get("dongNm"))))
-    if not cands:
-        return None
-    top_year = max(c[1] for c in cands)
-    cands = [c for c in cands if c[1] == top_year]
-    if len({c[0] for c in cands}) > 1 and unit_required:
-        if want_dong:                       # 동이 정확히 같은 것 우선
-            exact = [c for c in cands if c[3] == want_dong]
-            if exact:
-                cands = exact
-        area = to_float(item.get("exclusive_area")) or to_float(item.get("court_area"))
-        if len({c[0] for c in cands}) > 1 and area:
-            near = [c for c in cands if c[2] and abs(c[2] - area) <= max(0.5, area * 0.01)]
-            if near:
-                cands = near
-        if len({c[0] for c in cands}) > 1:
-            return None
-    if not unit_required and len({c[0] for c in cands}) > 1:
-        return None                         # 한 필지에 개별주택이 여러 채 → 어느 것인지 알 수 없음
-    return cands[0][0], top_year
-
-
-def parse_vworld_ned(resp: requests.Response) -> tuple[list[dict], int]:
-    """브이월드 국가중점데이터(ned) 응답 → (레코드, 전체 건수)"""
-    text = resp.text.strip().lstrip("﻿")
-    if _PRICE_DEBUG_LEFT[0] > 0:
-        _PRICE_DEBUG_LEFT[0] -= 1
-        log(f"  [공시가격 응답 확인] HTTP {resp.status_code} · {scrub(text[:500])}")
-    if not text.startswith("{"):
-        raise ApiError(f"공시가격 API 알 수 없는 응답: {text[:120]!r}", retryable=True)
-    data = json.loads(text)
-    blob = text[:600]
-    # 오류 응답: {"response":{"status":"ERROR","error":{"code":..,"text":..}}} 또는 {"..":{"resultCode":"INCORRECT_KEY",..}}
-    resp_obj = data.get("response") if isinstance(data.get("response"), dict) else None
-    body = resp_obj or next((v for v in data.values() if isinstance(v, dict)), {})
-    code = str(body.get("resultCode") or (body.get("error") or {}).get("code") or "").strip()
-    status = str(body.get("status") or "").upper()
-    msg = str(body.get("resultMsg") or (body.get("error") or {}).get("text") or "")[:150]
-    rows = body.get("field")
-    if isinstance(rows, dict):
-        rows = [rows]
-    if status == "ERROR" or (code and rows is None and code.upper() not in ("", "0", "00", "OK", "NORMAL", "INFO-200")):
-        up = (code + " " + msg).upper()
-        if any(k in up for k in ("KEY", "DOMAIN", "인증", "LIMIT", "QUOTA", "초과", "권한", "UNREGIST")):
-            raise ApiError(f"브이월드 오류 {code}: {msg}", code=code, fatal=True)
-        if "NOT_FOUND" in up or "NODATA" in up or "NO_DATA" in up or "없" in msg:
-            return [], 0
-        raise ApiError(f"브이월드 오류 {code}: {msg or blob[:150]}", code=code, retryable=True)
-    rows = [r for r in (rows or []) if isinstance(r, dict)]
-    return rows, (to_int(body.get("totalCount")) or len(rows))
-
-
-def _vworld_rows(key: str, url: str, pnu: str, year: int) -> list[dict]:
-    """한 필지·한 연도의 공시가격 레코드 전체 (대단지는 여러 페이지)"""
-    ck = (key, pnu, year)
-    with _PRICE_ROWS_LOCK:
-        if ck in _PRICE_ROWS:
-            return _PRICE_ROWS[ck]
-    base = {"key": VWORLD_KEY, "pnu": pnu, "stdrYear": str(year), "format": "json", "numOfRows": VWORLD_PAGE_SIZE}
-    if VWORLD_DOMAIN:
-        base["domain"] = VWORLD_DOMAIN
-    out: list[dict] = []
-    for page in range(1, VWORLD_MAX_PAGES + 1):
-        rows, total = HTTP.get(key, url, {**base, "pageNo": page}, parse_vworld_ned)
-        out.extend(rows)
-        if not rows or len(out) >= total:
-            break
-    with _PRICE_ROWS_LOCK:
-        if len(_PRICE_ROWS) > 400:           # 메모리 보호 (대단지 레코드가 큼)
-            _PRICE_ROWS.clear()
-        _PRICE_ROWS[ck] = out
-    return out
-
-
-def price_kind(item: dict) -> str | None:
-    """공시가격 종류: 'apt'(공동주택가격) / 'house'(개별주택가격) / None(대상 아님 — 오피스텔·상가는 국세청 기준시가)"""
-    ptype = item.get("property_type", "") or ""
-    if any(k in ptype for k in ("아파트", "다세대", "연립", "빌라")):
-        return "apt"
-    if any(k in ptype for k in ("단독", "다가구")):
-        return "house"
-    return None
-
-
-def _price_pnus(item: dict) -> list[str]:
-    """조회할 PNU 후보: 수집된 지번 → 건축물대장이 등재된 지번(다를 때)"""
-    pnu = item.get("pnu") or ""
-    out = [pnu] if len(pnu) == 19 else []
-    m = re.search(r"건축물대장 지번 (\d+)-(\d+)", item.get("building_lot_note") or "")
-    if m and out:
-        alt = pnu[:11] + m.group(1).zfill(4) + m.group(2).zfill(4)
-        if alt not in out:
-            out.append(alt)
-    return out
-
-
-def fetch_price_vworld(item: dict) -> bool:
-    """
-    브이월드 공시가격 조회. 조회가 끝까지 수행됐으면 True (값이 없어도), 접속 불가·차단이면 False.
-    올해 → 작년 순 (올해 공시는 4월 말 이후 등록).
-    """
-    kind = price_kind(item)
-    if not kind or not VWORLD_KEY:
-        return False
-    key, url = (("price:vworld_apt", VWORLD_APT_PRICE_URL) if kind == "apt"
-                else ("price:vworld_indv", VWORLD_INDV_PRICE_URL))
-    this_year = now_kst().year
-    try:
-        for pnu in _price_pnus(item):
-            for year in (this_year, this_year - 1):
-                rows = _vworld_rows(key, url, pnu, year)
-                hit = _pick_price_row(rows, item, unit_required=(kind == "apt"))
-                if hit:
-                    item["official_price"], item["official_price_year"] = hit[0], (hit[1] or year)
-                    return True
-    except EndpointBlocked:
-        return False
-    except ApiError as e:
-        ERRORS.add("official_price", f"{key}: {e}", item.get("id"), level="warn")
-        return False
-    return True
-
-
 def fetch_official_price(item: dict) -> None:
-    """건축물대장 조회와 함께 수행하는 공시가격 조회 (단독·다가구: 건축HUB 주택가격). 브이월드 조회는 stage_price 에서 일괄 수행."""
+    """건축물대장 조회와 함께 수행하는 공시가격 조회 (단독·다가구: 건축HUB 주택가격)"""
     if price_kind(item) != "house" or item.get("official_price"):
         return
     if DATA_GO_KR_KEY and not HTTP.is_blocked("bld:getBrHsprcInfo"):
         try:
             rows = _bld_call("getBrHsprcInfo", pnu_parts(item["pnu"]), item["id"])
-            hit = _pick_price_row(rows, item, unit_required=False)
+            hit = pick_price_row(rows, item, unit_required=False)
             if hit:
                 item["official_price"], item["official_price_year"] = hit[0], (hit[1] or None)
         except EndpointBlocked:
@@ -1224,44 +1041,34 @@ def fetch_official_price(item: dict) -> None:
 
 
 def needs_price(it: dict) -> bool:
-    if not price_kind(it) or len(it.get("pnu") or "") != 19:
-        return False
-    if it.get("official_price"):
-        return days_since(it.get("price_checked_at")) > PRICE_TTL_DAYS
-    return days_since(it.get("price_checked_at")) > PRICE_RETRY_DAYS
+    """공시가격 대상인데 아직 값이 없는 물건"""
+    return bool(price_kind(it)) and len(it.get("pnu") or "") == 19 and not it.get("official_price")
 
 
 def stage_price(items: list[dict]) -> None:
-    """3단계-② 공시가격 (브이월드) — 아직 값이 없는 물건을 경매일 임박 순으로 조회"""
-    if not VWORLD_KEY:
-        log("  ⚠ VWORLD_KEY 없음 — 공시가격 조회 생략")
+    """
+    3단계-② 공시가격 — 공시가격 표(docs/data/official_prices.json)를 물건에 반영
+      브이월드는 해외 서버 접속을 받지 않아 이 서버에서는 조회할 수 없다.
+      표는 국내 PC 에서 scraper/price_local.py 를 실행해 만들고 GitHub 에 올린다.
+      표의 PNU 가 지금 수집된 PNU 와 같을 때만 반영 (다르면 다른 필지 값이므로 버림).
+    """
+    doc = read_json(PRICE_TABLE_PATH, {}) or {}
+    table = doc.get("prices") if isinstance(doc, dict) else None
+    if not isinstance(table, dict) or not table:
+        log(f"  공시가격 표 없음 ({PRICE_TABLE_PATH.name}) — 생략")
         return
-    todo = [it for it in items if needs_price(it)]
-    todo.sort(key=lambda x: x.get("auction_date") or "9999")
-    skipped = max(0, len(todo) - PRICE_MAX_PER_RUN)
-    todo = todo[:PRICE_MAX_PER_RUN]
-    log(f"  조회 대상 {len(todo)}건 (다음 실행으로 이월 {skipped}건)")
-    if not todo:
-        return
-    stamp = now_kst().isoformat(timespec="seconds")
-    done = found = 0
-
-    def one(it: dict) -> bool:
-        if fetch_price_vworld(it):
-            it["price_checked_at"] = stamp
-            return bool(it.get("official_price"))
-        return False
-
-    with ThreadPoolExecutor(max_workers=WORKERS) as ex:
-        futs = {ex.submit(one, it): it for it in todo}
-        for f in as_completed(futs):
-            try:
-                found += 1 if f.result() else 0
-            except Exception as e:
-                ERRORS.add("official_price", f"{type(e).__name__}: {e}", futs[f].get("id"))
-            done += 1
-            if done % 500 == 0 or done == len(todo):
-                log(f"  … {done}/{len(todo)}건 조회, 공시가격 확인 {found}건 (API 호출 {HTTP.stats['calls']:,}회)")
+    applied = 0
+    for it in items:
+        e = table.get(it.get("id"))
+        if not isinstance(e, dict) or e.get("pnu") != it.get("pnu"):
+            continue
+        it["price_checked_at"] = e.get("checked_at")
+        price = to_int(e.get("price"))
+        if price and price > 0:
+            it["official_price"], it["official_price_year"] = price, to_int(e.get("year"))
+            applied += 1
+    log(f"  공시가격 표 {len(table):,}건 (작성 {doc.get('updated_at', '?')}) → 반영 {applied:,}건, "
+        f"아직 값 없는 대상 {sum(1 for i in items if needs_price(i)):,}건")
 
 
 # ════════════════════════════════════════════════════════════
@@ -1798,7 +1605,7 @@ def save_outputs(items: list[dict], prev_doc: dict, started: float, scrape_ok: b
         "tag_위반건축물": cnt(lambda i: "🚨 위반건축물" in (i.get("risk_tags") or [])),
         "tag_안전마진": cnt(lambda i: "✨ 안전마진 확보" in (i.get("risk_tags") or [])),
         "pending_enrich": cnt(lambda i: i.get("enrich_status") == "pending"),
-        "pending_price": cnt(needs_price) if VWORLD_KEY else 0,
+        "pending_price": cnt(needs_price),
         "clean_default_count": len(filter_items(items, DEFAULT_CRITERIA)),   # 첫 화면 '클린 매물' 건수
         "api_calls": HTTP.stats["calls"],
         "api_retries": HTTP.stats["retries"],
@@ -1827,7 +1634,7 @@ def main() -> int:
     ap.add_argument("--scrape-if-needed", action="store_true",
                     help="오늘 이미 목록 수집에 성공했으면 1단계 생략 (하루 여러 번 실행용)")
     ap.add_argument("--no-rights", action="store_true", help="5단계 명세서 조회 생략")
-    ap.add_argument("--price-only", action="store_true", help="공시가격 조회만 (건축물대장·실거래가 생략)")
+    ap.add_argument("--price-only", action="store_true", help="공시가격 표 반영만 (건축물대장·실거래가 조회 생략)")
     ap.add_argument("--limit", type=int, default=None, help="이번 실행 신규 분석 최대 건수")
     ap.add_argument("-v", "--verbose", action="store_true", help="상세 로그")
     ARGS = ap.parse_args()
@@ -1889,7 +1696,7 @@ def main() -> int:
         log("[2·3단계] 주소 변환 · 건축물대장")
         stage_enrich(items, juso_cache)
         juso_cache.save()
-    log("[3단계-②] 공시가격 (브이월드)")
+    log("[3단계-②] 공시가격 (공시가격 표 반영)")
     stage_price(items)
     if not ARGS.price_only:
         log("[3단계-③] 실거래가")
