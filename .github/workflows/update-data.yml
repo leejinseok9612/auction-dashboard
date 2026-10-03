@@ -65,6 +65,16 @@ jobs:
           echo "data.go.kr 응답 코드: ${CODE}"
           if [ "${CODE}" = "000" ]; then echo "reachable=false" >> "$GITHUB_OUTPUT"; else echo "reachable=true" >> "$GITHUB_OUTPUT"; fi
 
+      # 브이월드(공시가격) 접속 확인 — 결과만 기록 (인증키는 보내지 않음)
+      - name: 🔌 브이월드 접속 확인
+        id: vworld
+        run: |
+          for U in https://api.vworld.kr/ned/data/getApartHousingPriceAttr http://api.vworld.kr/ned/data/getApartHousingPriceAttr; do
+            echo "── ${U}"
+            curl -sS -o /tmp/vw.txt -m 10 -w 'code=%{http_code} ip=%{remote_ip} t=%{time_total}\n' "${U}" 2>&1 | tail -3 || true
+            head -c 300 /tmp/vw.txt 2>/dev/null || true; echo
+          done
+
       - name: 🐍 Python 3.11 설정
         if: env.MODE != 'enrich' || steps.preflight.outputs.reachable == 'true'
         uses: actions/setup-python@v5
