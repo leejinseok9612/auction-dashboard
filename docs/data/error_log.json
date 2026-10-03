@@ -1,12 +1,12 @@
 {
-  "run_at": "2026-10-03T13:46:01+09:00",
-  "duration_sec": 1.8,
+  "run_at": "2026-10-03T13:53:04+09:00",
+  "duration_sec": 2.0,
   "summary": {
     "total": 7080,
     "scrape_ok": true,
     "with_bjdong_code": 7080,
     "with_building_info": 4958,
-    "with_official_price": 3921,
+    "with_official_price": 4513,
     "with_trade_price": 6448,
     "rights_detail_checked": 200,
     "rights_by_grade": {
@@ -25,7 +25,7 @@
     "tag_위반건축물": 67,
     "tag_안전마진": 485,
     "pending_enrich": 1966,
-    "pending_price": 1256,
+    "pending_price": 351,
     "clean_default_count": 1833,
     "api_calls": 0,
     "api_retries": 0,
