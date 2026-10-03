@@ -3,44 +3,48 @@
 """
 경매 대시보드 전체 파이프라인 (main.py)
 ────────────────────────────────────────────────────────────
-  1단계  scrape_auctions.py 서브프로세스 실행 (경매 목록 수집 — 기존 코드 그대로 호출)
-  2단계  주소 → 법정동코드/PNU 변환 (도로명주소 API, JUSO_CONFIRM_KEY)
-  3단계  공공데이터 API 연동 (DATA_GO_KR_KEY)
+  1단계  collect_court.py 실행 — 법원경매정보 수도권 16개 법원 · 주거용 물건 수집
+         (사건·물건번호, 감정가, 이번 기일 최저가, 유찰 횟수, 특수조건, 물건비고, 면적, 법정동코드·지번)
+  2단계  PNU 확정 — 수집된 법정동코드+지번 사용, 없을 때만 주소 변환 (내장 코드표 → 도로명주소 API)
+  3단계  공공데이터 API (DATA_GO_KR_KEY)
            ① 건축물대장(건축HUB)  → is_illegal_building, actual_use, approval_date, 면적
-           ② 공동주택 공시가격     → official_price, official_price_year
-           ③ 실거래가(물건유형별)   → nearby_trade_price / count / date
+           ② 주택 공시가격         → official_price, official_price_year  (브이월드 키 VWORLD_KEY 필요)
+           ③ 실거래가(물건유형별)   → nearby_trade_price / count / date / basis / confidence
   4단계  투자분석 (safe_jeonse, safety_margin_pct, is_under_100m, risk_tags)
-  5단계  권리분석 (매각물건명세서 키워드 스캔 → rights_risk, rights_keywords)
+  5단계  권리분석 (rights.py) — 법원 특수조건·물건비고 + 명세서 요약(상세 API) + 현황조사서(임차인)
   6단계  docs/data/auctions.json 저장 + 백업 + docs/data/error_log.json
 
 설계 포인트
-  - scrape_auctions.py 는 auctions.json 을 "기본 필드만" 으로 덮어쓴다.
-    → 실행 전에 기존 파일을 읽어 두었다가, 같은 사건(id+주소)은 분석 결과를 다시 붙인다.
-    → 같은 물건을 매일 다시 조회하지 않으므로 API 일일 트래픽을 크게 아낀다.
-  - API 호출: 재시도 최대 3회(지수 백오프 + 지터), 429/Retry-After 처리,
-    호스트별 호출 간격 제한, 엔드포인트별 서킷브레이커(키 오류·트래픽 초과 시 즉시 차단).
+  - 수집기 출력이 "현재 법원에 올라와 있는 물건"의 기준이다. 사라진 물건(취하·변경·매각)은 목록에서 빠진다.
+  - 수집기는 기본 정보만 쓰므로, 실행 전에 기존 파일을 읽어 두었다가 같은 물건(id+주소)은 분석 결과를 다시 붙인다.
+    → 같은 물건을 매일 다시 조회하지 않아 API 일일 트래픽을 아낀다.
+  - API 호출: 재시도 최대 3회(지수 백오프 + 지터), 429/Retry-After 처리, 호스트별 호출 간격 제한,
+    엔드포인트별 서킷브레이커(키 오류·트래픽 초과 시 즉시 차단), 접속 불가 호스트는 빠르게 포기.
   - 실거래가는 (유형, 시군구, 계약월) 단위로 디스크 캐시 → 같은 구 물건끼리 공유.
-  - 출력은 {"updated", "auctions": [...]} 구조를 유지 → 기존 index.html(d.auctions) 하위 호환.
+  - 출력은 {"updated", "auctions": [...]} 구조 유지 (index.html 은 d.auctions 를 읽음).
 
 사용법
   python3 scraper/main.py                 # 전체 실행
   python3 scraper/main.py --skip-scrape   # 수집 생략, 기존 auctions.json 으로 분석만
   python3 scraper/main.py --limit 5 -v    # 신규 분석 5건만 (API 키 동작 확인용)
-  python3 scraper/main.py --no-rights     # 권리분석(브라우저) 생략
+  python3 scraper/main.py --no-rights     # 권리분석 상세 조회(브라우저) 생략
+  python3 scraper/filters.py              # 조건에 맞는 매물 리포트 출력
 
 환경변수
   DATA_GO_KR_KEY      공공데이터포털 인증키 (Encoding/Decoding 키 모두 가능)
-  JUSO_CONFIRM_KEY    도로명주소 검색 API 승인키
-  VWORLD_KEY          (선택) 브이월드 인증키 — 있으면 공시가격 조회 정확도 ↑
+  JUSO_CONFIRM_KEY    도로명주소 검색 API 승인키 (지번을 못 구한 일부 물건·개편 지역 보정용)
+  VWORLD_KEY          (선택) 브이월드 인증키 — 공동주택 공시가격 조회에 필요
   VWORLD_DOMAIN       (선택) 브이월드 키 발급 시 등록한 서비스 URL
   MAX_ENRICH_PER_RUN  1회 실행당 신규 분석 최대 건수 (기본 1000)
   ENRICH_TTL_DAYS     건축물대장·공시가격 재조회 주기 (기본 30일)
-  RIGHTS_MAX_PER_RUN  1회 실행당 매각물건명세서 조회 최대 건수 (기본 40)
-  RIGHTS_TTL_DAYS     권리분석 재조회 주기 (기본 7일)
+  RIGHTS_MAX_PER_RUN  1회 실행당 상세·현황조사서 조회 최대 건수 (기본 200)
+  RIGHTS_WINDOW_DAYS  매각기일이 이 일수 안인 물건만 상세 조회 (기본 8)
+  RIGHTS_TTL_DAYS     권리분석 재조회 주기 (기본 3일)
   SAFETY_MARGIN_PCT   "✨ 안전마진 확보" 기준 % (기본 20)
   TRADE_MONTHS        실거래가 조회 기간(개월, 기본 6)
   WORKERS             API 병렬 작업 수 (기본 4)
-  SCRAPE_TIMEOUT_MIN  스크래퍼 제한 시간(분, 기본 45)
+  SCRAPE_TIMEOUT_MIN  수집기 제한 시간(분, 기본 45)
+  COLLECT_DAYS_AHEAD  매각기일 조회 범위 (오늘부터 N일, 기본 60)
 """
 
 from __future__ import annotations
@@ -64,6 +68,11 @@ from urllib.parse import unquote, urlparse
 
 import requests
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from filters import DEFAULT_CRITERIA, derive, filter_items   # 검색·필터 정의 (화면과 동일한 기준)  # noqa: E402
+from filters import rights_grade as RT_grade                  # noqa: E402
+import rights as RT                                           # 권리분석 (목록 특수조건 + 상세·현황조사서)  # noqa: E402
+
 # ════════════════════════════════════════════════════════════
 # 경로 · 설정
 # ════════════════════════════════════════════════════════════
@@ -75,7 +84,7 @@ AUCTIONS_PATH = DATA_DIR / "auctions.json"
 ERROR_LOG_PATH = DATA_DIR / "error_log.json"
 CACHE_DIR = SCRAPER_DIR / ".cache"          # 실거래가·주소·분석 캐시 (git 커밋 X, Actions cache 로 보존)
 BACKUP_DIR = SCRAPER_DIR / "backup"         # auctions.json 백업 (최근 N개 보관)
-SCRAPER_SCRIPT = SCRAPER_DIR / "scrape_auctions.py"
+SCRAPER_SCRIPT = SCRAPER_DIR / "collect_court.py"     # 법원경매 수집기
 
 
 def _env_int(name: str, default: int) -> int:
@@ -99,8 +108,9 @@ VWORLD_DOMAIN = (os.environ.get("VWORLD_DOMAIN") or "").strip()
 
 MAX_ENRICH_PER_RUN = _env_int("MAX_ENRICH_PER_RUN", 1000)
 ENRICH_TTL_DAYS = _env_int("ENRICH_TTL_DAYS", 30)
-RIGHTS_MAX_PER_RUN = _env_int("RIGHTS_MAX_PER_RUN", 40)
-RIGHTS_TTL_DAYS = _env_int("RIGHTS_TTL_DAYS", 7)
+RIGHTS_MAX_PER_RUN = _env_int("RIGHTS_MAX_PER_RUN", 200)
+RIGHTS_WINDOW_DAYS = _env_int("RIGHTS_WINDOW_DAYS", 8)     # 매각기일이 이 일수 안으로 들어온 물건만 상세 조회 (명세서는 통상 7일 전 작성)
+RIGHTS_TTL_DAYS = _env_int("RIGHTS_TTL_DAYS", 3)
 SAFETY_MARGIN_PCT = _env_int("SAFETY_MARGIN_PCT", 20)
 TRADE_MONTHS = _env_int("TRADE_MONTHS", 6)
 WORKERS = max(1, _env_int("WORKERS", 4))
@@ -147,13 +157,13 @@ TRADE_TYPE_LABEL = {"apt": "아파트", "rh": "연립다세대", "offi": "오피
 ENRICH_FIELDS = [
     "bjdong_code", "pnu", "road_address", "jibun_address", "umd_name",
     "building_dong", "unit_ho",
-    "is_illegal_building", "actual_use", "actual_use_level", "approval_date",
+    "is_illegal_building", "actual_use", "actual_use_level", "approval_date", "building_status", "building_lot_note", "bjdong_code_alt",
     "exclusive_area", "building_area",
     "official_price", "official_price_year",
-    "nearby_trade_price", "nearby_trade_count", "nearby_trade_date", "nearby_trade_basis",
+    "nearby_trade_price", "nearby_trade_count", "nearby_trade_date", "nearby_trade_basis", "nearby_trade_confidence",
     "safe_jeonse", "safety_margin_pct", "is_under_100m", "risk_tags",
-    "rights_risk", "rights_keywords", "rights_checked_at",
-    "enriched_at", "enrich_status",
+    "rights_risk", "rights_keywords", "rights_checked_at", "rights_has_spec", "rights_basis", "bid_history", "rights_version",
+    "enriched_at", "enrich_status", "enriched_pnu",
 ]
 
 RESIDENTIAL_KW = ["아파트", "다세대", "연립", "빌라", "단독", "다가구", "오피스텔"]
@@ -182,6 +192,26 @@ def read_json(path: Path, default=None):
             return json.load(f)
     except (OSError, ValueError):
         return default
+
+
+def strip_empty(item: dict) -> dict:
+    """값이 없는 필드(None·빈 문자열·빈 목록·False) 제거. 숫자 0 은 유지"""
+    return {k: v for k, v in item.items()
+            if not (v is None or v is False or (isinstance(v, (str, list, dict)) and len(v) == 0))}
+
+
+def write_auctions(path: Path, doc: dict) -> None:
+    """auctions.json 저장 — 물건 1건을 한 줄로 (파일 크기와 git 변경분을 줄임)"""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    head = {k: v for k, v in doc.items() if k != "auctions"}
+    with open(tmp, "w", encoding="utf-8") as f:
+        f.write(json.dumps(head, ensure_ascii=False, separators=(",", ":"))[:-1])
+        f.write(',\n"auctions":[\n')
+        # 값이 없는 필드(null·빈 목록·false)는 생략 — 읽는 쪽은 "없으면 미확인/아님"으로 처리
+        f.write(",\n".join(json.dumps(strip_empty(i), ensure_ascii=False, separators=(",", ":")) for i in doc["auctions"]))
+        f.write("\n]}\n")
+    os.replace(tmp, path)
 
 
 def write_json_atomic(path: Path, data, indent: int | None = 2) -> None:
@@ -279,6 +309,7 @@ class ErrorCollector:
 
 ERRORS = ErrorCollector()
 ARGS: argparse.Namespace | None = None
+AUDIT = {"checked": 0, "mismatched": 0}   # 목록 값과 상세 값 대조 결과 (이번 실행)
 LAST_SCRAPE_OK_DATE: str | None = None    # 목록 수집이 마지막으로 성공한 날짜 (하루 여러 번 실행 시 중복 수집 방지)
 
 
@@ -423,6 +454,9 @@ class HttpClient:
         if sc == 200:
             return None
         body = resp.text[:150].replace("\n", " ")
+        if sc == 429 and "LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS" in resp.text:
+            # 공공데이터포털 일일 호출 한도 소진 → 오늘은 다시 시도해도 소용없음
+            return ApiError("일일 트래픽 초과 (HTTP 429)", code="22", fatal=True)
         if sc == 429:
             ra = to_float(resp.headers.get("Retry-After")) or 5.0
             return ApiError(f"HTTP 429 호출 제한: {body}", code="429", retryable=True, retry_after=ra)
@@ -601,7 +635,7 @@ class DiskCache:
 
 
 # ════════════════════════════════════════════════════════════
-# 1단계: 경매 목록 수집 (기존 scrape_auctions.py 를 서브프로세스로 실행)
+# 1단계: 경매 목록 수집 (collect_court.py 를 서브프로세스로 실행)
 # ════════════════════════════════════════════════════════════
 def backup_auctions() -> Path | None:
     """현재 auctions.json 백업 (최근 BACKUP_KEEP 개만 유지)"""
@@ -618,7 +652,7 @@ def backup_auctions() -> Path | None:
 
 
 def run_scraper() -> bool:
-    """scrape_auctions.py 실행. 성공 여부 반환 (실패해도 파이프라인은 기존 데이터로 계속)"""
+    """수집기 실행. 성공 여부 반환 (실패해도 파이프라인은 기존 데이터로 계속)"""
     if not SCRAPER_SCRIPT.exists():
         ERRORS.add("scrape", f"{SCRAPER_SCRIPT} 없음")
         return False
@@ -863,12 +897,70 @@ def _use_str(row: dict, with_etc: bool) -> str | None:
     return main or etc or None
 
 
-def fetch_building(item: dict) -> None:
-    """건축물대장 표제부 + 전유공용면적 → 용도·사용승인일·위반여부·면적"""
+def _norm_name(s) -> str:
+    """건물명 비교용: 공백·괄호·'아파트' 등 제거"""
+    return re.sub(r"[\s()\[\],.·\-]|아파트|오피스텔|빌라|맨션", "", str(s or "")).lower()
+
+
+def _find_titles(item: dict, juso_cache: "DiskCache | None") -> tuple[list[dict], dict]:
+    """
+    표제부 조회 → (표제부 목록, 실제로 맞은 조회 파라미터)
+      1) PNU 그대로
+      2) 같은 본번 전체에서 건물명이 같은 대장 찾기 (법원의 대표지번과 건축물대장 지번이 다른 경우)
+      3) 주소 API 로 현재 법정동코드를 다시 구해 재조회 (행정구역 개편 지역)
+    """
     pp = pnu_parts(item["pnu"])
     titles = _bld_call("getBrTitleInfo", pp, item["id"])
+    if titles:
+        return titles, pp
+    want = _norm_name(item.get("building_name"))
+    if want and len(want) >= 2:
+        wide = {k: v for k, v in pp.items() if k != "ji"}
+        rows = _bld_call("getBrTitleInfo", wide, item["id"])
+        hit = [r for r in rows if _norm_name(r.get("bldNm")) and (_norm_name(r.get("bldNm")) == want
+                                                                   or want in _norm_name(r.get("bldNm"))
+                                                                   or _norm_name(r.get("bldNm")) in want)]
+        if hit:
+            pp2 = {**pp, "ji": str(hit[0].get("ji") or "0000").zfill(4)}
+            same = [r for r in hit if str(r.get("ji") or "").zfill(4) == pp2["ji"]]
+            item["building_lot_note"] = f"건축물대장 지번 {int(pp2['bun'])}-{int(pp2['ji'])} (건물명 일치)"
+            return same, pp2
+    if JUSO_CONFIRM_KEY and juso_cache is not None and not item.get("_juso_tried"):
+        item["_juso_tried"] = True
+        ja = (item.get("jibun_address") or "").split()
+        keywords = [item.get("jibun_address") or item.get("address", "")]
+        if len(ja) >= 4:      # 구 이름이 바뀐 지역: '인천광역시 왕길동 273-5' 처럼 시군구를 빼고 검색
+            keywords.append(" ".join([ja[0]] + ja[-2:]))
+        hit = None
+        for kw in keywords:
+            try:
+                hit = juso_search(kw, juso_cache)
+            except ApiError:
+                hit = None
+            if hit and (hit.get("emdNm") or "") in (item.get("umd_name") or "") + " " + (item.get("jibun_address") or ""):
+                break
+            hit = None
+        adm = str((hit or {}).get("admCd") or "")
+        if len(adm) == 10 and adm != item["pnu"][:10]:
+            new_pnu = adm + item["pnu"][10:]
+            pp3 = pnu_parts(new_pnu)
+            titles = _bld_call("getBrTitleInfo", pp3, item["id"])
+            if titles:
+                item["bjdong_code_alt"] = item["pnu"][:10]     # 개편 전 코드 (실거래가 과거 월 조회용)
+                item["pnu"], item["bjdong_code"] = new_pnu, adm
+                return titles, pp3
+    return [], pp
+
+
+def fetch_building(item: dict, juso_cache: "DiskCache | None" = None) -> None:
+    """건축물대장 표제부 + 전유공용면적 → 용도·사용승인일·위반여부·면적"""
+    titles, pp = _find_titles(item, juso_cache)
+    item.pop("_juso_tried", None)
     if not titles:
+        item["building_status"] = "not_found"       # 대장을 찾지 못함 (지번 불일치·미등재 등)
         ERRORS.add("building", "건축물대장 표제부 없음", item["id"], level="warn")
+    else:
+        item["building_status"] = "ok"
     # 표제부 선택: 건물 동이 있으면 동 일치, 없으면 주건축물 중 연면적 최대
     title = None
     mains = [t for t in titles if "부속" not in str(t.get("mainAtchGbCdNm", ""))] or titles
@@ -890,21 +982,17 @@ def fetch_building(item: dict) -> None:
         item["building_area"] = to_float(title.get("totArea"))
 
     # 전유부(호 단위) — 집합건물이고 호수를 알 때만
-    if item.get("unit_ho"):
+    if titles and item.get("unit_ho"):
         want_ho = digits(item["unit_ho"])
         want_dong = digits(item.get("building_dong")) if item.get("building_dong") else None
-        params = dict(pp)
-        params["hoNm"] = f"{item['unit_ho'].lstrip('B')}호"
-        if item.get("building_dong"):
-            params["dongNm"] = f"{item['building_dong']}동"
-        try:
-            rows = _bld_call("getBrExposPubuseAreaInfo", params, item["id"])
+        try:   # hoNm 은 '호' 없이 숫자만 넣어야 필터가 동작한다 (예: 301)
+            rows = _bld_call("getBrExposPubuseAreaInfo", {**pp, "hoNm": item["unit_ho"].lstrip("B")}, item["id"])
         except EndpointBlocked:
             raise
         except ApiError as e:
-            vlog(f"{item['id']} 전유부 동/호 필터 조회 실패 → 필터 없이 재조회 ({e})")
+            vlog(f"{item['id']} 전유부 호 필터 조회 실패 → 필터 없이 재조회 ({e})")
             rows = []
-        if not rows:  # 동/호 필터 형식이 안 맞을 수 있어 필터 없이 1회 더
+        if not rows:  # 호 표기가 다를 수 있어 필터 없이 1회 더
             try:
                 rows = _bld_call("getBrExposPubuseAreaInfo", pp, item["id"])
             except EndpointBlocked:
@@ -915,15 +1003,20 @@ def fetch_building(item: dict) -> None:
         unit = [r for r in rows
                 if digits(r.get("hoNm")) == want_ho
                 and (want_dong is None or not digits(r.get("dongNm")) or digits(r.get("dongNm")) == want_dong)]
+        # 지하 호수(B01)와 지상 호수(01) 구분
+        if item["unit_ho"].startswith("B"):
+            unit = [r for r in unit if "지하" in str(r.get("flrGbCdNm", ""))] or unit
+        else:
+            unit = [r for r in unit if "지하" not in str(r.get("flrGbCdNm", ""))] or unit
         excl = [r for r in unit if "전유" in str(r.get("exposPubuseGbCdNm", ""))]
         if excl:
             area = sum(to_float(r.get("area")) or 0 for r in excl)
-            item["exclusive_area"] = round(area, 2) if area else None
+            item["exclusive_area"] = round(area, 2) if area else item.get("exclusive_area")
             item["actual_use"] = _use_str(excl[0], with_etc=True)
             item["actual_use_level"] = "호"
         rows_for_violation += unit
 
-    item["is_illegal_building"] = _detect_violation(rows_for_violation)
+    item["is_illegal_building"] = _detect_violation(rows_for_violation) or bool(item.get("is_illegal_building"))
 
 
 # ════════════════════════════════════════════════════════════
@@ -987,8 +1080,7 @@ def fetch_official_price(item: dict) -> None:
         if VWORLD_KEY:
             vb = {"key": VWORLD_KEY, **({"domain": VWORLD_DOMAIN} if VWORLD_DOMAIN else {})}
             sources.append(("price:vworld_apt", VWORLD_APT_PRICE_URL, vb, True))
-        if DATA_GO_KR_KEY:
-            sources.append(("price:nsdi_apt", NSDI_APT_PRICE_URL, {"serviceKey": DATA_GO_KR_KEY}, True))
+        # (공공데이터포털 경유 NSDI 공동주택가격 API 는 폐지되어 HTTP 400 만 반환 → 사용하지 않음)
     else:
         if VWORLD_KEY:
             vb = {"key": VWORLD_KEY, **({"domain": VWORLD_DOMAIN} if VWORLD_DOMAIN else {})}
@@ -1008,8 +1100,8 @@ def fetch_official_price(item: dict) -> None:
             item["official_price"], item["official_price_year"] = hit[0], (hit[1] or None)
             return
 
-    # 최후 수단: 건축HUB 건축물대장 주택가격 (주로 단독·다가구 개별주택가격)
-    if DATA_GO_KR_KEY and not HTTP.is_blocked("bld:getBrHsprcInfo"):
+    # 단독·다가구: 건축HUB 건축물대장 주택가격(개별주택가격). 집합건물은 이 API 에 가격이 없어 호출하지 않는다.
+    if is_house and DATA_GO_KR_KEY and not HTTP.is_blocked("bld:getBrHsprcInfo"):
         try:
             rows = _bld_call("getBrHsprcInfo", pnu_parts(item["pnu"]), item["id"])
             hit = _pick_price_row(rows, item, unit_required=is_collective)
@@ -1076,6 +1168,7 @@ def _norm_trade(raw: dict) -> dict | None:
         "jibun": g("jibun", "지번"),
         "area": to_float(g("excluUseAr", "전용면적", "totalFloorAr", "연면적", "buildingAr", "건물면적")),
         "name": g("aptNm", "offiNm", "mhouseNm", "아파트", "단지", "연립다세대"),
+        "year": to_int(g("buildYear", "건축년도")),
     }
 
 
@@ -1112,17 +1205,25 @@ def _norm_jibun(j: str) -> str | None:
 
 
 def compute_nearby_trade(item: dict, trades: list[dict]) -> None:
-    """유사 거래 선정 → nearby_trade_price/count/date/basis"""
-    for k in ("nearby_trade_price", "nearby_trade_count", "nearby_trade_date", "nearby_trade_basis"):
+    """
+    유사 거래 선정 → nearby_trade_price / count / date / basis / confidence
+      비교 순서: 같은 단지(같은 지번)·유사 면적 → 같은 법정동·유사 면적 → ㎡단가 환산
+      같은 법정동 비교는 건축연도가 ±5년인 거래가 3건 이상이면 그것만 사용 (신축·구축 가격 차 반영)
+      confidence(신뢰도): high = 같은 단지·유사 면적 / medium = 같은 법정동·유사 면적·유사 연식 3건 이상 / low = 그 외
+      추정가가 감정가의 0.6~1.3배를 벗어나면 비교 대상이 부적절한 것으로 보고 low 로 낮춘다
+    """
+    for k in ("nearby_trade_price", "nearby_trade_count", "nearby_trade_date", "nearby_trade_basis", "nearby_trade_confidence"):
         item[k] = None
     umd = item.get("umd_name")
     if not trades or not umd:
         item["nearby_trade_count"] = 0
         return
     my_jibun = pnu_jibun(item["pnu"]) if item.get("pnu") else None
+    ttype = trade_type_of(item)
     area = item.get("exclusive_area")
-    if not area and trade_type_of(item) in ("sh", "nrg"):
+    if not area and ttype in ("sh", "nrg"):
         area = item.get("building_area")
+    year = to_int(str(item.get("approval_date") or "")[:4])
 
     # 법정동 비교: 마지막 토큰(동 또는 리) 기준 → '봉담읍 수영리' vs '수영리' 표기 차이 흡수
     umd_last = umd.split()[-1]
@@ -1132,15 +1233,24 @@ def compute_nearby_trade(item: dict, trades: list[dict]) -> None:
     def similar(pool):
         return [t for t in pool if area and t["area"] and abs(t["area"] - area) / area <= 0.15]
 
-    chosen, basis, per_area = [], None, False
+    def same_age(pool):
+        """건축연도 ±5년 거래가 3건 이상이면 그것만 사용 → (pool, 적용 여부)"""
+        if not year:
+            return pool, False
+        sub = [t for t in pool if t.get("year") and abs(t["year"] - year) <= 5]
+        return (sub, True) if len(sub) >= 3 else (pool, False)
+
+    chosen, basis, per_area, aged = [], None, False, False
     if area:
-        for pool, label in ((similar(same_bldg), "동일단지·유사면적"),
-                            (similar(same_umd), "동일법정동·유사면적"),
-                            (same_bldg, "동일단지·㎡단가환산"),
-                            (same_umd, "동일법정동·㎡단가환산")):
+        for pool, label, same in ((similar(same_bldg), "동일단지·유사면적", True),
+                                  (similar(same_umd), "동일법정동·유사면적", False),
+                                  (same_bldg, "동일단지·㎡단가환산", True),
+                                  (same_umd, "동일법정동·㎡단가환산", False)):
             pool = [t for t in pool if t["area"]]
             if pool:
-                chosen, basis, per_area = pool, label, True
+                if not same:
+                    pool, aged = same_age(pool)
+                chosen, basis, per_area = pool, label + ("·유사연식" if aged else ""), True
                 break
     else:
         for pool, label in ((same_bldg, "동일단지"), (same_umd, "동일법정동(면적미확인)")):
@@ -1158,6 +1268,19 @@ def compute_nearby_trade(item: dict, trades: list[dict]) -> None:
     item["nearby_trade_count"] = len(chosen)
     item["nearby_trade_date"] = max(t["date"] for t in chosen)
     item["nearby_trade_basis"] = basis
+    if basis.startswith("동일단지·유사면적"):
+        conf = "high"
+    elif basis.startswith("동일법정동·유사면적") and aged and ttype != "apt":
+        conf = "medium"          # 아파트는 단지별 가격 차가 커서 다른 단지 비교는 신뢰도 낮음
+    else:
+        conf = "low"
+    # 감정가 검산: 감정가는 감정평가사가 매긴 시세 근사치다. 비교 거래로 추정한 가격이 감정가와 크게 다르면
+    # (0.6배 미만 또는 1.3배 초과) 비교 대상이 이 물건과 성격이 다른 것이므로 신뢰도를 낮춘다.
+    appraisal = item.get("appraisal")
+    if appraisal and not (0.6 <= price / appraisal <= 1.3):
+        conf = "low"
+        item["nearby_trade_basis"] = basis + "·감정가와 차이 큼"
+    item["nearby_trade_confidence"] = conf
 
 
 # ════════════════════════════════════════════════════════════
@@ -1184,8 +1307,14 @@ def analyze_investment(item: dict) -> None:
         tags.append("🚨 근생주의")
     if item.get("is_illegal_building"):
         tags.append("🚨 위반건축물")
+    # 안전마진 확보: 마진이 기준 이상이고, 비교 거래의 신뢰도가 보통 이상이며, 권리상 위험이 없을 때만 붙인다.
+    #   유찰이 여러 번 된 물건은 대개 '낙찰자가 인수하는 보증금·권리'가 있어 최저가만 낮은 것이므로,
+    #   권리 등급이 안전/대항력 포기로 확인됐거나, 미확인이라도 유찰 2회 이하일 때만 인정한다.
     sm = item.get("safety_margin_pct")
-    if sm is not None and sm >= SAFETY_MARGIN_PCT and (item.get("nearby_trade_count") or 0) >= 2:
+    grade = RT_grade(item.get("rights_risk"), item.get("rights_keywords"))
+    rights_ok = grade in ("safe", "waiver") or (grade == "unknown" and (item.get("failed_bids") or 0) <= 2)
+    if (sm is not None and sm >= SAFETY_MARGIN_PCT and rights_ok
+            and item.get("nearby_trade_confidence") in ("high", "medium")):
         tags.append("✨ 안전마진 확보")
     item["risk_tags"] = tags
 
@@ -1193,222 +1322,8 @@ def analyze_investment(item: dict) -> None:
 # ════════════════════════════════════════════════════════════
 # 5단계: 권리분석 (매각물건명세서 키워드 스캔)
 # ════════════════════════════════════════════════════════════
-# (위험도, 표시 키워드, 정규식)
-RIGHTS_RULES = [
-    ("위험", "유치권", r"유치권"),
-    ("위험", "법정지상권", r"법정\s*지상권"),
-    ("위험", "분묘기지권", r"분묘\s*기지권"),
-    ("위험", "선순위 가처분", r"(?:선순위|최선순위)[^.\n]{0,10}가처분|가처분[^.\n]{0,10}(?:인수|말소되지)"),
-    ("위험", "예고등기", r"예고\s*등기"),
-    ("위험", "대지권 미등기", r"대지권\s*(?:미등기|없음|없는)"),
-    ("위험", "보증금 인수", r"(?:보증금|임차권|전세권)[^.\n]{0,20}인수|인수[^.\n]{0,10}(?:보증금|임차)"),
-    ("위험", "대항력 있는 임차인", r"대항력\s*(?:이\s*)?있는\s*임차인|대항력\s*있음"),
-    ("위험", "지분 매각", r"지분\s*매각|공유\s*지분"),
-    ("주의", "토지별도등기", r"토지\s*별도\s*등기"),
-    ("주의", "위반건축물", r"위반\s*건축물"),
-    ("주의", "선순위 전세권", r"(?:선순위|최선순위)\s*전세권"),
-    ("주의", "대항력 여지", r"대항력\s*(?:여부|여지)|대항력[^.\n]{0,6}(?:불분명|알\s*수\s*없)"),
-    ("주의", "점유관계 미상", r"폐문\s*부재|(?:임차|점유)\s*관계\s*(?:미상|불분명)"),
-    ("주의", "HUG 관련 조건", r"주택도시보증공사|HUG"),
-    ("주의", "농지취득자격증명", r"농지\s*취득\s*자격\s*증명"),
-    ("주의", "제시외 건물", r"제시\s*외\s*(?:건물|건축물)"),
-    ("주의", "특별매각조건", r"특별\s*매각\s*조건"),
-]
-_RIGHTS_COMPILED = [(lv, kw, re.compile(rx)) for lv, kw, rx in RIGHTS_RULES]
-# 바로 뒤에 '없음' 류가 오면 해당 없음으로 간주
-_NEGATION = re.compile(r"^\s*(?:신고|성립|주장|여지)?\s*(?:여부\s*)?[은는이가도]?\s*"
-                       r"(?:없음|없다|없습니다|없는|해당\s*(?:사항)?\s*없음|부존재|불성립|미해당|성립하지\s*않)")
-# 매각물건명세서 양식 문구 (모든 명세서에 공통 → 스캔 전에 제거)
-_BOILERPLATE = [
-    re.compile(r"※[^※\n]*"),                                       # ※ 로 시작하는 안내 주석
-    re.compile(r"매각에\s*따라\s*설정된\s*것으로\s*보는\s*지상권의\s*개요"),
-    re.compile(r"등기된\s*부동산에\s*관한\s*권리\s*또는\s*가처분으로\s*매각으로\s*그\s*효력이\s*소멸되지\s*아니하는\s*것"),
-    re.compile(r"인수되는\s*경우가\s*발생\s*할\s*수\s*있[^.\n]*"),
-]
-
-
-def scan_rights_text(text: str | None) -> tuple[str, list[str]]:
-    """명세서 텍스트 → (rights_risk, rights_keywords). 텍스트 없으면 '미확인'"""
-    if not text or len(text.strip()) < 20:
-        return "미확인", []
-    t = text
-    for bp in _BOILERPLATE:
-        t = bp.sub(" ", t)
-    t = re.sub(r"[ \t]+", " ", t)
-    found: dict[str, str] = {}
-    for level, kw, rx in _RIGHTS_COMPILED:
-        for m in rx.finditer(t):
-            if _NEGATION.match(t[m.end(): m.end() + 25]):
-                continue
-            found.setdefault(kw, level)
-            break
-    if any(lv == "위험" for lv in found.values()):
-        risk = "위험"
-    elif found:
-        risk = "주의"
-    else:
-        risk = "안전"
-    # 위험 키워드 먼저 정렬
-    kws = sorted(found, key=lambda k: (found[k] != "위험", k))
-    return risk, kws
-
-
-COURTAUCTION = "https://www.courtauction.go.kr"
-
-
-def _flatten_strings(obj, out: list[str], limit: int = 400_000) -> None:
-    """JSON 안의 모든 문자열 수집 (명세서 텍스트 추출용)"""
-    if sum(len(s) for s in out) > limit:
-        return
-    if isinstance(obj, str):
-        if len(obj) >= 2:
-            out.append(obj)
-    elif isinstance(obj, dict):
-        for v in obj.values():
-            _flatten_strings(v, out, limit)
-    elif isinstance(obj, list):
-        for v in obj:
-            _flatten_strings(v, out, limit)
-
-
-def _open_case_spec(ctx, page, item: dict, captured: list[str]) -> str | None:
-    """
-    법원경매정보 사이트에서 사건번호로 검색 → '매각물건명세서' 열기 → 텍스트 반환
-    ※ 사이트(WebSquare) 구조가 바뀌면 실패할 수 있음 → 실패 시 None (rights_risk='미확인')
-    """
-    m = re.match(r"(\d{4})\s*타경\s*(\d+)", item["id"])
-    if not m:
-        return None
-    year, num = m.group(1), m.group(2)
-    page.goto(f"{COURTAUCTION}/pgj/index.on", wait_until="domcontentloaded", timeout=60_000)
-    page.wait_for_timeout(4_000)
-    page.get_by_text("경매사건검색").first.click(timeout=15_000)
-    page.wait_for_timeout(4_000)
-
-    court_ok = year_ok = num_ok = False
-    form_frame = page.main_frame
-    for frame in page.frames:
-        for sel in frame.locator("select").all():
-            try:
-                opts = [o.strip() for o in sel.locator("option").all_inner_texts()]
-            except Exception:
-                continue
-            if not court_ok and item.get("court") in opts:
-                sel.select_option(label=item["court"])
-                court_ok = True
-            elif not year_ok and year in opts and all(re.fullmatch(r"\d{4}|전체|선택", o or "선택") for o in opts[:5]):
-                sel.select_option(label=year)
-                year_ok = True
-        for inp in frame.locator("input[type='text']").all():
-            try:
-                meta = " ".join(filter(None, [inp.get_attribute("title"), inp.get_attribute("id"),
-                                              inp.get_attribute("name"), inp.get_attribute("placeholder")]))
-            except Exception:
-                continue
-            if re.search(r"사건|csNo|saNo|SaNo|CsNo", meta) and inp.is_visible():
-                inp.fill(num)
-                num_ok = True
-                form_frame = frame
-                break
-    if not (court_ok and num_ok):
-        raise RuntimeError(f"검색 폼 인식 실패 (법원={court_ok}, 연도={year_ok}, 번호={num_ok})")
-
-    # 검색 버튼: 폼이 있는 프레임 안에서 정확히 '검색' 인 버튼 우선
-    btn = form_frame.get_by_role("button", name="검색", exact=True)
-    if btn.count() == 0:
-        btn = form_frame.locator("input[type='button'][value='검색'], a:text-is('검색')")
-    btn.first.click(timeout=10_000)
-    page.wait_for_timeout(5_000)
-    captured.clear()
-
-    # '매각물건명세서' 클릭 → 팝업 또는 같은 화면에 표시
-    texts: list[str] = []
-    try:
-        with ctx.expect_page(timeout=10_000) as pinfo:
-            page.get_by_text("매각물건명세서").first.click(timeout=10_000)
-        pop = pinfo.value
-        pop.wait_for_load_state("domcontentloaded", timeout=30_000)
-        pop.wait_for_timeout(3_000)
-        for fr in pop.frames:
-            try:
-                texts.append(fr.locator("body").inner_text(timeout=5_000))
-            except Exception:
-                pass
-        pop.close()
-    except Exception:
-        page.wait_for_timeout(4_000)
-        for fr in page.frames:
-            try:
-                texts.append(fr.locator("body").inner_text(timeout=5_000))
-            except Exception:
-                pass
-    for body in captured:
-        try:
-            strs: list[str] = []
-            _flatten_strings(json.loads(body), strs)
-            texts.append("\n".join(strs))
-        except ValueError:
-            pass
-    joined = "\n".join(texts)
-    # 명세서 화면이 실제로 열렸는지 확인 (다른 화면 텍스트 오탐 방지)
-    if not re.search(r"최선순위|점유자|매각물건명세서", joined):
-        return None
-    return joined
-
-
-def fetch_rights_texts(targets: list[dict]) -> dict[str, str]:
-    """매각물건명세서 텍스트 수집 (Playwright). 연속 3회 실패 시 이번 실행 중단"""
-    if not targets:
-        return {}
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        ERRORS.add("rights", "playwright 미설치 — 권리분석 생략 (pip install playwright && playwright install chromium)")
-        return {}
-    results: dict[str, str] = {}
-    fails = 0
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
-        ctx = browser.new_context(locale="ko-KR", viewport={"width": 1400, "height": 900},
-                                  user_agent=("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                                              "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"))
-        captured: list[str] = []
-
-        def on_response(resp):
-            # 사이트 내부 XHR JSON 응답 캡처 (명세서 데이터가 JSON 으로 오는 경우 대비)
-            try:
-                if "courtauction.go.kr" in resp.url and resp.request.resource_type in ("xhr", "fetch"):
-                    body = resp.text()
-                    if body[:1] in "{[" and len(body) < 3_000_000:
-                        captured.append(body)
-            except Exception:
-                pass
-
-        ctx.on("response", on_response)
-        for it in targets:
-            if fails >= 3:
-                ERRORS.add("rights", "매각물건명세서 조회 연속 3회 실패 — 이번 실행 중단 (사이트 구조 변경 가능성)")
-                break
-            page = ctx.new_page()
-            try:
-                text = _open_case_spec(ctx, page, it, captured)
-                if text:
-                    results[it["id"]] = text
-                    fails = 0
-                    vlog(f"{it['id']} 명세서 {len(text):,}자 수집")
-                else:
-                    fails += 1
-                    ERRORS.add("rights", "명세서 화면 확인 불가", it["id"], level="warn")
-            except Exception as e:
-                fails += 1
-                ERRORS.add("rights", f"명세서 조회 실패: {type(e).__name__}: {str(e)[:200]}", it["id"], level="warn")
-            finally:
-                try:
-                    page.close()
-                except Exception:
-                    pass
-        browser.close()
-    return results
+# 규칙과 판정 로직은 rights.py 에 있다. (목록 특수조건·물건비고 + 상세 API + 현황조사서 API)
+scan_rights_text = RT.scan_rights_text      # 이전 버전 호환
 
 
 # ════════════════════════════════════════════════════════════
@@ -1421,17 +1336,36 @@ def load_previous() -> tuple[dict, dict]:
     return (d if isinstance(d, dict) else {"auctions": items}), {i.get("id"): i for i in items if i.get("id")}
 
 
+RIGHTS_FIELDS = ("rights_risk", "rights_keywords", "rights_checked_at", "rights_has_spec", "rights_basis", "bid_history", "rights_version")
+COMPUTED_FIELDS = ("safe_jeonse", "safety_margin_pct", "is_under_100m", "risk_tags")
+
+
 def carry_over_enrichment(items: list[dict], prev_by_id: dict, enrich_cache: DiskCache) -> int:
-    """스크래퍼가 기본 필드로 덮어쓴 항목에 이전 분석 결과 복원 (주소가 같을 때만)"""
+    """
+    수집기가 새로 쓴 물건에 이전 분석 결과 복원
+      · 권리분석 결과: 주소가 같으면 복원
+      · 건축물대장·공시가격·실거래가: 분석 당시의 PNU(enriched_pnu)가 지금 수집된 PNU 와 같을 때만 복원
+        (PNU 가 바뀌었으면 다른 필지를 조회했던 것이므로 버리고 다시 분석)
+    """
     n = 0
     for it in items:
         prev = prev_by_id.get(it["id"])
-        if not prev or "enriched_at" not in prev:
+        if not prev or not (prev.get("enriched_at") or prev.get("rights_checked_at")):
             prev = (enrich_cache.data.get(it["id"]) or {}).get("v")
-        if prev and prev.get("address") == it.get("address") and prev.get("enriched_at"):
+        if not prev or prev.get("address") != it.get("address"):
+            continue
+        for k in RIGHTS_FIELDS:
+            if k in prev:
+                it.setdefault(k, prev[k])
+        if prev.get("enriched_at") and prev.get("enriched_pnu") == it.get("pnu"):
             for k in ENRICH_FIELDS:
-                if k in prev and k not in ("safe_jeonse", "safety_margin_pct", "is_under_100m", "risk_tags"):
-                    it.setdefault(k, prev[k])
+                if k in prev and k not in COMPUTED_FIELDS and k not in RIGHTS_FIELDS:
+                    if k in ("pnu", "bjdong_code", "bjdong_code_alt"):
+                        if prev.get(k):
+                            it[k] = prev[k]          # 주소 API 로 보정된 코드 유지
+                    else:
+                        it.setdefault(k, prev[k])
+        if prev.get("enriched_at") or prev.get("rights_checked_at"):
             n += 1
     return n
 
@@ -1440,11 +1374,19 @@ def needs_enrich(it: dict) -> bool:
     """분석 이력이 없거나 TTL 경과 시 재분석. 주소 변환 실패 건은 매번 재시도 (검색 결과는 캐시돼 호출 부담 없음)"""
     if it.get("enrich_status") != "ok":
         return True
+    if it.get("building_status") == "not_found":
+        return days_since(it.get("enriched_at")) > 1      # 대장을 못 찾은 물건은 하루 뒤 다시 시도
     return days_since(it.get("enriched_at")) > ENRICH_TTL_DAYS
 
 
 def enrich_one(it: dict, juso_cache: DiskCache) -> None:
     """2단계 + 3단계①② (물건 1건)"""
+    it["enriched_pnu"] = it.get("pnu")       # 수집 시점 PNU (다음 실행에서 복원 여부 판단용)
+    # 건물 동·호 (건축물대장 전유부·공시가격 조회용) — 법원이 준 PNU 를 쓰는 경우에도 필요
+    if it.get("unit_ho") is None and it.get("building_dong") is None:
+        parsed = parse_address(" ".join(x for x in [it.get("jibun_address") or it.get("address", ""), it.get("unit") or ""] if x))
+        it["building_dong"], it["unit_ho"] = parsed["building_dong"], parsed["unit_ho"]
+    # 법원 목록에 법정동코드·지번이 있으면 그대로 사용, 없을 때만 주소 변환
     if not it.get("pnu") or not it.get("bjdong_code"):
         try:
             if not resolve_address(it, juso_cache):
@@ -1462,7 +1404,7 @@ def enrich_one(it: dict, juso_cache: DiskCache) -> None:
     ok = True
     if DATA_GO_KR_KEY:
         try:
-            fetch_building(it)
+            fetch_building(it, juso_cache)
         except EndpointBlocked:
             ok = False
         except ApiError as e:
@@ -1510,59 +1452,135 @@ def stage_trades(items: list[dict], trade_cache: DiskCache) -> None:
         return
     months = _recent_months(TRADE_MONTHS)
     groups: dict[tuple[str, str], list[dict]] = {}
+    lawds: dict[tuple[str, str], set[str]] = {}       # 그룹별 조회할 시군구 코드 (행정구역 개편 지역은 옛 코드 포함)
     for it in items:
         tt = trade_type_of(it)
         if tt and it.get("bjdong_code") and it.get("pnu"):
-            groups.setdefault((tt, it["bjdong_code"][:5]), []).append(it)
-    jobs = [(tt, lawd, ym) for (tt, lawd) in groups for ym in months]
+            key = (tt, it["bjdong_code"][:5])
+            groups.setdefault(key, []).append(it)
+            lawds.setdefault(key, {key[1]})
+            if it.get("bjdong_code_alt"):
+                lawds[key].add(it["bjdong_code_alt"][:5])
+    jobs = sorted({(tt, lawd, ym) for (tt, _), codes in lawds.items() for lawd in codes for ym in months})
     log(f"  실거래 조회 단위 {len(jobs)}개 ({len(groups)}개 유형·시군구 × {len(months)}개월)")
-    fetched: dict[tuple[str, str, str], list[dict]] = {}
+    fetched: dict[tuple[str, str, str], list[dict] | None] = {}
 
     def job(tt, lawd, ym):
         try:
             return fetch_trades(tt, lawd, ym, trade_cache)
         except EndpointBlocked:
-            return []
+            return None
         except ApiError as e:
             ERRORS.add("trade", f"{TRADE_TYPE_LABEL[tt]} {lawd} {ym}: {e}")
-            return []
+            return None
 
     with ThreadPoolExecutor(max_workers=WORKERS) as ex:
         futs = {ex.submit(job, *j): j for j in jobs}
         for f in as_completed(futs):
-            fetched[futs[f]] = f.result() or []
+            fetched[futs[f]] = f.result()
 
-    for (tt, lawd), its in groups.items():
-        pool = [t for ym in months for t in fetched.get((tt, lawd, ym), [])]
+    skipped = 0
+    for key, its in groups.items():
+        tt = key[0]
+        parts = [fetched.get((tt, lawd, ym)) for lawd in lawds[key] for ym in months]
+        if sum(1 for p in parts if p is not None) < len(months) / 2:
+            skipped += len(its)       # 절반 이상 조회 실패 → 이전 값을 그대로 둠 (불완전한 자료로 덮어쓰지 않음)
+            continue
+        seen, pool = set(), []
+        for p in parts:
+            for t in p or []:
+                k = (t["date"], t["umd"], t["jibun"], t["area"], t["amount"])
+                if k not in seen:
+                    seen.add(k)
+                    pool.append(t)
         for it in its:
             compute_nearby_trade(it, pool)
+    if skipped:
+        log(f"  실거래 조회 실패로 기존 값 유지 {skipped}건")
+
+
+def apply_court_defaults(it: dict) -> None:
+    """법원 목록 정보로 채울 수 있는 값 미리 채우기 (공공 API 조회 전에도 비교·필터가 되도록)"""
+    kinds = it.get("lot_kinds") or []
+    area = it.get("court_area")
+    if area:
+        if "집합건물" in kinds and not it.get("exclusive_area"):
+            it["exclusive_area"] = area              # 전유부분 면적
+        elif "집합건물" not in kinds and not it.get("building_area"):
+            it["building_area"] = area               # 단독·다가구 건물 면적
+    if it.get("remarks") and re.search(r"위반\s*건축물", it["remarks"]):
+        it["is_illegal_building"] = True             # 법원 물건비고에 위반건축물 기재
 
 
 def stage_rights(items: list[dict]) -> None:
-    """5단계 — 권리분석 대상 선정 → 명세서 수집 → 키워드 스캔"""
+    """5단계 — 권리분석: ① 모든 물건 목록 정보 판정 ② 매각기일 임박 물건은 상세·현황조사서 조회"""
+    # ① 목록 정보(특수조건·물건비고)만으로 1차 판정 — 상세 확인 결과가 있으면 그 근거를 유지
     for it in items:
-        it.setdefault("rights_risk", "미확인")
-        it.setdefault("rights_keywords", [])
+        r = RT.analyze(it)
+        if it.get("rights_checked_at") and it.get("rights_version") != RT.VERSION:
+            it["rights_checked_at"] = None   # 판정 규칙이 바뀜 → 예전 상세 판정은 버리고 다시 조회
+        if not it.get("rights_checked_at"):
+            it.update(r)
+        else:   # 이전에 상세 확인한 물건: 목록 키워드만 합치고 판정은 더 나쁜 쪽으로
+            kws = list(dict.fromkeys((it.get("rights_keywords") or []) + r["rights_keywords"]))
+            it["rights_keywords"] = kws
+            order = {"위험": 3, "주의": 2, "안전": 1, "미확인": 0}
+            if order.get(r["rights_risk"], 0) >= 2 and order.get(r["rights_risk"], 0) > order.get(it.get("rights_risk"), 0):
+                it["rights_risk"] = r["rights_risk"]
     if (ARGS and ARGS.no_rights) or os.environ.get("RIGHTS_FETCH", "1") == "0":
-        log("  권리분석 조회 생략 (--no-rights / RIGHTS_FETCH=0)")
+        log("  상세 조회 생략 (--no-rights / RIGHTS_FETCH=0)")
         return
-    today = now_kst().date().isoformat()
-    targets = [it for it in items
-               if (it.get("auction_date") or "") >= today
-               and days_since(it.get("rights_checked_at")) > RIGHTS_TTL_DAYS]
-    targets.sort(key=lambda x: x.get("auction_date") or "9999")
+    # ② 상세 조회 대상: 매각기일이 가까운 물건 중 아직 확인 못 했거나 명세서가 없던 물건
+    today = now_kst().date()
+    limit_day = (today + timedelta(days=RIGHTS_WINDOW_DAYS)).isoformat()
+
+    def due(it: dict) -> bool:
+        if not it.get("case_no") or not it.get("court_code"):
+            return False
+        ad = it.get("auction_date") or ""
+        if not (today.isoformat() <= ad <= limit_day):
+            return False
+        age = days_since(it.get("rights_checked_at"))
+        if not it.get("rights_has_spec"):
+            return age > 0.9                 # 명세서가 아직 없던 물건은 하루 뒤 재확인
+        return age > RIGHTS_TTL_DAYS
+    targets = sorted((it for it in items if due(it)), key=lambda x: (x.get("auction_date") or "9999", x.get("rights_has_spec") is True))
+    waiting = len(targets)
     targets = targets[:RIGHTS_MAX_PER_RUN]
-    log(f"  매각물건명세서 조회 대상 {len(targets)}건")
-    texts = fetch_rights_texts(targets)
+    log(f"  상세·현황조사서 조회 {len(targets)}건 (대상 {waiting}건 중, 매각기일 {RIGHTS_WINDOW_DAYS}일 이내)")
+    got = RT.fetch_court_details(targets, log=log)
+    stamp = now_kst().isoformat(timespec="seconds")
+    mismatches = []
     for it in targets:
-        if it["id"] not in texts:
-            continue     # 조회 실패 → 기존 결과 유지, 다음 실행에서 재시도
-        risk, kws = scan_rights_text(texts[it["id"]])
-        it["rights_risk"], it["rights_keywords"] = risk, kws
-        it["rights_checked_at"] = now_kst().isoformat(timespec="seconds")
-        if "위반건축물" in kws:
-            it["is_illegal_building"] = True
-    log(f"  명세서 분석 완료 {len(texts)}건")
+        g = got.get(it["id"])
+        if not g:
+            continue        # 조회 실패 → 다음 실행에서 재시도
+        # 자체 검증: 목록에서 수집한 값이 물건 상세 화면의 값과 같은지 대조
+        info = g["detail"].get("dspslGdsDxdyInfo") or {}
+        checks = (("감정가", it.get("appraisal"), to_int(info.get("aeeEvlAmt"))),
+                  ("최저가", it.get("min_bid"), to_int(info.get("fstPbancLwsDspslPrc"))),
+                  ("유찰횟수", it.get("failed_bids"), to_int(info.get("flbdNcnt"))),
+                  ("매각기일", it.get("auction_date"), fmt_ymd(info.get("dspslDxdyYmd"))))
+        bad = [f"{name} 목록 {a} ≠ 상세 {b}" for name, a, b in checks if b is not None and a != b]
+        if bad:
+            mismatches.append(f"{it.get('case_no')}({it.get('item_no')}): " + ", ".join(bad))
+        it.update(RT.analyze(it, g["detail"], g["curst"]))
+        it["rights_checked_at"] = stamp
+        # 상세의 PNU 로 보완 (목록 지번이 블록·로트 표기라 PNU 를 못 만든 물건)
+        if not it.get("pnu"):
+            for o in (g["detail"].get("gdsDspslObjctLst") or []):
+                pn = str((o or {}).get("pnuNoCtt") or "")
+                if len(pn) == 19 and pn.isdigit():
+                    it["pnu"], it["bjdong_code"] = pn, pn[:10]
+                    break
+    AUDIT["checked"] += len(got)
+    AUDIT["mismatched"] += len(mismatches)
+    for m in mismatches[:20]:
+        ERRORS.add("audit", "목록·상세 값 불일치 — " + m, level="warn")
+    log(f"  자체 검증: 상세와 대조 {len(got)}건 중 불일치 {len(mismatches)}건")
+    if targets and len(got) < len(targets):
+        ERRORS.add("rights", f"상세 조회 {len(targets) - len(got)}건 실패 (다음 실행에서 재시도)", level="warn")
+    log(f"  상세 분석 완료 {len(got)}건")
 
 
 def finalize_item(it: dict) -> dict:
@@ -1570,7 +1588,7 @@ def finalize_item(it: dict) -> dict:
     base_keys = ["id", "court", "address", "property_type", "appraisal", "min_bid",
                  "auction_date", "failed_bids", "bid_ratio", "scraped_date"]
     defaults = {k: None for k in ENRICH_FIELDS}
-    defaults.update({"risk_tags": [], "rights_risk": "미확인", "rights_keywords": [],
+    defaults.update({"risk_tags": [], "rights_risk": "미확인", "rights_keywords": [], "rights_has_spec": False,
                      "is_illegal_building": False, "enrich_status": "pending"})
     out = {k: it.get(k) for k in base_keys}
     for k in ENRICH_FIELDS:
@@ -1579,6 +1597,7 @@ def finalize_item(it: dict) -> dict:
     for k, v in it.items():          # 스크래퍼가 나중에 추가할 수 있는 필드도 보존
         if k not in out:
             out[k] = v
+    out.update(derive(out))          # 검색용 파생 필드 (지역·종류·갭·권리등급 등) — 매번 다시 계산
     return out
 
 
@@ -1594,17 +1613,20 @@ def save_outputs(items: list[dict], prev_doc: dict, started: float, scrape_ok: b
         return False
 
     items = sorted(items, key=lambda x: (x.get("scraped_date") or "", x.get("auction_date") or ""), reverse=True)
-    changed = json.dumps(items, sort_keys=True, ensure_ascii=False) != \
-        json.dumps(prev_items, sort_keys=True, ensure_ascii=False)
+    changed = json.dumps([strip_empty(i) for i in items], sort_keys=True, ensure_ascii=False) != \
+        json.dumps([strip_empty(i) for i in prev_items], sort_keys=True, ensure_ascii=False)
     stamp = now_kst()
+    cur_doc = read_json(AUCTIONS_PATH, {}) or {}       # 수집기가 방금 쓴 파일 (수집 리포트 포함)
     doc = {
         "updated": stamp.date().isoformat() if changed else prev_doc.get("updated", stamp.date().isoformat()),
         "updated_at": stamp.isoformat(timespec="seconds") if changed else prev_doc.get("updated_at"),
+        "collected_at": cur_doc.get("collected_at") or prev_doc.get("collected_at"),
+        "collect_report": cur_doc.get("collect_report") or prev_doc.get("collect_report"),
         "auctions": items,
     }
     if not doc["updated_at"]:
         doc["updated_at"] = stamp.isoformat(timespec="seconds")
-    write_json_atomic(AUCTIONS_PATH, doc)
+    write_auctions(AUCTIONS_PATH, doc)
     log(f"  ✅ {AUCTIONS_PATH.relative_to(ROOT)} 저장 — {len(items)}건 ({'변경 있음' if changed else '변경 없음'})")
 
     # 요약 통계
@@ -1617,11 +1639,15 @@ def save_outputs(items: list[dict], prev_doc: dict, started: float, scrape_ok: b
         "with_building_info": cnt(lambda i: i.get("approval_date") or i.get("actual_use")),
         "with_official_price": cnt(lambda i: i.get("official_price")),
         "with_trade_price": cnt(lambda i: i.get("nearby_trade_price")),
-        "rights_checked": cnt(lambda i: i.get("rights_risk") not in (None, "미확인")),
+        "rights_detail_checked": cnt(lambda i: i.get("rights_checked_at")),
+        "rights_by_grade": {g: cnt(lambda i, g=g: i.get("rights_grade") == g) for g in ("safe", "waiver", "caution", "danger", "unknown")},
+        "collect_courts_failed": (cur_doc.get("collect_report") or {}).get("courts_failed"),
+        "audit_list_vs_detail": dict(AUDIT),
         "tag_근생주의": cnt(lambda i: "🚨 근생주의" in (i.get("risk_tags") or [])),
         "tag_위반건축물": cnt(lambda i: "🚨 위반건축물" in (i.get("risk_tags") or [])),
         "tag_안전마진": cnt(lambda i: "✨ 안전마진 확보" in (i.get("risk_tags") or [])),
         "pending_enrich": cnt(lambda i: i.get("enrich_status") == "pending"),
+        "clean_default_count": len(filter_items(items, DEFAULT_CRITERIA)),   # 첫 화면 '클린 매물' 건수
         "api_calls": HTTP.stats["calls"],
         "api_retries": HTTP.stats["retries"],
         "api_failures": HTTP.stats["failures"],
@@ -1667,7 +1693,7 @@ def main() -> int:
     backup_path = backup_auctions()
 
     # ── 1단계 ──
-    log("[1단계] 경매 목록 수집 (scrape_auctions.py)")
+    log("[1단계] 경매 목록 수집 (collect_court.py)")
     global LAST_SCRAPE_OK_DATE
     today = now_kst().date().isoformat()
     LAST_SCRAPE_OK_DATE = ((read_json(ERROR_LOG_PATH, {}) or {}).get("summary") or {}).get("last_scrape_ok_date")
@@ -1699,6 +1725,8 @@ def main() -> int:
         log("❌ 처리할 데이터가 없습니다.")
         return 1
     restored = carry_over_enrichment(items, prev_by_id, enrich_cache)
+    for it in items:
+        apply_court_defaults(it)
     log(f"  물건 {len(items)}건 로드 (이전 분석 결과 복원 {restored}건)")
 
     # ── 2·3단계 ──
@@ -1711,7 +1739,7 @@ def main() -> int:
     trade_cache.save()
 
     # ── 5단계 (4단계 태그에 위반건축물 반영 위해 먼저 수행) ──
-    log("[5단계] 권리분석 (매각물건명세서)")
+    log("[5단계] 권리분석 (법원 특수조건·명세서 요약·현황조사서)")
     try:
         stage_rights(items)
     except Exception as e:
@@ -1726,7 +1754,7 @@ def main() -> int:
     log("[6단계] 저장")
     final = [finalize_item(it) for it in items]
     for it in final:   # 분석 결과 캐시 (auctions.json 이 외부에서 덮어써져도 복원 가능)
-        if it.get("enriched_at"):
+        if it.get("enriched_at") or it.get("rights_checked_at"):
             enrich_cache.set(it["id"], {k: it.get(k) for k in ["address"] + ENRICH_FIELDS})
     enrich_cache.prune(120)
     enrich_cache.save()
