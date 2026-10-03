@@ -69,6 +69,13 @@ jobs:
           echo "data.go.kr 응답 코드: ${CODE}"
           if [ "${CODE}" = "000" ]; then echo "reachable=false" >> "$GITHUB_OUTPUT"; else echo "reachable=true" >> "$GITHUB_OUTPUT"; fi
 
+      # 청약 분양정보 (한국부동산원 API) — 경매 수집과 별개로 매번 실행, 실패해도 나머지는 계속
+      - name: 🏢 청약 분양정보 수집
+        continue-on-error: true
+        env:
+          CHEONGYAK_API_KEY: ${{ secrets.CHEONGYAK_API_KEY }}
+        run: python3 scraper/collect_cheongyak.py
+
       - name: 🐍 Python 3.11 설정
         if: env.MODE != 'enrich' || steps.preflight.outputs.reachable == 'true'
         uses: actions/setup-python@v5
@@ -116,20 +123,24 @@ jobs:
           python scraper/main.py $ARGS
 
       - name: 📊 변경 확인 및 커밋
-        if: success() && (env.MODE != 'enrich' || steps.preflight.outputs.reachable == 'true')
+        if: success()
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-          # auctions.json 이 바뀐 경우에만 커밋 (error_log.json 은 함께 커밋)
-          if git diff --quiet -- docs/data/auctions.json; then
-            echo "✅ auctions.json 변경 없음 — 커밋 스킵"
+          # auctions.json 또는 cheongyak.json 이 바뀐 경우에만 커밋 (error_log.json 은 경매 데이터와 함께 커밋)
+          A=0; C=0
+          git diff --quiet -- docs/data/auctions.json || A=1
+          git diff --quiet -- docs/data/cheongyak.json || C=1
+          if [ "$A" = "0" ] && [ "$C" = "0" ]; then
+            echo "✅ 데이터 변경 없음 — 커밋 스킵"
             exit 0
           fi
-
-          git add docs/data/auctions.json docs/data/error_log.json
-          COUNT=$(python -c "import json; print(len(json.load(open('docs/data/auctions.json')).get('auctions', [])))")
-          git commit -m "🏠 경매 데이터 업데이트: $(date '+%Y-%m-%d %H:%M') KST (총 ${COUNT}건)"
+          if [ "$A" = "1" ]; then git add docs/data/auctions.json docs/data/error_log.json; fi
+          if [ "$C" = "1" ]; then git add docs/data/cheongyak.json; fi
+          COUNT=$(python3 -c "import json; print(len(json.load(open('docs/data/auctions.json')).get('auctions', [])))")
+          CY=$(python3 -c "import json; print(len(json.load(open('docs/data/cheongyak.json')).get('subscriptions', [])))")
+          git commit -m "🏠 데이터 업데이트: $(date '+%Y-%m-%d %H:%M') KST (경매 ${COUNT}건 · 청약 ${CY}건)"
 
           # 푸시 (충돌 시 rebase 후 최대 3회 재시도)
           for i in 1 2 3; do
