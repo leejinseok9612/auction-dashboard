@@ -13,9 +13,9 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: '실행 방식 (full = 수집+분석 / enrich = 공공데이터 분석만)'
+        description: '실행 방식 (full = 수집+분석 / enrich = 공공데이터 분석만 / price = 공시가격만)'
         type: choice
-        options: [full, enrich]
+        options: [full, enrich, price]
         default: full
       skip_scrape:
         description: '목록 수집 생략 (기존 데이터로 분석만)'
@@ -66,7 +66,7 @@ jobs:
           if [ "${CODE}" = "000" ]; then echo "reachable=false" >> "$GITHUB_OUTPUT"; else echo "reachable=true" >> "$GITHUB_OUTPUT"; fi
 
       - name: 🐍 Python 3.11 설정
-        if: env.MODE == 'full' || steps.preflight.outputs.reachable == 'true'
+        if: env.MODE != 'enrich' || steps.preflight.outputs.reachable == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -74,7 +74,7 @@ jobs:
           cache-dependency-path: scraper/requirements.txt
 
       - name: 📦 의존성 설치
-        if: env.MODE == 'full' || steps.preflight.outputs.reachable == 'true'
+        if: env.MODE != 'enrich' || steps.preflight.outputs.reachable == 'true'
         run: |
           pip install -r scraper/requirements.txt
           # 브라우저는 법원경매 수집·권리분석(full)에만 필요
@@ -82,7 +82,7 @@ jobs:
 
       # 실거래가·주소·분석 캐시 복원 → API 호출량 절감 (커밋하지 않고 Actions 캐시에 보관)
       - name: 🗂️ API 캐시 복원
-        if: env.MODE == 'full' || steps.preflight.outputs.reachable == 'true'
+        if: env.MODE != 'enrich' || steps.preflight.outputs.reachable == 'true'
         uses: actions/cache@v4
         with:
           path: scraper/.cache
@@ -91,7 +91,7 @@ jobs:
             api-cache-
 
       - name: 🚀 파이프라인 실행 (main.py)
-        if: env.MODE == 'full' || steps.preflight.outputs.reachable == 'true'
+        if: env.MODE != 'enrich' || steps.preflight.outputs.reachable == 'true'
         env:
           DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
           JUSO_CONFIRM_KEY: ${{ secrets.JUSO_CONFIRM_KEY }}
@@ -101,6 +101,8 @@ jobs:
           ARGS=""
           if [ "${MODE}" = "enrich" ]; then
             ARGS="--skip-scrape --no-rights"             # 공공데이터 분석만
+          elif [ "${MODE}" = "price" ]; then
+            ARGS="--skip-scrape --no-rights --price-only"   # 공시가격만
           else
             # 예약 실행: 오늘 이미 목록 수집에 성공했으면 수집은 건너뛰고 분석만 이어서 진행
             if [ "${{ github.event_name }}" = "schedule" ]; then ARGS="$ARGS --scrape-if-needed"; fi
@@ -110,7 +112,7 @@ jobs:
           python scraper/main.py $ARGS
 
       - name: 📊 변경 확인 및 커밋
-        if: success() && (env.MODE == 'full' || steps.preflight.outputs.reachable == 'true')
+        if: success() && (env.MODE != 'enrich' || steps.preflight.outputs.reachable == 'true')
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -158,10 +160,18 @@ jobs:
                   dead = "apis.data.go.kr" in (s.get("unreachable_hosts") or {})
                   quota = any(("트래픽 초과" in str(v) or "EXCEEDS" in str(v)) for v in (s.get("blocked_endpoints") or {}).values())
                   pending = int(s.get("pending_enrich") or 0)
-                  if mode == "full" and s.get("scrape_ok") is False and attempt < 4:
+                  vw_dead = "api.vworld.kr" in (s.get("unreachable_hosts") or {})
+                  vw_blocked = any(str(k).startswith("price:vworld") for k in (s.get("blocked_endpoints") or {}))
+                  pending_price = int(s.get("pending_price") or 0)
+                  if mode == "price":
+                      if vw_dead or (pending_price > 200 and not vw_blocked):
+                          nxt = "price"                # 브이월드 접속 실패 또는 남은 물건 있음
+                  elif mode == "full" and s.get("scrape_ok") is False and attempt < 4:
                       nxt = "full"                     # 법원 사이트 접속 실패 → 수집부터 다시
                   elif dead or (pending > 0 and not quota):
                       nxt = "enrich"                   # 공공데이터 접속 실패 또는 남은 물건 있음
+                  elif vw_dead and pending_price > 0:
+                      nxt = "price"                    # 공시가격만 다른 서버에서 다시
           print(nxt)
           PY
           )
