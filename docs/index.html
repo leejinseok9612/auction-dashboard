@@ -645,8 +645,8 @@
 <!-- TOP 5 추천 캐러셀 -->
 <section class="featured-section" id="featured-section">
   <div class="featured-hdr">
-    <span class="featured-hdr-title">✨ AI 추천 TOP 5</span>
-    <span class="featured-hdr-sub">수익성 · 입지 · 유찰횟수 기준 자동 선별</span>
+    <span class="featured-hdr-title">✨ 조건 충족 TOP 5</span>
+    <span class="featured-hdr-sub">권리 안전·대항력 포기 물건 중 실거래가 대비 수익률 순 (참고용 · 입찰 전 직접 확인 필수)</span>
   </div>
   <div class="featured-outer">
     <button class="carousel-arrow prev" onclick="featurePrev()">‹</button>
@@ -1297,16 +1297,21 @@ function renderCleanNote(c){
 /* ── TOP 5 추천 캐러셀 ── */
 let _featIdx=0, _featTimer=null, _featItems=[], FIDS=[];
 function getTop5(){
+  // 선별 기준 (모두 충족): 권리 등급 안전·대항력 포기 / 실거래가 비교 신뢰도 높음·보통 / 위반건축물·근생·특수물건·지분·일괄 제외
+  //                       유찰 3회 이하 · 최저가가 감정가의 40% 이상 / 예상 수익률 0% 초과 ~ 100% 이하
   const t=tstr();
-  const RESID=['아파트','다가구','다세대','연립','빌라','오피스텔','단독주택'];
   const TOP_AREAS=['강남','서초','송파','용산','마포','성동','광진','영등포','강서'];
   return ALL
     .filter(a=>{
       if(a.auction_date && a.auction_date < t) return false;
-      const ptype=(a.property_type||'');
-      if(!RESID.some(k=>ptype.includes(k))) return false;
+      if(!(a.min_bid>0) || a.is_share_sale || a.is_bulk_sale || a.is_illegal_building) return false;
+      const d=deriveA(a);
+      if(!['apt','villa','offi','house'].includes(d.cat)) return false;
+      if(d.grade!=='safe' && d.grade!=='waiver') return false;
+      if(d.geun || d.special) return false;
+      if((a.failed_bids||0)>3 || (a.bid_ratio!=null && a.bid_ratio<40)) return false;
       const roi=calcROI(a);
-      return roi.rate > 0 && (a.min_bid||0) > 0;
+      return roi.ok && roi.real && roi.rate>0 && roi.rate<=100;
     })
     .map(a=>{
       const roi=calcROI(a);
@@ -1314,10 +1319,8 @@ function getTop5(){
       const addr=a.address||'';
       if(TOP_AREAS.some(k=>addr.includes(k))) score+=8;
       if((a.property_type||'').includes('아파트')) score+=5;
-      const fb=a.failed_bids||0;
-      if(fb===0) score+=4;
-      else if(fb<=2) score+=1;
-      else if(fb>=5) score-=10;
+      if(a.nearby_trade_confidence==='high') score+=5;
+      if(deriveA(a).grade==='safe') score+=5;
       return {...a, _score:score, _roi:roi};
     })
     .sort((a,b)=>b._score-a._score)
@@ -1440,7 +1443,7 @@ function renderCards(){
           ${profitBadge}
           <div class="acard-map-pills">
             <span class="img-pill">${fmt(a.min_bid)}</span>
-            <span class="img-pill">${a.failed_bids>0?`유찰 ${a.failed_bids}회`:'신건'}</span>
+            <span class="img-pill">${failLabel(a)}</span>
           </div>
         </div>`
       : `<div class="acard-img" style="background:${grad(a)}">
@@ -1450,7 +1453,7 @@ function renderCards(){
           <span class="bg-district">${dist}</span>
           <div class="acard-img-stats">
             <span class="img-pill">${fmt(a.min_bid)}</span>
-            <span class="img-pill">${a.failed_bids>0?`유찰 ${a.failed_bids}회`:'신건'}</span>
+            <span class="img-pill">${failLabel(a)}</span>
           </div>
         </div>`;
     const profitSection=pi?`
@@ -1621,7 +1624,7 @@ function openM(idx){
           <div class="iblock-ttl">📋 경매 기본 정보</div>
           <div class="irow"><span class="ik">사건번호</span><span class="iv">${esc(caseLabel(a))}</span></div>
           <div class="irow"><span class="ik">경매기일</span><span class="iv">${a.auction_date||'-'}${daysTo(a.auction_date)!==null?' · D-'+daysTo(a.auction_date):''}</span></div>
-          <div class="irow"><span class="ik">유찰 횟수</span><span class="iv ${a.failed_bids>=5?'c-red':a.failed_bids>=3?'c-yellow':'c-green'}">${a.failed_bids||0}회</span></div>
+          <div class="irow"><span class="ik">유찰 횟수 <small style="color:var(--gray-400);font-weight:400">(법원 누적 — 재진행 전 유찰 포함)</small></span><span class="iv ${a.failed_bids>=5?'c-red':a.failed_bids>=3?'c-yellow':'c-green'}">${a.failed_bids||0}회</span></div>
           <div class="irow"><span class="ik">감정가</span><span class="iv">${fmt(a.appraisal)}</span></div>
           <div class="irow"><span class="ik">최저입찰가</span><span class="iv c-green">${fmt(a.min_bid)}</span></div>
           <div class="irow"><span class="ik">낙찰가율</span><span class="iv ${rc(a.bid_ratio)}">${a.bid_ratio!=null?a.bid_ratio+'%':'-'}</span></div>
@@ -1632,9 +1635,10 @@ function openM(idx){
           <div class="irow"><span class="ik">취득 총비용</span><span class="iv">${fmt(roi.cost)}</span></div>
           <div class="irow"><span class="ik">취득세 (추정)</span><span class="iv">${fmt(roi.tax)}</span></div>
           <div class="irow"><span class="ik">기타비용 (명도·수리)</span><span class="iv">${fmt(roi.etc)}</span></div>
-          <div class="irow"><span class="ik">예상 시세 <small style="color:var(--gray-400);font-weight:400">${roi.real?'(인근 실거래가)':'(감정가 기준 추정)'}</small></span><span class="iv">${fmt(roi.est)}</span></div>
-          <div class="irow"><span class="ik">안전마진</span><span class="iv ${roi.margin>0?'c-green':'c-red'}">${roi.margin>0?'+':''}${fmt(roi.margin)}</span></div>
-          <div class="irow"><span class="ik">실질 수익률</span><span class="iv ${roi.rate>15?'c-green':roi.rate>5?'c-yellow':'c-red'}">${roi.rate}%</span></div>
+          <div class="irow"><span class="ik">예상 시세 <small style="color:var(--gray-400);font-weight:400">${roi.real?'(인근 실거래가·감정가 중 낮은 값)':'(감정가 기준 추정)'}</small></span><span class="iv">${fmt(roi.est)}</span></div>
+          <div class="irow"><span class="ik">안전마진</span><span class="iv ${roi.margin>0?'c-green':'c-red'}">${roi.ok?(roi.margin>0?'+':'')+fmt(roi.margin):'산정 불가'}</span></div>
+          <div class="irow"><span class="ik">실질 수익률</span><span class="iv ${roi.rate>15?'c-green':roi.rate>5?'c-yellow':'c-red'}">${roi.ok?roi.rate+'%':'산정 불가'}</span></div>
+          ${roi.ok?'':`<div style="font-size:12px;color:var(--gray-500);margin-top:6px">※ ${esc(roi.why)} — 수익률을 계산하지 않았습니다.</div>`}
         </div>
 
         ${(a.bid_history||[]).length?`
@@ -1743,6 +1747,11 @@ function openCourt(idx){
   window.open('https://www.courtauction.go.kr','_blank');
   showToast(caseId);
 }
+// 유찰 표시: 법원의 유찰 횟수는 사건 전체 누적값. 0회인데 최저가가 감정가보다 낮으면 신건이 아니라 가격이 내려간 물건
+function failLabel(a){
+  if(a.failed_bids>0) return `유찰 ${a.failed_bids}회`;
+  return (a.bid_ratio!=null&&a.bid_ratio<99)?'최저가 인하':'신건';
+}
 function calcROI(a){
   const bid=a.min_bid||0, app=a.appraisal||bid*3;
   const tax=bid<=600000000?bid*0.011:bid<=900000000?bid*0.025:bid*0.035;
@@ -1750,11 +1759,23 @@ function calcROI(a){
   const cost=Math.round(bid+tax+etc);
   const ff=Math.max(0.55,0.85-(a.failed_bids||0)*0.05);
   // 예상 시세: 인근 실거래가(국토부)가 있으면 그 값을, 없으면 감정가 기준 추정치
-  const real=!!a.nearby_trade_price;
-  const est=real?a.nearby_trade_price:Math.round(app*ff);
+  //   · 실거래가는 비교 신뢰도가 높음/보통일 때만 사용 (낮음 = 면적·건물이 달라 어긋날 수 있음), 일괄매각은 감정가 기준
+  const conf=a.nearby_trade_confidence;
+  const real=!!a.nearby_trade_price && (conf==='high'||conf==='medium') && !a.is_bulk_sale;
+  // 실거래 추정가와 감정가 중 낮은 쪽을 시세로 봄 (보수적으로 계산)
+  const est=real?Math.min(a.nearby_trade_price,app):Math.round(app*ff);
   const margin=est-cost;
-  const rate=cost>0?Math.round(margin/cost*100):0;
-  return{tax:Math.round(tax),etc,cost,est,margin,rate,real};
+  let rate=cost>0?Math.round(margin/cost*100):0;
+  // 수익률을 계산하면 안 되는 물건 — 최저가만 보고 계산하면 터무니없는 숫자가 나옴
+  const g=deriveA(a).grade, ratio=a.bid_ratio;
+  let why='';
+  if(a.is_share_sale) why='지분만 매각하는 물건';
+  else if(g==='danger') why='낙찰자가 떠안는 권리·보증금이 있을 수 있음';
+  else if(g!=='safe'&&g!=='waiver'&&ratio!=null&&ratio<40) why='여러 번 유찰된 원인 미확인 (인수할 보증금 등 숨은 부담 가능)';
+  else if(rate>150) why='시세 자료가 최저가와 맞지 않음';
+  const ok=!why;
+  if(!ok) rate=0;
+  return{tax:Math.round(tax),etc,cost,est,margin:ok?margin:0,rate,real,ok,why};
 }
 function getInfra(addr){
   const a=addr||'';
@@ -1770,7 +1791,7 @@ function getInfra(addr){
 function getRisks(a){
   return[
     ...enrichRisks(a),
-    {i:a.failed_bids>=5?'🔴':a.failed_bids>=3?'🟠':'🟢',t:`유찰 ${a.failed_bids||0}회`,d:a.failed_bids>=5?'5회+ — 권리 하자·시세 괴리 강력 의심, 원인 미해소 시 입찰 금지':a.failed_bids>=3?'3회+ — 유찰 원인 반드시 확인 필요':'신건 — 경쟁 입찰 예상'},
+    {i:a.failed_bids>=5?'🔴':a.failed_bids>=3?'🟠':'🟢',t:`유찰 ${a.failed_bids||0}회`,d:a.failed_bids>=5?'5회+ — 권리 하자·시세 괴리 강력 의심, 원인 미해소 시 입찰 금지':a.failed_bids>=3?'3회+ — 유찰 원인 반드시 확인 필요':((a.bid_ratio!=null&&a.bid_ratio<99)?'유찰 기록은 없으나 최저가가 감정가보다 낮음 — 사건 진행 경위 확인':'신건 — 경쟁 입찰 예상')},
     {i:'🟡',t:'명도 리스크',d:'점유자·임차인 현황 현장 확인, 인도명령 가능 여부 체크'},
     {i:'🟡',t:'미납 관리비',d:'관리사무소 직접 확인 — 장기 유찰 시 수백만 원 누적 가능'},
     {i:'🟠',t:'선순위 권리',d:'등기부등본 전체 열람 — 가처분·가등기·유치권 신고 여부'},
@@ -2842,7 +2863,7 @@ function renderCompare(){
   const bids=bmList.map(a=>a.min_bid||0);
   const minBid=Math.min(...bids), maxBid=Math.max(...bids);
   // 수익률 기준 best/worst
-  const rois=bmList.map(a=>{ const r=calcROI(a); return r?r.rate:-999; });
+  const rois=bmList.map(a=>{ const r=calcROI(a); return r&&r.ok?r.rate:-999; });
   const maxRoi=Math.max(...rois);
   let html=`<div style="overflow-x:auto"><table class="cmp-table">
     <thead><tr>
@@ -2867,8 +2888,8 @@ function renderCompare(){
       }).join('')}</tr>
       <tr><td class="row-label">예상 수익률</td>${bmList.map((a,i)=>{
         const roi=rois[i];
-        const cls=roi===maxRoi&&roi>0?'cmp-best':roi<=0?'cmp-worst':'';
-        return `<td class="${cls}">${roi>-999?roi+'%':'—'}</td>`;
+        const cls=roi===maxRoi&&roi>0?'cmp-best':(roi<=0&&roi>-999)?'cmp-worst':'';
+        return `<td class="${cls}">${roi>-999?roi+'%':'산정 불가'}</td>`;
       }).join('')}</tr>
     </tbody>
   </table></div>
