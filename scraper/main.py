@@ -71,7 +71,7 @@ import requests
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from filters import DEFAULT_CRITERIA, derive, filter_items   # 검색·필터 정의 (화면과 동일한 기준)  # noqa: E402
 from filters import rights_grade as RT_grade                  # noqa: E402
-from price_local import pick_price_row, price_kind             # 공시가격 동·호 대조 규칙 (내 PC 실행 프로그램과 공용)  # noqa: E402
+from price_local import pick_price_row, price_kind, price_plausible, price_target             # 공시가격 동·호 대조 규칙 (내 PC 실행 프로그램과 공용)  # noqa: E402
 import rights as RT                                           # 권리분석 (목록 특수조건 + 상세·현황조사서)  # noqa: E402
 
 # ════════════════════════════════════════════════════════════
@@ -1042,7 +1042,7 @@ def fetch_official_price(item: dict) -> None:
 
 def needs_price(it: dict) -> bool:
     """공시가격 대상인데 아직 값이 없는 물건"""
-    return bool(price_kind(it)) and len(it.get("pnu") or "") == 19 and not it.get("official_price")
+    return price_target(it) and not it.get("official_price")
 
 
 def stage_price(items: list[dict]) -> None:
@@ -1057,16 +1057,26 @@ def stage_price(items: list[dict]) -> None:
     if not isinstance(table, dict) or not table:
         log(f"  공시가격 표 없음 ({PRICE_TABLE_PATH.name}) — 생략")
         return
-    applied = 0
+    applied = rejected = 0
     for it in items:
+        if price_kind(it) and not price_target(it):
+            it["official_price"] = it["official_price_year"] = None     # 일괄·지분 매각은 공시가격을 붙이지 않음
+            continue
         e = table.get(it.get("id"))
         if not isinstance(e, dict) or e.get("pnu") != it.get("pnu"):
             continue
         it["price_checked_at"] = e.get("checked_at")
         price = to_int(e.get("price"))
-        if price and price > 0:
-            it["official_price"], it["official_price_year"] = price, to_int(e.get("year"))
-            applied += 1
+        if not price or price <= 0:
+            continue
+        if not price_plausible(price, it):
+            it["official_price"] = it["official_price_year"] = None     # 감정가와 동떨어진 값 — 대상이 어긋난 것으로 보고 버림
+            rejected += 1
+            continue
+        it["official_price"], it["official_price_year"] = price, to_int(e.get("year"))
+        applied += 1
+    if rejected:
+        log(f"  감정가와 크게 달라 제외한 공시가격 {rejected:,}건")
     log(f"  공시가격 표 {len(table):,}건 (작성 {doc.get('updated_at', '?')}) → 반영 {applied:,}건, "
         f"아직 값 없는 대상 {sum(1 for i in items if needs_price(i)):,}건")
 
@@ -1466,6 +1476,10 @@ def apply_court_defaults(it: dict) -> None:
             it["exclusive_area"] = area              # 전유부분 면적
         elif "집합건물" not in kinds and not it.get("building_area"):
             it["building_area"] = area               # 단독·다가구 건물 면적
+    if it.get("unit_ho") is None and it.get("building_dong") is None:
+        # 건물 동·호 (공시가격·건축물대장 대조용) — 공공 API 조회 전에도 채워 둔다
+        parsed = parse_address(" ".join(x for x in [it.get("jibun_address") or it.get("address", ""), it.get("unit") or ""] if x))
+        it["building_dong"], it["unit_ho"] = parsed["building_dong"], parsed["unit_ho"]
     if it.get("remarks") and re.search(r"위반\s*건축물", it["remarks"]):
         it["is_illegal_building"] = True             # 법원 물건비고에 위반건축물 기재
 

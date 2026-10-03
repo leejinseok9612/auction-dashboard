@@ -49,6 +49,7 @@ MISS_TTL_DAYS = 14         # 못 찾은 물건은 2주 뒤 다시 조회
 PAGE_SIZE, MAX_PAGES = 1000, 12
 WORKERS = 4
 MIN_INTERVAL = 0.08       # 호출 간격(초)
+RULE_VERSION = 2           # 동·호 대조 규칙 버전 — 올리면 값을 못 찾았던 물건을 다시 조회
 PRICE_KEYS = ("pblntfPc", "housePc", "hsprc", "hsprcAmt")
 
 
@@ -87,6 +88,53 @@ def price_kind(item: dict):
     return None
 
 
+_ROAD_RE = re.compile(r"^(.*?\S+(?:로|길)\s+\d+(?:-\d+)?)(?=[\s,]|$)")
+_JIBUN_RE = re.compile(r"^(.*?\S+(?:동|리|가)\d*\s+(?:산\s*)?\d+(?:-\d+)?)(?=[\s,]|$)")
+_HO_RE = re.compile(r"제?\s*(지하|비|B)?\s*(\d+)\s*호")
+_BLDG_DONG_RE = re.compile(r"(?:^|\s)제?\s*([0-9A-Za-z가-힣]{1,6}?)\s*동(?=\s|제|\d|$)")
+
+
+def fill_unit(item: dict) -> None:
+    """동·호가 아직 안 채워진 물건은 주소에서 뽑는다 (main.py 의 parse_address 와 같은 규칙)"""
+    if item.get("unit_ho") is not None or item.get("building_dong") is not None:
+        return
+    s = " ".join(x for x in [item.get("jibun_address") or item.get("address") or "", item.get("unit") or ""] if x)
+    s = re.sub(r"\([^)]*\)", " ", s)
+    s = re.sub(r"외\s*\d*\s*필지", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    m = _ROAD_RE.match(s) or _JIBUN_RE.match(s)
+    if not m:
+        return
+    rest = s[len(m.group(1)):]
+    hos = list(_HO_RE.finditer(rest))
+    ho = (("B" if hos[-1].group(1) else "") + hos[-1].group(2)) if hos else None
+    dm = _BLDG_DONG_RE.search(rest)
+    dong = dm.group(1) if dm else None
+    dash = re.search(r"(?:^|\s)(\d{1,4})-(\d{1,5})\s*호", rest)      # '101-2002호' = 101동 2002호
+    if dash:
+        dong, ho = dong or dash.group(1), dash.group(2)
+    item["building_dong"], item["unit_ho"] = dong, ho
+
+
+def price_target(item: dict) -> bool:
+    """
+    공시가격을 붙일 수 있는 물건인지
+      · 일괄매각(여러 호·여러 필지를 한 번에) → 한 채의 공시가격으로 대표할 수 없음
+      · 지분매각 → 공시가격은 한 채 전체 값이라 최저가(지분 값)와 비교하면 틀린 계산이 됨
+    """
+    if not price_kind(item) or len(item.get("pnu") or "") != 19:
+        return False
+    return not item.get("is_bulk_sale") and not item.get("is_share_sale")
+
+
+def price_plausible(price, item: dict) -> bool:
+    """공시가격이 감정가의 20%~130% 범위인지 — 벗어나면 다른 건물·일부만 매각 등 대상이 어긋난 것"""
+    ap = to_int(item.get("appraisal"))
+    if not price or not ap:
+        return bool(price)
+    return 0.2 <= price / ap <= 1.3
+
+
 def price_pnus(item: dict) -> list:
     """조회할 PNU 후보: 수집된 지번 → 건축물대장이 등재된 지번(다를 때)"""
     pnu = item.get("pnu") or ""
@@ -99,14 +147,31 @@ def price_pnus(item: dict) -> list:
     return out
 
 
+_KO_LETTER = {"에이": "A", "비": "B", "씨": "C", "시": "C", "디": "D", "이": "E", "에프": "F", "지": "G", "에이치": "H"}
+_KO_ORDER = "가나다라마바사아자차카타파하"
+
+
 def norm_dong(s) -> str:
-    """동 이름 비교용: '제101동' → '101', '가동' → '가', 'A동' → 'A'"""
-    t = re.sub(r"\s+", "", str(s or ""))
-    t = re.sub(r"^제", "", t)
-    t = re.sub(r"동$", "", t)
-    if t in ("-", "0"):
+    """
+    동 이름 비교용 — 출처마다 표기가 달라 핵심만 남긴다
+      '제101동' → '101' / '에이동'·'A동' → 'A' / '가동' → '가' / '수팰리스5동' → '5' / '두산빌리지'(건물명) → ''
+    """
+    raw = re.sub(r"\s+", "", str(s or ""))
+    had_dong = raw.endswith("동")
+    t = re.sub(r"동$", "", re.sub(r"^제", "", raw)).upper()
+    if t in ("", "-", "0"):
         return ""
-    return t.upper().lstrip("0")
+    t = _KO_LETTER.get(t, t)
+    m = re.search(r"(\d+)$", t)
+    if m:
+        return m.group(1).lstrip("0") or "0"
+    if re.search(r"(^|[^A-Z])[A-Z]$", t):
+        return t[-1]
+    if len(t) == 1:
+        return t
+    if had_dong and t[-1] in _KO_ORDER:
+        return t[-1]
+    return ""                                  # 건물 이름만 적힌 경우 — 동 구분 없음으로 취급
 
 
 def norm_ho(s):
@@ -135,6 +200,7 @@ def pick_price_row(rows: list, item: dict, unit_required: bool):
     cands = []
     want_ho = norm_ho(item.get("unit_ho")) if item.get("unit_ho") else None
     want_dong = norm_dong(item.get("building_dong"))
+    want_base = bool(want_ho and want_ho[0]) or "지하" in f"{item.get('address') or ''} {item.get('unit') or ''}"
     for r in rows:
         price = row_price(r)
         if not price:
@@ -143,12 +209,11 @@ def pick_price_row(rows: list, item: dict, unit_required: bool):
             ho = norm_ho(r.get("hoNm"))
             if not want_ho or not ho or ho[1] != want_ho[1]:
                 continue
-            if want_ho[0] != ho[0]:
-                # 지하 표기는 출처마다 달라(호 이름 대신 층으로 표시) 층으로 한 번 더 확인
-                fl = str(r.get("floorNm") or "").strip()
-                row_base = ho[0] or "지" in fl or fl.upper().startswith(("-", "B"))
-                if row_base != want_ho[0]:
-                    continue
+            # 지하 여부: 표기가 출처마다 달라(호 이름 대신 층으로 표시) 주소·층까지 함께 본다
+            fl = str(r.get("floorNm") or "").strip()
+            row_base = ho[0] or "지" in fl or fl.upper().startswith(("-", "B"))
+            if row_base != want_base:
+                continue
             dong = norm_dong(r.get("dongNm"))
             if want_dong and dong and dong != want_dong:
                 continue
@@ -396,7 +461,9 @@ def is_fresh(entry, item: dict) -> bool:
     if not entry or entry.get("pnu") != item.get("pnu"):
         return False
     age = days_since(entry.get("checked_at"))
-    return age <= (FOUND_TTL_DAYS if entry.get("price") else MISS_TTL_DAYS)
+    if entry.get("price"):
+        return age <= FOUND_TTL_DAYS
+    return entry.get("v") == RULE_VERSION and age <= MISS_TTL_DAYS
 
 
 def make_shortcut() -> None:
@@ -435,9 +502,11 @@ def main() -> int:
         return 1
     table = load_table()
     by_id = {i["id"]: i for i in items if i.get("id")}
+    for i in by_id.values():
+        fill_unit(i)
     table = {k: v for k, v in table.items() if k in by_id}          # 끝난 경매는 표에서 제거
     targets = [i for i in by_id.values()
-               if price_kind(i) and len(i.get("pnu") or "") == 19 and not is_fresh(table.get(i["id"]), i)]
+               if price_target(i) and not is_fresh(table.get(i["id"]), i)]
     targets.sort(key=lambda x: x.get("auction_date") or "9999")
     limit = to_int(os.environ.get("PRICE_LIMIT"))
     if limit:
@@ -464,7 +533,7 @@ def main() -> int:
                     msg = f.scrub(e)[:120]
                     f.errors[msg] = f.errors.get(msg, 0) + 1
                 else:
-                    entry = {"pnu": it.get("pnu"), "checked_at": stamp}
+                    entry = {"pnu": it.get("pnu"), "checked_at": stamp, "v": RULE_VERSION}
                     if price:
                         entry.update({"price": price, "year": year})
                         if pnu != it.get("pnu"):
