@@ -175,14 +175,11 @@ jobs:
                                    for k, v in (s.get("blocked_endpoints") or {}).items())   # 키·한도 문제 (서버를 바꿔도 소용없음)
                   pending_price = int(s.get("pending_price") or 0)
                   if mode == "price":
-                      if vw_dead or (pending_price > 200 and not vw_blocked):
-                          nxt = "price"                # 브이월드 접속 실패 또는 남은 물건 있음
+                      pass                             # 브이월드는 해외 서버 접속을 일관되게 거부 → 서버를 바꿔도 소용없어 재시도하지 않음
                   elif mode == "full" and s.get("scrape_ok") is False and attempt < 4:
                       nxt = "full"                     # 법원 사이트 접속 실패 → 수집부터 다시
                   elif dead or (pending > 0 and not quota):
                       nxt = "enrich"                   # 공공데이터 접속 실패 또는 남은 물건 있음
-                  elif vw_dead and pending_price > 0:
-                      nxt = "price"                    # 공시가격만 다른 서버에서 다시
           print(nxt)
           PY
           )
