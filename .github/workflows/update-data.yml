@@ -171,7 +171,8 @@ jobs:
                   quota = any(("트래픽 초과" in str(v) or "EXCEEDS" in str(v)) for v in (s.get("blocked_endpoints") or {}).values())
                   pending = int(s.get("pending_enrich") or 0)
                   vw_dead = "api.vworld.kr" in (s.get("unreachable_hosts") or {})
-                  vw_blocked = any(str(k).startswith("price:vworld") for k in (s.get("blocked_endpoints") or {}))
+                  vw_blocked = any(str(k).startswith("price:vworld") and ("브이월드 오류" in str(v) or "인증" in str(v))
+                                   for k, v in (s.get("blocked_endpoints") or {}).items())   # 키·한도 문제 (서버를 바꿔도 소용없음)
                   pending_price = int(s.get("pending_price") or 0)
                   if mode == "price":
                       if vw_dead or (pending_price > 200 and not vw_blocked):
