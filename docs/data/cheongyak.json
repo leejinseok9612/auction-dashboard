@@ -1,20 +1,20 @@
 {
- "updated": "2026-10-03",
- "updated_at": "2026-10-03T14:05:14+09:00",
+ "updated": "2026-10-05",
+ "updated_at": "2026-10-05T11:15:07+09:00",
  "source": "한국부동산원 청약홈 분양정보 조회 서비스 (공공데이터포털)",
  "report": {
-  "since": "2026-05-06",
+  "since": "2026-05-08",
   "kinds": {
    "apt": {
-    "rows": 141,
+    "rows": 134,
     "kept": 21
    },
    "offi": {
-    "rows": 46,
+    "rows": 41,
     "kept": 2
    },
    "remndr": {
-    "rows": 164,
+    "rows": 161,
     "kept": 11
    },
    "rent": {
@@ -121,7 +121,7 @@
    "units": [
     {
      "type": "084.9596",
-     "area": null,
+     "area": 84.9596,
      "supply": 12,
      "special": 0,
      "price": 71900
@@ -159,21 +159,21 @@
    "units": [
     {
      "type": "035.7100",
-     "area": null,
+     "area": 35.71,
      "supply": 1,
      "special": 0,
      "price": 45000
     },
     {
      "type": "038.3400",
-     "area": null,
+     "area": 38.34,
      "supply": 1,
      "special": 0,
      "price": 45000
     },
     {
      "type": "056.4500",
-     "area": null,
+     "area": 56.45,
      "supply": 2,
      "special": 0,
      "price": 59900
@@ -212,21 +212,21 @@
    "units": [
     {
      "type": "084.9165A",
-     "area": null,
+     "area": 84.9165,
      "supply": 2,
      "special": 0,
      "price": 63600
     },
     {
      "type": "084.9418D",
-     "area": null,
+     "area": 84.9418,
      "supply": 2,
      "special": 0,
      "price": 57550
     },
     {
      "type": "084.9942E",
-     "area": null,
+     "area": 84.9942,
      "supply": 1,
      "special": 0,
      "price": 60000
@@ -265,14 +265,14 @@
    "units": [
     {
      "type": "084.9965B",
-     "area": null,
+     "area": 84.9965,
      "supply": 14,
      "special": 0,
      "price": 229500
     },
     {
      "type": "084.9972A",
-     "area": null,
+     "area": 84.9972,
      "supply": 21,
      "special": 0,
      "price": 243300
@@ -562,14 +562,14 @@
    "units": [
     {
      "type": "059.9951C",
-     "area": null,
+     "area": 59.9951,
      "supply": 1,
      "special": 0,
      "price": 39950
     },
     {
      "type": "084.9616",
-     "area": null,
+     "area": 84.9616,
      "supply": 2,
      "special": 0,
      "price": 58950
@@ -608,14 +608,14 @@
    "units": [
     {
      "type": "078.4400N",
-     "area": null,
+     "area": 78.44,
      "supply": 2,
      "special": 0,
      "price": 193800
     },
     {
      "type": "084.0800N",
-     "area": null,
+     "area": 84.08,
      "supply": 1,
      "special": 0,
      "price": 205900
@@ -1543,28 +1543,28 @@
    "units": [
     {
      "type": "059.9738C",
-     "area": null,
+     "area": 59.9738,
      "supply": 1,
      "special": 0,
      "price": 38500
     },
     {
      "type": "059.9892B",
-     "area": null,
+     "area": 59.9892,
      "supply": 2,
      "special": 0,
      "price": 36800
     },
     {
      "type": "074.9976",
-     "area": null,
+     "area": 74.9976,
      "supply": 2,
      "special": 0,
      "price": 48400
     },
     {
      "type": "084.9718B",
-     "area": null,
+     "area": 84.9718,
      "supply": 2,
      "special": 0,
      "price": 54500
@@ -2117,7 +2117,7 @@
    "units": [
     {
      "type": "140.8560P",
-     "area": null,
+     "area": 140.856,
      "supply": 3,
      "special": 0,
      "price": 492800
@@ -2202,14 +2202,14 @@
    "units": [
     {
      "type": "084.7214B",
-     "area": null,
+     "area": 84.7214,
      "supply": 1,
      "special": 0,
      "price": 35400
     },
     {
      "type": "099.8624A",
-     "area": null,
+     "area": 99.8624,
      "supply": 1,
      "special": 0,
      "price": 39338
@@ -2372,14 +2372,14 @@
    "units": [
     {
      "type": "084.4918B",
-     "area": null,
+     "area": 84.4918,
      "supply": 17,
      "special": 0,
      "price": 51700
     },
     {
      "type": "084.6189A",
-     "area": null,
+     "area": 84.6189,
      "supply": 22,
      "special": 0,
      "price": 51800
@@ -2418,28 +2418,28 @@
    "units": [
     {
      "type": "043.6000",
-     "area": null,
+     "area": 43.6,
      "supply": 2,
      "special": 0,
      "price": 56990
     },
     {
      "type": "050.0400",
-     "area": null,
+     "area": 50.04,
      "supply": 2,
      "special": 0,
      "price": 62550
     },
     {
      "type": "061.1400",
-     "area": null,
+     "area": 61.14,
      "supply": 1,
      "special": 0,
      "price": 82370
     },
     {
      "type": "068.3900",
-     "area": null,
+     "area": 68.39,
      "supply": 1,
      "special": 0,
      "price": 84650
