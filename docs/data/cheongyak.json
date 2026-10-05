@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-05",
- "updated_at": "2026-10-05T11:15:07+09:00",
+ "updated": "2026-10-06",
+ "updated_at": "2026-10-06T01:18:40+09:00",
  "source": "한국부동산원 청약홈 분양정보 조회 서비스 (공공데이터포털)",
  "report": {
-  "since": "2026-05-08",
+  "since": "2026-05-09",
   "kinds": {
    "apt": {
-    "rows": 134,
+    "rows": 131,
     "kept": 21
    },
    "offi": {
@@ -29,7 +29,8 @@
   "errors": [
    "apt 경쟁률: HTTP 401: {\"code\":-401,\"msg\":\"유효하지 않은 인증키 입니다.\"}\n",
    "offi 경쟁률: HTTP 401: {\"code\":-401,\"msg\":\"유효하지 않은 인증키 입니다.\"}\n",
-   "remndr 경쟁률: HTTP 401: {\"code\":-401,\"msg\":\"유효하지 않은 인증키 입니다.\"}\n"
+   "remndr 경쟁률: HTTP 401: {\"code\":-401,\"msg\":\"유효하지 않은 인증키 입니다.\"}\n",
+   "rent 경쟁률: HTTP 401: {\"code\":-401,\"msg\":\"유효하지 않은 인증키 입니다.\"}\n"
   ],
   "sample_keys": [
    "BSNS_MBY_NM",
@@ -83,8 +84,8 @@
    "TOT_SUPLY_HSHLDCO"
   ],
   "counts": {
-   "청약중": 0,
-   "청약예정": 18,
+   "청약중": 6,
+   "청약예정": 12,
    "발표대기": 22
   },
   "with_price": 40,
@@ -111,7 +112,7 @@
    "contract_start": "2026-10-15",
    "contract_end": "2026-10-15",
    "move_in": "2030-08",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910253&pblancNo=2026910253",
    "homepage": "https://www.오남역서희스타힐스1단지.com",
    "phone": "15550074",
@@ -150,7 +151,7 @@
    "contract_start": "2026-10-22",
    "contract_end": "2026-10-23",
    "move_in": "2026-11",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910250&pblancNo=2026910250",
    "phone": "028779273",
    "price_cap": false,
@@ -202,7 +203,7 @@
    "contract_start": "2026-10-16",
    "contract_end": "2026-10-16",
    "move_in": "2029-03",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910249&pblancNo=2026910249",
    "homepage": "https://sj3.lynn.co.kr/",
    "phone": "0448663666",
@@ -255,7 +256,7 @@
    "contract_start": "2026-10-17",
    "contract_end": "2026-10-17",
    "move_in": "2030-05",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910251&pblancNo=2026910251",
    "homepage": "https://충정로역자이르네.com",
    "phone": "16601245",
@@ -301,7 +302,7 @@
    "contract_start": "2026-10-23",
    "contract_end": "2026-10-23",
    "move_in": "2026-11",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930040&pblancNo=2026930040",
    "homepage": "https://www.i-park.com/gangbyeon",
    "phone": "15513560",
@@ -340,7 +341,7 @@
    "contract_start": "2026-10-19",
    "contract_end": "2026-10-21",
    "move_in": "2028-02",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850050&pblancNo=2026850050&houseSecd=03",
    "homepage": "http://지원더뷰드림.com",
    "phone": "0514413800",
