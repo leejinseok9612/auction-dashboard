@@ -2082,7 +2082,7 @@ function renderCyCards(){
     const comp      = a.competition||{};
     const compKeys  = Object.keys(comp);
     const compHtml  = compKeys.length
-      ? compKeys.slice(0,2).map(k=>`<span class="cy-comp-pill"><span class="comp-label">${k} </span><span class="comp-rate">${Number(comp[k]).toFixed(1)}:1</span></span>`).join('')
+      ? compKeys.slice(0,2).map(k=>`<span class="cy-comp-pill"><span class="comp-label">${k} </span><span class="comp-rate">${Number(comp[k])<1?'미달':Number(comp[k]).toFixed(1)+':1'}</span></span>`).join('')
       : '';
     const coords = cyGetCoords(a);
     const hdrInner = coords
@@ -2321,14 +2321,14 @@ function openCyM(id){
           ${(()=>{
             const comp=a.competition||{};
             const keys=Object.keys(comp);
-            if(!keys.length) return a.competition_note?`<div class="irow" style="border:none"><span class="ik">경쟁률</span><span class="iv">${a.competition_note}</span></div>`:`<div class="irow" style="border:none"><span class="ik">경쟁률 데이터 없음</span><span class="iv" style="color:var(--gray-400)">청약 전 또는 미집계</span></div>`;
+            if(!keys.length) return `<div class="irow" style="border:none"><span class="ik">경쟁률 데이터 없음</span><span class="iv" style="color:var(--gray-400)">청약 전 또는 미집계</span></div>`;
             return keys.map(k=>{
               const rate=Number(comp[k]);
               const cls=rate>=10?'c-red':rate>=5?'c-yellow':'c-green';
-              return `<div class="irow"><span class="ik">${k}</span><span class="iv ${cls}">${rate.toFixed(1)} : 1</span></div>`;
+              return `<div class="irow"><span class="ik">${k}</span><span class="iv ${cls}">${rate<1?'미달 ('+rate.toFixed(2)+' : 1)':rate.toFixed(1)+' : 1'}</span></div>`;
             }).join('');
           })()}
-          <div class="irow" style="border:none;padding-top:4px"><span class="ik" style="font-size:11px;color:var(--gray-400)">※ 하루 4회 자동 갱신</span></div>
+          <div class="irow" style="border:none;padding-top:4px"><span class="ik" style="font-size:11px;color:var(--gray-400)">※ 1순위 신청 건수 ÷ 일반공급 세대수 (특별공급 제외) · 평일 하루 4회 갱신</span></div>
         </div>
       </div>
     </div>
