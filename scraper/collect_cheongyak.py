@@ -245,15 +245,25 @@ def attach_units(items: dict, rows: list) -> None:
         it["units"].sort(key=lambda u: (u["area"] or 0, u["type"]))
 
 
-def attach_competition(items: dict, rows: list) -> None:
-    """주택형별 1순위 최고 경쟁률 → competition {'84A 1순위': 12.3}"""
+def attach_competition(items: dict, rows: list, report: dict | None = None) -> None:
+    """
+    주택형·순위별 경쟁률 → competition {'84A㎡ 1순위': 12.3}
+      · 같은 주택형·순위에 거주지역별(해당지역/기타지역) 행이 여럿이면 가장 높은 값
+      · 접수 결과는 있는데 숫자 경쟁률이 하나도 없으면(전 주택형 미달) competition_note 에 '미달' 기록
+    """
     best: dict = {}
+    seen: set = set()
+    odd: dict = {}
     for r in rows:
         hid = g(r, "HOUSE_MANAGE_NO")
         if hid not in items:
             continue
+        seen.add(hid)
         rate = g(r, "CMPET_RATE")
-        if not re.fullmatch(r"[\d,]+(\.\d+)?", rate):          # '-'·'(△5)'(미달) 등은 제외
+        if report is not None and len(report.setdefault("cmpet_samples", [])) < 4:
+            report["cmpet_samples"].append(r)
+        if not re.fullmatch(r"[\d,]+(\.\d+)?", rate):          # '-'·'(△5)'(미달) 등
+            odd[rate[:12]] = odd.get(rate[:12], 0) + 1
             continue
         rank = g(r, "SUBSCRPT_RANK_CODE")
         label = g(r, "HOUSE_TY", "TP").strip()
@@ -263,8 +273,16 @@ def attach_competition(items: dict, rows: list) -> None:
         best[key] = max(best.get(key, 0.0), v)
     for (hid, label), v in best.items():
         items[hid]["competition"][label] = round(v, 2)
-    for it in items.values():
-        it["competition"] = dict(sorted(it["competition"].items(), key=lambda kv: -kv[1])[:6])
+    for hid, it in items.items():
+        # 1순위 → 2순위 순, 같은 순위 안에서는 경쟁률 높은 순
+        it["competition"] = dict(sorted(it["competition"].items(),
+                                        key=lambda kv: ("2순위" in kv[0], -kv[1]))[:8])
+        if hid in seen and not it["competition"]:
+            it["competition_note"] = "미달 (신청자가 공급 세대수보다 적음)"
+    if report is not None and odd:
+        tot = report.setdefault("cmpet_non_numeric", {})
+        for k, v in odd.items():
+            tot[k] = tot.get(k, 0) + v
 
 
 def main() -> int:
@@ -311,7 +329,7 @@ def main() -> int:
             closed = {k: v for k, v in mine.items() if v["status"] in ("청약중", "발표대기")}
             if op_cmpet and closed:
                 try:
-                    attach_competition(mine, fetch_all(CMPET_BASE, op_cmpet, {"cond[HOUSE_MANAGE_NO::GTE]": min(closed)}))
+                    attach_competition(mine, fetch_all(CMPET_BASE, op_cmpet, {"cond[HOUSE_MANAGE_NO::GTE]": min(closed)}), report)
                 except Exception as e:
                     report["errors"].append(f"{kind} 경쟁률: {scrub(e)}")
         items.update(mine)

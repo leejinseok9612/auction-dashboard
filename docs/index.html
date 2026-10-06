@@ -2321,7 +2321,7 @@ function openCyM(id){
           ${(()=>{
             const comp=a.competition||{};
             const keys=Object.keys(comp);
-            if(!keys.length) return `<div class="irow" style="border:none"><span class="ik">경쟁률 데이터 없음</span><span class="iv" style="color:var(--gray-400)">청약 전 또는 미집계</span></div>`;
+            if(!keys.length) return a.competition_note?`<div class="irow" style="border:none"><span class="ik">경쟁률</span><span class="iv">${a.competition_note}</span></div>`:`<div class="irow" style="border:none"><span class="ik">경쟁률 데이터 없음</span><span class="iv" style="color:var(--gray-400)">청약 전 또는 미집계</span></div>`;
             return keys.map(k=>{
               const rate=Number(comp[k]);
               const cls=rate>=10?'c-red':rate>=5?'c-yellow':'c-green';
