@@ -245,26 +245,39 @@ def attach_units(items: dict, rows: list) -> None:
         it["units"].sort(key=lambda u: (u["area"] or 0, u["type"]))
 
 
-def attach_competition(items: dict, rows: list) -> None:
-    """주택형별 1순위 최고 경쟁률 → competition {'84A 1순위': 12.3}"""
-    best: dict = {}
+def attach_competition(items: dict, rows: list, report: dict | None = None) -> None:
+    """
+    주택형별 경쟁률 → competition {'84A㎡ 1순위': 1.2}
+      청약홈 응답은 거주지역별(해당지역/기타지역)로 행이 나뉘고, 기타지역 경쟁률은 '해당지역에서 남은 세대' 기준이라
+      그대로 쓰면 부풀려 보인다. 그래서 1순위 신청 건수를 모두 더해 일반공급 세대수로 나눈 값을 직접 계산한다.
+      (순위 구분이 없는 무순위·잔여세대는 전체 신청 건수 ÷ 공급 세대수) — 1 미만이면 미달
+    """
+    agg: dict = {}
     for r in rows:
         hid = g(r, "HOUSE_MANAGE_NO")
         if hid not in items:
             continue
-        rate = g(r, "CMPET_RATE")
-        if not re.fullmatch(r"[\d,]+(\.\d+)?", rate):          # '-'·'(△5)'(미달) 등은 제외
+        if report is not None and len(report.setdefault("cmpet_samples", [])) < 3:
+            report["cmpet_samples"].append(r)
+        supply, req = num(g(r, "SUPLY_HSHLDCO")), num(g(r, "REQ_CNT"))
+        if not supply or req is None:
             continue
         rank = g(r, "SUBSCRPT_RANK_CODE")
+        if rank not in ("", "1"):
+            continue                                   # 2순위는 1순위 미달분에 대한 접수 — 대표 경쟁률에서 제외
         label = g(r, "HOUSE_TY", "TP").strip()
-        label = re.sub(r"^0+", "", label.split(".")[0]) + (re.sub(r"^[\d.]+", "", label) or "")
-        key = (hid, f"{label}㎡" + (f" {rank}순위" if rank else ""))
-        v = float(rate.replace(",", ""))
-        best[key] = max(best.get(key, 0.0), v)
-    for (hid, label), v in best.items():
-        items[hid]["competition"][label] = round(v, 2)
+        m = re.match(r"0*(\d+)(?:\.\d+)?(.*)$", label)          # '084.9890A' → '84A', '84OA' → '84OA'
+        label = (m.group(1) + m.group(2)) if m else label
+        key = (hid, f"{label}㎡" + (" 1순위" if rank else ""))
+        a = agg.setdefault(key, {"supply": supply, "req": 0})
+        a["req"] += req
+    for (hid, label), a in agg.items():
+        items[hid]["competition"][label] = round(a["req"] / a["supply"], 2)
     for it in items.values():
-        it["competition"] = dict(sorted(it["competition"].items(), key=lambda kv: -kv[1])[:6])
+        comp = it["competition"]
+        it["competition"] = dict(sorted(comp.items(), key=lambda kv: -kv[1])[:8])
+        if comp and max(comp.values()) < 1:
+            it["competition_note"] = "전 주택형 미달 (신청자가 공급 세대수보다 적음)"
 
 
 def main() -> int:
@@ -311,7 +324,7 @@ def main() -> int:
             closed = {k: v for k, v in mine.items() if v["status"] in ("청약중", "발표대기")}
             if op_cmpet and closed:
                 try:
-                    attach_competition(mine, fetch_all(CMPET_BASE, op_cmpet, {"cond[HOUSE_MANAGE_NO::GTE]": min(closed)}))
+                    attach_competition(mine, fetch_all(CMPET_BASE, op_cmpet, {"cond[HOUSE_MANAGE_NO::GTE]": min(closed)}), report)
                 except Exception as e:
                     report["errors"].append(f"{kind} 경쟁률: {scrub(e)}")
         items.update(mine)
