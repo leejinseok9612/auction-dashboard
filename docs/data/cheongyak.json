@@ -1,20 +1,20 @@
 {
- "updated": "2026-10-09",
- "updated_at": "2026-10-09T12:01:26+09:00",
+ "updated": "2026-10-12",
+ "updated_at": "2026-10-12T11:34:07+09:00",
  "source": "한국부동산원 청약홈 분양정보 조회 서비스 (공공데이터포털)",
  "report": {
-  "since": "2026-05-12",
+  "since": "2026-05-15",
   "kinds": {
    "apt": {
-    "rows": 139,
+    "rows": 135,
     "kept": 18
    },
    "offi": {
-    "rows": 44,
+    "rows": 37,
     "kept": 4
    },
    "remndr": {
-    "rows": 163,
+    "rows": 156,
     "kept": 11
    },
    "rent": {
@@ -117,8 +117,8 @@
    }
   ],
   "counts": {
-   "청약중": 1,
-   "청약예정": 25,
+   "청약중": 12,
+   "청약예정": 14,
    "발표대기": 16
   },
   "with_price": 42,
@@ -195,7 +195,7 @@
    "contract_start": "2026-11-02",
    "contract_end": "2026-11-04",
    "move_in": "2028-08",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000498&pblancNo=2026000498",
    "homepage": "https://cheonan-iparkcity2.com/",
    "phone": "15516013",
@@ -245,7 +245,7 @@
    "contract_start": "2026-11-02",
    "contract_end": "2026-11-04",
    "move_in": "2028-06",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000494&pblancNo=2026000494",
    "homepage": "http://더샵동인센트리체.kr",
    "phone": "0537510152",
@@ -309,7 +309,7 @@
    "contract_start": "2026-11-02",
    "contract_end": "2026-11-04",
    "move_in": "2029-05",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000468&pblancNo=2026000468",
    "homepage": "http://쌍용더플래티넘한강.com",
    "phone": "18660333",
@@ -387,7 +387,7 @@
    "contract_start": "2026-11-02",
    "contract_end": "2026-11-04",
    "move_in": "2029-06",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000463&pblancNo=2026000463",
    "homepage": "https://향남역스위첸.com",
    "phone": "18441050",
@@ -478,7 +478,7 @@
    "contract_start": "2026-10-30",
    "contract_end": "2026-11-01",
    "move_in": "2026-11",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000444&pblancNo=2026000444",
    "homepage": "https://blog.naver.com/him2729",
    "phone": "0647121135",
@@ -549,7 +549,7 @@
    "contract_start": "2026-11-02",
    "contract_end": "2026-11-04",
    "move_in": "2030-09",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000386&pblancNo=2026000386",
    "homepage": "https://www.starhills-yg.co.kr",
    "phone": "15447885",
@@ -637,7 +637,7 @@
    "contract_start": "2026-10-16",
    "contract_end": "2026-10-16",
    "move_in": "2029-06",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026950086&pblancNo=2026950086&houseSecd=02",
    "homepage": "https://www.더샵오산역아크시티.kr",
    "phone": "18660533",
@@ -684,7 +684,7 @@
    "contract_start": "2026-10-28",
    "contract_end": "2026-10-28",
    "move_in": "2026-12",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930041&pblancNo=2026930041",
    "homepage": "https://blog.naver.com/dnjsgh1445",
    "phone": "0448658022",
@@ -724,7 +724,7 @@
    "contract_start": "2026-10-27",
    "contract_end": "2026-10-27",
    "move_in": "2027-09",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930034&pblancNo=2026930034",
    "homepage": "https://도안푸르지오디아델.com",
    "phone": "0424776565",
@@ -778,7 +778,7 @@
    "contract_start": "2026-10-27",
    "contract_end": "2026-10-27",
    "move_in": "2027-09",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930033&pblancNo=2026930033",
    "homepage": "https://도안푸르지오디아델.com",
    "phone": "0424776565",
@@ -824,7 +824,7 @@
    "contract_start": "2026-10-17",
    "contract_end": "2026-10-17",
    "move_in": "2032-03",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910256&pblancNo=2026910256",
    "homepage": "https://www.lottecastle.co.kr/APT/AT00430/main/index.do",
    "phone": "15513555",
@@ -1677,23 +1677,16 @@
     {
      "type": "119OB",
      "area": 119.8284,
-     "supply": 281,
-     "special": 0,
-     "price": 60600
-    },
-    {
-     "type": "119OB",
-     "area": 119.8284,
      "supply": 6,
      "special": 0,
      "price": 77240
     },
     {
-     "type": "119OA",
-     "area": 119.9569,
-     "supply": 272,
+     "type": "119OB",
+     "area": 119.8284,
+     "supply": 281,
      "special": 0,
-     "price": 61110
+     "price": 60600
     },
     {
      "type": "119OA",
@@ -1701,6 +1694,13 @@
      "supply": 6,
      "special": 0,
      "price": 77890
+    },
+    {
+     "type": "119OA",
+     "area": 119.9569,
+     "supply": 272,
+     "special": 0,
+     "price": 61110
     },
     {
      "type": "119OC",
