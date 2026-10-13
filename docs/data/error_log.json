@@ -1,6 +1,6 @@
 {
-  "run_at": "2026-10-13T13:23:57+09:00",
-  "duration_sec": 8.9,
+  "run_at": "2026-10-13T17:22:40+09:00",
+  "duration_sec": 930.5,
   "summary": {
     "total": 6527,
     "scrape_ok": true,
@@ -8,106 +8,98 @@
     "with_building_info": 6463,
     "with_official_price": 2454,
     "with_trade_price": 6111,
-    "rights_detail_checked": 248,
+    "rights_detail_checked": 448,
     "rights_by_grade": {
-      "safe": 28,
-      "waiver": 1770,
+      "safe": 40,
+      "waiver": 1772,
       "caution": 244,
-      "danger": 408,
-      "unknown": 4077
+      "danger": 432,
+      "unknown": 4039
     },
     "collect_courts_failed": [],
     "audit_list_vs_detail": {
-      "checked": 0,
+      "checked": 200,
       "mismatched": 0
     },
     "tag_근생주의": 21,
     "tag_위반건축물": 54,
-    "tag_안전마진": 953,
+    "tag_안전마진": 952,
     "pending_enrich": 0,
     "pending_price": 1960,
-    "clean_default_count": 1791,
-    "api_calls": 9,
+    "clean_default_count": 1805,
+    "api_calls": 0,
     "api_retries": 0,
     "api_failures": 0,
     "blocked_endpoints": {},
     "unreachable_hosts": {},
     "last_scrape_ok_date": "2026-10-13",
     "error_counts": {
-      "juso:warn": 9,
-      "building:warn": 1
+      "juso:warn": 9
     }
   },
   "errors": [
     {
-      "time": "2026-10-13T13:23:50+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B000240202501300014221",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역12블록4로트 문학트리플타운 2층201호"
-    },
-    {
-      "time": "2026-10-13T13:23:50+09:00",
+      "time": "2026-10-13T17:07:11+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000213202401301210431",
       "message": "주소 변환 실패: 서울특별시 중랑구 면목동 재개발지구1369"
     },
     {
-      "time": "2026-10-13T13:23:50+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B000250202501300012251",
-      "message": "주소 변환 실패: 경기도 오산시 청학동 세교2지구알에이52-5"
-    },
-    {
-      "time": "2026-10-13T13:23:50+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B0002402023013052326212",
-      "message": "주소 변환 실패: 인천광역시 서구 석남로 86"
-    },
-    {
-      "time": "2026-10-13T13:23:50+09:00",
+      "time": "2026-10-13T17:07:11+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000241202501300348101",
       "message": "주소 변환 실패: 경기도 김포시 고촌읍 신곡리 김포신곡6지구에이2블럭 캐슬앤파밀리에시티2단지 225동 4층402호"
     },
     {
-      "time": "2026-10-13T13:23:50+09:00",
+      "time": "2026-10-13T17:07:11+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000240202501300014221",
+      "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역12블록4로트 문학트리플타운 2층201호"
+    },
+    {
+      "time": "2026-10-13T17:07:11+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000250202501300012251",
+      "message": "주소 변환 실패: 경기도 오산시 청학동 세교2지구알에이52-5"
+    },
+    {
+      "time": "2026-10-13T17:07:11+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B0002402023013052326212",
+      "message": "주소 변환 실패: 인천광역시 서구 석남로 86"
+    },
+    {
+      "time": "2026-10-13T17:07:11+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B214807202601300615221",
       "message": "주소 변환 실패: 경기도 고양시 일산동구 식사동 식사2도시개발구역5블록1로트 베네하임2차 9층910호"
     },
     {
-      "time": "2026-10-13T13:23:50+09:00",
+      "time": "2026-10-13T17:07:11+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202601305001151",
       "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역4블록4로트 더리치2차 4층408호"
     },
     {
-      "time": "2026-10-13T13:23:50+09:00",
+      "time": "2026-10-13T17:07:11+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000253202601300500331",
       "message": "주소 변환 실패: 경기도 평택시 청북면 후사리 150"
     },
     {
-      "time": "2026-10-13T13:23:50+09:00",
+      "time": "2026-10-13T17:07:11+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300564571",
       "message": "주소 변환 실패: 경기도 화성시 향남읍 환지등예정지 향남2택지개발지구322블록2로트"
-    },
-    {
-      "time": "2026-10-13T13:23:50+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202401300143831",
-      "message": "건축물대장 표제부 없음"
     }
   ]
 }
