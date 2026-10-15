@@ -1,9 +1,9 @@
 {
-  "run_at": "2026-10-14T22:14:45+09:00",
-  "duration_sec": 902.6,
+  "run_at": "2026-10-15T10:45:58+09:00",
+  "duration_sec": 366.4,
   "summary": {
     "total": 5580,
-    "scrape_ok": true,
+    "scrape_ok": false,
     "with_bjdong_code": 5579,
     "with_building_info": 5522,
     "with_official_price": 1709,
@@ -18,7 +18,7 @@
     },
     "collect_courts_failed": [],
     "audit_list_vs_detail": {
-      "checked": 200,
+      "checked": 0,
       "mismatched": 0
     },
     "tag_근생주의": 17,
@@ -26,7 +26,7 @@
     "tag_안전마진": 753,
     "pending_enrich": 0,
     "pending_price": 2102,
-    "clean_default_count": 1590,
+    "clean_default_count": 1342,
     "api_calls": 0,
     "api_retries": 0,
     "api_failures": 0,
@@ -34,51 +34,67 @@
     "unreachable_hosts": {},
     "last_scrape_ok_date": "2026-10-14",
     "error_counts": {
-      "juso:warn": 6
+      "scrape:error": 1,
+      "juso:warn": 6,
+      "rights:warn": 1
     }
   },
   "errors": [
     {
-      "time": "2026-10-14T21:59:44+09:00",
+      "time": "2026-10-15T10:42:24+09:00",
+      "stage": "scrape",
+      "level": "error",
+      "id": null,
+      "message": "스크래퍼 종료코드 1 — 기존 데이터로 분석 계속"
+    },
+    {
+      "time": "2026-10-15T10:42:24+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300012251",
       "message": "주소 변환 실패: 경기도 오산시 청학동 세교2지구알에이52-5"
     },
     {
-      "time": "2026-10-14T21:59:44+09:00",
+      "time": "2026-10-15T10:42:24+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B214807202601300615221",
       "message": "주소 변환 실패: 경기도 고양시 일산동구 식사동 식사2도시개발구역5블록1로트 베네하임2차 9층910호"
     },
     {
-      "time": "2026-10-14T21:59:44+09:00",
+      "time": "2026-10-15T10:42:24+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202601305001151",
       "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역4블록4로트 더리치2차 4층408호"
     },
     {
-      "time": "2026-10-14T21:59:44+09:00",
+      "time": "2026-10-15T10:42:24+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000253202601300500331",
       "message": "주소 변환 실패: 경기도 평택시 청북면 후사리 150"
     },
     {
-      "time": "2026-10-14T21:59:44+09:00",
+      "time": "2026-10-15T10:42:24+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300564571",
       "message": "주소 변환 실패: 경기도 화성시 향남읍 환지등예정지 향남2택지개발지구322블록2로트"
     },
     {
-      "time": "2026-10-14T21:59:44+09:00",
+      "time": "2026-10-15T10:42:24+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B0002402023013052326212",
       "message": "주소 변환 실패: 인천광역시 서구 석남로 86"
+    },
+    {
+      "time": "2026-10-15T10:45:57+09:00",
+      "stage": "rights",
+      "level": "warn",
+      "id": null,
+      "message": "상세 조회 200건 실패 (다음 실행에서 재시도)"
     }
   ]
 }
