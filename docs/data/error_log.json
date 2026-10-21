@@ -1,128 +1,162 @@
 {
-  "run_at": "2026-10-21T10:57:07+09:00",
-  "duration_sec": 366.0,
+  "run_at": "2026-10-21T11:28:02+09:00",
+  "duration_sec": 1789.6,
   "summary": {
-    "total": 5037,
-    "scrape_ok": false,
-    "with_bjdong_code": 5036,
-    "with_building_info": 4974,
-    "with_official_price": 506,
-    "with_trade_price": 4709,
-    "rights_detail_checked": 632,
+    "total": 6219,
+    "scrape_ok": true,
+    "with_bjdong_code": 6218,
+    "with_building_info": 6107,
+    "with_official_price": 741,
+    "with_trade_price": 5861,
+    "rights_detail_checked": 868,
     "rights_by_grade": {
-      "safe": 231,
-      "waiver": 875,
-      "caution": 229,
-      "danger": 485,
-      "unknown": 3217
+      "safe": 217,
+      "waiver": 1522,
+      "caution": 244,
+      "danger": 516,
+      "unknown": 3720
     },
     "collect_courts_failed": [],
     "audit_list_vs_detail": {
-      "checked": 0,
+      "checked": 200,
       "mismatched": 0
     },
-    "tag_근생주의": 15,
+    "tag_근생주의": 20,
     "tag_위반건축물": 58,
-    "tag_안전마진": 730,
-    "pending_enrich": 0,
-    "pending_price": 3041,
-    "clean_default_count": 804,
-    "api_calls": 0,
-    "api_retries": 0,
+    "tag_안전마진": 1046,
+    "pending_enrich": 50,
+    "pending_price": 3635,
+    "clean_default_count": 1732,
+    "api_calls": 3394,
+    "api_retries": 33,
     "api_failures": 0,
     "blocked_endpoints": {},
     "unreachable_hosts": {},
-    "last_scrape_ok_date": "2026-10-20",
+    "last_scrape_ok_date": "2026-10-21",
     "error_counts": {
-      "scrape:error": 1,
-      "juso:warn": 10,
-      "rights:warn": 1
+      "juso:warn": 9,
+      "building:warn": 8
     }
   },
   "errors": [
     {
-      "time": "2026-10-21T10:53:34+09:00",
-      "stage": "scrape",
-      "level": "error",
-      "id": null,
-      "message": "스크래퍼 종료코드 1 — 기존 데이터로 분석 계속"
-    },
-    {
-      "time": "2026-10-21T10:53:34+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B214807202601300615221",
-      "message": "주소 변환 실패: 경기도 고양시 일산동구 식사동 식사2도시개발구역5블록1로트 베네하임2차 9층910호"
-    },
-    {
-      "time": "2026-10-21T10:53:34+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B000253202601300500331",
-      "message": "주소 변환 실패: 경기도 평택시 청북면 후사리 150"
-    },
-    {
-      "time": "2026-10-21T10:53:34+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B000250202501300564571",
-      "message": "주소 변환 실패: 경기도 화성시 향남읍 환지등예정지 향남2택지개발지구322블록2로트"
-    },
-    {
-      "time": "2026-10-21T10:53:34+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B000240202401305678491",
-      "message": "주소 변환 실패: 인천광역시 서구 경서동 경서3구역도시개발지구25블록2로트 청라로데오시티포레안 5층508호"
-    },
-    {
-      "time": "2026-10-21T10:53:34+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B000240202501305135801",
-      "message": "주소 변환 실패: 인천광역시 서구 가정동 루원시티공동2블록 포레나루원시티 207동 15층1503호"
-    },
-    {
-      "time": "2026-10-21T10:53:34+09:00",
+      "time": "2026-10-21T11:03:44+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202601305001151",
       "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역4블록4로트 더리치2차 4층408호"
     },
     {
-      "time": "2026-10-21T10:53:34+09:00",
+      "time": "2026-10-21T11:03:44+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000253202601300500331",
+      "message": "주소 변환 실패: 경기도 평택시 청북면 후사리 150"
+    },
+    {
+      "time": "2026-10-21T11:03:44+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000250202501300564571",
+      "message": "주소 변환 실패: 경기도 화성시 향남읍 환지등예정지 향남2택지개발지구322블록2로트"
+    },
+    {
+      "time": "2026-10-21T11:03:44+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000240202401305678491",
+      "message": "주소 변환 실패: 인천광역시 서구 경서동 경서3구역도시개발지구25블록2로트 청라로데오시티포레안 5층508호"
+    },
+    {
+      "time": "2026-10-21T11:03:44+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000240202501305135801",
+      "message": "주소 변환 실패: 인천광역시 서구 가정동 루원시티공동2블록 포레나루원시티 207동 15층1503호"
+    },
+    {
+      "time": "2026-10-21T11:03:44+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202501305137481",
       "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역8블럭4로트 3층302호"
     },
     {
-      "time": "2026-10-21T10:53:34+09:00",
+      "time": "2026-10-21T11:03:44+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300593551",
       "message": "주소 변환 실패: 경기도 용인시 처인구 역북동 역삼도시개발지구엠1-1-2블록 용인센트럴코업 15층1502호"
     },
     {
-      "time": "2026-10-21T10:53:34+09:00",
+      "time": "2026-10-21T11:03:45+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000250202401301012391",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-21T11:03:45+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000250202501300501781",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-21T11:04:12+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000240202501300017021",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-21T11:04:20+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000240202501305124401",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-21T11:04:30+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000241202501300328561",
       "message": "주소 변환 실패: 경기도 김포시 고촌읍 향산리 향산지구도시개발사업구역에이1블럭2롯트 힐스테이트리버시티2단지 218동 3층 30"
     },
     {
-      "time": "2026-10-21T10:53:34+09:00",
+      "time": "2026-10-21T11:04:30+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300595951",
       "message": "주소 변환 실패: 경기도 화성시 안녕동 화성태안3지구비-1블록 우미린센트포레1단지 105동 9층903호"
     },
     {
-      "time": "2026-10-21T10:57:06+09:00",
-      "stage": "rights",
+      "time": "2026-10-21T11:05:52+09:00",
+      "stage": "building",
       "level": "warn",
-      "id": null,
-      "message": "상세 조회 200건 실패 (다음 실행에서 재시도)"
+      "id": "B000240202501305089171",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-21T11:06:42+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000250202401300668551",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-21T11:09:30+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000253202501300008121",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-10-21T11:09:32+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000253202501300429891",
+      "message": "건축물대장 표제부 없음"
     }
   ]
 }
