@@ -1,29 +1,29 @@
 {
- "updated": "2026-10-26",
- "updated_at": "2026-10-26T10:29:10+09:00",
+ "updated": "2026-10-27",
+ "updated_at": "2026-10-27T11:17:57+09:00",
  "source": "한국부동산원 청약홈 분양정보 조회 서비스 (공공데이터포털)",
  "report": {
-  "since": "2026-05-29",
+  "since": "2026-05-30",
   "kinds": {
    "apt": {
-    "rows": 142,
-    "kept": 25
+    "rows": 139,
+    "kept": 24
    },
    "offi": {
     "rows": 38,
-    "kept": 4
+    "kept": 3
    },
    "remndr": {
-    "rows": 156,
-    "kept": 6
+    "rows": 158,
+    "kept": 9
    },
    "rent": {
     "rows": 46,
-    "kept": 1
+    "kept": 0
    },
    "opt": {
-    "rows": 228,
-    "kept": 9
+    "rows": 230,
+    "kept": 10
    }
   },
   "errors": [],
@@ -80,49 +80,49 @@
   ],
   "cmpet_samples": [
    {
-    "CMPET_RATE": "539.33",
-    "HOUSE_MANAGE_NO": "2026000492",
-    "HOUSE_TY": "084.9800A",
+    "CMPET_RATE": "(△3)",
+    "HOUSE_MANAGE_NO": "2026000507",
+    "HOUSE_TY": "059.9823 ",
     "MODEL_NO": "01",
-    "PBLANC_NO": "2026000492",
-    "REQ_CNT": "17798",
+    "PBLANC_NO": "2026000507",
+    "REQ_CNT": "10",
     "RESIDE_SECD": "01",
     "RESIDE_SENM": "해당지역",
     "SUBSCRPT_RANK_CODE": 1,
-    "SUPLY_HSHLDCO": 33
+    "SUPLY_HSHLDCO": 13
    },
    {
-    "CMPET_RATE": "-",
-    "HOUSE_MANAGE_NO": "2026000492",
-    "HOUSE_TY": "084.9800A",
+    "CMPET_RATE": "(△1)",
+    "HOUSE_MANAGE_NO": "2026000507",
+    "HOUSE_TY": "059.9823 ",
     "MODEL_NO": "01",
-    "PBLANC_NO": "2026000492",
-    "REQ_CNT": "687",
+    "PBLANC_NO": "2026000507",
+    "REQ_CNT": "2",
     "RESIDE_SECD": "02",
     "RESIDE_SENM": "기타지역",
     "SUBSCRPT_RANK_CODE": 1,
-    "SUPLY_HSHLDCO": 33
+    "SUPLY_HSHLDCO": 13
    },
    {
-    "CMPET_RATE": "-",
-    "HOUSE_MANAGE_NO": "2026000492",
-    "HOUSE_TY": "084.9800A",
-    "MODEL_NO": "01",
-    "PBLANC_NO": "2026000492",
-    "REQ_CNT": "0",
+    "CMPET_RATE": "(△2)",
+    "HOUSE_MANAGE_NO": "2026000507",
+    "HOUSE_TY": "059.9782C",
+    "MODEL_NO": "02",
+    "PBLANC_NO": "2026000507",
+    "REQ_CNT": "3",
     "RESIDE_SECD": "01",
     "RESIDE_SENM": "해당지역",
-    "SUBSCRPT_RANK_CODE": 2,
-    "SUPLY_HSHLDCO": 33
+    "SUBSCRPT_RANK_CODE": 1,
+    "SUPLY_HSHLDCO": 5
    }
   ],
   "counts": {
-   "청약중": 17,
+   "청약중": 16,
    "청약예정": 15,
-   "발표대기": 13
+   "발표대기": 15
   },
-  "with_price": 45,
-  "with_competition": 10
+  "with_price": 46,
+  "with_competition": 11
  },
  "subscriptions": [
   {
@@ -180,148 +180,6 @@
    ],
    "competition": {},
    "scraped_date": "2026-10-03"
-  },
-  {
-   "id": "2026940225",
-   "pblanc_no": "2026940225",
-   "kind": "opt",
-   "name": "엘리프 검단 포레듀(AA32블록)(4차)",
-   "type": "APT 임의공급",
-   "builder": "계룡건설산업(주)",
-   "region": "인천광역시",
-   "district": "검단구",
-   "address": "인천광역시 검단구 검단신도시 AA32BL(마전동)",
-   "supply_count": 23,
-   "price_min": 57800,
-   "price_max": 69200,
-   "announce_date": "2026-10-19",
-   "start_date": "2026-10-21",
-   "end_date": "2026-10-26",
-   "win_date": "2026-10-29",
-   "contract_start": "2026-11-05",
-   "contract_end": "2026-11-05",
-   "move_in": "2028-03",
-   "status": "청약중",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026940225&pblancNo=2026940225",
-   "homepage": "https://www.엘리프검단포레듀.com",
-   "phone": "0325670187",
-   "price_cap": false,
-   "speculation_area": false,
-   "public_land": false,
-   "units": [
-    {
-     "type": "084.8500F",
-     "area": 84.85,
-     "supply": 2,
-     "special": 0,
-     "price": 59900
-    },
-    {
-     "type": "084.8800E",
-     "area": 84.88,
-     "supply": 2,
-     "special": 0,
-     "price": 60600
-    },
-    {
-     "type": "084.9200D",
-     "area": 84.92,
-     "supply": 4,
-     "special": 0,
-     "price": 59100
-    },
-    {
-     "type": "084.9900B",
-     "area": 84.99,
-     "supply": 6,
-     "special": 0,
-     "price": 57800
-    },
-    {
-     "type": "098.9200C",
-     "area": 98.92,
-     "supply": 3,
-     "special": 0,
-     "price": 69200
-    },
-    {
-     "type": "098.9700A",
-     "area": 98.97,
-     "supply": 3,
-     "special": 0,
-     "price": 68900
-    },
-    {
-     "type": "098.9900B",
-     "area": 98.99,
-     "supply": 3,
-     "special": 0,
-     "price": 67500
-    }
-   ],
-   "competition": {},
-   "scraped_date": "2026-10-20"
-  },
-  {
-   "id": "2026000402",
-   "pblanc_no": "2026000402",
-   "kind": "apt",
-   "name": "익산 부송에코르 10년 공공임대주택",
-   "type": "APT · 국민 · 분양전환 가능임대",
-   "builder": "전북개발공사",
-   "constructor": "(주)부강건설",
-   "region": "전북특별자치도",
-   "district": "익산시",
-   "address": "전북특별자치도 익산시 부송동 1421(익산 부송4지구 A블록)",
-   "supply_count": 300,
-   "price_min": 7200,
-   "price_max": 7200,
-   "announce_date": "2026-10-08",
-   "start_date": "2026-10-22",
-   "end_date": "2026-10-26",
-   "special_date": "2026-10-22",
-   "rank1_date": "2026-10-23",
-   "rank2_date": "2026-10-26",
-   "win_date": "2026-10-30",
-   "contract_start": "2027-01-04",
-   "contract_end": "2027-01-06",
-   "move_in": "2027-04",
-   "status": "청약중",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000402&pblancNo=2026000402",
-   "homepage": "https://www.jbdc.co.kr",
-   "phone": "0638363620",
-   "price_cap": false,
-   "speculation_area": false,
-   "public_land": false,
-   "units": [
-    {
-     "type": "059.3359B",
-     "area": 83.9663,
-     "supply": 15,
-     "special": 60,
-     "price": 7200
-    },
-    {
-     "type": "059.9288A",
-     "area": 84.1857,
-     "supply": 17,
-     "special": 66,
-     "price": 7200
-    },
-    {
-     "type": "059.9793C",
-     "area": 84.5018,
-     "supply": 28,
-     "special": 114,
-     "price": 7200
-    }
-   ],
-   "competition": {
-    "59A㎡ 1순위": 14.41,
-    "59C㎡ 1순위": 2.1,
-    "59B㎡ 1순위": 1.0
-   },
-   "scraped_date": "2026-10-09"
   },
   {
    "id": "2026940233",
@@ -769,7 +627,12 @@
      "price": 86700
     }
    ],
-   "competition": {},
+   "competition": {
+    "84B㎡ 1순위": 1.0,
+    "59㎡ 1순위": 0.92,
+    "59C㎡ 1순위": 0.8,
+    "84A㎡ 1순위": 0.65
+   },
    "scraped_date": "2026-10-19"
   },
   {
@@ -887,203 +750,6 @@
    ],
    "competition": {},
    "scraped_date": "2026-10-21"
-  },
-  {
-   "id": "2026930044",
-   "pblanc_no": "2026930044",
-   "kind": "remndr",
-   "name": "한화포레나 영흥숲",
-   "type": "APT 무순위·잔여세대",
-   "builder": "(주)한화",
-   "region": "경기도",
-   "district": "수원시 영통구",
-   "address": "경기도 수원시 영통구 원천동 333-1번지 일원",
-   "supply_count": 1,
-   "price_min": 51220,
-   "price_max": 51220,
-   "announce_date": "2026-10-21",
-   "start_date": "2026-10-26",
-   "end_date": "2026-10-26",
-   "special_date": "2026-10-26",
-   "win_date": "2026-10-29",
-   "contract_start": "2026-11-05",
-   "contract_end": "2026-11-05",
-   "move_in": "2026-11",
-   "status": "청약중",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930044&pblancNo=2026930044",
-   "phone": "0318989447",
-   "price_cap": false,
-   "speculation_area": false,
-   "public_land": false,
-   "units": [
-    {
-     "type": "066.8113",
-     "area": 94.9824,
-     "supply": 0,
-     "special": 1,
-     "price": 51220
-    }
-   ],
-   "competition": {},
-   "scraped_date": "2026-10-22"
-  },
-  {
-   "id": "2026910268",
-   "pblanc_no": "2026910268",
-   "kind": "remndr",
-   "name": "신천역 에피트(3차)",
-   "type": "APT 무순위·잔여세대",
-   "builder": "(주)다우개발",
-   "region": "경기도",
-   "district": "시흥시",
-   "address": "경기도 시흥시 시흥대로 1110",
-   "supply_count": 8,
-   "price_min": 64630,
-   "price_max": 84430,
-   "announce_date": "2026-10-21",
-   "start_date": "2026-10-26",
-   "end_date": "2026-10-26",
-   "win_date": "2026-10-29",
-   "contract_start": "2026-11-03",
-   "contract_end": "2026-11-03",
-   "move_in": "2026-11",
-   "status": "청약중",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910268&pblancNo=2026910268",
-   "homepage": "http://halla-shincheon.co.kr/",
-   "phone": "0313110230",
-   "price_cap": false,
-   "speculation_area": false,
-   "public_land": false,
-   "units": [
-    {
-     "type": "084.0616D",
-     "area": 84.0616,
-     "supply": 2,
-     "special": 0,
-     "price": 67190
-    },
-    {
-     "type": "084.5859E",
-     "area": 84.5859,
-     "supply": 1,
-     "special": 0,
-     "price": 64630
-    },
-    {
-     "type": "084.7324C",
-     "area": 84.7324,
-     "supply": 3,
-     "special": 0,
-     "price": 68060
-    },
-    {
-     "type": "111.6914A",
-     "area": 111.6914,
-     "supply": 1,
-     "special": 0,
-     "price": 84430
-    },
-    {
-     "type": "111.9114B",
-     "area": 111.9114,
-     "supply": 1,
-     "special": 0,
-     "price": 81000
-    }
-   ],
-   "competition": {},
-   "scraped_date": "2026-10-22"
-  },
-  {
-   "id": "2026910266",
-   "pblanc_no": "2026910266",
-   "kind": "remndr",
-   "name": "문수로 비스타 더파크",
-   "type": "APT 무순위·잔여세대",
-   "builder": "(주)동원개발",
-   "region": "울산광역시",
-   "district": "남구",
-   "address": "울산광역시 남구 무거동 1615-1번지(무거삼호지구 11BL) 일원",
-   "supply_count": 329,
-   "price_min": 62400,
-   "price_max": 83200,
-   "announce_date": "2026-10-21",
-   "start_date": "2026-10-26",
-   "end_date": "2026-10-26",
-   "win_date": "2026-10-29",
-   "contract_start": "2026-11-03",
-   "contract_end": "2026-11-03",
-   "move_in": "2029-05",
-   "status": "청약중",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910266&pblancNo=2026910266",
-   "homepage": "http://munsuro-vista-park.com",
-   "phone": "15518454",
-   "price_cap": false,
-   "speculation_area": false,
-   "public_land": false,
-   "units": [
-    {
-     "type": "068.4720A",
-     "area": 68.472,
-     "supply": 17,
-     "special": 0,
-     "price": 65500
-    },
-    {
-     "type": "068.4720B",
-     "area": 68.472,
-     "supply": 1,
-     "special": 0,
-     "price": 62400
-    },
-    {
-     "type": "084.9937A",
-     "area": 84.9937,
-     "supply": 311,
-     "special": 0,
-     "price": 83200
-    }
-   ],
-   "competition": {},
-   "scraped_date": "2026-10-22"
-  },
-  {
-   "id": "2026910265",
-   "pblanc_no": "2026910265",
-   "kind": "remndr",
-   "name": "한화포레나 영흥숲(3차)",
-   "type": "APT 무순위·잔여세대",
-   "builder": "(주)한화",
-   "region": "경기도",
-   "district": "수원시 영통구",
-   "address": "경기도 수원시 영통구 원천동 333-1번지 일원",
-   "supply_count": 1,
-   "price_min": 57600,
-   "price_max": 57600,
-   "announce_date": "2026-10-21",
-   "start_date": "2026-10-26",
-   "end_date": "2026-10-26",
-   "win_date": "2026-10-29",
-   "contract_start": "2026-11-05",
-   "contract_end": "2026-11-05",
-   "move_in": "2026-11",
-   "status": "청약중",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910265&pblancNo=2026910265",
-   "phone": "0318989447",
-   "price_cap": false,
-   "speculation_area": false,
-   "public_land": false,
-   "units": [
-    {
-     "type": "068.9883",
-     "area": 68.9883,
-     "supply": 1,
-     "special": 0,
-     "price": 57600
-    }
-   ],
-   "competition": {},
-   "scraped_date": "2026-10-22"
   },
   {
    "id": "2026940228",
@@ -1235,7 +901,7 @@
    "contract_start": "2026-11-16",
    "contract_end": "2026-11-18",
    "move_in": "2029-09",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000455&pblancNo=2026000455",
    "homepage": "https://brand.hldni.com/thewaycity/",
    "phone": "15336700",
@@ -1316,7 +982,7 @@
    "contract_start": "2026-11-05",
    "contract_end": "2026-11-07",
    "move_in": "2031-03",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026950088&pblancNo=2026950088&houseSecd=02",
    "homepage": "https://gdmetro.com",
    "phone": "028415950",
@@ -1488,7 +1154,7 @@
    "contract_start": "2026-11-04",
    "contract_end": "2026-11-05",
    "move_in": "2026-11",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910271&pblancNo=2026910271",
    "phone": "0328348890",
    "price_cap": false,
@@ -1547,7 +1213,7 @@
    "contract_start": "2026-11-07",
    "contract_end": "2026-11-07",
    "move_in": "2030-05",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910270&pblancNo=2026910270",
    "homepage": "https://충정로역자이르네.com",
    "phone": "16601245",
@@ -1586,7 +1252,7 @@
    "contract_start": "2026-11-06",
    "contract_end": "2026-11-06",
    "move_in": "2026-11",
-   "status": "청약예정",
+   "status": "청약중",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026940232&pblancNo=2026940232",
    "homepage": "http://개성로니엘.kr",
    "phone": "15440337",
@@ -1657,6 +1323,98 @@
    ],
    "competition": {},
    "scraped_date": "2026-10-26"
+  },
+  {
+   "id": "2026940238",
+   "pblanc_no": "2026940238",
+   "kind": "opt",
+   "name": "안성 아양지구 B-2블록 금성백조 예미지(2차)",
+   "type": "APT 임의공급",
+   "builder": "(주)금성백조주택",
+   "region": "경기도",
+   "district": "안성시 아양지구",
+   "address": "경기도 안성시 아양지구 B-2블록 (옥산동 659번지)",
+   "supply_count": 73,
+   "price_min": 44330,
+   "price_max": 44330,
+   "announce_date": "2026-10-26",
+   "start_date": "2026-10-28",
+   "end_date": "2026-10-28",
+   "win_date": "2026-11-02",
+   "contract_start": "2026-11-07",
+   "contract_end": "2026-11-07",
+   "move_in": "2028-06",
+   "status": "청약예정",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026940238&pblancNo=2026940238",
+   "homepage": "https://ay-yemizi.com/",
+   "phone": "18991482",
+   "price_cap": false,
+   "speculation_area": false,
+   "public_land": false,
+   "units": [
+    {
+     "type": "084.9900",
+     "area": 84.99,
+     "supply": 73,
+     "special": 0,
+     "price": 44330
+    }
+   ],
+   "competition": {},
+   "scraped_date": "2026-10-27"
+  },
+  {
+   "id": "2026940236",
+   "pblanc_no": "2026940236",
+   "kind": "opt",
+   "name": "부천역 에피트 어바닉(5차)",
+   "type": "APT 임의공급",
+   "builder": "장미연립가로주택정비사업조합",
+   "region": "경기도",
+   "district": "부천시 원미구",
+   "address": "경기도 부천시 원미구 원미동 150-1외 2필지",
+   "supply_count": 5,
+   "price_min": 43669,
+   "price_max": 55332,
+   "announce_date": "2026-10-26",
+   "start_date": "2026-10-28",
+   "end_date": "2026-10-28",
+   "win_date": "2026-11-02",
+   "contract_start": "2026-11-03",
+   "contract_end": "2026-11-03",
+   "move_in": "2028-07",
+   "status": "청약예정",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026940236&pblancNo=2026940236",
+   "homepage": "https://brand.hldni.com/bucheon-urbanic/",
+   "phone": "0326110105",
+   "price_cap": false,
+   "speculation_area": false,
+   "public_land": false,
+   "units": [
+    {
+     "type": "052.1088",
+     "area": 52.1088,
+     "supply": 1,
+     "special": 0,
+     "price": 43669
+    },
+    {
+     "type": "064.2641B",
+     "area": 64.2641,
+     "supply": 2,
+     "special": 0,
+     "price": 55332
+    },
+    {
+     "type": "064.5397A",
+     "area": 64.5397,
+     "supply": 2,
+     "special": 0,
+     "price": 53136
+    }
+   ],
+   "competition": {},
+   "scraped_date": "2026-10-27"
   },
   {
    "id": "2026820012",
@@ -2428,6 +2186,145 @@
    "scraped_date": "2026-10-20"
   },
   {
+   "id": "2026930042",
+   "pblanc_no": "2026930042",
+   "kind": "remndr",
+   "name": "파주 운정신도시 우미 린 더 센텀",
+   "type": "APT 무순위·잔여세대",
+   "builder": "(주)명일건설",
+   "region": "경기도",
+   "district": "파주시",
+   "address": "경기도 파주시 물향기1로 45(동패동) 운정중앙역 우미 린 더 센텀",
+   "supply_count": 1,
+   "price_min": 54250,
+   "price_max": 54250,
+   "announce_date": "2026-10-26",
+   "start_date": "2026-11-02",
+   "end_date": "2026-11-02",
+   "special_date": "2026-11-02",
+   "win_date": "2026-11-05",
+   "contract_start": "2026-11-13",
+   "contract_end": "2026-11-13",
+   "move_in": "2027-01",
+   "status": "청약예정",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930042&pblancNo=2026930042",
+   "homepage": "https://www.lynn.co.kr",
+   "phone": "0319434400",
+   "price_cap": false,
+   "speculation_area": false,
+   "public_land": false,
+   "units": [
+    {
+     "type": "084.9891A",
+     "area": 113.6235,
+     "supply": 0,
+     "special": 1,
+     "price": 54250
+    }
+   ],
+   "competition": {},
+   "scraped_date": "2026-10-27"
+  },
+  {
+   "id": "2026910269",
+   "pblanc_no": "2026910269",
+   "kind": "remndr",
+   "name": "화서역 호수공원 아너스빌",
+   "type": "APT 무순위·잔여세대",
+   "builder": "삼환기업(주)",
+   "region": "경기도",
+   "district": "수원시 권선구",
+   "address": "경기도 수원시 권선구 서둔동 212-1번지 일원",
+   "supply_count": 169,
+   "price_min": 89300,
+   "price_max": 89800,
+   "announce_date": "2026-10-26",
+   "start_date": "2026-11-02",
+   "end_date": "2026-11-02",
+   "win_date": "2026-11-06",
+   "contract_start": "2026-11-13",
+   "contract_end": "2026-11-13",
+   "move_in": "2029-10",
+   "status": "청약예정",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910269&pblancNo=2026910269",
+   "homepage": "https://www.화서역아너스빌.com",
+   "phone": "15511480",
+   "price_cap": false,
+   "speculation_area": false,
+   "public_land": false,
+   "units": [
+    {
+     "type": "084.7459A",
+     "area": 84.7459,
+     "supply": 26,
+     "special": 0,
+     "price": 89800
+    },
+    {
+     "type": "084.8508B",
+     "area": 84.8508,
+     "supply": 76,
+     "special": 0,
+     "price": 89300
+    },
+    {
+     "type": "084.9663D",
+     "area": 84.9663,
+     "supply": 67,
+     "special": 0,
+     "price": 89300
+    }
+   ],
+   "competition": {},
+   "scraped_date": "2026-10-27"
+  },
+  {
+   "id": "2026910257",
+   "pblanc_no": "2026910257",
+   "kind": "remndr",
+   "name": "파주 운정신도시 우미 린 더 센텀",
+   "type": "APT 무순위·잔여세대",
+   "builder": "(주)명일건설",
+   "region": "경기도",
+   "district": "파주시",
+   "address": "경기도 파주시 물향기1로 45(동패동) 운정중앙역 우미 린 더 센텀",
+   "supply_count": 2,
+   "price_min": 53450,
+   "price_max": 54250,
+   "announce_date": "2026-10-26",
+   "start_date": "2026-11-02",
+   "end_date": "2026-11-02",
+   "win_date": "2026-11-05",
+   "contract_start": "2026-11-13",
+   "contract_end": "2026-11-13",
+   "move_in": "2027-01",
+   "status": "청약예정",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910257&pblancNo=2026910257",
+   "homepage": "https://www.lynn.co.kr",
+   "phone": "0319434400",
+   "price_cap": false,
+   "speculation_area": false,
+   "public_land": false,
+   "units": [
+    {
+     "type": "084.9867B",
+     "area": 84.9867,
+     "supply": 1,
+     "special": 0,
+     "price": 53450
+    },
+    {
+     "type": "084.9891A",
+     "area": 84.9891,
+     "supply": 1,
+     "special": 0,
+     "price": 54250
+    }
+   ],
+   "competition": {},
+   "scraped_date": "2026-10-27"
+  },
+  {
    "id": "2026000492",
    "pblanc_no": "2026000492",
    "kind": "apt",
@@ -2562,82 +2459,6 @@
     "84B㎡ 1순위": 351.49,
     "102㎡ 1순위": 133.56,
     "116㎡ 1순위": 90.36
-   },
-   "scraped_date": "2026-10-09"
-  },
-  {
-   "id": "2026000471",
-   "pblanc_no": "2026000471",
-   "kind": "apt",
-   "name": "한양립스 에듀포레(조합원 취소분)",
-   "type": "APT · 민영",
-   "builder": "송정리버파크지역주택조합",
-   "constructor": "(주)한양건설",
-   "region": "전라남도",
-   "district": "광산구",
-   "address": "전남광주통합특별시 광산구 하산동 269번지 일원",
-   "supply_count": 19,
-   "price_min": 48500,
-   "price_max": 55800,
-   "announce_date": "2026-10-08",
-   "start_date": "2026-10-19",
-   "end_date": "2026-10-20",
-   "rank1_date": "2026-10-19",
-   "rank2_date": "2026-10-20",
-   "win_date": "2026-10-26",
-   "contract_start": "2026-11-06",
-   "contract_end": "2026-11-10",
-   "move_in": "2027-11",
-   "status": "발표대기",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000471&pblancNo=2026000471",
-   "homepage": "http://www.한양립스에듀포레.kr",
-   "phone": "0629465552",
-   "price_cap": false,
-   "speculation_area": false,
-   "public_land": false,
-   "units": [
-    {
-     "type": "084.8642B",
-     "area": 109.8683,
-     "supply": 9,
-     "special": 0,
-     "price": 49500
-    },
-    {
-     "type": "084.9636D",
-     "area": 110.1456,
-     "supply": 5,
-     "special": 0,
-     "price": 55800
-    },
-    {
-     "type": "084.9904C",
-     "area": 110.5586,
-     "supply": 1,
-     "special": 0,
-     "price": 48500
-    },
-    {
-     "type": "084.9680A",
-     "area": 111.0148,
-     "supply": 3,
-     "special": 0,
-     "price": 49900
-    },
-    {
-     "type": "089.5130A",
-     "area": 116.5228,
-     "supply": 1,
-     "special": 0,
-     "price": 51700
-    }
-   ],
-   "competition": {
-    "89A㎡ 1순위": 2.0,
-    "84A㎡ 1순위": 0.33,
-    "84D㎡ 1순위": 0.2,
-    "84B㎡ 1순위": 0.0,
-    "84C㎡ 1순위": 0.0
    },
    "scraped_date": "2026-10-09"
   },
@@ -2990,195 +2811,146 @@
    "scraped_date": "2026-10-09"
   },
   {
-   "id": "2026950077",
-   "pblanc_no": "2026950077",
-   "kind": "offi",
-   "name": "옥정중앙역 대방 디에트르Ⅱ",
-   "type": "오피스텔",
-   "builder": "대방건설 주식회사",
-   "region": "경기도",
-   "district": "양주시",
-   "address": "경기도 양주시 옥정동 962-9, 962-8번지(옥정지구 중상1, 복합1블록)",
-   "supply_count": 853,
-   "price_min": 60600,
-   "price_max": 81990,
-   "announce_date": "2026-10-08",
-   "start_date": "2026-10-19",
-   "end_date": "2026-10-20",
-   "win_date": "2026-10-26",
-   "contract_start": "2026-10-28",
-   "contract_end": "2026-10-29",
-   "move_in": "2030-06",
+   "id": "2026940225",
+   "pblanc_no": "2026940225",
+   "kind": "opt",
+   "name": "엘리프 검단 포레듀(AA32블록)(4차)",
+   "type": "APT 임의공급",
+   "builder": "계룡건설산업(주)",
+   "region": "인천광역시",
+   "district": "검단구",
+   "address": "인천광역시 검단구 검단신도시 AA32BL(마전동)",
+   "supply_count": 23,
+   "price_min": 57800,
+   "price_max": 69200,
+   "announce_date": "2026-10-19",
+   "start_date": "2026-10-21",
+   "end_date": "2026-10-26",
+   "win_date": "2026-10-29",
+   "contract_start": "2026-11-05",
+   "contract_end": "2026-11-05",
+   "move_in": "2028-03",
    "status": "발표대기",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026950077&pblancNo=2026950077&houseSecd=02",
-   "homepage": "https://detre-ojop.co.kr",
-   "phone": "16887002",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026940225&pblancNo=2026940225",
+   "homepage": "https://www.엘리프검단포레듀.com",
+   "phone": "0325670187",
    "price_cap": false,
    "speculation_area": false,
    "public_land": false,
    "units": [
     {
-     "type": "119OB",
-     "area": 119.8284,
-     "supply": 281,
+     "type": "084.8500F",
+     "area": 84.85,
+     "supply": 2,
+     "special": 0,
+     "price": 59900
+    },
+    {
+     "type": "084.8800E",
+     "area": 84.88,
+     "supply": 2,
      "special": 0,
      "price": 60600
     },
     {
-     "type": "119OB",
-     "area": 119.8284,
+     "type": "084.9200D",
+     "area": 84.92,
+     "supply": 4,
+     "special": 0,
+     "price": 59100
+    },
+    {
+     "type": "084.9900B",
+     "area": 84.99,
      "supply": 6,
      "special": 0,
-     "price": 77240
+     "price": 57800
     },
     {
-     "type": "119OA",
-     "area": 119.9569,
-     "supply": 272,
+     "type": "098.9200C",
+     "area": 98.92,
+     "supply": 3,
      "special": 0,
-     "price": 61110
+     "price": 69200
     },
     {
-     "type": "119OA",
-     "area": 119.9569,
-     "supply": 6,
+     "type": "098.9700A",
+     "area": 98.97,
+     "supply": 3,
      "special": 0,
-     "price": 77890
+     "price": 68900
     },
     {
-     "type": "119OC",
-     "area": 119.9734,
-     "supply": 282,
+     "type": "098.9900B",
+     "area": 98.99,
+     "supply": 3,
      "special": 0,
-     "price": 64330
-    },
-    {
-     "type": "119OC",
-     "area": 119.9734,
-     "supply": 6,
-     "special": 0,
-     "price": 81990
-    }
-   ],
-   "competition": {
-    "4㎡": 6.33,
-    "3㎡": 0.9,
-    "2㎡": 0.55,
-    "1㎡": 0.46
-   },
-   "scraped_date": "2026-10-09"
-  },
-  {
-   "id": "2026940224",
-   "pblanc_no": "2026940224",
-   "kind": "opt",
-   "name": "더 리치먼드 미아(2차)",
-   "type": "APT 임의공급",
-   "builder": "우리자산신탁 주식회사",
-   "region": "서울특별시",
-   "district": "강북구",
-   "address": "서울특별시 강북구 미아동 703-13번지",
-   "supply_count": 16,
-   "price_min": 80200,
-   "price_max": 80200,
-   "announce_date": "2026-10-15",
-   "start_date": "2026-10-19",
-   "end_date": "2026-10-19",
-   "win_date": "2026-10-26",
-   "contract_start": "2026-10-28",
-   "contract_end": "2026-10-28",
-   "move_in": "2028-09",
-   "status": "발표대기",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026940224&pblancNo=2026940224",
-   "homepage": "https://www.더리치먼드미아.com",
-   "phone": "15516264",
-   "price_cap": false,
-   "speculation_area": false,
-   "public_land": false,
-   "units": [
-    {
-     "type": "049.7500A",
-     "area": 49.75,
-     "supply": 16,
-     "special": 0,
-     "price": 80200
+     "price": 67500
     }
    ],
    "competition": {},
-   "scraped_date": "2026-10-16"
+   "scraped_date": "2026-10-20"
   },
   {
-   "id": "2026850052",
-   "pblanc_no": "2026850052",
-   "kind": "rent",
-   "name": "울산반구 수자인 더센트럴",
-   "type": "공공지원 민간임대",
-   "builder": "(주)울산반구대한제45호위탁관리부동산투자회사",
-   "region": "울산광역시",
-   "district": "중구",
-   "address": "울산광역시 중구 반구동 447-19번지",
-   "supply_count": 118,
-   "price_min": 33870,
-   "price_max": 39060,
-   "announce_date": "2026-10-15",
-   "start_date": "2026-10-20",
-   "end_date": "2026-10-21",
-   "win_date": "2026-10-26",
-   "contract_start": "2026-10-29",
-   "contract_end": "2026-10-30",
-   "move_in": "2026-10",
+   "id": "2026000402",
+   "pblanc_no": "2026000402",
+   "kind": "apt",
+   "name": "익산 부송에코르 10년 공공임대주택",
+   "type": "APT · 국민 · 분양전환 가능임대",
+   "builder": "전북개발공사",
+   "constructor": "(주)부강건설",
+   "region": "전북특별자치도",
+   "district": "익산시",
+   "address": "전북특별자치도 익산시 부송동 1421(익산 부송4지구 A블록)",
+   "supply_count": 300,
+   "price_min": 7200,
+   "price_max": 7200,
+   "announce_date": "2026-10-08",
+   "start_date": "2026-10-22",
+   "end_date": "2026-10-26",
+   "special_date": "2026-10-22",
+   "rank1_date": "2026-10-23",
+   "rank2_date": "2026-10-26",
+   "win_date": "2026-10-30",
+   "contract_start": "2027-01-04",
+   "contract_end": "2027-01-06",
+   "move_in": "2027-04",
    "status": "발표대기",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850052&pblancNo=2026850052&houseSecd=03",
-   "homepage": "http://울산반구수자인더센트럴.com",
-   "phone": "0522810121",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000402&pblancNo=2026000402",
+   "homepage": "https://www.jbdc.co.kr",
+   "phone": "0638363620",
    "price_cap": false,
    "speculation_area": false,
    "public_land": false,
    "units": [
     {
-     "type": "84A",
-     "area": 104.5401,
-     "supply": 58,
-     "special": 0,
-     "price": 39060
+     "type": "059.3359B",
+     "area": 83.9663,
+     "supply": 15,
+     "special": 60,
+     "price": 7200
     },
     {
-     "type": "84A-1",
-     "area": 104.5401,
-     "supply": 2,
-     "special": 0,
-     "price": 33870
+     "type": "059.9288A",
+     "area": 84.1857,
+     "supply": 17,
+     "special": 66,
+     "price": 7200
     },
     {
-     "type": "84C",
-     "area": 104.6629,
-     "supply": 13,
-     "special": 0,
-     "price": 38470
-    },
-    {
-     "type": "84B",
-     "area": 104.8776,
-     "supply": 38,
-     "special": 0,
-     "price": 39060
-    },
-    {
-     "type": "84B-1",
-     "area": 104.8776,
-     "supply": 7,
-     "special": 0,
-     "price": 35250
+     "type": "059.9793C",
+     "area": 84.5018,
+     "supply": 28,
+     "special": 114,
+     "price": 7200
     }
    ],
    "competition": {
-    "84B-1㎡": 1.57,
-    "84A-1㎡": 1.5,
-    "84C㎡": 0.62,
-    "84A㎡": 0.19,
-    "84B㎡": 0.03
+    "59A㎡ 1순위": 14.41,
+    "59C㎡ 1순위": 2.1,
+    "59B㎡ 1순위": 1.0
    },
-   "scraped_date": "2026-10-16"
+   "scraped_date": "2026-10-09"
   },
   {
    "id": "2026940156",
@@ -3331,6 +3103,215 @@
    ],
    "competition": {},
    "scraped_date": "2026-10-21"
+  },
+  {
+   "id": "2026930044",
+   "pblanc_no": "2026930044",
+   "kind": "remndr",
+   "name": "한화포레나 영흥숲",
+   "type": "APT 무순위·잔여세대",
+   "builder": "(주)한화",
+   "region": "경기도",
+   "district": "수원시 영통구",
+   "address": "경기도 수원시 영통구 원천동 333-1번지 일원",
+   "supply_count": 1,
+   "price_min": 51220,
+   "price_max": 51220,
+   "announce_date": "2026-10-21",
+   "start_date": "2026-10-26",
+   "end_date": "2026-10-26",
+   "special_date": "2026-10-26",
+   "win_date": "2026-10-29",
+   "contract_start": "2026-11-05",
+   "contract_end": "2026-11-05",
+   "move_in": "2026-11",
+   "status": "발표대기",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930044&pblancNo=2026930044",
+   "phone": "0318989447",
+   "price_cap": false,
+   "speculation_area": false,
+   "public_land": false,
+   "units": [
+    {
+     "type": "066.8113",
+     "area": 94.9824,
+     "supply": 0,
+     "special": 1,
+     "price": 51220
+    }
+   ],
+   "competition": {},
+   "scraped_date": "2026-10-22"
+  },
+  {
+   "id": "2026910268",
+   "pblanc_no": "2026910268",
+   "kind": "remndr",
+   "name": "신천역 에피트(3차)",
+   "type": "APT 무순위·잔여세대",
+   "builder": "(주)다우개발",
+   "region": "경기도",
+   "district": "시흥시",
+   "address": "경기도 시흥시 시흥대로 1110",
+   "supply_count": 8,
+   "price_min": 64630,
+   "price_max": 84430,
+   "announce_date": "2026-10-21",
+   "start_date": "2026-10-26",
+   "end_date": "2026-10-26",
+   "win_date": "2026-10-29",
+   "contract_start": "2026-11-03",
+   "contract_end": "2026-11-03",
+   "move_in": "2026-11",
+   "status": "발표대기",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910268&pblancNo=2026910268",
+   "homepage": "http://halla-shincheon.co.kr/",
+   "phone": "0313110230",
+   "price_cap": false,
+   "speculation_area": false,
+   "public_land": false,
+   "units": [
+    {
+     "type": "084.0616D",
+     "area": 84.0616,
+     "supply": 2,
+     "special": 0,
+     "price": 67190
+    },
+    {
+     "type": "084.5859E",
+     "area": 84.5859,
+     "supply": 1,
+     "special": 0,
+     "price": 64630
+    },
+    {
+     "type": "084.7324C",
+     "area": 84.7324,
+     "supply": 3,
+     "special": 0,
+     "price": 68060
+    },
+    {
+     "type": "111.6914A",
+     "area": 111.6914,
+     "supply": 1,
+     "special": 0,
+     "price": 84430
+    },
+    {
+     "type": "111.9114B",
+     "area": 111.9114,
+     "supply": 1,
+     "special": 0,
+     "price": 81000
+    }
+   ],
+   "competition": {
+    "84E㎡": 7.0,
+    "84C㎡": 6.67,
+    "84D㎡": 3.0,
+    "111A㎡": 1.0,
+    "111B㎡": 0.0
+   },
+   "scraped_date": "2026-10-22"
+  },
+  {
+   "id": "2026910266",
+   "pblanc_no": "2026910266",
+   "kind": "remndr",
+   "name": "문수로 비스타 더파크",
+   "type": "APT 무순위·잔여세대",
+   "builder": "(주)동원개발",
+   "region": "울산광역시",
+   "district": "남구",
+   "address": "울산광역시 남구 무거동 1615-1번지(무거삼호지구 11BL) 일원",
+   "supply_count": 329,
+   "price_min": 62400,
+   "price_max": 83200,
+   "announce_date": "2026-10-21",
+   "start_date": "2026-10-26",
+   "end_date": "2026-10-26",
+   "win_date": "2026-10-29",
+   "contract_start": "2026-11-03",
+   "contract_end": "2026-11-03",
+   "move_in": "2029-05",
+   "status": "발표대기",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910266&pblancNo=2026910266",
+   "homepage": "http://munsuro-vista-park.com",
+   "phone": "15518454",
+   "price_cap": false,
+   "speculation_area": false,
+   "public_land": false,
+   "units": [
+    {
+     "type": "068.4720A",
+     "area": 68.472,
+     "supply": 17,
+     "special": 0,
+     "price": 65500
+    },
+    {
+     "type": "068.4720B",
+     "area": 68.472,
+     "supply": 1,
+     "special": 0,
+     "price": 62400
+    },
+    {
+     "type": "084.9937A",
+     "area": 84.9937,
+     "supply": 311,
+     "special": 0,
+     "price": 83200
+    }
+   ],
+   "competition": {
+    "68B㎡": 4.0,
+    "68A㎡": 1.0,
+    "84A㎡": 0.04
+   },
+   "scraped_date": "2026-10-22"
+  },
+  {
+   "id": "2026910265",
+   "pblanc_no": "2026910265",
+   "kind": "remndr",
+   "name": "한화포레나 영흥숲(3차)",
+   "type": "APT 무순위·잔여세대",
+   "builder": "(주)한화",
+   "region": "경기도",
+   "district": "수원시 영통구",
+   "address": "경기도 수원시 영통구 원천동 333-1번지 일원",
+   "supply_count": 1,
+   "price_min": 57600,
+   "price_max": 57600,
+   "announce_date": "2026-10-21",
+   "start_date": "2026-10-26",
+   "end_date": "2026-10-26",
+   "win_date": "2026-10-29",
+   "contract_start": "2026-11-05",
+   "contract_end": "2026-11-05",
+   "move_in": "2026-11",
+   "status": "발표대기",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910265&pblancNo=2026910265",
+   "phone": "0318989447",
+   "price_cap": false,
+   "speculation_area": false,
+   "public_land": false,
+   "units": [
+    {
+     "type": "068.9883",
+     "area": 68.9883,
+     "supply": 1,
+     "special": 0,
+     "price": 57600
+    }
+   ],
+   "competition": {
+    "68㎡": 223.0
+   },
+   "scraped_date": "2026-10-22"
   }
  ]
 }
