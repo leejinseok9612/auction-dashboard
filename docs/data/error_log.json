@@ -1,154 +1,247 @@
 {
-  "run_at": "2026-11-17T18:53:16+09:00",
-  "duration_sec": 1199.2,
+  "run_at": "2026-11-18T14:05:23+09:00",
+  "duration_sec": 1554.5,
   "summary": {
-    "total": 7098,
+    "total": 6132,
     "scrape_ok": true,
-    "with_bjdong_code": 7096,
-    "with_building_info": 7002,
-    "with_official_price": 1494,
-    "with_trade_price": 6598,
-    "rights_detail_checked": 4636,
+    "with_bjdong_code": 6130,
+    "with_building_info": 6049,
+    "with_official_price": 1022,
+    "with_trade_price": 5669,
+    "rights_detail_checked": 3941,
     "rights_by_grade": {
-      "safe": 1398,
-      "waiver": 1935,
-      "caution": 299,
-      "danger": 1824,
-      "unknown": 1642
+      "safe": 1286,
+      "waiver": 1411,
+      "caution": 235,
+      "danger": 1677,
+      "unknown": 1523
     },
     "collect_courts_failed": [],
     "audit_list_vs_detail": {
       "checked": 200,
       "mismatched": 0
     },
-    "tag_근생주의": 25,
-    "tag_위반건축물": 121,
-    "tag_안전마진": 1088,
-    "pending_enrich": 0,
-    "pending_price": 3328,
-    "clean_default_count": 3310,
-    "api_calls": 0,
-    "api_retries": 0,
-    "api_failures": 0,
+    "tag_근생주의": 23,
+    "tag_위반건축물": 110,
+    "tag_안전마진": 919,
+    "pending_enrich": 1,
+    "pending_price": 3133,
+    "clean_default_count": 2680,
+    "api_calls": 625,
+    "api_retries": 83,
+    "api_failures": 8,
     "blocked_endpoints": {},
     "unreachable_hosts": {},
-    "last_scrape_ok_date": "2026-11-17",
+    "last_scrape_ok_date": "2026-11-18",
     "error_counts": {
-      "juso:warn": 16
+      "juso:warn": 16,
+      "building:warn": 10,
+      "building:error": 3
     }
   },
   "errors": [
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:44:52+09:00",
       "stage": "juso",
       "level": "warn",
-      "id": "B000240202601300003381",
-      "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역10블록5로트 3층302호"
+      "id": "B000250202501300012251",
+      "message": "주소 변환 실패: 경기도 오산시 청학동 세교2지구알에이52-5"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B250826202501300009561",
-      "message": "주소 변환 실패: 경기도 시흥시 군자동 장현공공주택사업지구디344"
-    },
-    {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:44:52+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202401300166551",
       "message": "주소 변환 실패: 인천광역시 서구 가정로 437 109동 16층1603호 (가정동,루원시티에스케이리더스뷰)"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:44:52+09:00",
       "stage": "juso",
       "level": "warn",
-      "id": "B000253202501300430091",
-      "message": "주소 변환 실패: 경기도 안성군 죽산면 두교리 107-1"
+      "id": "B250826202501300009561",
+      "message": "주소 변환 실패: 경기도 시흥시 군자동 장현공공주택사업지구디344"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:44:52+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000253202601300507281",
       "message": "주소 변환 실패: 경기도 평택시 동삭동 평택영신지구도시개발사업부지내공동주택부지1블럭 힐스테이트지제역 104동 20층2001호"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:44:52+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202601305001151",
       "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역4블록4로트 더리치2차 4층408호"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:44:52+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B214807202601300615221",
       "message": "주소 변환 실패: 경기도 고양시 일산동구 식사동 식사2도시개발구역5블록1로트 베네하임2차 9층910호"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:44:52+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B214807202601300615561",
       "message": "주소 변환 실패: 경기도 고양시 일산동구 식사동 식사2구역에이2 일산자이3차 205동 10층1001호"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:44:52+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300558511",
       "message": "주소 변환 실패: 경기도 용인시 수지구 동천동 동천2지구도시개발구역에이-1블록 동천자이 107동 15층1505호"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:44:52+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202601305021491",
       "message": "주소 변환 실패: 인천광역시 연수구 동춘동 동춘1구역7블록 송도파크자이 707동 21층2104호"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:44:52+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000253202601300000851",
       "message": "주소 변환 실패: 경기도 평택시 합정동 소사3지구4블록 평택뉴비전엘크루 115동 2층204호"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:44:52+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000253202501300430091",
+      "message": "주소 변환 실패: 경기도 안성군 죽산면 두교리 107-1"
+    },
+    {
+      "time": "2026-11-18T13:44:53+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000250202401301012391",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-11-18T13:44:53+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000252202401300348301",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-11-18T13:45:00+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B214807202601300613361",
       "message": "주소 변환 실패: 경기도 파주시 교하읍 야당리 8-4"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:45:38+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B214807202501300644551",
+      "message": "전유공용면적 조회 실패: HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
+    },
+    {
+      "time": "2026-11-18T13:45:48+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "B000240202501300012813",
+      "message": "HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
+    },
+    {
+      "time": "2026-11-18T13:46:01+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000240202501305129531",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-11-18T13:46:14+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000240202501305136111",
+      "message": "전유공용면적 조회 실패: 알 수 없는 응답: ''"
+    },
+    {
+      "time": "2026-11-18T13:46:23+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000240202501305143981",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-11-18T13:46:32+09:00",
+      "stage": "juso",
+      "level": "warn",
+      "id": "B000240202501305149991",
+      "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역7블럭3로트 골드파크3동 2층201호"
+    },
+    {
+      "time": "2026-11-18T13:46:34+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000240202601305000281",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-11-18T13:46:42+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000252202401300042731",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-11-18T13:46:43+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000252202401300370821",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-11-18T13:46:54+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "B000252202501300308941",
+      "message": "알 수 없는 응답: ''"
+    },
+    {
+      "time": "2026-11-18T13:47:00+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "B000252202501300309561",
+      "message": "HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
+    },
+    {
+      "time": "2026-11-18T13:47:11+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202501305137481",
       "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역8블럭4로트 3층302호"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:47:41+09:00",
+      "stage": "building",
+      "level": "warn",
+      "id": "B000240202501305146641",
+      "message": "전유공용면적 조회 실패: 알 수 없는 응답: ''"
+    },
+    {
+      "time": "2026-11-18T13:47:54+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000214202401300891971",
       "message": "주소 변환 실패: 경기도 양주시 광적면 화합로 1565-52 (회암동,주건축물제1동)"
     },
     {
-      "time": "2026-11-17T18:33:19+09:00",
+      "time": "2026-11-18T13:47:54+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300593551",
       "message": "주소 변환 실패: 경기도 용인시 처인구 역북동 역삼도시개발지구엠1-1-2블록 용인센트럴코업 15층1502호"
-    },
-    {
-      "time": "2026-11-17T18:33:19+09:00",
-      "stage": "juso",
-      "level": "warn",
-      "id": "B000250202501300012251",
-      "message": "주소 변환 실패: 경기도 오산시 청학동 세교2지구알에이52-5"
     }
   ]
 }
