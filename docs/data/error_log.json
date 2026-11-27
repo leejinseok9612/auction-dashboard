@@ -1,6 +1,6 @@
 {
-  "run_at": "2026-11-27T14:46:30+09:00",
-  "duration_sec": 1892.0,
+  "run_at": "2026-11-27T14:48:01+09:00",
+  "duration_sec": 52.9,
   "summary": {
     "total": 6628,
     "scrape_ok": true,
@@ -18,615 +18,180 @@
     },
     "collect_courts_failed": [],
     "audit_list_vs_detail": {
-      "checked": 200,
+      "checked": 0,
       "mismatched": 0
     },
     "tag_근생주의": 28,
     "tag_위반건축물": 52,
     "tag_안전마진": 1110,
-    "pending_enrich": 1,
+    "pending_enrich": 0,
     "pending_price": 3888,
     "clean_default_count": 3039,
-    "api_calls": 1843,
-    "api_retries": 145,
-    "api_failures": 19,
+    "api_calls": 53,
+    "api_retries": 7,
+    "api_failures": 1,
     "blocked_endpoints": {},
     "unreachable_hosts": {},
     "last_scrape_ok_date": "2026-11-27",
     "error_counts": {
-      "building:warn": 62,
       "juso:warn": 13,
-      "building:error": 7,
-      "official_price:warn": 2
+      "building:warn": 8,
+      "building:error": 1
     }
   },
   "errors": [
     {
-      "time": "2026-11-27T14:21:44+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000250202501300554681",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:45+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000251202501300537691",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:45+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202501300009041",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:45+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000253202601300000851",
       "message": "주소 변환 실패: 경기도 평택시 합정동 소사3지구4블록 평택뉴비전엘크루 115동 2층204호"
     },
     {
-      "time": "2026-11-27T14:21:46+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000250202501300548751",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:46+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202401305835371",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:47+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000213202501300128961",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:47+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000213202501300134881",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:48+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000213202601300107631",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:48+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B214807202601300613361",
       "message": "주소 변환 실패: 경기도 파주시 교하읍 야당리 8-4"
     },
     {
-      "time": "2026-11-27T14:21:51+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202501305108681",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:51+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202501305143981",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:51+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202501305149991",
       "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역7블럭3로트 골드파크3동 2층201호"
     },
     {
-      "time": "2026-11-27T14:21:52+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202601305000281",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:52+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000252202401300042731",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:53+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000212202501300006151",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:53+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202401305359651",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:53+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202401305440371",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:53+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202501305137481",
       "message": "주소 변환 실패: 인천광역시 미추홀구 문학동 문학도시개발구역8블럭4로트 3층302호"
     },
     {
-      "time": "2026-11-27T14:21:53+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000214202401300891971",
       "message": "주소 변환 실패: 경기도 양주시 광적면 화합로 1565-52 (회암동,주건축물제1동)"
     },
     {
-      "time": "2026-11-27T14:21:53+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000250202501300573751",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:53+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300593551",
       "message": "주소 변환 실패: 경기도 용인시 처인구 역북동 역삼도시개발지구엠1-1-2블록 용인센트럴코업 15층1502호"
     },
     {
-      "time": "2026-11-27T14:21:54+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000250202501300594721",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:55+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202501305129531",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:56+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000252202401300420391",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:58+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000251202501300043521",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:58+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202501305124401",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:58+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000250202501300574211",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:58+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000240202501300018191",
       "message": "주소 변환 실패: 인천광역시 미추홀구 학익동 용현.학익1블록공동1-1블록 시티오씨엘1단지 104동 9층901호"
     },
     {
-      "time": "2026-11-27T14:21:59+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202501305089171",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:21:59+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202501300424601",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:01+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202501300432401",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:01+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000252202401300312991",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:01+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300562481",
       "message": "주소 변환 실패: 경기도 화성시 새솔동 송산그린시티이디2블럭10-2 1동"
     },
     {
-      "time": "2026-11-27T14:22:01+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300562482",
       "message": "주소 변환 실패: 경기도 화성시 새솔동 송산그린시티이디2.12-3 1동"
     },
     {
-      "time": "2026-11-27T14:22:01+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202501300432402",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:01+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000251202501300526201",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:02+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000251202601300509971",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:03+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202501300017021",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:03+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000250202401300954261",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:04+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202301300510841",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:04+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202401300570651",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:05+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202401300570652",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:05+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000253202601300500331",
       "message": "주소 변환 실패: 경기도 평택시 청북면 후사리 150"
     },
     {
-      "time": "2026-11-27T14:22:05+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202601300502431",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:05+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300013151",
       "message": "주소 변환 실패: 경기도 오산시 청학동 오산세교2지구알에이5-310"
     },
     {
-      "time": "2026-11-27T14:22:06+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000250202501300582391",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:06+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000213202501300128971",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:06+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000250202401300668551",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:07+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000213202601300107621",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:07+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B214807202501300035681",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:07+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000210202501301042001",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:08+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000252202401300065071",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:08+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000252202401300016181",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:08+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000211202601300501051",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:08+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000252202401300333251",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:08+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000251202601300501551",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:09+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000252202501300006431",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:09+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000252202501300006432",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:09+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000252202501300006433",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:22:26+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B000240202501305104181",
-      "message": "알 수 없는 응답: ''"
-    },
-    {
-      "time": "2026-11-27T14:22:39+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000240202501300019931",
-      "message": "전유공용면적 조회 실패: HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
-    },
-    {
-      "time": "2026-11-27T14:24:03+09:00",
-      "stage": "official_price",
-      "level": "warn",
-      "id": "B000240202501305142781",
-      "message": "건축물대장 주택가격: 알 수 없는 응답: ''"
-    },
-    {
-      "time": "2026-11-27T14:24:11+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202301300494941",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:24:12+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202301300494944",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:24:19+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202301300494947",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:24:20+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000253202301300494948",
-      "message": "건축물대장 표제부 없음"
-    },
-    {
-      "time": "2026-11-27T14:24:20+09:00",
+      "time": "2026-11-27T14:47:10+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000253202501300426671",
       "message": "주소 변환 실패: 경기도 평택시 합정동 소사3지구4블록 평택뉴비전엘크루 110동 3층302호"
     },
     {
-      "time": "2026-11-27T14:24:20+09:00",
+      "time": "2026-11-27T14:47:11+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000253202401300538101",
+      "id": "B000240202601305017381",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-11-27T14:24:45+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B000253202601300501941",
-      "message": "알 수 없는 응답: ''"
-    },
-    {
-      "time": "2026-11-27T14:24:45+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B000253202601300501721",
-      "message": "HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
-    },
-    {
-      "time": "2026-11-27T14:25:04+09:00",
+      "time": "2026-11-27T14:47:17+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000253202501300430461",
+      "id": "B000240202601305009091",
       "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-11-27T14:25:32+09:00",
+      "time": "2026-11-27T14:47:17+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000215202301300507751",
-      "message": "전유공용면적 조회 실패: HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
+      "id": "B000240202501305104181",
+      "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-11-27T14:26:02+09:00",
+      "time": "2026-11-27T14:47:27+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B214807202401300652551",
-      "message": "전유공용면적 조회 실패: 알 수 없는 응답: ''"
+      "id": "B000250202501300580551",
+      "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-11-27T14:26:03+09:00",
+      "time": "2026-11-27T14:47:27+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B214807202601300016991",
-      "message": "전유공용면적 조회 실패: 알 수 없는 응답: ''"
+      "id": "B214807202501300624531",
+      "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-11-27T14:26:08+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B214807202601300021041",
-      "message": "HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
-    },
-    {
-      "time": "2026-11-27T14:26:13+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B214807202601300019581",
-      "message": "HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
-    },
-    {
-      "time": "2026-11-27T14:26:45+09:00",
+      "time": "2026-11-27T14:47:28+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000241202501300344801",
-      "message": "전유공용면적 조회 실패: HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
+      "id": "B214807202601300609951",
+      "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-11-27T14:26:49+09:00",
-      "stage": "building",
-      "level": "warn",
-      "id": "B000241202501300342431",
-      "message": "전유공용면적 조회 실패: 알 수 없는 응답: ''"
-    },
-    {
-      "time": "2026-11-27T14:27:02+09:00",
+      "time": "2026-11-27T14:47:28+09:00",
       "stage": "juso",
       "level": "warn",
       "id": "B000250202501300018701",
       "message": "주소 변환 실패: 경기도 오산시 궐동 오산세교2지구알에이22-2 주건축물제1동"
     },
     {
-      "time": "2026-11-27T14:27:28+09:00",
+      "time": "2026-11-27T14:47:28+09:00",
       "stage": "building",
       "level": "warn",
-      "id": "B000250202501300572851",
-      "message": "전유공용면적 조회 실패: HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
+      "id": "B214807202601300609953",
+      "message": "건축물대장 표제부 없음"
     },
     {
-      "time": "2026-11-27T14:27:38+09:00",
-      "stage": "official_price",
+      "time": "2026-11-27T14:47:28+09:00",
+      "stage": "building",
       "level": "warn",
-      "id": "B000250202501300574111",
-      "message": "건축물대장 주택가격: HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
-    },
-    {
-      "time": "2026-11-27T14:27:39+09:00",
-      "stage": "building",
-      "level": "error",
-      "id": "B000250202501300576841",
-      "message": "HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
-    },
-    {
-      "time": "2026-11-27T14:27:39+09:00",
-      "stage": "building",
-      "level": "error",
       "id": "B214804202401300865431",
+      "message": "건축물대장 표제부 없음"
+    },
+    {
+      "time": "2026-11-27T14:47:56+09:00",
+      "stage": "building",
+      "level": "error",
+      "id": "B214807202601300609952",
       "message": "HTTP 503 서버 오류: {   \"OpenAPI_ServiceResponse\": {     \"cmmMsgHeader\": {       \"errMsg\": \"SERVICETIMEOUT_ERROR\",       \"returnAuthMsg\": \"서비스 연결실패 에러\",       \"returnReas"
     }
   ]
